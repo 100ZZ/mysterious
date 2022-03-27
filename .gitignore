@@ -21,3 +21,27 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+.DS_Store
+*.prefs
+.metadata
+.factorypath
+.project
+.classpath
+*.iml
+.idea/
+target/
+*/logs/*
+logs/*
+*/.settings/*
+.jde_tree_state
+.#webclasspath
+.tomcatplugin
+*.csv
+*.png
+.jde
+*.ipr
+*.iws
+.jde*
+/lib/
+LOG_HOME_IS_UNDEFINED
