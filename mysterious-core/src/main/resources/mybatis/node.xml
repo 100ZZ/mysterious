@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lihuia.mysterious.core.mapper.node.NodeMapper">
+    <resultMap id="NodeResult" type="com.lihuia.mysterious.core.model.node.NodeDO">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="type" column="type"/>
+        <result property="host" column="host"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="port" column="port"/>
+        <result property="status" column="status"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="creator" column="creator"/>
+        <result property="modifierId" column="modifier_id"/>
+        <result property="modifier" column="modifier"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <sql id="table_name">
+        node
+    </sql>
+
+    <sql id="select-column-list">
+        id,
+        name,
+        description,
+        type,
+        host,
+        username,
+        password,
+        port,
+        status,
+        creator_id,
+        creator,
+        modifier_id,
+        modifier,
+        create_time,
+        modify_time
+    </sql>
+
+    <sql id="set">
+        <if test="id != null">id=#{id},</if>
+        <if test="name != null">name=#{name},</if>
+        <if test="description != null">description=#{description},</if>
+        <if test="type != null">type=#{type},</if>
+        <if test="host != null">host=#{host},</if>
+        <if test="username != null">username=#{username},</if>
+        <if test="password != null">password=#{password},</if>
+        <if test="port != null">port=#{port},</if>
+        <if test="status != null">status=#{status},</if>
+        <if test="createdId != null">created_id=#{createdId},</if>
+        <if test="creator != null">creator=#{creator},</if>
+        <if test="modifierId != null">modifier_id=#{modifierId},</if>
+        <if test="modifier != null">modifier=#{modifier},</if>
+        <if test="createTime != null">create_time=#{createTime},</if>
+        <if test="modifyTime != null">modify_time=#{modifyTime},</if>
+    </sql>
+
+    <insert id="add" parameterType="com.lihuia.mysterious.core.model.node.NodeDO">
+        insert
+        <include refid="table_name"/>
+        <set>
+            <include refid="set"></include>
+        </set>
+    </insert>
+
+    <delete id="delete">
+        delete from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="id != null">and id=#{id}</if>
+    </delete>
+
+    <update id="update" parameterType="com.lihuia.mysterious.core.model.node.NodeDO">
+        update
+        <include refid="table_name"/>
+        <set>
+            <include refid="set"/>
+        </set>
+        where 1=1
+        <if test="id != null">and id=#{id}</if>
+    </update>
+
+    <select id="getById" resultMap="NodeResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="id != null">and id=#{id}</if>
+    </select>
+
+    <select id="getNodeCount" resultType="integer">
+        select count(*)
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="name != null">and name like concat('%', #{name}, '%')</if>
+        <if test="host != null">and host=#{host}</if>
+    </select>
+
+    <select id="getNodeList" resultMap="NodeResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="name != null">and name like concat('%', #{name}, '%')</if>
+        <if test="host != null">and host=#{host}</if>
+        order by modify_time desc
+        <if test="limit > 0 and offset >= 0">limit #{offset}, #{limit}</if>
+    </select>
+
+    <select id="getEnableNodeList" resultMap="NodeResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="type != null">and type=#{type}</if>
+        <if test="status != null">and status=#{status}</if>
+    </select>
+
+    <select id="getAllNodeList" resultMap="NodeResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="type != null">and type=#{type}</if>
+    </select>
+
+    <select id="getByHost" resultMap="NodeResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="host != null">and host=#{host}</if>
+    </select>
+
+</mapper>
