@@ -1,7 +1,7 @@
 package com.lihuia.mysterious.service.service.node.impl;
 
 import com.lihuia.mysterious.core.mapper.node.NodeMapper;
-import com.lihuia.mysterious.core.model.node.NodeDO;
+import com.lihuia.mysterious.core.entity.node.NodeDO;
 import com.lihuia.mysterious.service.enums.NodeStatusEnum;
 import com.lihuia.mysterious.service.enums.NodeTypeEnum;
 import com.lihuia.mysterious.service.service.node.INodeService;

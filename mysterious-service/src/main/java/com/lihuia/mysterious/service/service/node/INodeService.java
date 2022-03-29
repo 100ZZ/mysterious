@@ -1,6 +1,6 @@
 package com.lihuia.mysterious.service.service.node;
 
-import com.lihuia.mysterious.core.model.node.NodeDO;
+import com.lihuia.mysterious.core.entity.node.NodeDO;
 
 import java.util.List;
 

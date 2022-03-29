@@ -1,6 +1,6 @@
-package com.lihuia.mysterious.core.model.node;
+package com.lihuia.mysterious.core.entity.node;
 
-import com.lihuia.mysterious.core.model.base.BaseDO;
+import com.lihuia.mysterious.core.entity.base.BaseDO;
 import lombok.Data;
 
 /**

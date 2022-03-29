@@ -1,7 +1,7 @@
 package com.lihuia.mysterious.core.mapper.node;
 
 import com.lihuia.mysterious.core.mapper.base.BaseMapper;
-import com.lihuia.mysterious.core.model.node.NodeDO;
+import com.lihuia.mysterious.core.entity.node.NodeDO;
 
 import java.util.List;
 
