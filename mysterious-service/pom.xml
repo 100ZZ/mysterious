@@ -21,6 +21,10 @@
             <groupId>com.lihuia</groupId>
             <artifactId>mysterious-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.lihuia</groupId>
+            <artifactId>mysterious-common</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

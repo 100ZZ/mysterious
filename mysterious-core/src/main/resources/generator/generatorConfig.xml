@@ -30,7 +30,7 @@
             <property name="nullCatalogMeansCurrent" value="true" />
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.lihuia.mysterious.core.model" targetProject="mysterious-core/src/main/java"/>
+        <javaModelGenerator targetPackage="com.lihuia.mysterious.core.entity" targetProject="mysterious-core/src/main/java"/>
 
         <sqlMapGenerator targetPackage="mybatis" targetProject="mysterious-core/src/main/resources"/>
 
