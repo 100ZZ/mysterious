@@ -1,4 +1,4 @@
-package com.lihuia.mysterious.web.controller;
+package com.lihuia.mysterious.web.controller.node;
 
 import com.lihuia.mysterious.service.service.node.INodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("/mysterious/node")
+@RequestMapping("/node")
 public class NodeController {
 
     @Autowired

@@ -1,4 +1,4 @@
-package com.lihuia.mysterious.core.model.base;
+package com.lihuia.mysterious.core.entity.base;
 
 import java.io.Serializable;
 
@@ -11,9 +11,9 @@ public class BaseDO<P> implements Serializable {
 
     private static final long serialVersionUID = 8702872432337844438L;
     private P id;
-    private String creatorId;
+    private Long creatorId;
     private String creator;
-    private String modifierId;
+    private Long modifierId;
     private String modifier;
     private Long createTime;
     private Long modifyTime;
@@ -34,11 +34,11 @@ public class BaseDO<P> implements Serializable {
         this.creator = creator;
     }
 
-    public String getCreatorId() {
+    public Long getCreatorId() {
         return creatorId;
     }
 
-    public void setCreatorId(String creatorId) {
+    public void setCreatorId(Long creatorId) {
         this.creatorId = creatorId;
     }
 
@@ -50,11 +50,11 @@ public class BaseDO<P> implements Serializable {
         this.modifier = modifier;
     }
 
-    public String getModifierId() {
+    public Long getModifierId() {
         return modifierId;
     }
 
-    public void setModifierId(String modifierId) {
+    public void setModifierId(Long modifierId) {
         this.modifierId = modifierId;
     }
 
