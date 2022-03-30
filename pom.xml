@@ -14,7 +14,6 @@
         <module>mysterious-core</module>
         <module>mysterious-service</module>
         <module>mysterious-web</module>
-        <module>mysterious-starter</module>
     </modules>
 
     <parent>
@@ -90,11 +89,6 @@
             <dependency>
                 <groupId>com.lihuia</groupId>
                 <artifactId>mysterious-service</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.lihuia</groupId>
-                <artifactId>mysterious-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

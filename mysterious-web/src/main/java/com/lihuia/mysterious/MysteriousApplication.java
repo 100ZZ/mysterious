@@ -1,4 +1,4 @@
-package com.lihuia.mysterious.starter;
+package com.lihuia.mysterious;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

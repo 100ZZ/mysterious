@@ -1,4 +1,4 @@
-package com.lihuia.mysterious.starter.config;
+package com.lihuia.mysterious.web.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
