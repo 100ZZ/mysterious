@@ -89,7 +89,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.perf.nb.dao" level="DEBUG" additivity="false">
+    <logger name="com.lihuia.mysterious.core.mapper" level="DEBUG" additivity="false">
         <appender-ref ref="SQLFile"/>
     </logger>
 
