@@ -101,7 +101,7 @@ public class UserService implements IUserService {
     public String login(UserVO userVO) {
         /** 参数校验 */
         checkUserParam(userVO);
-        /** 已存在 */
+        /** 不存在 */
         UserDO userDO = userMapper.getByUsername(userVO.getUsername());
         if (ObjectUtils.isEmpty(userDO)) {
             throw new MysteriousException(ResponseCodeEnum.USER_NOT_EXIST);

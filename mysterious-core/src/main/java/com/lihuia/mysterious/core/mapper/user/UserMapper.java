@@ -17,4 +17,11 @@ public interface UserMapper extends BaseMapper<UserDO> {
      * @return
      */
     UserDO getByUsername(String username);
+
+    /**
+     * 根据token查询用户是否存在
+     * @param token
+     * @return
+     */
+    UserDO getByToken(String token);
 }

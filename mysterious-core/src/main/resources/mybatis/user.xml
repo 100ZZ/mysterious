@@ -77,4 +77,12 @@
         <if test="username != null">and username=#{username}</if>
     </select>
 
+    <select id="getByToken" resultMap="UserResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="token != null">and token=#{token}</if>
+    </select>
 </mapper>
