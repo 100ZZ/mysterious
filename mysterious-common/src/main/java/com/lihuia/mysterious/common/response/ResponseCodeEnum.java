@@ -14,6 +14,8 @@ public enum ResponseCodeEnum {
     PARAM_WRONG(1002,"参数不正确",false),
     PARAM_MISSING(1003,"参数缺失",false),
     USER_EXIST(1004, "用户已存在", false),
+    USER_NOT_EXIST(1005, "用户不存在", false),
+    USER_PASSWORD_ERROR(1005, "用户密码错误", false),
     SYSTEM_ERROR(9999,"系统异常",false),
     ;
 

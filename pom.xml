@@ -46,7 +46,6 @@
         <apm-toolkit-logback-1.x.version>6.4.0</apm-toolkit-logback-1.x.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <commons.lang>3.12.0</commons.lang>
-        <commons.collection>4.4</commons.collection>
     </properties>
 
     <dependencies>
@@ -89,11 +88,6 @@
             <dependency>
                 <groupId>com.lihuia</groupId>
                 <artifactId>mysterious-service</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.lihuia</groupId>
-                <artifactId>mysterious-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -185,11 +179,6 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons.lang}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-collections4</artifactId>
-                <version>${commons.collection}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
