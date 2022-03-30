@@ -10,11 +10,10 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Response<T> {
+public class ResponseStatus {
 
     private Integer code;
     private String message;
     private Boolean success;
     private Long currentTime;
-    private T data;
 }

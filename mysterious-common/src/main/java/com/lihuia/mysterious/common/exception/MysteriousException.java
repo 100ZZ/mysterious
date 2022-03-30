@@ -1,63 +1,56 @@
 package com.lihuia.mysterious.common.exception;
 
+import com.lihuia.mysterious.common.response.ResponseCodeEnum;
+
 /**
  * @author lihuia.com
- * @date 2022/3/29 11:15 PM
+ * @date 2022/3/29 11:02 PM
  */
 
 public class MysteriousException extends RuntimeException {
 
-    private static final long serialVersionUID = -387693356417406549L;
-
-    /**
-     * 错误代码
-     */
-    private String errorCode;
-
-    /**
-     * 错误信息
-     */
-    private String errorMessage;
-
+    private static final long serialVersionUID = -1L;
+    private ResponseCodeEnum responseCodeEnum = ResponseCodeEnum.FAIL;
 
     public MysteriousException() {
+        super();
     }
 
-    public MysteriousException(String errorMessage) {
-        this.errorMessage = errorMessage;
+    public MysteriousException(String message, Throwable cause, boolean enableSuppression,
+                               boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+        this.responseCodeEnum.setMessage(message);
     }
 
-    public MysteriousException(String errorCode, String errorMessage) {
-        super(String.format("异常代码：%s,异常信息：%s", errorCode, errorMessage));
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
+
+    public MysteriousException(String message, Throwable cause) {
+        super(message, cause);
+        this.responseCodeEnum.setMessage(message);
     }
 
-    public MysteriousException(ExceptionDefinition definition) {
-        super(String.format("异常代码：%s,异常信息：%s", definition.getErrorCode(), definition.getErrorMessage()));
-        this.errorCode = definition.getErrorCode();
-        this.errorMessage = definition.getErrorMessage();
+    public MysteriousException(String message) {
+        super(message);
+        this.responseCodeEnum.setMessage(message);
     }
 
-    public MysteriousException(BaseMessageEnums<String> baseMessageEnums) {
-        super(String.format("异常代码：%s,异常信息：%s", baseMessageEnums.getErrorCode(), baseMessageEnums.getErrorMessage()));
-        this.errorCode = baseMessageEnums.getErrorCode();
-        this.errorMessage = baseMessageEnums.getErrorMessage();
+    public MysteriousException(Throwable cause) {
+        super(cause);
+        this.responseCodeEnum.setMessage(cause.getMessage());
+
     }
 
-    public String getErrorCode() {
-        return errorCode;
+    public MysteriousException(ResponseCodeEnum responseCodeEnum) {
+        super(responseCodeEnum.getMessage());
+        this.responseCodeEnum = responseCodeEnum;
+
     }
 
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
+    public ResponseCodeEnum getResponseCodeEnum() {
+        return this.responseCodeEnum;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
+    @Override
+    public String toString() {
+        return "NPSException, [errorCode=" + this.responseCodeEnum.getCode() + ", errorMsg=" + this.responseCodeEnum.getMessage() + "]";
     }
 }

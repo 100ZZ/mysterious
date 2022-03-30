@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.core.entity.user;
 
+import com.lihuia.mysterious.core.entity.base.BaseDO;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -10,10 +11,7 @@ import java.time.LocalDateTime;
  */
 
 @Data
-public class UserDO {
-
-    /** 主键 */
-    private Long id;
+public class UserDO extends BaseDO<Long> {
 
     /** 用户 */
     private String username;
@@ -24,9 +22,9 @@ public class UserDO {
     /** token */
     private String token;
 
-    /** 过期时间 */
-    private LocalDateTime expireTime;
+    /** 生效时间 */
+    private LocalDateTime effectTime;
 
-    /** 最后一次登录时间 */
-    private LocalDateTime lastLoginTime;
+    /** 失效时间 */
+    private LocalDateTime expireTime;
 }
