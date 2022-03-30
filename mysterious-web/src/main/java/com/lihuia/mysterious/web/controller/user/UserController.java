@@ -1,7 +1,8 @@
 package com.lihuia.mysterious.web.controller.user;
 
-import com.lihuia.mysterious.common.response.ApiResponse;
-import com.lihuia.mysterious.core.domain.user.UserVO;
+import com.lihuia.mysterious.common.response.Response;
+import com.lihuia.mysterious.common.response.ResponseUtil;
+import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,22 +20,27 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping(value = "/add")
-    public ApiResponse<Long> addUser(@RequestBody UserVO userVO) {
-        return ApiResponse.returnSuccess(userService.addUser(userVO));
+    public Response<Long> addUser(@RequestBody UserVO userVO) {
+        return ResponseUtil.buildSuccessResponse(userService.addUser(userVO));
     }
 
     @GetMapping(value = "/delete")
-    public ApiResponse<Integer> deleteUser(@RequestParam(value = "id") Long id) {
-        return ApiResponse.returnSuccess(userService.deleteUser(id));
+    public Response<Boolean> deleteUser(@RequestParam(value = "id") Long id) {
+        return ResponseUtil.buildSuccessResponse(userService.deleteUser(id));
     }
 
     @PostMapping(value = "/update")
-    public ApiResponse<Integer> updateUser(@RequestBody UserVO userVO) {
-        return ApiResponse.returnSuccess(userService.updateUser(userVO));
+    public Response<Boolean> updateUser(@RequestBody UserVO userVO) {
+        return ResponseUtil.buildSuccessResponse(userService.updateUser(userVO));
     }
 
     @GetMapping(value = "/getById")
-    public ApiResponse<UserVO> getById(@RequestParam(value = "id") Long id) {
-        return ApiResponse.returnSuccess(userService.getById(id));
+    public Response<UserVO> getById(@RequestParam(value = "id") Long id) {
+        return ResponseUtil.buildSuccessResponse(userService.getById(id));
+    }
+
+    @PostMapping(value = "/login")
+    public Response<Boolean> login(@RequestBody UserVO userVO) {
+        return ResponseUtil.buildSuccessResponse(userService.login(userVO));
     }
 }

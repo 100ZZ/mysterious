@@ -1,6 +1,6 @@
 package com.lihuia.mysterious.service.service.user;
 
-import com.lihuia.mysterious.core.domain.user.UserVO;
+import com.lihuia.mysterious.core.vo.user.UserVO;
 
 /**
  * @author lihuia.com
@@ -21,14 +21,14 @@ public interface IUserService {
      * @param id
      * @return
      */
-    Integer deleteUser(Long id);
+    Boolean deleteUser(Long id);
 
     /**
      * 更新用户
      * @param userVO
      * @return
      */
-    Integer updateUser(UserVO userVO);
+    Boolean updateUser(UserVO userVO);
 
     /**
      * 查询用户
@@ -36,4 +36,11 @@ public interface IUserService {
      * @return
      */
     UserVO getById(Long id);
+
+    /**
+     * 用户登录
+     * @param userVO
+     * @return
+     */
+    Boolean login(UserVO userVO);
 }

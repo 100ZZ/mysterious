@@ -1,3 +1,14 @@
+CREATE TABLE `user` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `username` varchar(128) NOT NULL DEFAULT '' COMMENT '节点登陆用户名',
+    `password` varchar(128) NOT NULL DEFAULT '' COMMENT '节点登陆密码',
+    `token` varchar(128) NOT NULL DEFAULT '' COMMENT 'token',
+    `effect_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生效时间',
+    `expire_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '失效时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='用户信息表';
+
 CREATE TABLE `node` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name` varchar(255) NOT NULL DEFAULT '' COMMENT '节点名称',
