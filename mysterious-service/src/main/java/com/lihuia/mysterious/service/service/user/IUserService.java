@@ -42,5 +42,5 @@ public interface IUserService {
      * @param userVO
      * @return
      */
-    Boolean login(UserVO userVO);
+    String login(UserVO userVO);
 }

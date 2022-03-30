@@ -98,11 +98,21 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Boolean login(UserVO userVO) {
+    public String login(UserVO userVO) {
         /** 参数校验 */
         checkUserParam(userVO);
         /** 已存在 */
-        checkUserExist(userVO);
-        return true;
+        UserDO userDO = userMapper.getByUsername(userVO.getUsername());
+        if (ObjectUtils.isEmpty(userDO)) {
+            throw new MysteriousException(ResponseCodeEnum.USER_NOT_EXIST);
+        }
+        /** 密码错误 */
+        if (!userDO.getPassword().equals(userVO.getPassword())) {
+            throw new MysteriousException(ResponseCodeEnum.USER_PASSWORD_ERROR);
+        }
+        /** 用户密码正确，允许登录，刷新token */
+        refreshToken(userDO);
+        userMapper.update(userDO);
+        return userDO.getToken();
     }
 }
