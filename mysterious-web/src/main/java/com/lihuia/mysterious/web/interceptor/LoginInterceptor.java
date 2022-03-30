@@ -1,4 +1,4 @@
-package com.lihuia.mysterious.starter.interceptor;
+package com.lihuia.mysterious.web.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
