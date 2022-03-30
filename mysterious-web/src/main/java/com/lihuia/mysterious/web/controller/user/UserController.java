@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public Response<Boolean> login(@RequestBody UserVO userVO) {
+    public Response<String> login(@RequestBody UserVO userVO) {
         return ResponseUtil.buildSuccessResponse(userService.login(userVO));
     }
 }
