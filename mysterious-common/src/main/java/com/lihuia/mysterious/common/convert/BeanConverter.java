@@ -4,11 +4,6 @@ import com.lihuia.mysterious.common.exception.MysteriousException;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.CollectionUtils;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author lihuia.com
@@ -16,7 +11,7 @@ import java.util.stream.Collectors;
  */
 
 @Slf4j
-public class CommonBeanConverter {
+public class BeanConverter {
 
     public static <T> T doSingle(Object object, Class<T> classZz) {
         if (null == object) {
@@ -29,12 +24,5 @@ public class CommonBeanConverter {
         } catch (Exception e) {
             throw new MysteriousException(ResponseCodeEnum.SYSTEM_ERROR);
         }
-    }
-
-    public static <T> List<T> doList(List<?> objectList, Class<T> classZz) {
-        if (CollectionUtils.isEmpty(objectList)) {
-            return Collections.emptyList();
-        }
-        return objectList.stream().map(value -> doSingle(value, classZz)).collect(Collectors.toList());
     }
 }
