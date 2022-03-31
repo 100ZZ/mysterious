@@ -18,7 +18,7 @@ public class BeanConverter {
             return null;
         }
         try {
-            T t = classZz.getDeclaredConstructor().newInstance();
+            T t = classZz.newInstance();
             BeanUtils.copyProperties(object, t);
             return t;
         } catch (Exception e) {

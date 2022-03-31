@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.core.vo.user;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -8,7 +9,7 @@ import lombok.Data;
  */
 
 @Data
-//@Builder 居然和BeanConverter里面冲突
+@Builder
 public class UserVO {
 
     /** 主键 */

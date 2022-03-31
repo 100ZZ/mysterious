@@ -107,9 +107,7 @@ public class UserService implements IUserService {
         if (ObjectUtils.isEmpty(userDO)) {
             return null;
         }
-        UserVO userVO = BeanConverter.doSingle(userDO, UserVO.class);
-        userVO.setId(id);
-        return userVO;
+        return UserVO.builder().id(id).username(userDO.getUsername()).password("******").build();
     }
 
     @Override
@@ -139,12 +137,12 @@ public class UserService implements IUserService {
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
             List<UserDO> userList = userMapper.getUserList(username, offset, size);
-            pageVO.setList(userList.stream().map(userDO -> {
-                UserVO userVO = BeanConverter.doSingle(userDO, UserVO.class);
-                userVO.setId(userDO.getId());
-                return userVO;
-            }).collect(Collectors.toList()));
+            pageVO.setList(userList.stream().map(this::convert).collect(Collectors.toList()));
         }
         return pageVO;
+    }
+
+    private UserVO convert(UserDO userDO) {
+        return UserVO.builder().id(userDO.getId()).username(userDO.getUsername()).password("******").build();
     }
 }

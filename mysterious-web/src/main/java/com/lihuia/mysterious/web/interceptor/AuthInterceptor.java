@@ -49,11 +49,8 @@ public class AuthInterceptor implements HandlerInterceptor {
             throw new MysteriousException(ResponseCodeEnum.USER_TOKEN_EXPIRE);
         }
         /** token有效，ThreadLocal获取用户信息，接口调用传递用户信息 */
-        //UserUtils.setCurrent(UserVO.builder().id(userDO.getId())
-        //        .username(userDO.getUsername()).password(userDO.getPassword()).build());
-        UserVO userVO = BeanConverter.doSingle(userDO, UserVO.class);
-        userVO.setId(userDO.getId());
-        UserUtils.setCurrent(userVO);
+        UserUtils.setCurrent(UserVO.builder().id(userDO.getId())
+                .username(userDO.getUsername()).password(userDO.getPassword()).build());
         return true;
     }
 

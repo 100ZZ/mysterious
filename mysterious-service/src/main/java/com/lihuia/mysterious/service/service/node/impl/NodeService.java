@@ -7,6 +7,7 @@ import com.lihuia.mysterious.core.mapper.node.NodeMapper;
 import com.lihuia.mysterious.core.entity.node.NodeDO;
 import com.lihuia.mysterious.core.vo.node.NodeVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
+import com.lihuia.mysterious.service.crud.CRUDEntity;
 import com.lihuia.mysterious.service.enums.NodeStatusEnum;
 import com.lihuia.mysterious.service.service.node.INodeService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,9 @@ public class NodeService implements INodeService {
 
     @Autowired
     private NodeMapper nodeMapper;
+
+    @Autowired
+    private CRUDEntity<NodeDO> crudEntity;
 
     private void checkNodeParam(NodeVO nodeVO) {
         if (ObjectUtils.isEmpty(nodeVO)) {
@@ -57,10 +61,8 @@ public class NodeService implements INodeService {
         checkNodeParam(nodeVO);
         checkNodeExist(nodeVO);
         NodeDO nodeDO = BeanConverter.doSingle(nodeVO, NodeDO.class);
-        nodeDO.setCreator(userVO.getUsername());
-        nodeDO.setCreatorId(userVO.getId());
-        nodeDO.setCreateTime(LocalDateTime.now());
         nodeDO.setStatus(NodeStatusEnum.DISABLED.getCode());
+        crudEntity.addT(nodeDO, userVO);
         nodeMapper.add(nodeDO);
         return nodeDO.getId();
     }
@@ -76,10 +78,7 @@ public class NodeService implements INodeService {
         }
         log.info("nodeDO:{}", nodeDO);
         nodeDO = BeanConverter.doSingle(nodeVO, NodeDO.class);
-        nodeDO.setId(nodeVO.getId());
-        nodeDO.setModifier(userVO.getUsername());
-        nodeDO.setModifierId(userVO.getId());
-        nodeDO.setModifyTime(LocalDateTime.now());
+        crudEntity.updateT(nodeDO, userVO);
         return nodeMapper.update(nodeDO) > 0;
     }
 
@@ -96,6 +95,7 @@ public class NodeService implements INodeService {
         }
         NodeVO nodeVO = BeanConverter.doSingle(nodeDO, NodeVO.class);
         nodeVO.setId(id);
+        nodeVO.setPassword("******");
         return nodeVO;
     }
 }
