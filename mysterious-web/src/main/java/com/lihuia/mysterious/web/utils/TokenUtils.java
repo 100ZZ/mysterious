@@ -1,4 +1,4 @@
-package com.lihuia.mysterious.web.request;
+package com.lihuia.mysterious.web.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2022/3/30 11:17 PM
  */
 
-public class TokenUtil {
+public class TokenUtils {
 
     /**
      * 从请求里捞token字段；先查看header，如果没有的话，再查看参数

@@ -20,4 +20,10 @@ public interface NodeMapper extends BaseMapper<NodeDO> {
      */
     List<NodeDO> getEnableNodeList(Integer type, Integer status);
 
+    /**
+     * 查询数据库里改host记录
+     * @param host
+     * @return
+     */
+    List<NodeDO> getByHost(String host);
 }
