@@ -1,6 +1,6 @@
 package com.lihuia.mysterious.service.service.node.impl;
 
-import com.lihuia.mysterious.common.convert.CommonBeanConverter;
+import com.lihuia.mysterious.common.convert.BeanConverter;
 import com.lihuia.mysterious.common.exception.MysteriousException;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.mapper.node.NodeMapper;
@@ -56,7 +56,7 @@ public class NodeService implements INodeService {
     public Long addNode(NodeVO nodeVO, UserVO userVO) {
         checkNodeParam(nodeVO);
         checkNodeExist(nodeVO);
-        NodeDO nodeDO = CommonBeanConverter.doSingle(nodeVO, NodeDO.class);
+        NodeDO nodeDO = BeanConverter.doSingle(nodeVO, NodeDO.class);
         nodeDO.setCreator(userVO.getUsername());
         nodeDO.setCreatorId(userVO.getId());
         nodeDO.setCreateTime(LocalDateTime.now());
@@ -75,7 +75,7 @@ public class NodeService implements INodeService {
             return false;
         }
         log.info("nodeDO:{}", nodeDO);
-        nodeDO = CommonBeanConverter.doSingle(nodeVO, NodeDO.class);
+        nodeDO = BeanConverter.doSingle(nodeVO, NodeDO.class);
         nodeDO.setId(nodeVO.getId());
         nodeDO.setModifier(userVO.getUsername());
         nodeDO.setModifierId(userVO.getId());
@@ -94,7 +94,7 @@ public class NodeService implements INodeService {
         if (ObjectUtils.isEmpty(nodeDO)) {
             return null;
         }
-        NodeVO nodeVO = CommonBeanConverter.doSingle(nodeDO, NodeVO.class);
+        NodeVO nodeVO = BeanConverter.doSingle(nodeDO, NodeVO.class);
         nodeVO.setId(id);
         return nodeVO;
     }

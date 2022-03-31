@@ -1,10 +1,11 @@
 package com.lihuia.mysterious.service.service.user.impl;
 
-import com.lihuia.mysterious.common.convert.CommonBeanConverter;
+import com.lihuia.mysterious.common.convert.BeanConverter;
 import com.lihuia.mysterious.common.exception.MysteriousException;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.entity.user.UserDO;
 import com.lihuia.mysterious.core.mapper.user.UserMapper;
+import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,9 +13,13 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author lihuia.com
@@ -64,7 +69,7 @@ public class UserService implements IUserService {
         checkUserParam(userVO);
         /** 已存在 */
         checkUserExist(userVO);
-        UserDO userDO = CommonBeanConverter.doSingle(userVO, UserDO.class);
+        UserDO userDO = BeanConverter.doSingle(userVO, UserDO.class);
         /** 新增用户，会生成一个token，并且配置生效时间 */
         refreshToken(userDO);
         userMapper.add(userDO);
@@ -89,7 +94,7 @@ public class UserService implements IUserService {
         if (ObjectUtils.isEmpty(userDO)) {
             return false;
         }
-        userDO = CommonBeanConverter.doSingle(userVO, UserDO.class);
+        userDO = BeanConverter.doSingle(userVO, UserDO.class);
         /** 更新用户，会重新生成一个token，并且配置生效时间 */
         refreshToken(userDO);
         userDO.setId(userVO.getId());
@@ -102,7 +107,7 @@ public class UserService implements IUserService {
         if (ObjectUtils.isEmpty(userDO)) {
             return null;
         }
-        UserVO userVO = CommonBeanConverter.doSingle(userDO, UserVO.class);
+        UserVO userVO = BeanConverter.doSingle(userDO, UserVO.class);
         userVO.setId(id);
         return userVO;
     }
@@ -124,5 +129,22 @@ public class UserService implements IUserService {
         refreshToken(userDO);
         userMapper.update(userDO);
         return userDO.getToken();
+    }
+
+    @Override
+    public PageVO<UserVO> getUserList(String username, Integer page, Integer size) {
+        PageVO<UserVO> pageVO = new PageVO<>();
+        Integer offset = pageVO.getOffset(page, size);
+        Integer total = userMapper.getUserCount(username);
+        if (total.compareTo(0) > 0) {
+            pageVO.setTotal(total);
+            List<UserDO> userList = userMapper.getUserList(username, offset, size);
+            pageVO.setList(userList.stream().map(userDO -> {
+                UserVO userVO = BeanConverter.doSingle(userDO, UserVO.class);
+                userVO.setId(userDO.getId());
+                return userVO;
+            }).collect(Collectors.toList()));
+        }
+        return pageVO;
     }
 }
