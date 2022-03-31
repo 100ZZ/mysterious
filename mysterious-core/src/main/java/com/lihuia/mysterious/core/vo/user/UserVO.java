@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.core.vo.user;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  */
 
 @Data
+@Builder
 public class UserVO {
 
     /** 主键 */

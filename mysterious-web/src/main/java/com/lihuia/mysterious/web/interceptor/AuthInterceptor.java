@@ -4,7 +4,9 @@ import com.lihuia.mysterious.common.exception.MysteriousException;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.entity.user.UserDO;
 import com.lihuia.mysterious.core.mapper.user.UserMapper;
-import com.lihuia.mysterious.web.request.TokenUtil;
+import com.lihuia.mysterious.core.vo.user.UserVO;
+import com.lihuia.mysterious.web.utils.TokenUtils;
+import com.lihuia.mysterious.web.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,26 +33,29 @@ public class AuthInterceptor implements HandlerInterceptor {
     //todo: 目前是拦截抛出异常，理论上应该是和前端对接跳转
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = TokenUtil.getToken(request);
+        String token = TokenUtils.getToken(request);
         if (StringUtils.isBlank(token)) {
-            log.error(ResponseCodeEnum.USER_NOT_LOGIN.getMessage());
+            log.warn(ResponseCodeEnum.USER_NOT_LOGIN.getMessage());
             throw new MysteriousException(ResponseCodeEnum.USER_NOT_LOGIN);
         }
         UserDO userDO = userMapper.getByToken(token);
         if (ObjectUtils.isEmpty(userDO)) {
-            log.error(ResponseCodeEnum.USER_NOT_EXIST.getMessage());
+            log.warn(ResponseCodeEnum.USER_NOT_EXIST.getMessage());
             throw new MysteriousException(ResponseCodeEnum.USER_NOT_EXIST);
         }
         if (userDO.getExpireTime().isBefore(LocalDateTime.now())) {
-            log.error(ResponseCodeEnum.USER_TOKEN_EXPIRE.getMessage());
+            log.warn(ResponseCodeEnum.USER_TOKEN_EXPIRE.getMessage());
             throw new MysteriousException(ResponseCodeEnum.USER_TOKEN_EXPIRE);
         }
-
+        /** token有效，ThreadLocal获取用户信息，接口调用传递用户信息 */
+        UserUtils.setCurrent(UserVO.builder().id(userDO.getId())
+                .username(userDO.getUsername()).password(userDO.getPassword()).build());
         return true;
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        UserUtils.removeCurrent();
     }
 
     @Override

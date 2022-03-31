@@ -46,6 +46,7 @@
         <apm-toolkit-logback-1.x.version>6.4.0</apm-toolkit-logback-1.x.version>
         <logback-classic.version>1.2.3</logback-classic.version>
         <commons.lang>3.12.0</commons.lang>
+        <fastjson>1.2.75</fastjson>
     </properties>
 
     <dependencies>
@@ -179,6 +180,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons.lang}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

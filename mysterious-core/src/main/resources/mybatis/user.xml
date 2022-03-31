@@ -34,7 +34,7 @@
         <if test="expireTime != null">expire_time=#{expireTime},</if>
     </sql>
 
-    <insert id="add" parameterType="com.lihuia.mysterious.core.entity.user.UserDO">
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.lihuia.mysterious.core.entity.user.UserDO">
         insert
         <include refid="table_name"/>
         <set>

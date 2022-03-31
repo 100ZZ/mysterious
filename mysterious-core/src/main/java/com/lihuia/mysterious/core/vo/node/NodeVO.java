@@ -27,6 +27,9 @@ public class NodeVO {
     /** ssh用户 */
     private String username;
 
+    /** 登录密码 */
+    private String password;
+
     /** ssh端口 */
     private Integer port;
 

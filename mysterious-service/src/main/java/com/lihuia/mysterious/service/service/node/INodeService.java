@@ -1,6 +1,7 @@
 package com.lihuia.mysterious.service.service.node;
 
 import com.lihuia.mysterious.core.vo.node.NodeVO;
+import com.lihuia.mysterious.core.vo.user.UserVO;
 
 import java.util.List;
 
@@ -10,6 +11,21 @@ import java.util.List;
  */
 
 public interface INodeService {
+
+    /**
+     * 新增节点
+     * @param nodeVO
+     * @return
+     */
+    Long addNode(NodeVO nodeVO, UserVO userVO);
+
+    /**
+     * 更新节点
+     * @param nodeVO
+     * @param userVO
+     * @return
+     */
+    Boolean updateNode(NodeVO nodeVO, UserVO userVO);
 
     /**
      * 查询已启用的所有slave节点列表
