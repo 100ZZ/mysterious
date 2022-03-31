@@ -1,6 +1,5 @@
 package com.lihuia.mysterious.core.vo.user;
 
-import com.lihuia.mysterious.core.vo.base.BaseVO;
 import lombok.Data;
 
 /**
@@ -9,7 +8,10 @@ import lombok.Data;
  */
 
 @Data
-public class UserVO extends BaseVO<Long> {
+public class UserVO {
+
+    /** 主键 */
+    private Long id;
 
     /** 用户 */
     private String username;
