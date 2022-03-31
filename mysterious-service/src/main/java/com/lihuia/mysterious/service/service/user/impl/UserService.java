@@ -94,7 +94,13 @@ public class UserService implements IUserService {
 
     @Override
     public UserVO getById(Long id) {
-        return CommonBeanConverter.doSingle(userMapper.getById(id), UserVO.class);
+        UserDO userDO = userMapper.getById(id);
+        if (ObjectUtils.isEmpty(userDO)) {
+            return null;
+        }
+        UserVO userVO = CommonBeanConverter.doSingle(userDO, UserVO.class);
+        userVO.setId(id);
+        return userVO;
     }
 
     @Override

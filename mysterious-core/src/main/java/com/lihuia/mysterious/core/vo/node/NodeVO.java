@@ -1,17 +1,16 @@
-package com.lihuia.mysterious.core.entity.node;
+package com.lihuia.mysterious.core.vo.node;
 
-import com.lihuia.mysterious.core.entity.base.BaseDO;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * @author lihuia.com
- * @date 2022/3/27 8:11 PM
+ * @date 2022/3/29 10:08 PM
  */
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class NodeDO extends BaseDO<Long> {
+public class NodeVO {
+
+    private Long id;
 
     /** 节点名称 */
     private String name;
@@ -27,9 +26,6 @@ public class NodeDO extends BaseDO<Long> {
 
     /** ssh用户 */
     private String username;
-
-    /** ssh密码 */
-    private String password;
 
     /** ssh端口 */
     private Integer port;
