@@ -23,8 +23,8 @@ CREATE TABLE `node` (
     `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
     `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
     `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
-    `create_time` bigint(13) unsigned NOT NULL DEFAULT '0' COMMENT '生成时间',
-    `modify_time` bigint(13) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='分布式节点表';
