@@ -34,16 +34,16 @@ public class AuthInterceptor implements HandlerInterceptor {
         String token = TokenUtil.getToken(request);
         if (StringUtils.isBlank(token)) {
             log.error(ResponseCodeEnum.USER_NOT_LOGIN.getMessage());
-            return false;
+            throw new MysteriousException(ResponseCodeEnum.USER_NOT_LOGIN);
         }
         UserDO userDO = userMapper.getByToken(token);
         if (ObjectUtils.isEmpty(userDO)) {
             log.error(ResponseCodeEnum.USER_NOT_EXIST.getMessage());
-            return false;
+            throw new MysteriousException(ResponseCodeEnum.USER_NOT_EXIST);
         }
         if (userDO.getExpireTime().isBefore(LocalDateTime.now())) {
             log.error(ResponseCodeEnum.USER_TOKEN_EXPIRE.getMessage());
-            return false;
+            throw new MysteriousException(ResponseCodeEnum.USER_TOKEN_EXPIRE);
         }
 
         return true;

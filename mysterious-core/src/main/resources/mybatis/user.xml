@@ -8,8 +8,8 @@
         <result property="username" column="username"/>
         <result property="password" column="password"/>
         <result property="token" column="token"/>
+        <result property="effectTime" column="effect_time"/>
         <result property="expireTime" column="expire_time"/>
-        <result property="lastLoginTime" column="last_login_time"/>
     </resultMap>
 
     <sql id="table_name">
@@ -21,8 +21,8 @@
         username,
         password,
         token,
-        expire_time,
-        last_login_time
+        effect_time,
+        expire_time
     </sql>
 
     <sql id="set">
@@ -30,15 +30,15 @@
         <if test="username != null">username=#{username},</if>
         <if test="password != null">password=#{password},</if>
         <if test="token != null">token=#{token},</if>
+        <if test="effectTime != null">effect_time=#{effectTime},</if>
         <if test="expireTime != null">expire_time=#{expireTime},</if>
-        <if test="lastLoginTime != null">last_login_time=#{lastLoginTime},</if>
     </sql>
 
     <insert id="add" parameterType="com.lihuia.mysterious.core.entity.user.UserDO">
         insert
         <include refid="table_name"/>
         <set>
-            <include refid="set"></include>
+            <include refid="set"/>
         </set>
     </insert>
 
