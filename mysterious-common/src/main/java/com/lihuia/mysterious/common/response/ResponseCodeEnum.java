@@ -19,7 +19,7 @@ public enum ResponseCodeEnum {
     USER_NOT_LOGIN(1007, "用户未登录", false),
     USER_TOKEN_EXPIRE(1008, "用户凭证失效", false),
     NODE_EXIST(1009, "节点已存在", false),
-
+    ID_IS_EMPTY(1010, "主键为空", false),
     SYSTEM_ERROR(9999,"系统异常",false),
     ;
 

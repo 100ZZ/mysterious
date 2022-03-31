@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class NodeService implements INodeService {
         NodeDO nodeDO = CommonBeanConverter.doSingle(nodeVO, NodeDO.class);
         nodeDO.setCreator(userVO.getUsername());
         nodeDO.setCreatorId(userVO.getId());
-        nodeDO.setCreateTime(System.currentTimeMillis());
+        nodeDO.setCreateTime(LocalDateTime.now());
         nodeDO.setStatus(NodeStatusEnum.DISABLED.getCode());
         nodeMapper.add(nodeDO);
         return nodeDO.getId();
@@ -66,15 +67,19 @@ public class NodeService implements INodeService {
 
     @Override
     public Boolean updateNode(NodeVO nodeVO, UserVO userVO) {
+        if (ObjectUtils.isEmpty(nodeVO.getId())) {
+            throw new MysteriousException(ResponseCodeEnum.ID_IS_EMPTY);
+        }
         NodeDO nodeDO = nodeMapper.getById(nodeVO.getId());
         if (ObjectUtils.isEmpty(nodeDO)) {
             return false;
         }
+        log.info("nodeDO:{}", nodeDO);
         nodeDO = CommonBeanConverter.doSingle(nodeVO, NodeDO.class);
         nodeDO.setId(nodeVO.getId());
         nodeDO.setModifier(userVO.getUsername());
         nodeDO.setModifierId(userVO.getId());
-        nodeDO.setModifyTime(System.currentTimeMillis());
+        nodeDO.setModifyTime(LocalDateTime.now());
         return nodeMapper.update(nodeDO) > 0;
     }
 

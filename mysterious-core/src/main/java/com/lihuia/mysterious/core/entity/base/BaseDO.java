@@ -1,6 +1,7 @@
 package com.lihuia.mysterious.core.entity.base;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author lihuia.com
@@ -15,8 +16,8 @@ public class BaseDO<P> implements Serializable {
     private String creator;
     private Long modifierId;
     private String modifier;
-    private Long createTime;
-    private Long modifyTime;
+    private LocalDateTime createTime;
+    private LocalDateTime modifyTime;
 
     public P getId() {
         return id;
@@ -58,19 +59,19 @@ public class BaseDO<P> implements Serializable {
         this.modifierId = modifierId;
     }
 
-    public void setCreateTime(Long createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public Long getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setModifyTime(Long modifyTime) {
+    public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
     }
 
-    public Long getModifyTime() {
+    public LocalDateTime getModifyTime() {
         return modifyTime;
     }
 }

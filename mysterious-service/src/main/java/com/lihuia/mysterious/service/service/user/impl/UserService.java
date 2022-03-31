@@ -82,6 +82,9 @@ public class UserService implements IUserService {
 
     @Override
     public Boolean updateUser(UserVO userVO) {
+        if (ObjectUtils.isEmpty(userVO.getId())) {
+            throw new MysteriousException(ResponseCodeEnum.ID_IS_EMPTY);
+        }
         UserDO userDO = userMapper.getById(userVO.getId());
         if (ObjectUtils.isEmpty(userDO)) {
             return false;
