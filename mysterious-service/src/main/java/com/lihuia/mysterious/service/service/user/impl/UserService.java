@@ -89,6 +89,7 @@ public class UserService implements IUserService {
         userDO = CommonBeanConverter.doSingle(userVO, UserDO.class);
         /** 更新用户，会重新生成一个token，并且配置生效时间 */
         refreshToken(userDO);
+        userDO.setId(userVO.getId());
         return userMapper.update(userDO) > 0;
     }
 

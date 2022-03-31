@@ -53,7 +53,7 @@
         <if test="password != null">password=#{password},</if>
         <if test="port != null">port=#{port},</if>
         <if test="status != null">status=#{status},</if>
-        <if test="createdId != null">created_id=#{createdId},</if>
+        <if test="creatorId != null">creator_id=#{creatorId},</if>
         <if test="creator != null">creator=#{creator},</if>
         <if test="modifierId != null">modifier_id=#{modifierId},</if>
         <if test="modifier != null">modifier=#{modifier},</if>
@@ -61,7 +61,7 @@
         <if test="modifyTime != null">modify_time=#{modifyTime},</if>
     </sql>
 
-    <insert id="add" parameterType="com.lihuia.mysterious.core.entity.node.NodeDO">
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.lihuia.mysterious.core.entity.node.NodeDO">
         insert
         <include refid="table_name"/>
         <set>
