@@ -20,6 +20,12 @@ public enum ResponseCodeEnum {
     USER_TOKEN_EXPIRE(1008, "用户凭证失效", false),
     NODE_EXIST(1009, "节点已存在", false),
     ID_IS_EMPTY(1010, "主键为空", false),
+    CONFIG_EXIST(1011, "配置已存在", false),
+    CONFIG_NOT_EXIST(1012, "配置不存在", false),
+
+
+
+
     SYSTEM_ERROR(9999,"系统异常",false),
     ;
 

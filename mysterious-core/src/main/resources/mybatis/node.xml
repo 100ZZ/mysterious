@@ -26,21 +26,21 @@
     </sql>
 
     <sql id="select-column-list">
-        id,
-        name,
-        description,
-        type,
-        host,
-        username,
-        password,
-        port,
-        status,
-        creator_id,
-        creator,
-        modifier_id,
-        modifier,
-        create_time,
-        modify_time
+        `id`,
+        `name`,
+        `description`,
+        `type`,
+        `host`,
+        `username`,
+        `password`,
+        `port`,
+        `status`,
+        `creator_id`,
+        `creator`,
+        `modifier_id`,
+        `modifier`,
+        `create_time`,
+        `modify_time`
     </sql>
 
     <sql id="set">

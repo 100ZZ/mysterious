@@ -9,14 +9,12 @@ import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -40,15 +38,15 @@ public class UserService implements IUserService {
         if (ObjectUtils.isEmpty(userVO)) {
             throw new MysteriousException(ResponseCodeEnum.PARAMS_EMPTY);
         }
-        if (StringUtils.isBlank(userVO.getUsername()) || StringUtils.isBlank(userVO.getPassword())) {
+        if (StringUtils.isEmpty(userVO.getUsername())
+                || StringUtils.isEmpty(userVO.getPassword())) {
             throw new MysteriousException(ResponseCodeEnum.PARAM_MISSING);
         }
     }
 
     private void checkUserExist(UserVO userVO) {
-        String username = userVO.getUsername();
-        UserDO userDO = userMapper.getByUsername(username);
-        if (ObjectUtils.isNotEmpty(userDO)) {
+        UserDO userDO = userMapper.getByUsername(userVO.getUsername());
+        if (!ObjectUtils.isEmpty(userDO)) {
             throw new MysteriousException(ResponseCodeEnum.USER_EXIST);
         }
     }

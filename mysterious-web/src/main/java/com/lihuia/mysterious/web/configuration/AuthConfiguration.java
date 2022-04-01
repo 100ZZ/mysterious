@@ -1,4 +1,4 @@
-package com.lihuia.mysterious.web.config;
+package com.lihuia.mysterious.web.configuration;
 
 import com.lihuia.mysterious.web.interceptor.AuthInterceptor;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @Configuration
-public class AuthConfig implements WebMvcConfigurer {
+public class AuthConfiguration implements WebMvcConfigurer {
 
     @Bean
     public AuthInterceptor authInterceptor() {
