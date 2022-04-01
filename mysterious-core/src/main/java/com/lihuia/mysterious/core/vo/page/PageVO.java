@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.core.vo.page;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ import java.util.List;
  */
 
 @Data
+@ApiModel
 public class PageVO<T> implements Serializable {
 
     private static final long serialVersionUID = 3232302395121415460L;
