@@ -9,6 +9,21 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='用户信息表';
 
+CREATE TABLE `config` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `key` varchar(255) NOT NULL DEFAULT '' COMMENT '配置字段',
+    `value` varchar(255) NOT NULL DEFAULT '' COMMENT '配置值',
+    `description` varchar(255) NOT NULL DEFAULT '' COMMENT '配置描述',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='配置表';
+
 CREATE TABLE `node` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name` varchar(255) NOT NULL DEFAULT '' COMMENT '节点名称',

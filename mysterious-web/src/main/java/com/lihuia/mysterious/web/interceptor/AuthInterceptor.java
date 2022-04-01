@@ -1,6 +1,5 @@
 package com.lihuia.mysterious.web.interceptor;
 
-import com.lihuia.mysterious.common.convert.BeanConverter;
 import com.lihuia.mysterious.common.exception.MysteriousException;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.entity.user.UserDO;
@@ -9,9 +8,9 @@ import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.web.utils.TokenUtils;
 import com.lihuia.mysterious.web.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,7 +34,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = TokenUtils.getToken(request);
-        if (StringUtils.isBlank(token)) {
+        if (StringUtils.isEmpty(token)) {
             log.warn(ResponseCodeEnum.USER_NOT_LOGIN.getMessage());
             throw new MysteriousException(ResponseCodeEnum.USER_NOT_LOGIN);
         }
