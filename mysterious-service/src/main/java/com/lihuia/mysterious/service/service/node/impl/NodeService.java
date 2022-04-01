@@ -11,13 +11,12 @@ import com.lihuia.mysterious.service.crud.CRUDEntity;
 import com.lihuia.mysterious.service.enums.NodeStatusEnum;
 import com.lihuia.mysterious.service.service.node.INodeService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +39,8 @@ public class NodeService implements INodeService {
         if (ObjectUtils.isEmpty(nodeVO)) {
             throw new MysteriousException(ResponseCodeEnum.PARAMS_EMPTY);
         }
-        if (StringUtils.isBlank(nodeVO.getHost())
-                || StringUtils.isBlank(nodeVO.getUsername())
+        if (StringUtils.isEmpty(nodeVO.getHost())
+                || StringUtils.isEmpty(nodeVO.getUsername())
                 || ObjectUtils.isEmpty(nodeVO.getPort())
                 || ObjectUtils.isEmpty(nodeVO.getType()) ) {
             throw new MysteriousException(ResponseCodeEnum.PARAM_MISSING);
@@ -49,8 +48,7 @@ public class NodeService implements INodeService {
     }
 
     private void checkNodeExist(NodeVO nodeVO) {
-        String host = nodeVO.getHost();
-        List<NodeDO> nodeList = nodeMapper.getByHost(host);
+        List<NodeDO> nodeList = nodeMapper.getByHost(nodeVO.getHost());
         if (!CollectionUtils.isEmpty(nodeList)) {
             throw new MysteriousException(ResponseCodeEnum.NODE_EXIST);
         }
