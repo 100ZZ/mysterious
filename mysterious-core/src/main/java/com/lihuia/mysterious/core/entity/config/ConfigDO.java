@@ -13,8 +13,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class ConfigDO extends BaseDO<Long> {
 
-    private static final long serialVersionUID = 31234592228884767L;
-
     /** 配置字段 */
     private String key;
 
