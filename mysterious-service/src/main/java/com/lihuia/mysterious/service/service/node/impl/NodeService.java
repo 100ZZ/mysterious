@@ -6,12 +6,15 @@ import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.mapper.node.NodeMapper;
 import com.lihuia.mysterious.core.entity.node.NodeDO;
 import com.lihuia.mysterious.core.vo.node.NodeVO;
+import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.crud.CRUDEntity;
 import com.lihuia.mysterious.service.enums.NodeStatusEnum;
+import com.lihuia.mysterious.service.enums.NodeTypeEnum;
 import com.lihuia.mysterious.service.service.node.INodeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -19,6 +22,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author lihuia.com
@@ -82,7 +86,16 @@ public class NodeService implements INodeService {
 
     @Override
     public List<NodeVO> getEnableNodeList() {
-        return new ArrayList<>();
+        List<NodeDO> nodeDOList =
+                nodeMapper.getEnableNodeList(NodeTypeEnum.SLAVE.getCode(), NodeStatusEnum.ENABLE.getCode());
+        if (CollectionUtils.isEmpty(nodeDOList)) {
+            return new ArrayList<>();
+        }
+        return nodeDOList.stream().map(nodeDO -> {
+            NodeVO nodeVO = BeanConverter.doSingle(nodeDO, NodeVO.class);
+            nodeVO.setId(nodeDO.getId());
+            return nodeVO;
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -95,5 +108,61 @@ public class NodeService implements INodeService {
         nodeVO.setId(id);
         nodeVO.setPassword("******");
         return nodeVO;
+    }
+
+    @Override
+    public Boolean deleteNode(Long id) {
+        NodeDO nodeDO = nodeMapper.getById(id);
+        if (ObjectUtils.isEmpty(nodeDO)) {
+            return false;
+        }
+        return nodeMapper.delete(id) > 0;
+    }
+
+    @Override
+    public PageVO<NodeVO> getNodeList(String name, String host, Integer page, Integer size) {
+        PageVO<NodeVO> pageVO = new PageVO<>();
+        Integer offset = pageVO.getOffset(page, size);
+        Integer total = nodeMapper.getNodeCount(name, host);
+        if (total.compareTo(0) > 0) {
+            pageVO.setTotal(total);
+            List<NodeDO> nodeDOList = nodeMapper.getNodeList(name, host, offset, size);
+            pageVO.setList(nodeDOList.stream().map(nodeDO -> {
+                NodeVO nodeVO = BeanConverter.doSingle(nodeDO, NodeVO.class);
+                nodeVO.setId(nodeDO.getId());
+                return nodeVO;
+            }).collect(Collectors.toList()));
+        }
+        return pageVO;
+    }
+
+    @Override
+    public Boolean enableNode(Long id) {
+        return true;
+    }
+
+    @Override
+    public Boolean disableNode(Long id) {
+        return true;
+    }
+
+    @Override
+    public Boolean cronReloadNode(Long id) {
+        return true;
+    }
+
+    @Override
+    public Boolean reloadNode(Long id) {
+        return true;
+    }
+
+    @Override
+    public Boolean updateNodeStatus(Long id, Integer status) {
+        NodeDO nodeDO = nodeMapper.getById(id);
+        if (ObjectUtils.isEmpty(nodeDO)) {
+            throw new MysteriousException(ResponseCodeEnum.NODE_NOT_EXIST);
+        }
+        nodeDO.setStatus(status);
+        return nodeMapper.update(nodeDO) > 0;
     }
 }

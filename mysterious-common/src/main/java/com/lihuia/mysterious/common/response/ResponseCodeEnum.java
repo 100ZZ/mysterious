@@ -22,6 +22,8 @@ public enum ResponseCodeEnum {
     ID_IS_EMPTY(1010, "主键为空", false),
     CONFIG_EXIST(1011, "配置已存在", false),
     CONFIG_NOT_EXIST(1012, "配置不存在", false),
+    NODE_NOT_EXIST(1013, "节点已存在", false),
+
 
 
 
