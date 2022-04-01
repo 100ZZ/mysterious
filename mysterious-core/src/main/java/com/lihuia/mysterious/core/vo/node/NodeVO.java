@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.core.vo.node;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -10,29 +11,30 @@ import lombok.Data;
 @Data
 public class NodeVO {
 
+    @ApiModelProperty("节点编号")
     private Long id;
 
-    /** 节点名称 */
+    @ApiModelProperty("节点名称")
     private String name;
 
-    /** 节点描述 */
+    @ApiModelProperty("节点描述")
     private String description;
 
-    /** 节点类型 */
+    @ApiModelProperty("节点类型")
     private Integer type;
 
-    /** 节点IP地址 */
+    @ApiModelProperty("节点IP地址")
     private String host;
 
-    /** ssh用户 */
+    @ApiModelProperty("ssh用户")
     private String username;
 
-    /** 登录密码 */
+    @ApiModelProperty("登录密码")
     private String password;
 
-    /** ssh端口 */
+    @ApiModelProperty("ssh端口")
     private Integer port;
 
-    /** 节点状态 0-禁用中，1-启用中 */
+    @ApiModelProperty("节点状态 0-禁用中，1-启用中")
     private Integer status;
 }

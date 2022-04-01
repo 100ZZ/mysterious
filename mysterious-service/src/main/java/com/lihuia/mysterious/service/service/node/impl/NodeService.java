@@ -5,6 +5,7 @@ import com.lihuia.mysterious.common.exception.MysteriousException;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.mapper.node.NodeMapper;
 import com.lihuia.mysterious.core.entity.node.NodeDO;
+import com.lihuia.mysterious.core.vo.node.NodeQuery;
 import com.lihuia.mysterious.core.vo.node.NodeVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
@@ -120,8 +121,12 @@ public class NodeService implements INodeService {
     }
 
     @Override
-    public PageVO<NodeVO> getNodeList(String name, String host, Integer page, Integer size) {
+    public PageVO<NodeVO> getNodeList(NodeQuery nodeQuery) {
         PageVO<NodeVO> pageVO = new PageVO<>();
+        String name = nodeQuery.getName();
+        String host = nodeQuery.getHost();
+        Integer page = nodeQuery.getPage();
+        Integer size = nodeQuery.getSize();
         Integer offset = pageVO.getOffset(page, size);
         Integer total = nodeMapper.getNodeCount(name, host);
         if (total.compareTo(0) > 0) {

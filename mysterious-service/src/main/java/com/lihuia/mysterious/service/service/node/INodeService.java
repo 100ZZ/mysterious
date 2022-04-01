@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.service.service.node;
 
+import com.lihuia.mysterious.core.vo.node.NodeQuery;
 import com.lihuia.mysterious.core.vo.node.NodeVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
@@ -50,13 +51,10 @@ public interface INodeService {
 
     /**
      * 分页查询slave节点列表
-     * @param name
-     * @param host
-     * @param page
-     * @param size
+     * @param nodeQuery
      * @return
      */
-    PageVO<NodeVO> getNodeList(String name, String host, Integer page, Integer size);
+    PageVO<NodeVO> getNodeList(NodeQuery nodeQuery);
 
     /**
      * 启用slave节点（jmeter-server服务）
