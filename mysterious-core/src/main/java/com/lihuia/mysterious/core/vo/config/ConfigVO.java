@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.core.vo.config;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -10,14 +11,15 @@ import lombok.Data;
 @Data
 public class ConfigVO {
 
+    @ApiModelProperty("配置编号")
     private Long id;
 
-    /** 配置字段 */
+    @ApiModelProperty("配置字段")
     private String key;
 
-    /** 字段值 */
+    @ApiModelProperty("字段值")
     private String value;
 
-    /** 字段描述 */
+    @ApiModelProperty("字段描述")
     private String description;
 }

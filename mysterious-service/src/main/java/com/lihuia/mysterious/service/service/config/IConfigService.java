@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.service.service.config;
 
+import com.lihuia.mysterious.core.vo.config.ConfigQuery;
 import com.lihuia.mysterious.core.vo.config.ConfigVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
@@ -30,12 +31,10 @@ public interface IConfigService {
 
     /**
      * 查询分页配置列表
-     * @param key
-     * @param page
-     * @param size
+     * @param configQuery
      * @return
      */
-    PageVO<ConfigVO> getConfigList(String key, Integer page, Integer size);
+    PageVO<ConfigVO> getConfigList(ConfigQuery configQuery);
 
     /**
      * 根据配置KEY查询Value

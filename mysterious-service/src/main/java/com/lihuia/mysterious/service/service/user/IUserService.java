@@ -1,6 +1,7 @@
 package com.lihuia.mysterious.service.service.user;
 
 import com.lihuia.mysterious.core.vo.page.PageVO;
+import com.lihuia.mysterious.core.vo.user.UserQuery;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 
 /**
@@ -47,10 +48,8 @@ public interface IUserService {
 
     /**
      * 分页查询
-     * @param username
-     * @param page
-     * @param size
+     * @param userQuery
      * @return
      */
-    PageVO<UserVO> getUserList(String username, Integer page, Integer size);
+    PageVO<UserVO> getUserList(UserQuery userQuery);
 }

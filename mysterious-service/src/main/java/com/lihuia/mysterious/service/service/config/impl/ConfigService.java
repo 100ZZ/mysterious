@@ -5,6 +5,7 @@ import com.lihuia.mysterious.common.exception.MysteriousException;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.entity.config.ConfigDO;
 import com.lihuia.mysterious.core.mapper.config.ConfigMapper;
+import com.lihuia.mysterious.core.vo.config.ConfigQuery;
 import com.lihuia.mysterious.core.vo.config.ConfigVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
@@ -87,8 +88,11 @@ public class ConfigService implements IConfigService {
     }
 
     @Override
-    public PageVO<ConfigVO> getConfigList(String key, Integer page, Integer size) {
+    public PageVO<ConfigVO> getConfigList(ConfigQuery configQuery) {
         PageVO<ConfigVO> pageVO = new PageVO<>();
+        Integer page = configQuery.getPage();
+        Integer size = configQuery.getSize();
+        String key = configQuery.getKey();
         Integer offset = pageVO.getOffset(page, size);
         Integer total = configMapper.getConfigCount(key);
         if (total.compareTo(0) > 0) {

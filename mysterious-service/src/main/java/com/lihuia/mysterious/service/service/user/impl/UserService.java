@@ -6,6 +6,7 @@ import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.entity.user.UserDO;
 import com.lihuia.mysterious.core.mapper.user.UserMapper;
 import com.lihuia.mysterious.core.vo.page.PageVO;
+import com.lihuia.mysterious.core.vo.user.UserQuery;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -128,8 +129,11 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public PageVO<UserVO> getUserList(String username, Integer page, Integer size) {
+    public PageVO<UserVO> getUserList(UserQuery userQuery) {
         PageVO<UserVO> pageVO = new PageVO<>();
+        String username = userQuery.getUsername();
+        Integer page = userQuery.getPage();
+        Integer size = userQuery.getSize();
         Integer offset = pageVO.getOffset(page, size);
         Integer total = userMapper.getUserCount(username);
         if (total.compareTo(0) > 0) {

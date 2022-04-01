@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.core.vo.user;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,12 +13,12 @@ import lombok.Data;
 @Builder
 public class UserVO {
 
-    /** 主键 */
+    @ApiModelProperty("用户编号")
     private Long id;
 
-    /** 用户 */
+    @ApiModelProperty("用户名称")
     private String username;
 
-    /** 密码 */
+    @ApiModelProperty("用户密码")
     private String password;
 }
