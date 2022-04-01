@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.core.vo.page;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,9 +17,16 @@ public class PageVO<T> implements Serializable {
 
     private static final long serialVersionUID = 3232302395121415460L;
 
+    @ApiModelProperty("页码")
     private Integer page;
+
+    @ApiModelProperty("每页数量")
     private Integer size;
+
+    @ApiModelProperty("总数")
     private Integer total;
+
+    @ApiModelProperty("列表")
     private List<T> list;
 
     public int getOffset(Integer page, Integer size) {
