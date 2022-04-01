@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lihuia.mysterious.core.mapper.jmx.JmxMapper">
+    <resultMap id="JmxResult" type="com.lihuia.mysterious.core.entity.jmx.JmxDO">
+        <result property="id" column="id"/>
+        <result property="srcName" column="src_name"/>
+        <result property="dstName" column="dst_name"/>
+        <result property="description" column="description"/>
+        <result property="testCaseJmxDir" column="test_case_jmx_dir"/>
+        <result property="testCaseId" column="test_case_id"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="creator" column="creator"/>
+        <result property="modifierId" column="modifier_id"/>
+        <result property="modifier" column="modifier"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <sql id="table_name">
+        jmx
+    </sql>
+
+    <sql id="select-column-list">
+        `id`,
+        `src_name`,
+        `dst_name`,
+        `description`,
+        `node_id`,
+        `test_case_jmx_dir`,
+        `test_case_id`,
+        `creator_id`,
+        `creator`,
+        `modifier_id`,
+        `modifier`,
+        `create_time`,
+        `modify_time`
+    </sql>
+
+    <sql id="set">
+        <if test="id != null">id=#{id},</if>
+        <if test="srcName != null">src_name=#{srcName},</if>
+        <if test="dstName != null">dst_name=#{dstName},</if>
+        <if test="description != null">description=#{description},</if>
+        <if test="testCaseJmxDir != null">test_case_jmx_dir=#{testCaseJmxDir},</if>
+        <if test="testCaseId != null">test_case_id=#{testCaseId},</if>
+        <if test="creatorId != null">creator_id=#{creatorId},</if>
+        <if test="creator != null">creator=#{creator},</if>
+        <if test="modifierId != null">modifier_id=#{modifierId},</if>
+        <if test="modifier != null">modifier=#{modifier},</if>
+        <if test="createTime != null">create_time=#{createTime},</if>
+        <if test="modifyTime != null">modify_time=#{modifyTime},</if>
+    </sql>
+
+    <select id="getJmxCount" resultType="integer">
+        select count(*)
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="srcName != null">and src_name like concat('%', #{srcName}, '%')</if>
+        <if test="testCaseId != null">and test_case_id=#{testCaseId}</if>
+        <if test="modifierId != null">and modifier_id=#{modifierId}</if>
+    </select>
+
+    <select id="getJmxList" resultMap="JmxResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="srcName != null">and src_name like concat('%', #{srcName}, '%')</if>
+        <if test="testCaseId != null">and test_case_id=#{testCaseId}</if>
+        <if test="modifierId != null">and modifier_id=#{modifierId}</if>
+        order by modify_time desc
+        <if test="limit > 0 and offset >= 0">limit #{offset}, #{limit}</if>
+    </select>
+
+    <insert id="add" parameterType="com.lihuia.mysterious.core.entity.jmx.JmxDO">
+        insert
+        <include refid="table_name"/>
+        <set>
+            <include refid="set"></include>
+        </set>
+    </insert>
+
+    <delete id="delete">
+        delete from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="id != null">and id=#{id}</if>
+    </delete>
+    
+    <select id="getById" resultMap="JmxResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="id != null">and id=#{id}</if>
+    </select>
+    
+    <update id="update" parameterType="com.lihuia.mysterious.core.entity.jmx.JmxDO">
+        update
+        <include refid="table_name"/>
+        <set>
+            <include refid="set"/>
+        </set>
+        where 1=1
+        <if test="id != null">and id=#{id}</if>
+    </update>
+
+    <select id="getByTestCaseId" resultMap="JmxResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="testCaseId != null">and test_case_id=#{testCaseId}</if>
+    </select>
+
+    <select id="getExistJmxList" resultMap="JmxResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="testCaseId != null">and test_case_id=#{testCaseId}</if>
+        <if test="srcName != null">and src_name=#{srcName}</if>
+        <if test="testCaseJmxDir != null">and test_case_jmx_dir=#{testCaseJmxDir}</if>
+    </select>
+</mapper>
