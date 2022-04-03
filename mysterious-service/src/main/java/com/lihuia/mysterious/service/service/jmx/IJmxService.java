@@ -2,6 +2,7 @@ package com.lihuia.mysterious.service.service.jmx;
 
 import com.lihuia.mysterious.core.entity.report.ReportDO;
 import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
+import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import org.apache.commons.exec.CommandLine;
@@ -35,14 +36,10 @@ public interface IJmxService {
 
     /**
      * 分页查询JMX列表
-     * @param srcName
-     * @param testCaseId
-     * @param creatorId
-     * @param page
-     * @param size
+     * @param jmxQuery
      * @return
      */
-    PageVO<JmxVO> getJmxList(String srcName, Long testCaseId, Long creatorId, Integer page, Integer size);
+    PageVO<JmxVO> getJmxList(JmxQuery jmxQuery);
 
     /**
      * 运行JMX压测脚本

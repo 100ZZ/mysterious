@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class TestCaseQuery extends BaseQuery {
 
-    @ApiModelProperty("JMX脚本编号")
+    @ApiModelProperty("用例编号")
     private Long id;
 
     @ApiModelProperty("用例名称")

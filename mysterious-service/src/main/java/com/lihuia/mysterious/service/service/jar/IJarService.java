@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.service.service.jar;
 
+import com.lihuia.mysterious.core.vo.jar.JarQuery;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,14 +41,10 @@ public interface IJarService {
 
     /**
      * 分页查询JAR列表
-     * @param srcName
-     * @param testCaseId
-     * @param creatorId
-     * @param page
-     * @param size
+     * @param jarQuery
      * @return
      */
-    PageVO<JarVO> getJarList(String srcName, Long testCaseId, Long creatorId, Integer page, Integer size);
+    PageVO<JarVO> getJarList(JarQuery jarQuery);
 
     /**
      * 查询用例关联的所有JAR

@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.service.service.csv;
 
+import com.lihuia.mysterious.core.vo.csv.CsvQuery;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,14 +40,10 @@ public interface ICsvService {
 
     /**
      * 分页查询CSV文件列表
-     * @param srcName
-     * @param testCaseId
-     * @param creatorId
-     * @param page
-     * @param size
+     * @param csvQuery
      * @return
      */
-    PageVO<CsvVO> getCsvList(String srcName, Long testCaseId, Long creatorId, Integer page, Integer size);
+    PageVO<CsvVO> getCsvList(CsvQuery csvQuery);
 
     /**
      * 查询用例关联的所有CSV文件
