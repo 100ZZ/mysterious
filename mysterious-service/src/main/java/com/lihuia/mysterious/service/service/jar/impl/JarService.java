@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.service.service.jar.impl;
 
+import com.lihuia.mysterious.core.vo.jar.JarQuery;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.service.service.jar.IJarService;
@@ -36,7 +37,7 @@ public class JarService implements IJarService {
     }
 
     @Override
-    public PageVO<JarVO> getJarList(String srcName, Long testCaseId, Long creatorId, Integer page, Integer size) {
+    public PageVO<JarVO> getJarList(JarQuery jarQuery) {
         return null;
     }
 
