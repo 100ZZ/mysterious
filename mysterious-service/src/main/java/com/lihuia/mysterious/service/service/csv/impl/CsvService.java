@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.service.service.csv.impl;
 
+import com.lihuia.mysterious.core.vo.csv.CsvQuery;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.service.service.csv.ICsvService;
@@ -36,7 +37,7 @@ public class CsvService implements ICsvService {
     }
 
     @Override
-    public PageVO<CsvVO> getCsvList(String srcName, Long testCaseId, Long creatorId, Integer page, Integer size) {
+    public PageVO<CsvVO> getCsvList(CsvQuery csvQuery) {
         return null;
     }
 
