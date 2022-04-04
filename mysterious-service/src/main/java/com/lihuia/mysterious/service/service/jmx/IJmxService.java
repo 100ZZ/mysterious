@@ -20,19 +20,19 @@ public interface IJmxService {
      * @param testCaseId
      * @param jmxFile
      */
-    void uploadJmx(Long testCaseId, MultipartFile jmxFile);
+    Boolean uploadJmx(Long testCaseId, MultipartFile jmxFile);
 
     /**
      * 更新JMX脚本
      * @param jmxVO
      */
-    void updateJmx(JmxVO jmxVO);
+    Boolean updateJmx(JmxVO jmxVO);
 
     /**
      * 删除JMX脚本
      * @param id
      */
-    void deleteJmx(Long id);
+    Boolean deleteJmx(Long id);
 
     /**
      * 分页查询JMX列表
@@ -47,7 +47,7 @@ public interface IJmxService {
      * @param testCaseDO
      * @param reportDO
      */
-    void runJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO);
+    Boolean runJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO);
 
     /**
      * 调试JMX压测脚本，只执行调试脚本一次
@@ -55,14 +55,14 @@ public interface IJmxService {
      * @param testCaseDO
      * @param reportDO
      */
-    void debugJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO);
+    Boolean debugJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO);
 
     /**
      * 停止JMX脚本压测
      * @param commandLine
      * @param testCaseDO
      */
-    void stopJmx(CommandLine commandLine, TestCaseDO testCaseDO);
+    Boolean stopJmx(CommandLine commandLine, TestCaseDO testCaseDO);
 
     /**
      * 查询用例关联的所有JMX脚本
@@ -70,4 +70,29 @@ public interface IJmxService {
      * @return
      */
     JmxVO getByTestCaseId(Long testCaseId);
+
+    /**
+     * 在线新增JMX脚本
+     * @param jmxVO
+     */
+    Boolean addOnlineJmx(JmxVO jmxVO);
+
+    /**
+     * 在线编辑时，先要获取所有内容
+     * @param id
+     * @return
+     */
+    JmxVO getOnlineJmx(Long id);
+
+    /**
+     * 编辑更新在线脚本
+     * @param jmxVO
+     */
+    Boolean updateOnlineJmx(JmxVO jmxVO);
+
+    /**
+     * 强制删除jmx所有相关的信息，不对外开放，不关注合理性
+     * @param id
+     */
+    Boolean forceDelete(Long id);
 }

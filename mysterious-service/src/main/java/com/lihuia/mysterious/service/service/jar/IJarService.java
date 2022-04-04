@@ -19,25 +19,25 @@ public interface IJarService {
      * @param testCaseId
      * @param jarFile
      */
-    void uploadJar(Long testCaseId, MultipartFile jarFile);
+    Boolean uploadJar(Long testCaseId, MultipartFile jarFile);
 
     /**
      * 新增JAR包
      * @param jarVO
      */
-    void addJar(JarVO jarVO);
+    Long addJar(JarVO jarVO);
 
     /**
      * 更新JAR包
      * @param jarVO
      */
-    void updateJar(JarVO jarVO);
+    Boolean updateJar(JarVO jarVO);
 
     /**
      * 删除JAR包
      * @param id
      */
-    void deleteJar(Long id);
+    Boolean deleteJar(Long id);
 
     /**
      * 分页查询JAR列表
