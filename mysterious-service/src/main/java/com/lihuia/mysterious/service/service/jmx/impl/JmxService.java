@@ -17,20 +17,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class JmxService implements IJmxService {
-
     @Override
-    public void uploadJmx(Long testCaseId, MultipartFile jmxFile) {
-
+    public Boolean uploadJmx(Long testCaseId, MultipartFile jmxFile) {
+        return null;
     }
 
     @Override
-    public void updateJmx(JmxVO jmxVO) {
-
+    public Boolean updateJmx(JmxVO jmxVO) {
+        return null;
     }
 
     @Override
-    public void deleteJmx(Long id) {
-
+    public Boolean deleteJmx(Long id) {
+        return null;
     }
 
     @Override
@@ -39,22 +38,42 @@ public class JmxService implements IJmxService {
     }
 
     @Override
-    public void runJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO) {
-
+    public Boolean runJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO) {
+        return null;
     }
 
     @Override
-    public void debugJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO) {
-
+    public Boolean debugJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO) {
+        return null;
     }
 
     @Override
-    public void stopJmx(CommandLine commandLine, TestCaseDO testCaseDO) {
-
+    public Boolean stopJmx(CommandLine commandLine, TestCaseDO testCaseDO) {
+        return null;
     }
 
     @Override
     public JmxVO getByTestCaseId(Long testCaseId) {
+        return null;
+    }
+
+    @Override
+    public Boolean addOnlineJmx(JmxVO jmxVO) {
+        return null;
+    }
+
+    @Override
+    public JmxVO getOnlineJmx(Long id) {
+        return null;
+    }
+
+    @Override
+    public Boolean updateOnlineJmx(JmxVO jmxVO) {
+        return null;
+    }
+
+    @Override
+    public Boolean forceDelete(Long id) {
         return null;
     }
 }

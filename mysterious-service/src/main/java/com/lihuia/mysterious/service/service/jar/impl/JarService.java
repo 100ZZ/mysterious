@@ -17,23 +17,23 @@ import java.util.List;
 @Service
 public class JarService implements IJarService {
     @Override
-    public void uploadJar(Long testCaseId, MultipartFile jarFile) {
-
+    public Boolean uploadJar(Long testCaseId, MultipartFile jarFile) {
+        return null;
     }
 
     @Override
-    public void addJar(JarVO jarVO) {
-
+    public Long addJar(JarVO jarVO) {
+        return null;
     }
 
     @Override
-    public void updateJar(JarVO jarVO) {
-
+    public Boolean updateJar(JarVO jarVO) {
+        return null;
     }
 
     @Override
-    public void deleteJar(Long id) {
-
+    public Boolean deleteJar(Long id) {
+        return null;
     }
 
     @Override
