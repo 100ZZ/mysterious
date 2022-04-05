@@ -29,7 +29,7 @@ public class JmxVO {
     private Long nodeId;
 
     @ApiModelProperty("JMX脚本路径")
-    private String testCaseJmxDir;
+    private String jmxDir;
 
     @ApiModelProperty("JMX脚本关联的用例")
     private Long testCaseId;

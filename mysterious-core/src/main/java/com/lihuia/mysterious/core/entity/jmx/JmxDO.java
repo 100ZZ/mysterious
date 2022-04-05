@@ -23,7 +23,7 @@ public class JmxDO extends BaseDO<Long> {
     private String description;
 
     /** 脚本路径 */
-    private String testCaseJmxDir;
+    private String jmxDir;
 
     /** 脚本关联的用例 */
     private Long testCaseId;

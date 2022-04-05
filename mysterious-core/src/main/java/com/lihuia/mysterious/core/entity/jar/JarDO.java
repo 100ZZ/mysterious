@@ -26,7 +26,7 @@ public class JarDO extends BaseDO<Long> {
     private Long nodeId;
 
     /** Jar包路径 */
-    private String testCaseJarDir;
+    private String jarDir;
 
     /** 脚本关联的用例 */
     private Long testCaseId;

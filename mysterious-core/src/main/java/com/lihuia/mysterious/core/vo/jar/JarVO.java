@@ -29,7 +29,7 @@ public class JarVO {
     private Long nodeId;
 
     @ApiModelProperty("JAR包路径")
-    private String testCaseJarDir;
+    private String jarDir;
 
     @ApiModelProperty("JAR文件关联的用例")
     private Long testCaseId;
