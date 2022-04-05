@@ -5,6 +5,8 @@ import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
 import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
+import com.lihuia.mysterious.core.vo.report.ReportVO;
+import com.lihuia.mysterious.core.vo.testcase.TestCaseVO;
 import org.apache.commons.exec.CommandLine;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,25 +46,25 @@ public interface IJmxService {
     /**
      * 运行JMX压测脚本
      * @param commandLine
-     * @param testCaseDO
-     * @param reportDO
+     * @param testCaseVO
+     * @param reportVO
      */
-    Boolean runJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO);
+    Boolean runJmx(CommandLine commandLine, TestCaseVO testCaseVO, ReportVO reportVO);
 
     /**
      * 调试JMX压测脚本，只执行调试脚本一次
      * @param commandLine
-     * @param testCaseDO
-     * @param reportDO
+     * @param testCaseVO
+     * @param reportVO
      */
-    Boolean debugJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO);
+    Boolean debugJmx(CommandLine commandLine, TestCaseVO testCaseVO, ReportVO reportVO);
 
     /**
      * 停止JMX脚本压测
      * @param commandLine
-     * @param testCaseDO
+     * @param testCaseVO
      */
-    Boolean stopJmx(CommandLine commandLine, TestCaseDO testCaseDO);
+    Boolean stopJmx(CommandLine commandLine, TestCaseVO testCaseVO);
 
     /**
      * 查询用例关联的所有JMX脚本
