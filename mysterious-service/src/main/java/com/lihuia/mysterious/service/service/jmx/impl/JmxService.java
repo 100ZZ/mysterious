@@ -1,10 +1,10 @@
 package com.lihuia.mysterious.service.service.jmx.impl;
 
-import com.lihuia.mysterious.core.entity.report.ReportDO;
-import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
 import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
+import com.lihuia.mysterious.core.vo.report.ReportVO;
+import com.lihuia.mysterious.core.vo.testcase.TestCaseVO;
 import com.lihuia.mysterious.service.service.jmx.IJmxService;
 import org.apache.commons.exec.CommandLine;
 import org.springframework.stereotype.Service;
@@ -38,17 +38,17 @@ public class JmxService implements IJmxService {
     }
 
     @Override
-    public Boolean runJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO) {
+    public Boolean runJmx(CommandLine commandLine, TestCaseVO testCaseVO, ReportVO reportVO) {
         return null;
     }
 
     @Override
-    public Boolean debugJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO) {
+    public Boolean debugJmx(CommandLine commandLine, TestCaseVO testCaseVO, ReportVO reportVO) {
         return null;
     }
 
     @Override
-    public Boolean stopJmx(CommandLine commandLine, TestCaseDO testCaseDO) {
+    public Boolean stopJmx(CommandLine commandLine, TestCaseVO testCaseVO) {
         return null;
     }
 
