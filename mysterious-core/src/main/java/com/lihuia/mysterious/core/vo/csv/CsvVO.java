@@ -29,7 +29,7 @@ public class CsvVO {
     private Long nodeId;
 
     @ApiModelProperty("CSV文件路径")
-    private String testCaseCsvDir;
+    private String csvDir;
 
     @ApiModelProperty("CSV文件关联的用例")
     private Long testCaseId;
