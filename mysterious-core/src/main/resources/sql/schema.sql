@@ -70,6 +70,7 @@ CREATE TABLE `jmx` (
     `description` varchar(255) NOT NULL DEFAULT '' COMMENT '脚本描述',
     `jmx_dir` varchar(255) NOT NULL DEFAULT '' COMMENT '脚本目录',
     `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmeter_script_type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '脚本生成方式',
     `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
     `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
     `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
