@@ -9,6 +9,8 @@ import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.service.service.csv.ICsvService;
 import com.lihuia.mysterious.web.utils.UserUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,12 +27,14 @@ import java.util.List;
  */
 
 @RestController
+@Api(tags = "CSV文件管理")
 @RequestMapping(value = "/csv")
 public class CsvController {
 
     @Autowired
     private ICsvService csvService;
 
+    @ApiOperation("上传")
     @PostMapping(value = "/upload")
     public Response<Boolean> uploadCsv(@RequestParam(value = "testCaseId") Long testCaseId,
                                        @RequestParam(value = "csvFile") MultipartFile csvFile) {
@@ -38,26 +42,31 @@ public class CsvController {
         return ResponseUtil.buildSuccessResponse(csvService.uploadCsv(testCaseId, csvFile, UserUtils.getCurrent()));
     }
 
+    @ApiOperation("更新")
     @PostMapping(value = "/update")
     public Response<Boolean> updateCsv(@RequestBody CsvVO csvVO) {
         return ResponseUtil.buildSuccessResponse(csvService.updateCsv(csvVO, UserUtils.getCurrent()));
     }
 
+    @ApiOperation("分页列表")
     @GetMapping(value = "/list")
     public Response<PageVO<CsvVO>> getCsvList(CsvQuery csvQuery) {
         return ResponseUtil.buildSuccessResponse(csvService.getCsvList(csvQuery));
     }
 
+    @ApiOperation("删除")
     @GetMapping(value = "/delete")
     public Response<Boolean> deleteTestCase(@RequestParam(value = "id") Long id) {
         return ResponseUtil.buildSuccessResponse(csvService.deleteCsv(id));
     }
 
+    @ApiOperation("查询用例关联的CSV文件")
     @GetMapping(value = "/getByTestCaseId")
     public Response<List<CsvVO>> getByTestCaseId(@RequestParam(value = "testCaseId") Long testCaseId) {
         return ResponseUtil.buildSuccessResponse(csvService.getByTestCaseId(testCaseId));
     }
 
+    @ApiOperation("下载")
     @GetMapping(value = "/download")
     public Response<Boolean> downloadJmx(@RequestParam(value = "id") Long id,
                             HttpServletResponse response) {

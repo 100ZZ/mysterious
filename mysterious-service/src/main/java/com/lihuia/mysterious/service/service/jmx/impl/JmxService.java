@@ -14,7 +14,7 @@ import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.report.ReportVO;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseElementVO;
+import com.lihuia.mysterious.core.vo.testcase.TestCaseFullVO;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.crud.CRUDEntity;
@@ -85,8 +85,8 @@ public class JmxService implements IJmxService {
     @Transactional
     @Override
     public Boolean uploadJmx(Long testCaseId, MultipartFile jmxFile, UserVO userVO) {
-        TestCaseElementVO testCaseElementVO = testCaseService.getElement(testCaseId);
-        if (!ObjectUtils.isEmpty(testCaseElementVO.getJmxVO())) {
+        TestCaseFullVO testCaseFullVO = testCaseService.getFull(testCaseId);
+        if (!ObjectUtils.isEmpty(testCaseFullVO.getJmxVO())) {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_HAS_JMX);
         }
 
@@ -99,7 +99,7 @@ public class JmxService implements IJmxService {
         String dstName = srcName;
 
         /** 根据用例目录， 组成用例用例完整路径*/
-        String jmxDir = testCaseElementVO.getTestCaseDir() + "jmx/";
+        String jmxDir = testCaseFullVO.getTestCaseDir() + "jmx/";
         /** 用例脚本的完整路径 */
         String jmxFilePath = jmxDir + dstName;
 
@@ -114,7 +114,7 @@ public class JmxService implements IJmxService {
         JmxDO jmxDO = new JmxDO();
         jmxDO.setSrcName(srcName);
         jmxDO.setDstName(dstName);
-        jmxDO.setDescription(testCaseElementVO.getName());
+        jmxDO.setDescription(testCaseFullVO.getName());
         jmxDO.setJmxDir(jmxDir);
         jmxDO.setTestCaseId(testCaseId);
         /** 2021-7-31 改脚本是上传的 */
@@ -172,6 +172,17 @@ public class JmxService implements IJmxService {
         fileUtils.rmFile(jmxDO.getJmxDir());
 
         return true;
+    }
+
+    @Override
+    public JmxVO getById(Long id) {
+        JmxDO jmxDO = jmxMapper.getById(id);
+        if (ObjectUtils.isEmpty(jmxDO)) {
+            throw new MysteriousException(ResponseCodeEnum.FILE_NOT_EXIST);
+        }
+        JmxVO jmxVO = BeanConverter.doSingle(jmxDO, JmxVO.class);
+        jmxVO.setId(jmxDO.getId());
+        return jmxVO;
     }
 
     @Override

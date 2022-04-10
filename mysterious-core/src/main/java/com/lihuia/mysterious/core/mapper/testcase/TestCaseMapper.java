@@ -20,5 +20,5 @@ public interface TestCaseMapper extends BaseMapper<TestCaseDO> {
 
     TestCaseDO getTestCaseByName(String name);
 
-    void updateStatus(Long id, Integer status);
+    int updateStatus(Long id, Integer status);
 }

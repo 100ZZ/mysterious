@@ -3,15 +3,19 @@ package com.lihuia.mysterious.core.vo.testcase;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.util.List;
 
 /**
  * @author lihuia.com
- * @date 2022/4/2 1:06 PM
+ * @date 2022/4/2 11:53 AM
  */
 
+@Data
+@ApiModel
 public class TestCaseFullVO {
 
     @ApiModelProperty("用例编号")

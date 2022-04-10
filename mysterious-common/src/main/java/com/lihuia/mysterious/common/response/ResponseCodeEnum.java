@@ -48,6 +48,10 @@ public enum ResponseCodeEnum {
     JMX_HAS_JAR(1036, "JMX关联了JAR", false),
     JMX_HAS_CSV(1037, "JMX关联了CSV", false),
     DOWNLOAD_ERROR(1038, "下载文件失败", false),
+    TESTCASE_NAME_ERROR(1039, "用例名称异常", false),
+    TESTCASE_IS_EXIST(1040, "用例已经存在", false),
+    TESTCASE_NOT_EXIST(1041, "用例不存在", false),
+    NODE_IS_ENABLE(1042, "节点启用中, 无法同步", false),
 
 
 
