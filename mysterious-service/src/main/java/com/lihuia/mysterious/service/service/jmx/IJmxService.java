@@ -104,4 +104,11 @@ public interface IJmxService {
      * @param id
      */
     Boolean forceDelete(Long id);
+
+    /**
+     * getById
+     * @param id
+     * @return
+     */
+    JmxVO getById(Long id);
 }

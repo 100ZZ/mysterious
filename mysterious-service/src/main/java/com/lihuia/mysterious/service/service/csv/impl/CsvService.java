@@ -14,7 +14,7 @@ import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.node.NodeVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseElementVO;
+import com.lihuia.mysterious.core.vo.testcase.TestCaseFullVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.crud.CRUDEntity;
 import com.lihuia.mysterious.service.enums.JMeterScriptEnum;
@@ -76,18 +76,18 @@ public class CsvService implements ICsvService {
     @Transactional
     @Override
     public Boolean uploadCsv(Long testCaseId, MultipartFile csvFile, UserVO userVO) {
-        TestCaseElementVO testCaseElementVO = testCaseService.getElement(testCaseId);
+        TestCaseFullVO testCaseFullVO = testCaseService.getFull(testCaseId);
         /** 上传csv的时候，需要修改jmx脚本里csv的文件路径，因此必须先上传jmx，再上传csv */
-        if (ObjectUtils.isEmpty(testCaseElementVO.getJmxVO())) {
+        if (ObjectUtils.isEmpty(testCaseFullVO.getJmxVO())) {
             throw new MysteriousException(ResponseCodeEnum.JMX_NOT_EXIST);
         }
-        JmxVO jmxVO = testCaseElementVO.getJmxVO();
+        JmxVO jmxVO = testCaseFullVO.getJmxVO();
         /** 定位到Master节点的jmx脚本，这个是重命名后的脚本全路径 */
         String jmxFilePath = jmxVO.getJmxDir() + jmxVO.getDstName();
         String debugJmxFilePath = jmxVO.getJmxDir() + "debug_" + jmxVO.getDstName();
 
         /** master节点保存csv文件的目录 */
-        String csvDir = testCaseElementVO.getTestCaseDir() + "csv/";
+        String csvDir = testCaseFullVO.getTestCaseDir() + "csv/";
         String csvFileName = csvFile.getOriginalFilename();
         if (StringUtils.isEmpty(csvFileName) || csvFileName.contains(" ")) {
             throw new MysteriousException(ResponseCodeEnum.CSV_NAME_ERROR);
@@ -107,7 +107,7 @@ public class CsvService implements ICsvService {
         crudEntity.addT(csvDO, userVO);
         csvDO.setSrcName(csvFileName);
         csvDO.setDstName(csvFileName);
-        csvDO.setDescription(testCaseElementVO.getName());
+        csvDO.setDescription(testCaseFullVO.getName());
         csvDO.setTestCaseId(testCaseId);
         csvDO.setCsvDir(csvDir);
         log.info("新增CSV文件: {}", JSON.toJSONString(csvDO));

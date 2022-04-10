@@ -3,7 +3,6 @@ package com.lihuia.mysterious.service.service.testcase;
 import com.lihuia.mysterious.core.entity.jmx.JmxDO;
 import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseElementVO;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseFullVO;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseQuery;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseVO;
@@ -67,14 +66,8 @@ public interface ITestCaseService {
      * @param id
      * @return
      */
-    TestCaseElementVO getElement(Long id);
-
-    /**
-     * 查询用例的基本信息和关联的jmx，jar，csv信息
-     * @param id
-     * @return
-     */
     TestCaseFullVO getFull(Long id);
+
 
     /**
      * 调试压测用例
@@ -109,13 +102,6 @@ public interface ITestCaseService {
     Boolean updateStatus(Long id, Integer status);
 
     /**
-     * 查询关联的jmx脚本
-     * @param id
-     * @return
-     */
-    JmxDO getJmx(Long id);
-
-    /**
      * 查询指定状态的用例
      * @param status
      * @return
@@ -123,17 +109,9 @@ public interface ITestCaseService {
     List<TestCaseDO> getByStatus(Integer status);
 
     /**
-     * 将测试用例的所有依赖，同步到指定的slave节点上
-     * @param testCaseId
-     * @param nodeId
-     * @return
-     */
-    Boolean syncNodeElement(Long testCaseId, Long nodeId);
-
-    /**
      * 将所有测试用例的所有依赖，同步到指定的slave节点上
      * @param nodeId
      * @return
      */
-    Boolean syncAllNodeElement(Long nodeId);
+    Boolean syncNode(Long nodeId);
 }
