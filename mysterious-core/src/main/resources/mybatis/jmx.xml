@@ -8,7 +8,7 @@
         <result property="srcName" column="src_name"/>
         <result property="dstName" column="dst_name"/>
         <result property="description" column="description"/>
-        <result property="testCaseJmxDir" column="test_case_jmx_dir"/>
+        <result property="jmxDir" column="jmx_dir"/>
         <result property="testCaseId" column="test_case_id"/>
         <result property="creatorId" column="creator_id"/>
         <result property="creator" column="creator"/>
@@ -28,7 +28,7 @@
         `dst_name`,
         `description`,
         `node_id`,
-        `test_case_jmx_dir`,
+        `jmx_dir`,
         `test_case_id`,
         `creator_id`,
         `creator`,
@@ -43,7 +43,7 @@
         <if test="srcName != null">src_name=#{srcName},</if>
         <if test="dstName != null">dst_name=#{dstName},</if>
         <if test="description != null">description=#{description},</if>
-        <if test="testCaseJmxDir != null">test_case_jmx_dir=#{testCaseJmxDir},</if>
+        <if test="jmxDir != null">jmx_dir=#{jmxDir},</if>
         <if test="testCaseId != null">test_case_id=#{testCaseId},</if>
         <if test="creatorId != null">creator_id=#{creatorId},</if>
         <if test="creator != null">creator=#{creator},</if>
@@ -127,6 +127,6 @@
         where 1=1
         <if test="testCaseId != null">and test_case_id=#{testCaseId}</if>
         <if test="srcName != null">and src_name=#{srcName}</if>
-        <if test="testCaseJmxDir != null">and test_case_jmx_dir=#{testCaseJmxDir}</if>
+        <if test="jmxDir != null">and jmx_dir=#{jmxDir}</if>
     </select>
 </mapper>

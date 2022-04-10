@@ -17,5 +17,5 @@ public interface CsvMapper extends BaseMapper<CsvDO> {
 
     List<CsvDO> getByTestCaseId(Long testCaseId);
 
-    List<CsvDO> getExistCsvList(Long testCaseId, String srcName, String testCaseCsvDir);
+    List<CsvDO> getExistCsvList(Long testCaseId, String srcName, String csvDir);
 }
