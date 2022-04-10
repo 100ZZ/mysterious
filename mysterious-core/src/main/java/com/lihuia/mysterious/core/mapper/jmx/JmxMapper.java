@@ -18,5 +18,5 @@ public interface JmxMapper extends BaseMapper<JmxDO> {
 
     JmxDO getByTestCaseId(Long testCaseId);
 
-    List<JmxDO> getExistJmxList(Long testCaseId, String srcName, String testCaseJmxDir);
+    List<JmxDO> getExistJmxList(Long testCaseId, String srcName, String jmxDir);
 }
