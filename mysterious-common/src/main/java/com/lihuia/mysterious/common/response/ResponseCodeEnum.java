@@ -52,6 +52,7 @@ public enum ResponseCodeEnum {
     TESTCASE_IS_EXIST(1040, "用例已经存在", false),
     TESTCASE_NOT_EXIST(1041, "用例不存在", false),
     NODE_IS_ENABLE(1042, "节点启用中, 无法同步", false),
+    STRESS_LOG_TOO_LARGE(1043, "压测日志过大", false),
 
 
 
