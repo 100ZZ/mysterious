@@ -5,7 +5,9 @@ import com.lihuia.mysterious.common.response.ResponseUtil;
 import com.lihuia.mysterious.core.vo.jar.JarQuery;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
+import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.service.jar.IJarService;
+import com.lihuia.mysterious.web.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,17 +29,12 @@ public class JarController {
     @PostMapping(value = "/upload")
     public Response<Boolean> uploadJar(@RequestParam(value = "testCaseId") Long testCaseId,
                                        @RequestParam(value = "jarFile") MultipartFile jarFile) {
-        return ResponseUtil.buildSuccessResponse(jarService.uploadJar(testCaseId, jarFile));
-    }
-
-    @PostMapping(value = "/add")
-    public Response<Long> addJar(@RequestBody JarVO jarVO) {
-        return ResponseUtil.buildSuccessResponse(jarService.addJar(jarVO));
+        return ResponseUtil.buildSuccessResponse(jarService.uploadJar(testCaseId, jarFile, UserUtils.getCurrent()));
     }
 
     @PostMapping(value = "/update")
     public Response<Boolean> updateJar(@RequestBody JarVO jarVO) {
-        return ResponseUtil.buildSuccessResponse(jarService.updateJar(jarVO));
+        return ResponseUtil.buildSuccessResponse(jarService.updateJar(jarVO, UserUtils.getCurrent()));
     }
 
     @GetMapping(value = "/list")

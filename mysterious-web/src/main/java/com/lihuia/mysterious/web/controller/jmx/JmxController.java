@@ -8,6 +8,7 @@ import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.service.service.jmx.IJmxService;
+import com.lihuia.mysterious.web.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,12 +28,12 @@ public class JmxController {
     @PostMapping(value = "/upload")
     public Response<Boolean> uploadJmx(@RequestParam(value = "testCaseId") Long testCaseId,
                                        @RequestParam(value = "jmxFile") MultipartFile jmxFile) {
-        return ResponseUtil.buildSuccessResponse(jmxService.uploadJmx(testCaseId, jmxFile));
+        return ResponseUtil.buildSuccessResponse(jmxService.uploadJmx(testCaseId, jmxFile, UserUtils.getCurrent()));
     }
 
     @PostMapping(value = "/update")
     public Response<Boolean> updateJmx(@RequestBody JmxVO jmxVO) {
-        return ResponseUtil.buildSuccessResponse(jmxService.updateJmx(jmxVO));
+        return ResponseUtil.buildSuccessResponse(jmxService.updateJmx(jmxVO, UserUtils.getCurrent()));
     }
 
     @GetMapping(value = "/delete")
