@@ -14,7 +14,7 @@ import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.node.NodeVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseElementVO;
+import com.lihuia.mysterious.core.vo.testcase.TestCaseFullVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.crud.CRUDEntity;
 import com.lihuia.mysterious.service.service.config.IConfigService;
@@ -91,9 +91,9 @@ public class JarService implements IJarService {
     @Transactional
     @Override
     public Boolean uploadJar(Long testCaseId, MultipartFile jarFile, UserVO userVO) {
-        TestCaseElementVO testCaseElementVO = testCaseService.getElement(testCaseId);
+        TestCaseFullVO testCaseFullVO = testCaseService.getFull(testCaseId);
         /** jar上传会修改jmx脚本里jar包classpath绝对路径，因此依赖jmx脚本存在 */
-        if (ObjectUtils.isEmpty(testCaseElementVO.getJmxVO())) {
+        if (ObjectUtils.isEmpty(testCaseFullVO.getJmxVO())) {
             throw new MysteriousException(ResponseCodeEnum.JMX_NOT_EXIST);
         }
         /** 用例jar包完整路径 */
@@ -107,7 +107,7 @@ public class JarService implements IJarService {
         if (isJmeterPluginJar(jarFileName)) {
             jarDir = configService.getValue(JMeterUtil.MASTER_JMETER_HOME) + "/lib/ext/";
         } else {
-            jarDir = testCaseElementVO.getTestCaseDir() + "jar/";
+            jarDir = testCaseFullVO.getTestCaseDir() + "jar/";
         }
 
         /** 上传前需要校验，这个jar包是否已经存在，根据name+path决定 */
@@ -118,7 +118,7 @@ public class JarService implements IJarService {
         JarDO jarDO = new JarDO();
         jarDO.setSrcName(jarFileName);
         jarDO.setDstName(jarFileName);
-        jarDO.setDescription(testCaseElementVO.getName());
+        jarDO.setDescription(testCaseFullVO.getName());
         jarDO.setTestCaseId(testCaseId);
         jarDO.setJarDir(jarDir);
         log.info("新增JAR: {}", JSON.toJSONString(jarDO));
@@ -140,7 +140,7 @@ public class JarService implements IJarService {
             }
         }
 
-        JmxVO jmxVO = testCaseElementVO.getJmxVO();
+        JmxVO jmxVO = testCaseFullVO.getJmxVO();
         /** 定位到Master节点的jmx脚本，这个是重命名后的脚本全路径 */
         String jmxFilePath = jmxVO.getJmxDir() + jmxVO.getDstName();
         String debugJmxFilePath = jmxVO.getJmxDir() + "debug_" + jmxVO.getDstName();
@@ -150,9 +150,9 @@ public class JarService implements IJarService {
          * jmxFilePath：master节点要修改的脚本文件
          * jarFilePath：jmx脚本里jar的路径
          */
-        log.info("上传JAR文件后, 更新JMX脚本, jmxFilePath: {}, jarFilePath: {}", jmxFilePath, testCaseElementVO.getTestCaseDir() + "jar");
-        jMeterUtil.updateJmxJarFilePath(jmxFilePath, testCaseElementVO.getTestCaseDir() + "jar");
-        jMeterUtil.updateJmxJarFilePath(debugJmxFilePath, testCaseElementVO.getTestCaseDir() + "jar");
+        log.info("上传JAR文件后, 更新JMX脚本, jmxFilePath: {}, jarFilePath: {}", jmxFilePath, testCaseFullVO.getTestCaseDir() + "jar");
+        jMeterUtil.updateJmxJarFilePath(jmxFilePath, testCaseFullVO.getTestCaseDir() + "jar");
+        jMeterUtil.updateJmxJarFilePath(debugJmxFilePath, testCaseFullVO.getTestCaseDir() + "jar");
 
         return true;
     }
