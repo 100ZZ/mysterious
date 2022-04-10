@@ -47,6 +47,7 @@ public enum ResponseCodeEnum {
     JMX_NAME_ERROR(1035, "JMX名称异常", false),
     JMX_HAS_JAR(1036, "JMX关联了JAR", false),
     JMX_HAS_CSV(1037, "JMX关联了CSV", false),
+    DOWNLOAD_ERROR(1038, "下载文件失败", false),
 
 
 
