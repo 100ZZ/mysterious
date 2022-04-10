@@ -22,7 +22,25 @@ public enum ResponseCodeEnum {
     ID_IS_EMPTY(1010, "主键为空", false),
     CONFIG_EXIST(1011, "配置已存在", false),
     CONFIG_NOT_EXIST(1012, "配置不存在", false),
-    NODE_NOT_EXIST(1013, "节点已存在", false),
+    NODE_NOT_EXIST(1013, "节点不存在", false),
+    JMX_NOT_EXIST(1014, "JMX脚本存在", false),
+    CSV_NAME_ERROR(1015, "CSV文件名称异常", false),
+    JMX_ERROR(1016, "JMX脚本异常", false),
+    JMX_CSV_NAME_ERROR(1017, "CSV Data Set Config控件的Name没有设置", false),
+    CSV_IS_EXIST(1018, "CSV文件已存在", false),
+    MKDIR_ERROR(1019, "mkDir失败", false),
+    RMDIR_ERROR(1020, "rmDir失败", false),
+    RMFILE_ERROR(1021, "rmFileE失败", false),
+    MKDIR_PARENT_ERROR(1022, "mkDirParent失败", false),
+    UPLOAD_FILE_ERROR(1023, "uploadFile失败", false),
+    COPY_FILE_ERROR(1024, "copyFile失败", false),
+    DOWNLOAD_FILE_ERROR(1025, "downloadFileFromURL失败", false),
+    FILE_NOT_EXIST(1026, "文件不存在", false),
+    CANNOT_CONNECT(1027, "无法连通", false),
+    CLOSE_CONNECT_ERROR(1028, "关闭连接异常", false),
+    SSH_EXEC_ERROR(1029, "SSH执行命令异常", false),
+    CSV_NOT_EXIST(1030, "CSV文件不存在", false),
+
 
 
 

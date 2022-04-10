@@ -78,7 +78,7 @@
         <if test="limit > 0 and offset >= 0">limit #{offset}, #{limit}</if>
     </select>
 
-    <insert id="add" parameterType="com.lihuia.mysterious.core.entity.csv.CsvDO">
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.lihuia.mysterious.core.entity.csv.CsvDO">
         insert
         <include refid="table_name"/>
         <set>

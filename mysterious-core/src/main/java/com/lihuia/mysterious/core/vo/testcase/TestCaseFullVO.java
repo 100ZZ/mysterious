@@ -1,8 +1,8 @@
 package com.lihuia.mysterious.core.vo.testcase;
 
-import com.lihuia.mysterious.core.entity.csv.CsvDO;
-import com.lihuia.mysterious.core.entity.jar.JarDO;
-import com.lihuia.mysterious.core.entity.jmx.JmxDO;
+import com.lihuia.mysterious.core.vo.csv.CsvVO;
+import com.lihuia.mysterious.core.vo.jar.JarVO;
+import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
@@ -39,11 +39,11 @@ public class TestCaseFullVO {
     private String testCaseDir;
 
     @ApiModelProperty("用例关联的JMX脚本")
-    private JmxDO jmxDO;
+    private JmxVO jmxVO;
 
     @ApiModelProperty("用例关联的CSV文件")
-    private List<CsvDO> csvDOList;
+    private List<CsvVO> csvVOList;
 
     @ApiModelProperty("用例关联的JAR包")
-    private List<JarDO> jarDOList;
+    private List<JarVO> jarVOList;
 }

@@ -33,4 +33,7 @@ public class JmxVO {
 
     @ApiModelProperty("JMX脚本关联的用例")
     private Long testCaseId;
+
+    @ApiModelProperty("脚本生成方式, 枚举类：JMeterScriptEnum 0-脚本本地上传, 1-脚本在线编辑")
+    private Integer jmeterScriptType;
 }

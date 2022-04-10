@@ -25,9 +25,6 @@ public class CsvVO {
     @ApiModelProperty("CSV文件描述")
     private String description;
 
-    @ApiModelProperty("节点")
-    private Long nodeId;
-
     @ApiModelProperty("CSV文件路径")
     private String csvDir;
 
