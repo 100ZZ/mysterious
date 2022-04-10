@@ -4,6 +4,7 @@ import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.report.ReportByTestCaseQuery;
 import com.lihuia.mysterious.core.vo.report.ReportQuery;
 import com.lihuia.mysterious.core.vo.report.ReportVO;
+import com.lihuia.mysterious.core.vo.user.UserVO;
 import org.springframework.core.io.FileSystemResource;
 
 import java.io.IOException;
@@ -50,8 +51,10 @@ public interface IReportService {
     /**
      * 新增报告
      * @param reportVO
+     * @param userVO
+     * @return
      */
-    Long addReport(ReportVO reportVO);
+    Long addReport(ReportVO reportVO, UserVO userVO);
 
     /**
      * 删除报告
@@ -66,26 +69,12 @@ public interface IReportService {
     Boolean cleanReport(Long id);
 
     /**
-     * 更新报告
-     * @param reportVO
-     * @return
-     */
-    Boolean updateReport(ReportVO reportVO);
-
-    /**
      * 下载报告
      * @param reportVO
      * @return
      * @throws IOException
      */
     FileSystemResource downloadReport(ReportVO reportVO) throws IOException;
-
-    /**
-     * 查看此次压测master节点jmeter.log的信息
-     * @param id
-     * @return
-     */
-    String getMasterJmeterLogLink(Long id);
 
     /**
      * 预览压测报告内容

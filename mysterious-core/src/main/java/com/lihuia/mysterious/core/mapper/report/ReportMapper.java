@@ -24,7 +24,7 @@ public interface ReportMapper extends BaseMapper<ReportDO> {
     /** 根据执行类型查询数量 */
     Integer getReportCountByExecType(Integer execType);
 
-    List<ReportDO> getReportByType(String name, Long testCaseId, Long creatorId, Integer execType, Integer offset, Integer limit);
+    List<ReportDO> getReportByType(Long testCaseId, Integer execType, Integer limit);
 
     void updateReportStatus(Long id, Integer status);
 }
