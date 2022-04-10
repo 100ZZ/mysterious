@@ -7,6 +7,7 @@ import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.report.ReportVO;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseVO;
+import com.lihuia.mysterious.core.vo.user.UserVO;
 import org.apache.commons.exec.CommandLine;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,13 +23,13 @@ public interface IJmxService {
      * @param testCaseId
      * @param jmxFile
      */
-    Boolean uploadJmx(Long testCaseId, MultipartFile jmxFile);
+    Boolean uploadJmx(Long testCaseId, MultipartFile jmxFile, UserVO userVO);
 
     /**
      * 更新JMX脚本
      * @param jmxVO
      */
-    Boolean updateJmx(JmxVO jmxVO);
+    Boolean updateJmx(JmxVO jmxVO, UserVO userVO);
 
     /**
      * 删除JMX脚本
@@ -48,23 +49,29 @@ public interface IJmxService {
      * @param commandLine
      * @param testCaseVO
      * @param reportVO
+     * @param userVO
+     * @return
      */
-    Boolean runJmx(CommandLine commandLine, TestCaseVO testCaseVO, ReportVO reportVO);
+    Boolean runJmx(CommandLine commandLine, TestCaseVO testCaseVO, ReportVO reportVO, UserVO userVO);
 
     /**
      * 调试JMX压测脚本，只执行调试脚本一次
      * @param commandLine
      * @param testCaseVO
      * @param reportVO
+     * @param userVO
+     * @return
      */
-    Boolean debugJmx(CommandLine commandLine, TestCaseVO testCaseVO, ReportVO reportVO);
+    Boolean debugJmx(CommandLine commandLine, TestCaseVO testCaseVO, ReportVO reportVO, UserVO userVO);
 
     /**
      * 停止JMX脚本压测
      * @param commandLine
      * @param testCaseVO
+     * @param userVO
+     * @return
      */
-    Boolean stopJmx(CommandLine commandLine, TestCaseVO testCaseVO);
+    Boolean stopJmx(CommandLine commandLine, TestCaseVO testCaseVO, UserVO userVO);
 
     /**
      * 查询用例关联的所有JMX脚本

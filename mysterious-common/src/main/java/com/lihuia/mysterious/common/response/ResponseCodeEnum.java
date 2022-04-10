@@ -40,6 +40,13 @@ public enum ResponseCodeEnum {
     CLOSE_CONNECT_ERROR(1028, "关闭连接异常", false),
     SSH_EXEC_ERROR(1029, "SSH执行命令异常", false),
     CSV_NOT_EXIST(1030, "CSV文件不存在", false),
+    JAR_NAME_ERROR(1031, "JAR名称异常", false),
+    JAR_IS_EXIST(1032, "JAR文件已存在", false),
+    JAR_NOT_EXIST(1033, "JAR文件不存在", false),
+    TESTCASE_HAS_JMX(1034, "用例已经关联了JMX", false),
+    JMX_NAME_ERROR(1035, "JMX名称异常", false),
+    JMX_HAS_JAR(1036, "JMX关联了JAR", false),
+    JMX_HAS_CSV(1037, "JMX关联了CSV", false),
 
 
 

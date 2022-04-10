@@ -178,7 +178,7 @@ public class CsvService implements ICsvService {
     public Boolean updateCsv(CsvVO csvVO, UserVO userVO) {
         checkCsvParam(csvVO);
         CsvDO csvDO = BeanConverter.doSingle(csvVO, CsvDO.class);
-        csvDO.setId(null);
+        csvDO.setId(csvVO.getId());
         crudEntity.updateT(csvDO, userVO);
         return csvMapper.update(csvDO) > 0;
     }
@@ -186,8 +186,8 @@ public class CsvService implements ICsvService {
     @Override
     public PageVO<CsvVO> getCsvList(CsvQuery csvQuery) {
         PageVO<CsvVO> pageVO = new PageVO<>();
-        Integer page = pageVO.getPage();
-        Integer size = pageVO.getSize();
+        Integer page = csvQuery.getPage();
+        Integer size = csvQuery.getSize();
         String srcName = csvQuery.getSrcName();
         Long testCaseId = csvQuery.getTestCaseId();
         Long creatorId = csvQuery.getCreatorId();
