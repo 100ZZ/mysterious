@@ -18,5 +18,5 @@ public interface JarMapper extends BaseMapper<JarDO> {
 
     List<JarDO> getByTestCaseId(Long testCaseId);
 
-    List<JarDO> getExistJarList(Long testCaseId, String srcName, String testCaseJarDir);
+    List<JarDO> getExistJarList(Long testCaseId, String srcName, String jarDir);
 }
