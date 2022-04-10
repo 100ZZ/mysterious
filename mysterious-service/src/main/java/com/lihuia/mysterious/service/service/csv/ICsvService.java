@@ -3,6 +3,7 @@ package com.lihuia.mysterious.service.service.csv;
 import com.lihuia.mysterious.core.vo.csv.CsvQuery;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
+import com.lihuia.mysterious.core.vo.user.UserVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -18,25 +19,19 @@ public interface ICsvService {
      * @param testCaseId
      * @param csvFile
      */
-    void uploadCsv(Long testCaseId, MultipartFile csvFile);
-
-    /**
-     * 新增CSV文件
-     * @param csvVO
-     */
-    void addCsv(CsvVO csvVO);
+    Boolean uploadCsv(Long testCaseId, MultipartFile csvFile, UserVO userVO);
 
     /**
      * 删除CSV文件
      * @param id
      */
-    void deleteCsv(Long id);
+    Boolean deleteCsv(Long id);
 
     /**
      * 更新CSV文件
      * @param csvVO
      */
-    void updateCsv(CsvVO csvVO);
+    Boolean updateCsv(CsvVO csvVO, UserVO userVO);
 
     /**
      * 分页查询CSV文件列表
@@ -57,6 +52,6 @@ public interface ICsvService {
      * @param id
      * @return
      */
-    CsvVO getDetail(Long id);
+    CsvVO getById(Long id);
 
 }
