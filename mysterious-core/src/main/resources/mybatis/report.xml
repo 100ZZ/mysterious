@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lihuia.mysterious.core.mapper.report.ReportMapper">
+    <resultMap id="ReportResult" type="com.lihuia.mysterious.core.entity.report.ReportDO">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="testCaseId" column="test_case_id"/>
+        <result property="reportDir" column="report_dir"/>
+        <result property="execType" column="exec_type"/>
+        <result property="status" column="status"/>
+        <result property="responseData" column="response_data"/>
+        <result property="jmeterLogFilePath" column="jmeter_log_file_path"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="creator" column="creator"/>
+        <result property="modifierId" column="modifier_id"/>
+        <result property="modifier" column="modifier"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <sql id="select-column-list">
+        `id`,
+        `name`,
+        `description`,
+        `test_case_id`,
+        `report_dir`,
+        `exec_type`,
+        `status`,
+        `response_data`,
+        `jmeter_log_file_path`,
+        `creator_id`,
+        `creator`,
+        `modifier_id`,
+        `modifier`,
+        `create_time`,
+        `modify_time`
+    </sql>
+
+    <sql id="table_name">
+        report
+    </sql>
+
+    <sql id="set">
+        <if test="id != null">id=#{id},</if>
+        <if test="name != null">name=#{name},</if>
+        <if test="description != null">description=#{description},</if>
+        <if test="testCaseId != null">test_case_id=#{testCaseId},</if>
+        <if test="reportDir != null">report_dir=#{reportDir},</if>
+        <if test="execType != null">exec_type=#{execType},</if>
+        <if test="status != null">status=#{status},</if>
+        <if test="responseData != null">response_data=#{responseData},</if>
+        <if test="jmeterLogFilePath != null">jmeter_log_file_path=#{jmeterLogFilePath},</if>
+        <if test="creatorId != null">creator_id=#{creatorId},</if>
+        <if test="creator != null">creator=#{creator},</if>
+        <if test="modifierId != null">modifier_id=#{modifierId},</if>
+        <if test="modifier != null">modifier=#{modifier},</if>
+        <if test="createTime != null">create_time=#{createTime},</if>
+        <if test="modifyTime != null">modify_time=#{modifyTime},</if>
+    </sql>
+
+    <select id="getReportCount" resultType="integer">
+        select count(*) from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="name != null">and name like concat('%', #{name}, '%')</if>
+        <if test="creatorId != null">and creator_id=#{creatorId}</if>
+    </select>
+
+    <select id="getReportList" resultMap="ReportResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="name != null">and name like concat('%', #{name}, '%')</if>
+        <if test="creatorId != null">and creator_id=#{creatorId}</if>
+        order by id desc
+        <if test="limit > 0 and offset >= 0">limit #{offset}, #{limit}</if>
+    </select>
+
+    <select id="getReportCountByTestCase" resultType="integer">
+        select count(*) from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="name != null">and name like concat('%', #{name}, '%')</if>
+        <if test="testCaseId != null">and test_case_id=#{testCaseId}</if>
+        <if test="creatorId != null">and creator_id=#{creatorId}</if>
+    </select>
+
+    <select id="getReportListByTestCase" resultMap="ReportResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="name != null">and name like concat('%', #{name}, '%')</if>
+        <if test="testCaseId != null">and test_case_id=#{testCaseId}</if>
+        <if test="creatorId != null">and creator_id=#{creatorId}</if>
+        order by id desc
+        <if test="limit > 0 and offset >= 0">limit #{offset}, #{limit}</if>
+    </select>
+
+    <select id="getReportCountByExecType" resultType="integer">
+        select count(*) from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="execType != null">and exec_type=#{execType}</if>
+    </select>
+
+    <select id="getReportByType" resultMap="ReportResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="name != null">and name like concat('%', #{name}, '%')</if>
+        <if test="testCaseId != null">and test_case_id=#{testCaseId}</if>
+        <if test="creatorId != null">and creator_id=#{creatorId}</if>
+        <if test="execType != null">and exec_type=#{execType}</if>
+        order by id desc
+        <if test="limit > 0 and offset >= 0">limit #{offset}, #{limit}</if>
+    </select>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.lihuia.mysterious.core.entity.report.ReportDO">
+        insert
+        <include refid="table_name"/>
+        <set>
+            <include refid="set"/>
+        </set>
+    </insert>
+
+    <delete id="delete">
+        delete from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="id != null">and id=#{id}</if>
+    </delete>
+    
+    <select id="getById" resultMap="ReportResult">
+        select
+        <include refid="select-column-list"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <if test="id != null">and id=#{id}</if>
+    </select>
+    
+    <update id="update" parameterType="com.lihuia.mysterious.core.entity.report.ReportDO">
+        UPDATE
+        <include refid="table_name"/>
+        <set>
+            <include refid="set"/>
+        </set>
+        WHERE 1=1
+        <if test="id != null">and id=#{id}</if>
+    </update>
+
+    <update id="updateReportStatus">
+        update
+        <include refid="table_name"/>
+        set status=#{status}
+        where 1=1
+        <if test="id != null">and id=#{id}</if>
+    </update>
+</mapper>
