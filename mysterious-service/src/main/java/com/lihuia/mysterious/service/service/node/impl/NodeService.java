@@ -23,6 +23,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -139,6 +140,13 @@ public class NodeService implements INodeService {
             }).collect(Collectors.toList()));
         }
         return pageVO;
+    }
+
+    /**
+     * 使用正则表达式校验MD5合法性
+     */
+    public boolean checkMD5(String md5Str) {
+        return Pattern.matches("^([a-fA-F0-9]{32})$", md5Str);
     }
 
     @Override
