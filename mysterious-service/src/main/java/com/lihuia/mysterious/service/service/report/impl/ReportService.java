@@ -159,7 +159,7 @@ public class ReportService implements IReportService {
     }
 
     public static void main(String[] args) {
-        String ss = "/data/2021-06-04-10:35:00/log/";
+        String ss = "/data/2022-04-04-10:35:00/log/";
 
         int lastIndex = ss.replaceAll("/$", "").lastIndexOf("/");
         System.out.println(lastIndex);
@@ -182,7 +182,7 @@ public class ReportService implements IReportService {
         if (!reportFilePath.exists()) {
             throw new MysteriousException(ResponseCodeEnum.REPORT_DIR_NOT_EXIST);
         }
-        /** 2021-06-28 压测报告data目录为空 */
+        /** 压测报告data目录为空 */
         if (reportFilePath.list().length == 0) {
             throw new MysteriousException(ResponseCodeEnum.REPORT_DIR_IS_EMPTY);
         }
@@ -231,7 +231,6 @@ public class ReportService implements IReportService {
         if (Objects.requireNonNull(reportDataPathFile.list()).length == 0) {
             throw new MysteriousException(ResponseCodeEnum.REPORT_DIR_IS_EMPTY);
         }
-        ///依赖csv文件_2021-03-25-17:09:34/report/2021-04-01-16:10:16/data/
         String reportDir;
         if (testCaseReportDir.contains("mysterious-data")) {
             reportDir = testCaseReportDir.split("mysterious-data")[1];

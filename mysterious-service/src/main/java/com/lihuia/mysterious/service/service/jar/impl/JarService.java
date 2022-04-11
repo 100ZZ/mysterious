@@ -69,11 +69,7 @@ public class JarService implements IJarService {
     private Boolean isJmeterPluginJar(String jarFile) {
         String regex = "^jmeter-plugins-.*\\.jar";
         Matcher matcher = Pattern.compile(regex).matcher(jarFile);
-        if (matcher.find()) {
-            return true;
-        } else {
-            return false;
-        }
+        return matcher.find();
     }
 
     private void checkJarParam(JarVO jarVO) {
