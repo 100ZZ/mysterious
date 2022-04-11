@@ -1,6 +1,5 @@
 package com.lihuia.mysterious.service.service.testcase;
 
-import com.lihuia.mysterious.core.entity.jmx.JmxDO;
 import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseFullVO;

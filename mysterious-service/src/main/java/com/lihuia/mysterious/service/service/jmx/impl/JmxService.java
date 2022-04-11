@@ -117,7 +117,7 @@ public class JmxService implements IJmxService {
         jmxDO.setDescription(testCaseFullVO.getName());
         jmxDO.setJmxDir(jmxDir);
         jmxDO.setTestCaseId(testCaseId);
-        /** 2021-7-31 改脚本是上传的 */
+        /** 改脚本是上传的 */
         jmxDO.setJmeterScriptType(JMeterScriptEnum.UPLOAD_JMX.getCode());
         log.info("新增JMX: {}", JSON.toJSONString(jmxDO, true));
         crudEntity.addT(jmxDO, userVO);
