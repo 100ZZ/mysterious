@@ -51,10 +51,10 @@ public interface INodeService {
 
     /**
      * 分页查询slave节点列表
-     * @param nodeQuery
+     * @param query
      * @return
      */
-    PageVO<NodeVO> getNodeList(NodeQuery nodeQuery);
+    PageVO<NodeVO> getNodeList(NodeQuery query);
 
     /**
      * 启用slave节点（jmeter-server服务）

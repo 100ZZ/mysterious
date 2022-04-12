@@ -40,10 +40,10 @@ public interface IJarService {
 
     /**
      * 分页查询JAR列表
-     * @param jarQuery
+     * @param query
      * @return
      */
-    PageVO<JarVO> getJarList(JarQuery jarQuery);
+    PageVO<JarVO> getJarList(JarQuery query);
 
     /**
      * 查询用例关联的所有JAR
