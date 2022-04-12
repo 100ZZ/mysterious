@@ -35,10 +35,10 @@ public interface ICsvService {
 
     /**
      * 分页查询CSV文件列表
-     * @param csvQuery
+     * @param query
      * @return
      */
-    PageVO<CsvVO> getCsvList(CsvQuery csvQuery);
+    PageVO<CsvVO> getCsvList(CsvQuery query);
 
     /**
      * 查询用例关联的所有CSV文件

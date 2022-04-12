@@ -186,18 +186,14 @@ public class JmxService implements IJmxService {
     }
 
     @Override
-    public PageVO<JmxVO> getJmxList(JmxQuery jmxQuery) {
+    public PageVO<JmxVO> getJmxList(JmxQuery query) {
         PageVO<JmxVO> pageVO = new PageVO<>();
-        Integer page = jmxQuery.getPage();
-        Integer size = jmxQuery.getSize();
-        String srcName = jmxQuery.getSrcName();
-        Long testCaseId = jmxQuery.getTestCaseId();
-        Long creatorId = jmxQuery.getCreatorId();
-        Integer offset = pageVO.getOffset(page, size);
-        Integer total = jmxMapper.getJmxCount(srcName, testCaseId, creatorId);
+        Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
+        Integer total = jmxMapper.getJmxCount(query.getSrcName(), query.getTestCaseId(), query.getCreatorId());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
-            List<JmxDO> jmxDOList = jmxMapper.getJmxList(srcName, testCaseId, creatorId, offset, size);
+            List<JmxDO> jmxDOList =
+                    jmxMapper.getJmxList(query.getSrcName(), query.getTestCaseId(), query.getCreatorId(), offset, query.getSize());
             if (!CollectionUtils.isEmpty(jmxDOList)) {
                 pageVO.setList(jmxDOList.stream().map(jmxDO -> {
                     JmxVO jmxVO = BeanConverter.doSingle(jmxDO, JmxVO.class);

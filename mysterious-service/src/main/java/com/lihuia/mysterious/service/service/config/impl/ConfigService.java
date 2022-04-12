@@ -88,16 +88,13 @@ public class ConfigService implements IConfigService {
     }
 
     @Override
-    public PageVO<ConfigVO> getConfigList(ConfigQuery configQuery) {
+    public PageVO<ConfigVO> getConfigList(ConfigQuery query) {
         PageVO<ConfigVO> pageVO = new PageVO<>();
-        Integer page = configQuery.getPage();
-        Integer size = configQuery.getSize();
-        String key = configQuery.getKey();
-        Integer offset = pageVO.getOffset(page, size);
-        Integer total = configMapper.getConfigCount(key);
+        Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
+        Integer total = configMapper.getConfigCount(query.getKey());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
-            List<ConfigDO> configList = configMapper.getConfigList(key, offset, size);
+            List<ConfigDO> configList = configMapper.getConfigList(query.getKey(), offset, query.getSize());
             pageVO.setList(configList.stream().map(configDO -> {
                 ConfigVO configVO = BeanConverter.doSingle(configDO, ConfigVO.class);
                 configVO.setId(configDO.getId());

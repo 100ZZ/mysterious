@@ -31,10 +31,10 @@ public interface IConfigService {
 
     /**
      * 查询分页配置列表
-     * @param configQuery
+     * @param query
      * @return
      */
-    PageVO<ConfigVO> getConfigList(ConfigQuery configQuery);
+    PageVO<ConfigVO> getConfigList(ConfigQuery query);
 
     /**
      * 根据配置KEY查询Value

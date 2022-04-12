@@ -129,16 +129,13 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public PageVO<UserVO> getUserList(UserQuery userQuery) {
+    public PageVO<UserVO> getUserList(UserQuery query) {
         PageVO<UserVO> pageVO = new PageVO<>();
-        String username = userQuery.getUsername();
-        Integer page = userQuery.getPage();
-        Integer size = userQuery.getSize();
-        Integer offset = pageVO.getOffset(page, size);
-        Integer total = userMapper.getUserCount(username);
+        Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
+        Integer total = userMapper.getUserCount(query.getUsername());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
-            List<UserDO> userList = userMapper.getUserList(username, offset, size);
+            List<UserDO> userList = userMapper.getUserList(query.getUsername(), offset, query.getSize());
             pageVO.setList(userList.stream().map(this::convert).collect(Collectors.toList()));
         }
         return pageVO;

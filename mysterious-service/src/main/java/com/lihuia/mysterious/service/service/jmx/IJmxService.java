@@ -39,10 +39,10 @@ public interface IJmxService {
 
     /**
      * 分页查询JMX列表
-     * @param jmxQuery
+     * @param query
      * @return
      */
-    PageVO<JmxVO> getJmxList(JmxQuery jmxQuery);
+    PageVO<JmxVO> getJmxList(JmxQuery query);
 
     /**
      * 运行JMX压测脚本

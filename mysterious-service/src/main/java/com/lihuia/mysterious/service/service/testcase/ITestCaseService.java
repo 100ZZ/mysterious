@@ -48,10 +48,10 @@ public interface ITestCaseService {
 
     /**
      * 分页查询用例列表
-     * @param testCaseQuery
+     * @param query
      * @return
      */
-    PageVO<TestCaseVO> getTestCaseList(TestCaseQuery testCaseQuery);
+    PageVO<TestCaseVO> getTestCaseList(TestCaseQuery query);
 
     /**
      * 查询用例信息
