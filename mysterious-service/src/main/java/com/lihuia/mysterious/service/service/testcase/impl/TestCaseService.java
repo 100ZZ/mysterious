@@ -193,20 +193,16 @@ public class TestCaseService implements ITestCaseService {
     }
 
     @Override
-    public PageVO<TestCaseVO> getTestCaseList(TestCaseQuery testCaseQuery) {
-        Long id = testCaseQuery.getId();
-        String name = testCaseQuery.getName();
-        String biz = testCaseQuery.getBiz();
-        String service = testCaseQuery.getService();
-        Long creatorId = testCaseQuery.getCreatorId();
-        Integer page = testCaseQuery.getPage();
-        Integer size = testCaseQuery.getSize();
+    public PageVO<TestCaseVO> getTestCaseList(TestCaseQuery query) {
         PageVO<TestCaseVO> pageVO = new PageVO<>();
-        Integer offset = pageVO.getOffset(page, size);
-        Integer total = testCaseMapper.getTestCaseCount(id, name, biz, service, creatorId);
+        Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
+        Integer total = testCaseMapper.getTestCaseCount(
+                        query.getId(), query.getName(), query.getBiz(), query.getService(), query.getCreatorId());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
-            List<TestCaseDO> testCaseDOList = testCaseMapper.getTestCaseList(id, name, biz, service, creatorId, offset, size);
+            List<TestCaseDO> testCaseDOList =
+                    testCaseMapper.getTestCaseList(
+                            query.getId(), query.getName(), query.getBiz(), query.getService(), query.getCreatorId(), offset, query.getSize());
             if (!CollectionUtils.isEmpty(testCaseDOList)) {
                 pageVO.setList(testCaseDOList.stream().map(testCaseDO -> {
                     TestCaseVO testCaseVO = BeanConverter.doSingle(testCaseDO, TestCaseVO.class);

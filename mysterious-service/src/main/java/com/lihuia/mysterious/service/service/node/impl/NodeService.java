@@ -122,17 +122,13 @@ public class NodeService implements INodeService {
     }
 
     @Override
-    public PageVO<NodeVO> getNodeList(NodeQuery nodeQuery) {
+    public PageVO<NodeVO> getNodeList(NodeQuery query) {
         PageVO<NodeVO> pageVO = new PageVO<>();
-        String name = nodeQuery.getName();
-        String host = nodeQuery.getHost();
-        Integer page = nodeQuery.getPage();
-        Integer size = nodeQuery.getSize();
-        Integer offset = pageVO.getOffset(page, size);
-        Integer total = nodeMapper.getNodeCount(name, host);
+        Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
+        Integer total = nodeMapper.getNodeCount(query.getName(), query.getHost());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
-            List<NodeDO> nodeDOList = nodeMapper.getNodeList(name, host, offset, size);
+            List<NodeDO> nodeDOList = nodeMapper.getNodeList(query.getName(), query.getHost(), offset, query.getSize());
             pageVO.setList(nodeDOList.stream().map(nodeDO -> {
                 NodeVO nodeVO = BeanConverter.doSingle(nodeDO, NodeVO.class);
                 nodeVO.setId(nodeDO.getId());

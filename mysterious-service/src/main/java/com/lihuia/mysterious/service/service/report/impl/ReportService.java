@@ -55,16 +55,13 @@ public class ReportService implements IReportService {
 
     @Override
     public PageVO<ReportVO> getReportList(ReportQuery query) {
-        String name = query.getName();
-        Long creatorId = query.getCreatorId();
-        Integer page = query.getPage();
-        Integer size = query.getSize();
         PageVO<ReportVO> pageVO = new PageVO<>();
-        Integer offset = pageVO.getOffset(page, size);
-        Integer total = reportMapper.getReportCount(name, creatorId);
+        Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
+        Integer total = reportMapper.getReportCount(query.getName(), query.getCreatorId());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
-            List<ReportDO> reportList = reportMapper.getReportList(name, creatorId, offset, size);
+            List<ReportDO> reportList =
+                    reportMapper.getReportList(query.getName(), query.getCreatorId(), offset, query.getSize());
             if (!CollectionUtils.isEmpty(reportList)) {
                 pageVO.setList(reportList.stream().map(reportDO -> {
                     ReportVO reportVO = BeanConverter.doSingle(reportDO, ReportVO.class);
@@ -78,17 +75,13 @@ public class ReportService implements IReportService {
 
     @Override
     public PageVO<ReportVO> getReportListByTestCase(ReportByTestCaseQuery query) {
-        String name = query.getName();
-        Long testCaseId = query.getTestCaseId();
-        Long creatorId = query.getCreatorId();
-        Integer page = query.getPage();
-        Integer size = query.getSize();
         PageVO<ReportVO> pageVO = new PageVO<>();
-        Integer offset = pageVO.getOffset(page, size);
-        Integer total = reportMapper.getReportCountByTestCase(name,testCaseId, creatorId);
+        Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
+        Integer total = reportMapper.getReportCountByTestCase(query.getName(), query.getTestCaseId(), query.getCreatorId());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
-            List<ReportDO> reportList = reportMapper.getReportListByTestCase(name, creatorId, testCaseId, offset, size);
+            List<ReportDO> reportList =
+                    reportMapper.getReportListByTestCase(query.getName(), query.getTestCaseId(), query.getCreatorId(), offset, query.getSize());
             if (!CollectionUtils.isEmpty(reportList)) {
                 pageVO.setList(reportList.stream().map(reportDO -> {
                     ReportVO reportVO = BeanConverter.doSingle(reportDO, ReportVO.class);

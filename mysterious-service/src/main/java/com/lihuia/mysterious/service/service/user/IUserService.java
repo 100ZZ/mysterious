@@ -48,8 +48,8 @@ public interface IUserService {
 
     /**
      * 分页查询
-     * @param userQuery
+     * @param query
      * @return
      */
-    PageVO<UserVO> getUserList(UserQuery userQuery);
+    PageVO<UserVO> getUserList(UserQuery query);
 }

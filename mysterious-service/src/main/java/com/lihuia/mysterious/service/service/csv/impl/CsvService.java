@@ -184,18 +184,14 @@ public class CsvService implements ICsvService {
     }
 
     @Override
-    public PageVO<CsvVO> getCsvList(CsvQuery csvQuery) {
+    public PageVO<CsvVO> getCsvList(CsvQuery query) {
         PageVO<CsvVO> pageVO = new PageVO<>();
-        Integer page = csvQuery.getPage();
-        Integer size = csvQuery.getSize();
-        String srcName = csvQuery.getSrcName();
-        Long testCaseId = csvQuery.getTestCaseId();
-        Long creatorId = csvQuery.getCreatorId();
-        Integer offset = pageVO.getOffset(page, size);
-        Integer total = csvMapper.getCsvCount(srcName, testCaseId, creatorId);
+        Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
+        Integer total = csvMapper.getCsvCount(query.getSrcName(), query.getTestCaseId(), query.getCreatorId());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
-            List<CsvDO> csvDOList = csvMapper.getCsvList(srcName, testCaseId, creatorId, offset, size);
+            List<CsvDO> csvDOList =
+                    csvMapper.getCsvList(query.getSrcName(), query.getTestCaseId(), query.getCreatorId(), offset, query.getSize());
             if (!CollectionUtils.isEmpty(csvDOList)) {
                 pageVO.setList(csvDOList.stream().map(csvDO -> {
                     CsvVO csvVO = BeanConverter.doSingle(csvDO, CsvVO.class);
