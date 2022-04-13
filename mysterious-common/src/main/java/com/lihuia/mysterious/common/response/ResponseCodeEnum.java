@@ -58,6 +58,14 @@ public enum ResponseCodeEnum {
     REPORT_DIR_NOT_EXIST(1046, "报告目录不存在", false),
     REPORT_DIR_IS_EMPTY(1047, "报告目录卫东", false),
     DEBUG_REPORT_NOT_VIEW(1048, "非压测报告无法预览", false),
+    NODE_TYPE_ERROR(1049, "节点不存在或者类型不对", false),
+    NODE_CANNOT_CONNECT(1050, "节点无法连通", false),
+    SSH_AND_LOGIN_ERROR(1051, "请确认SSH连接以及登录验证是否正确", false),
+    JMETER_SERVER_NOT_FOUND(1052, "找不到jmeter-server文件", false),
+    JMETER_SERVER_IS_ENABLE(1053, "jmeter-server已经启动", false),
+    JMETER_SERVER_ENABLE_ERROR(1052, "找不到jmeter-server文件", false),
+    JMETER_SERVER_IS_NOT_ENABLE(1052, "找不到jmeter-server文件", false),
+    ONLY_SLAVE_CAN_DISABLE(1053, "只能禁用slave节点", false),
 
 
 
