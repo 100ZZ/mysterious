@@ -1,8 +1,11 @@
 package com.lihuia.mysterious.service.service.node.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.lihuia.mysterious.common.convert.BeanConverter;
 import com.lihuia.mysterious.common.exception.MysteriousException;
+import com.lihuia.mysterious.common.jmeter.JMeterUtil;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
+import com.lihuia.mysterious.common.ssh.SSHUtils;
 import com.lihuia.mysterious.core.mapper.node.NodeMapper;
 import com.lihuia.mysterious.core.entity.node.NodeDO;
 import com.lihuia.mysterious.core.vo.node.NodeQuery;
@@ -12,11 +15,12 @@ import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.crud.CRUDEntity;
 import com.lihuia.mysterious.service.enums.NodeStatusEnum;
 import com.lihuia.mysterious.service.enums.NodeTypeEnum;
+import com.lihuia.mysterious.service.service.config.IConfigService;
 import com.lihuia.mysterious.service.service.node.INodeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -37,6 +41,9 @@ public class NodeService implements INodeService {
 
     @Autowired
     private NodeMapper nodeMapper;
+
+    @Autowired
+    private IConfigService configService;
 
     @Autowired
     private CRUDEntity<NodeDO> crudEntity;
@@ -145,13 +152,132 @@ public class NodeService implements INodeService {
         return Pattern.matches("^([a-fA-F0-9]{32})$", md5Str);
     }
 
-    @Override
-    public Boolean enableNode(Long id) {
-        return true;
+    @Transactional
+    public void enableSlaveNode(NodeDO nodeDO, UserVO userVO) {
+        nodeDO.setStatus(NodeStatusEnum.ENABLE.getCode());
+        crudEntity.updateT(nodeDO, userVO);
+
+        log.info("启用, 更新节点: {}", JSON.toJSONString(nodeDO, true));
+        nodeMapper.update(nodeDO);
+        /** slave节点jmeter-server的路径 */
+        String slaveJmeterHomeBin = configService.getValue(JMeterUtil.SLAVE_JMETER_HOME_BIN);
+        String slaveJmeterServer = slaveJmeterHomeBin + "/jmeter-server";
+        /** slave节点jmeter-server执行日志路径 */
+        String slaveJmeterHomeLog = configService.getValue(JMeterUtil.SLAVE_JMETER_HOME_LOG);
+
+        /** slave节点指定host启动jmeter-server */
+        String host = nodeDO.getHost();
+        Integer port = nodeDO.getPort();
+        String username = nodeDO.getUsername();
+        String password = nodeDO.getPassword();
+        SSHUtils ssh = new SSHUtils(host, port, username, password);
+
+        log.info("检查节点连通性");
+        /** 检查连通性 */
+        Boolean isConnected = false;
+        try {
+            isConnected = ssh.telnet(200);
+        } catch (Exception e) {
+            log.info("节点无法连通, {}", e.toString());
+            throw new MysteriousException(ResponseCodeEnum.NODE_CANNOT_CONNECT);
+        }
+        if (!isConnected) {
+            log.info("节点无法连通, isConnected: false");
+            throw new MysteriousException(ResponseCodeEnum.NODE_CANNOT_CONNECT);
+        }
+        /** 检查文件 */
+        log.info("检查md5");
+        String md5str = null;
+        try {
+            md5str = ssh.execCommand("md5sum " + slaveJmeterServer + " | cut -d ' ' -f 1");
+        } catch (Exception e) {
+            log.info("检查md5命令异常, 请确认SSH连接以及登录验证是否正确");
+            throw new MysteriousException(ResponseCodeEnum.SSH_AND_LOGIN_ERROR);
+        }
+        if (!checkMD5(md5str)) {
+            log.info("节点: {}, 找不到jmeter-server文件", nodeDO.getName());
+            throw new MysteriousException(ResponseCodeEnum.JMETER_SERVER_NOT_FOUND);
+        }
+
+        /** 检查jmeter-server进程 */
+        log.info("检查jmeter-server进程");
+        if(!"null".equals(ssh.execCommand("ps aux | grep jmeter-server | grep -v grep"))) {
+            throw new MysteriousException(ResponseCodeEnum.JMETER_SERVER_IS_ENABLE);
+        }
+        /** 启动jmeter-server进程 */
+        log.info("启动jmeter-server进程");
+        String result = ssh.execCommand("cd " + slaveJmeterHomeLog + "\n" +
+                slaveJmeterServer + " -Djava.rmi.server.hostname=" + host);
+        /** 这里返回的结果，华测开发环境和腾讯云主机返回结果不同, 因此更改下判断条件 */
+        /** CentOS版本一: 返回结果为: Using local port: 1099 */
+        /** CentOS版本二: 返回结果为: Created remote object: UnicastServerRef2 [liveRef: [endpoint:[172.30.64.14:11887](local),objID:[-399d775e:1772e15c6ba:-7fff, -1828385573382256740]]] */
+        log.info("启动命令行输出: {}", result);
+        if (!result.contains(host) && !result.contains("Using local port")) {
+            throw new MysteriousException(ResponseCodeEnum.JMETER_SERVER_ENABLE_ERROR);
+        }
+
+        /** 启动后，检查进程 */
+        log.info("启动后, 再次检查jmeter-server进程");
+        if ("null".equals(ssh.execCommand("ps aux | grep jmeter-server | grep -v grep"))) {
+            throw new MysteriousException(ResponseCodeEnum.JMETER_SERVER_IS_NOT_ENABLE);
+        }
     }
 
     @Override
-    public Boolean disableNode(Long id) {
+    public Boolean enableNode(Long id, UserVO userVO) {
+        NodeDO nodeDO = nodeMapper.getById(id);
+        if (ObjectUtils.isEmpty(nodeDO) || !NodeTypeEnum.SLAVE.getCode().equals(nodeDO.getType())) {
+            throw new MysteriousException(ResponseCodeEnum.NODE_TYPE_ERROR);
+        }
+        if (NodeStatusEnum.ENABLE.getCode().equals(nodeDO.getStatus())) {
+            throw new MysteriousException(ResponseCodeEnum.NODE_IS_ENABLE);
+        }
+        try {
+            log.info("start enableSlaveNode");
+            enableSlaveNode(nodeDO, userVO);
+        } catch (Exception e) {
+            nodeDO.setStatus(NodeStatusEnum.FAILED.getCode());
+            crudEntity.updateT(nodeDO, userVO);
+            log.info("启动节点失败, id: {}", nodeDO.getId());
+            nodeMapper.update(nodeDO);
+        }
+        return true;
+    }
+
+    @Transactional
+    @Override
+    public Boolean disableNode(Long id, UserVO userVO) {
+        NodeDO nodeDO = nodeMapper.getById(id);
+        if (null == nodeDO) {
+            throw new MysteriousException(ResponseCodeEnum.NODE_NOT_EXIST);
+        }
+        if (NodeTypeEnum.SLAVE.getCode().equals(nodeDO.getType())) {
+            nodeDO.setStatus(NodeStatusEnum.DISABLED.getCode());
+            crudEntity.updateT(nodeDO, userVO);
+            log.info("禁用, 更新节点: {}", JSON.toJSONString(nodeDO, true));
+            nodeMapper.update(nodeDO);
+            /** 关闭jmeter-server进程 */
+
+            /** slave节点指定host关闭jmeter-server */
+            String host = nodeDO.getHost();
+            Integer port = nodeDO.getPort();
+            String username = nodeDO.getUsername();
+            String password = nodeDO.getPassword();
+            SSHUtils ssh = new SSHUtils(host, port, username, password);
+
+            /** 检查jmeter-server进程 */
+            if("null".equals(ssh.execCommand("ps aux | grep jmeter-server | grep -v grep"))) {
+                throw new MysteriousException(ResponseCodeEnum.JMETER_SERVER_IS_NOT_ENABLE);
+            }
+
+            ssh.execCommand("ps aux | grep jmeter-server | grep -v grep | awk '{print $2}' | xargs kill -9");
+            /** 如果进程还在，再关闭一次 */
+            if(!"null".equals(ssh.execCommand("ps aux | grep jmeter-server | grep -v grep"))) {
+                ssh.execCommand("ps aux | grep jmeter-server | grep -v grep | awk '{print $2}' | xargs kill -9");
+            }
+        } else {
+            throw new MysteriousException(ResponseCodeEnum.ONLY_SLAVE_CAN_DISABLE);
+        }
         return true;
     }
 
@@ -161,7 +287,10 @@ public class NodeService implements INodeService {
     }
 
     @Override
-    public Boolean reloadNode(Long id) {
+    public Boolean reloadNode(Long id, UserVO userVO) {
+        log.info("重启节点服务: {}", id);
+        disableNode(id, userVO);
+        enableNode(id, userVO);
         return true;
     }
 
