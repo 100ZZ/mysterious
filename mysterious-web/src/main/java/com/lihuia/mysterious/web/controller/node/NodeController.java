@@ -58,12 +58,12 @@ public class NodeController {
     @ApiOperation("启用")
     @GetMapping(value = "/enable")
     public Response<Boolean> enableNode(@RequestParam(value = "id") Long id) {
-        return ResponseUtil.buildSuccessResponse(nodeService.enableNode(id));
+        return ResponseUtil.buildSuccessResponse(nodeService.enableNode(id, UserUtils.getCurrent()));
     }
 
     @ApiOperation("禁用")
     @GetMapping(value = "/disable")
     public Response<Boolean> disableNode(@RequestParam(value = "id") Long id) {
-        return ResponseUtil.buildSuccessResponse(nodeService.disableNode(id));
+        return ResponseUtil.buildSuccessResponse(nodeService.disableNode(id, UserUtils.getCurrent()));
     }
 }

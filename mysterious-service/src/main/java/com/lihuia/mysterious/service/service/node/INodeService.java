@@ -59,14 +59,18 @@ public interface INodeService {
     /**
      * 启用slave节点（jmeter-server服务）
      * @param id
+     * @param userVO
+     * @return
      */
-    Boolean enableNode(Long id);
+    Boolean enableNode(Long id, UserVO userVO);
 
     /**
      * 禁用slave节点（jmeter-server服务）
      * @param id
+     * @param userVO
+     * @return
      */
-    Boolean disableNode(Long id);
+    Boolean disableNode(Long id, UserVO userVO);
 
     /**
      * 定时任务重启slave节点（jmeter-server服务）
@@ -77,8 +81,10 @@ public interface INodeService {
     /**
      * 重启slave节点（jmeter-server服务）
      * @param id
+     * @param userVO
+     * @return
      */
-    Boolean reloadNode(Long id);
+    Boolean reloadNode(Long id, UserVO userVO);
 
     /**
      * 更新节点状态
