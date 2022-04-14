@@ -47,31 +47,31 @@ public interface IJmxService {
     /**
      * 运行JMX压测脚本
      * @param commandLine
-     * @param testCaseVO
-     * @param reportVO
+     * @param testCaseDO
+     * @param reportDO
      * @param userVO
      * @return
      */
-    Boolean runJmx(CommandLine commandLine, TestCaseVO testCaseVO, ReportVO reportVO, UserVO userVO);
+    Boolean runJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO, UserVO userVO);
 
     /**
      * 调试JMX压测脚本，只执行调试脚本一次
      * @param commandLine
-     * @param testCaseVO
-     * @param reportVO
+     * @param testCaseDO
+     * @param reportDO
      * @param userVO
      * @return
      */
-    Boolean debugJmx(CommandLine commandLine, TestCaseVO testCaseVO, ReportVO reportVO, UserVO userVO);
+    Boolean debugJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO, UserVO userVO);
 
     /**
      * 停止JMX脚本压测
      * @param commandLine
-     * @param testCaseVO
+     * @param testCaseDO
      * @param userVO
      * @return
      */
-    Boolean stopJmx(CommandLine commandLine, TestCaseVO testCaseVO, UserVO userVO);
+    Boolean stopJmx(CommandLine commandLine, TestCaseDO testCaseDO, UserVO userVO);
 
     /**
      * 查询用例关联的所有JMX脚本
