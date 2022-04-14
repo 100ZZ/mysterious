@@ -7,7 +7,11 @@ import com.lihuia.mysterious.common.io.MysteriousFileUtils;
 import com.lihuia.mysterious.common.jmeter.JMeterUtil;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.entity.jmx.JmxDO;
+import com.lihuia.mysterious.core.entity.report.ReportDO;
+import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
 import com.lihuia.mysterious.core.mapper.jmx.JmxMapper;
+import com.lihuia.mysterious.core.mapper.report.ReportMapper;
+import com.lihuia.mysterious.core.mapper.testcase.TestCaseMapper;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
@@ -19,6 +23,11 @@ import com.lihuia.mysterious.core.vo.testcase.TestCaseVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.crud.CRUDEntity;
 import com.lihuia.mysterious.service.enums.JMeterScriptEnum;
+import com.lihuia.mysterious.service.enums.TestCaseStatus;
+import com.lihuia.mysterious.service.handler.dto.ResultDTO;
+import com.lihuia.mysterious.service.handler.result.ExecuteResultHandler;
+import com.lihuia.mysterious.service.handler.result.ResultHandler;
+import com.lihuia.mysterious.service.redis.TestCaseRedisService;
 import com.lihuia.mysterious.service.service.config.IConfigService;
 import com.lihuia.mysterious.service.service.csv.impl.CsvService;
 import com.lihuia.mysterious.service.service.jar.impl.JarService;
@@ -26,6 +35,8 @@ import com.lihuia.mysterious.service.service.jmx.IJmxService;
 import com.lihuia.mysterious.service.service.testcase.ITestCaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.PumpStreamHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +45,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,6 +69,12 @@ public class JmxService implements IJmxService {
     private JmxMapper jmxMapper;
 
     @Autowired
+    private ReportMapper reportMapper;
+
+    @Autowired
+    private TestCaseMapper testCaseMapper;
+
+    @Autowired
     private CRUDEntity<JmxDO> crudEntity;
 
     @Autowired
@@ -69,6 +88,9 @@ public class JmxService implements IJmxService {
 
     @Autowired
     private CsvService csvService;
+
+    @Autowired
+    private TestCaseRedisService testCaseRedisService;
 
     private void checkJmxParam(JmxVO jmxVO) {
         if (ObjectUtils.isEmpty(jmxVO)) {
@@ -206,17 +228,49 @@ public class JmxService implements IJmxService {
     }
 
     @Override
-    public Boolean runJmx(CommandLine commandLine, TestCaseVO testCaseVO, ReportVO reportVO, UserVO userVO) {
+    public Boolean runJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO, UserVO userVO) {
+        DefaultExecutor executor = new DefaultExecutor();
+
+        try {
+            /** 非阻塞运行脚本命令，不影响正常其它操作 */
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
+            PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorStream);
+
+            /** 错误输出 */
+            executor.setStreamHandler(streamHandler);
+
+            ResultDTO resultDTO = new ResultDTO();
+            resultDTO.setTestCaseDO(testCaseDO);
+            resultDTO.setReportDO(reportDO);
+            resultDTO.setTestCaseMapper(testCaseMapper);
+            resultDTO.setReportMapper(reportMapper);
+            resultDTO.setOutputStream(outputStream);
+            resultDTO.setErrorStream(errorStream);
+            resultDTO.setTestCaseRedisService(testCaseRedisService);
+            ExecuteResultHandler resultHandler = new ExecuteResultHandler(resultDTO);
+
+            log.info("执行JMX脚本: {}", commandLine);
+            executor.execute(commandLine, resultHandler);
+        } catch (IOException e) {
+            log.info("执行异常, 更新失败状态", e);
+            testCaseDO.setStatus(TestCaseStatus.RUN_FAILED.getCode());
+            testCaseMapper.update(testCaseDO);
+//            if (null != reportDO) {
+//                reportService.addReport(reportDO);
+//            }
+            throw new MysteriousException(ResponseCodeEnum.RUN_JMX_ERROR);
+        }
         return null;
     }
 
     @Override
-    public Boolean debugJmx(CommandLine commandLine, TestCaseVO testCaseVO, ReportVO reportVO, UserVO userVO) {
+    public Boolean debugJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO, UserVO userVO) {
         return null;
     }
 
     @Override
-    public Boolean stopJmx(CommandLine commandLine, TestCaseVO testCaseVO, UserVO userVO) {
+    public Boolean stopJmx(CommandLine commandLine, TestCaseDO testCaseDO, UserVO userVO) {
         return null;
     }
 

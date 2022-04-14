@@ -66,6 +66,8 @@ public enum ResponseCodeEnum {
     JMETER_SERVER_ENABLE_ERROR(1052, "找不到jmeter-server文件", false),
     JMETER_SERVER_IS_NOT_ENABLE(1052, "找不到jmeter-server文件", false),
     ONLY_SLAVE_CAN_DISABLE(1053, "只能禁用slave节点", false),
+    XML_ERROR(1054, "xml文件异常", false),
+    RUN_JMX_ERROR(1055, "脚本执行异常", false),
 
 
 
