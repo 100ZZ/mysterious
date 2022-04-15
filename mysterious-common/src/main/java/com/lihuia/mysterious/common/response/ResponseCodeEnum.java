@@ -68,6 +68,7 @@ public enum ResponseCodeEnum {
     ONLY_SLAVE_CAN_DISABLE(1053, "只能禁用slave节点", false),
     XML_ERROR(1054, "xml文件异常", false),
     RUN_JMX_ERROR(1055, "脚本执行异常", false),
+    SCRIPT_NOT_RUNNING(1056, "脚本并未执行,无法停止", false),
 
 
 

@@ -34,6 +34,7 @@ import com.lihuia.mysterious.service.service.node.INodeService;
 import com.lihuia.mysterious.service.service.report.IReportService;
 import com.lihuia.mysterious.service.service.testcase.ITestCaseService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.exec.CommandLine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -250,7 +251,7 @@ public class TestCaseService implements ITestCaseService {
 
     @Override
     public Boolean stopTestCase(Long id, UserVO userVO) {
-        return null;
+        return true;
     }
 
     @Override
