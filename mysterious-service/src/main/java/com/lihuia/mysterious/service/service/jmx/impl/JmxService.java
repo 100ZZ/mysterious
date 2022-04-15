@@ -261,7 +261,7 @@ public class JmxService implements IJmxService {
 //            }
             throw new MysteriousException(ResponseCodeEnum.RUN_JMX_ERROR);
         }
-        return null;
+        return true;
     }
 
     @Override
