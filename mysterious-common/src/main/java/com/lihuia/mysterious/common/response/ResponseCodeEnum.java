@@ -69,8 +69,8 @@ public enum ResponseCodeEnum {
     XML_ERROR(1054, "xml文件异常", false),
     RUN_JMX_ERROR(1055, "脚本执行异常", false),
     SCRIPT_NOT_RUNNING(1056, "脚本并未执行,无法停止", false),
-
-
+    DEBUG_BEFORE_RUN(1057, "用例执行之前请先保证调试成功", false),
+    TESTCASE_IS_RUNNING(1058, "测试用例正在执行中", false),
 
 
     SYSTEM_ERROR(9999,"系统异常",false),
