@@ -17,9 +17,7 @@ import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
-import com.lihuia.mysterious.core.vo.report.ReportVO;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseFullVO;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.crud.CRUDEntity;
 import com.lihuia.mysterious.service.enums.JMeterScriptEnum;
@@ -27,7 +25,7 @@ import com.lihuia.mysterious.service.enums.TestCaseStatus;
 import com.lihuia.mysterious.service.handler.dto.ResultDTO;
 import com.lihuia.mysterious.service.handler.result.ExecuteResultHandler;
 import com.lihuia.mysterious.service.handler.result.ResultHandler;
-import com.lihuia.mysterious.service.redis.TestCaseRedisService;
+import com.lihuia.mysterious.service.redis.RedisService;
 import com.lihuia.mysterious.service.service.config.IConfigService;
 import com.lihuia.mysterious.service.service.csv.impl.CsvService;
 import com.lihuia.mysterious.service.service.jar.impl.JarService;
@@ -90,7 +88,7 @@ public class JmxService implements IJmxService {
     private CsvService csvService;
 
     @Autowired
-    private TestCaseRedisService testCaseRedisService;
+    private RedisService redisService;
 
     private void checkJmxParam(JmxVO jmxVO) {
         if (ObjectUtils.isEmpty(jmxVO)) {
@@ -228,8 +226,11 @@ public class JmxService implements IJmxService {
     }
 
     @Override
-    public Boolean runJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO, UserVO userVO) {
+    public Boolean runJmx(CommandLine commandLine, Long testCaseId, Long reportId, UserVO userVO) {
         DefaultExecutor executor = new DefaultExecutor();
+
+        TestCaseDO testCaseDO = testCaseMapper.getById(testCaseId);
+        ReportDO reportDO = reportMapper.getById(reportId);
 
         try {
             /** 非阻塞运行脚本命令，不影响正常其它操作 */
@@ -247,7 +248,7 @@ public class JmxService implements IJmxService {
             resultDTO.setReportMapper(reportMapper);
             resultDTO.setOutputStream(outputStream);
             resultDTO.setErrorStream(errorStream);
-            resultDTO.setTestCaseRedisService(testCaseRedisService);
+            resultDTO.setRedisService(redisService);
             ResultHandler resultHandler = new ExecuteResultHandler(resultDTO);
 
             log.info("执行JMX脚本: {}", commandLine);
@@ -265,12 +266,12 @@ public class JmxService implements IJmxService {
     }
 
     @Override
-    public Boolean debugJmx(CommandLine commandLine, TestCaseDO testCaseDO, ReportDO reportDO, UserVO userVO) {
+    public Boolean debugJmx(CommandLine commandLine, Long testCaseId, Long reportId, UserVO userVO) {
         return null;
     }
 
     @Override
-    public Boolean stopJmx(CommandLine commandLine, TestCaseDO testCaseDO, UserVO userVO) {
+    public Boolean stopJmx(CommandLine commandLine, Long testCaseId, UserVO userVO) {
         return null;
     }
 

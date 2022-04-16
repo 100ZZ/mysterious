@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class TestCaseRedisService {
+public class RedisService {
 
     private final String CASE_REDIS_KEY = "mysterious:testcase_ids";
 

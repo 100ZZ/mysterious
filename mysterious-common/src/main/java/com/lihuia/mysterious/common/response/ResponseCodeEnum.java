@@ -71,6 +71,7 @@ public enum ResponseCodeEnum {
     SCRIPT_NOT_RUNNING(1056, "脚本并未执行,无法停止", false),
     DEBUG_BEFORE_RUN(1057, "用例执行之前请先保证调试成功", false),
     TESTCASE_IS_RUNNING(1058, "测试用例正在执行中", false),
+    TESTCASE_IS_NOT_RUNNING(1059, "用例此刻并不在执行, 无法停止", false),
 
 
     SYSTEM_ERROR(9999,"系统异常",false),
