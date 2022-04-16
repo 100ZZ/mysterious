@@ -25,7 +25,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -98,7 +98,7 @@ public class NodeService implements INodeService {
         List<NodeDO> nodeDOList =
                 nodeMapper.getEnableNodeList(NodeTypeEnum.SLAVE.getCode(), NodeStatusEnum.ENABLE.getCode());
         if (CollectionUtils.isEmpty(nodeDOList)) {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
         return nodeDOList.stream().map(nodeDO -> {
             NodeVO nodeVO = BeanConverter.doSingle(nodeDO, NodeVO.class);

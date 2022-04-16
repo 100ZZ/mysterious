@@ -248,7 +248,7 @@ public class JmxService implements IJmxService {
             resultDTO.setOutputStream(outputStream);
             resultDTO.setErrorStream(errorStream);
             resultDTO.setTestCaseRedisService(testCaseRedisService);
-            ExecuteResultHandler resultHandler = new ExecuteResultHandler(resultDTO);
+            ResultHandler resultHandler = new ExecuteResultHandler(resultDTO);
 
             log.info("执行JMX脚本: {}", commandLine);
             executor.execute(commandLine, resultHandler);
