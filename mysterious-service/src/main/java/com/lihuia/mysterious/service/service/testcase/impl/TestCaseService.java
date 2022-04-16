@@ -299,7 +299,7 @@ public class TestCaseService implements ITestCaseService {
             reportVO.setName(testCaseDO.getName());
             reportVO.setExecType(ExecTypeEnum.DEBUG.getType());
             reportVO.setDescription("【" + currentTime + "】" + testCaseDO.getDescription());
-            /** 2021-03-05，调试用例，路径设置为保存返回结果responseData 的 xml文件的目录 */
+            /** 调试用例，路径设置为保存返回结果responseData 的 xml文件的目录 */
             reportVO.setReportDir(jtlDir);
 
             /** 本地直接执行JMX压测脚本 */
