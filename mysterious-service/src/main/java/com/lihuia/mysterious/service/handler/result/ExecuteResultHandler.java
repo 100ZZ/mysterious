@@ -4,7 +4,7 @@ import com.lihuia.mysterious.core.entity.report.ReportDO;
 import com.lihuia.mysterious.core.mapper.report.ReportMapper;
 import com.lihuia.mysterious.service.enums.TestCaseStatus;
 import com.lihuia.mysterious.service.handler.dto.ResultDTO;
-import com.lihuia.mysterious.service.redis.TestCaseRedisService;
+import com.lihuia.mysterious.service.redis.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.exec.ExecuteException;
 
@@ -20,7 +20,7 @@ public class ExecuteResultHandler extends ResultHandler {
 
     private ReportMapper reportMapper;
 
-    private TestCaseRedisService testCaseRedisService;
+    private RedisService redisService;
 
     private Boolean isRunOver;
 
@@ -31,7 +31,7 @@ public class ExecuteResultHandler extends ResultHandler {
         this.testCaseMapper = resultDTO.getTestCaseMapper();
         this.reportMapper = resultDTO.getReportMapper();
         this.outputStream = resultDTO.getOutputStream();
-        this.testCaseRedisService = resultDTO.getTestCaseRedisService();
+        this.redisService = resultDTO.getRedisService();
     }
 
     /**
@@ -52,7 +52,7 @@ public class ExecuteResultHandler extends ResultHandler {
         super.onProcessComplete(exitValue);
         /** 命令执行结束，后面如果有上传日志失败等，都不影响用例执行状态 */
         isRunOver = true;
-        testCaseRedisService.startCaseFromRedis();
+        redisService.startCaseFromRedis();
 
         //保存状态，执行完毕
     }
@@ -74,6 +74,6 @@ public class ExecuteResultHandler extends ResultHandler {
             reportMapper.updateReportStatus(reportDO.getId(), TestCaseStatus.RUN_FAILED.getCode());
         }
         super.onProcessFailed(e);
-        testCaseRedisService.startCaseFromRedis();
+        redisService.startCaseFromRedis();
     }
 }

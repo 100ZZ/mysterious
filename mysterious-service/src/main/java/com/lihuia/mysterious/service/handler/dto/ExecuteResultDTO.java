@@ -1,6 +1,6 @@
 package com.lihuia.mysterious.service.handler.dto;
 
-import com.lihuia.mysterious.service.redis.TestCaseRedisService;
+import com.lihuia.mysterious.service.redis.RedisService;
 import lombok.Data;
 
 /**
@@ -11,5 +11,5 @@ import lombok.Data;
 @Data
 public class ExecuteResultDTO extends ResultDTO {
 
-    private TestCaseRedisService redisService;
+    private RedisService redisService;
 }

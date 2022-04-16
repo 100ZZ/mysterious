@@ -7,7 +7,7 @@ import com.lihuia.mysterious.core.entity.report.ReportDO;
 import com.lihuia.mysterious.core.mapper.report.ReportMapper;
 import com.lihuia.mysterious.service.enums.TestCaseStatus;
 import com.lihuia.mysterious.service.handler.dto.ResultDTO;
-import com.lihuia.mysterious.service.redis.TestCaseRedisService;
+import com.lihuia.mysterious.service.redis.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.exec.ExecuteException;
 import org.dom4j.Document;
@@ -32,7 +32,7 @@ public class DebugResultHandler extends ResultHandler {
 
     private ReportMapper reportMapper;
 
-    private TestCaseRedisService testCaseRedisService;
+    private RedisService redisService;
 
     private Boolean isDebugOver;
 
@@ -43,7 +43,7 @@ public class DebugResultHandler extends ResultHandler {
         this.testCaseMapper = resultDTO.getTestCaseMapper();
         this.reportMapper = resultDTO.getReportMapper();
         this.outputStream = resultDTO.getOutputStream();
-        this.testCaseRedisService = resultDTO.getTestCaseRedisService();
+        this.redisService = resultDTO.getRedisService();
     }
 
     /**
@@ -62,7 +62,7 @@ public class DebugResultHandler extends ResultHandler {
         //保存状态，执行完毕
         isDebugOver = true;
         checkJMeterLog(reportDO);
-        testCaseRedisService.startCaseFromRedis();
+        redisService.startCaseFromRedis();
     }
 
     /**
@@ -82,7 +82,7 @@ public class DebugResultHandler extends ResultHandler {
         }
         super.onProcessFailed(e);
         checkJMeterLog(reportDO);
-        testCaseRedisService.startCaseFromRedis();
+        redisService.startCaseFromRedis();
     }
 
     private void checkJMeterLog(ReportDO reportDO) {

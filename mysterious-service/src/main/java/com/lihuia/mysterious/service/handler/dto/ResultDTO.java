@@ -4,7 +4,7 @@ import com.lihuia.mysterious.core.entity.report.ReportDO;
 import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
 import com.lihuia.mysterious.core.mapper.report.ReportMapper;
 import com.lihuia.mysterious.core.mapper.testcase.TestCaseMapper;
-import com.lihuia.mysterious.service.redis.TestCaseRedisService;
+import com.lihuia.mysterious.service.redis.RedisService;
 import lombok.Data;
 
 import java.io.ByteArrayOutputStream;
@@ -29,5 +29,5 @@ public class ResultDTO {
 
     private ReportMapper reportMapper;
 
-    private TestCaseRedisService testCaseRedisService;
+    private RedisService redisService;
 }

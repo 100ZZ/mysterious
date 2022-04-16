@@ -12,8 +12,6 @@ import com.lihuia.mysterious.common.time.MysteriousTimeUtil;
 import com.lihuia.mysterious.core.entity.csv.CsvDO;
 import com.lihuia.mysterious.core.entity.jar.JarDO;
 import com.lihuia.mysterious.core.entity.jmx.JmxDO;
-import com.lihuia.mysterious.core.entity.node.NodeDO;
-import com.lihuia.mysterious.core.entity.report.ReportDO;
 import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
 import com.lihuia.mysterious.core.mapper.testcase.TestCaseMapper;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
@@ -30,7 +28,7 @@ import com.lihuia.mysterious.service.crud.CRUDEntity;
 import com.lihuia.mysterious.service.enums.ExecTypeEnum;
 import com.lihuia.mysterious.service.enums.NodeStatusEnum;
 import com.lihuia.mysterious.service.enums.TestCaseStatus;
-import com.lihuia.mysterious.service.redis.TestCaseRedisService;
+import com.lihuia.mysterious.service.redis.RedisService;
 import com.lihuia.mysterious.service.service.config.IConfigService;
 import com.lihuia.mysterious.service.service.csv.ICsvService;
 import com.lihuia.mysterious.service.service.jar.IJarService;
@@ -92,7 +90,7 @@ public class TestCaseService implements ITestCaseService {
     private PingUtil pingUtil;
 
     @Autowired
-    private TestCaseRedisService testCaseRedisService;
+    private RedisService redisService;
 
     @Autowired
     private CRUDEntity<TestCaseDO> crudEntity;
@@ -251,8 +249,95 @@ public class TestCaseService implements ITestCaseService {
         return null;
     }
 
+    @Transactional
     @Override
     public Boolean debugTestCase(Long id, UserVO userVO) {
+            /** 调试用例，直接在Master节点通过jmeter调用，而不再 */
+            TestCaseDO testCaseDO = testCaseMapper.getById(id);
+
+            /** 查找用例关联的脚本 */
+            JmxDO jmxDO = testCaseDO.getJmxDO();
+            if (null == jmxDO) {
+                throw new MysteriousException(ResponseCodeEnum.JMX_NOT_EXIST);
+            }
+
+            if (!ObjectUtils.isEmpty(userVO)) {
+                crudEntity.updateT(testCaseDO, userVO);
+                testCaseMapper.update(testCaseDO);
+            }
+
+            /** 调试执行的是调试脚本： debug_xxx.jmx */
+            String jmxFilePath = jmxDO.getJmxDir() + "debug_" + jmxDO.getDstName();
+            log.info("调试脚本: {}", jmxFilePath);
+
+            String currentTime = timeUtil.getCurrentTime();
+            /**  创建用例执行报告目录, 区分时间 */
+            String reportDir = testCaseDO.getTestCaseDir() + "report" + File.separator + currentTime + File.separator;
+            fileUtils.mkDir(reportDir);
+
+            /** jtl文件目录 */
+            String jtlDir = reportDir + "jtl" + File.separator;
+            fileUtils.mkDir(jtlDir);
+            /** jtl文件指定运行 */
+            String jtlFile = testCaseDO.getName() + ".xml";
+            String jtlFilePath = jtlDir + jtlFile;
+
+            /** 数据报告存放的目录 */
+            String reportFilePath = reportDir + "data" + File.separator;
+            fileUtils.mkDir(reportFilePath);
+
+            /** jmeter.log文件和目录 */
+            String jmeterLogDir = reportDir + "log" + File.separator;
+            fileUtils.mkDir(jmeterLogDir);
+            /** log文件 */
+            String jmeterLogFile = "jmeter_" + currentTime + ".log";
+            String jmeterLogFilePath = jmeterLogDir + jmeterLogFile;
+
+            ReportVO reportVO = new ReportVO();
+            reportVO.setTestCaseId(testCaseDO.getId());
+            reportVO.setJmeterLogFilePath(jmeterLogFilePath);
+            reportVO.setName(testCaseDO.getName());
+            reportVO.setExecType(ExecTypeEnum.DEBUG.getType());
+            reportVO.setDescription("【" + currentTime + "】" + testCaseDO.getDescription());
+            /** 2021-03-05，调试用例，路径设置为保存返回结果responseData 的 xml文件的目录 */
+            reportVO.setReportDir(jtlDir);
+
+            /** 本地直接执行JMX压测脚本 */
+            /** 本地单节点执行脚本 */
+
+            /** jmeter可执行程序目录 */
+            String masterJmeterHomeBin = configService.getValue(JMeterUtil.MASTER_JMETER_HOME_BIN);
+            String masterJmeterApplication = masterJmeterHomeBin + File.separator + "jmeter";
+
+            /** 可执行程序 */
+            CommandLine commandLine = new CommandLine(masterJmeterApplication);
+            commandLine.addArgument("-Jjmeter.save.saveservice.output_format=xml");
+            commandLine.addArgument("-Jjmeter.save.saveservice.response_data=true");
+            commandLine.addArgument("-n");
+            commandLine.addArgument("-t");
+            commandLine.addArgument(jmxFilePath);
+            commandLine.addArgument("-l");
+            commandLine.addArgument(jtlFilePath);
+            commandLine.addArgument("-j");
+            commandLine.addArgument(jmeterLogFilePath);
+//        commandLine.addArgument("-e");
+//        commandLine.addArgument("-o");
+//        commandLine.addArgument(reportFilePath);
+
+            /** 直接master节点调试 */
+
+            /** 运行中 */
+            testCaseDO.setStatus(TestCaseStatus.RUN_ING.getCode());
+            testCaseMapper.update(testCaseDO);
+
+            /** 调试，报告还是要入库，因为根据具体报告才能查看返回日志 */
+            log.info("新增测试报告: {}", JSON.toJSONString(reportVO, true));
+            Long reportId = reportService.addReport(reportVO, userVO);
+
+            log.info("[debugTestCase]commandLine: {}", commandLine.toString()
+                    .replace(",", "").replace("[", "").replace("]", ""));
+
+            jmxService.debugJmx(commandLine, id, reportId, userVO);
         return null;
     }
 
@@ -272,18 +357,17 @@ public class TestCaseService implements ITestCaseService {
             }
         }
 
-        TestCaseFullVO testCaseFullVO = getFull(id);
+        TestCaseDO testCaseDO = testCaseMapper.getById(id);
 
-        if (TestCaseStatus.RUN_ING.getCode().equals(testCaseFullVO.getStatus())) {
+        if (TestCaseStatus.RUN_ING.getCode().equals(testCaseDO.getStatus())) {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_IS_RUNNING);
         }
         /** 查找用例关联的脚本 */
-        JmxVO jmxVO = testCaseFullVO.getJmxVO();
+        JmxVO jmxVO = jmxService.getByTestCaseId(id);
         if (ObjectUtils.isEmpty(jmxVO)) {
             throw new MysteriousException(ResponseCodeEnum.JMX_NOT_EXIST);
         }
 
-        TestCaseDO testCaseDO = BeanConverter.doSingle(testCaseFullVO, TestCaseDO.class);
         crudEntity.updateT(testCaseDO, userVO);
         if (!ObjectUtils.isEmpty(userVO)) {
             testCaseMapper.update(testCaseDO);
@@ -296,58 +380,57 @@ public class TestCaseService implements ITestCaseService {
         if (!CollectionUtils.isEmpty(runningTestCaseList)) {
             log.info("已有其他用例正在压测,加入队列,用例id={}", id);
             /**  用例排队key */
-            if (testCaseRedisService.listContainsCaseId(id)) {
+            if (redisService.listContainsCaseId(id)) {
                 log.warn("队列中已存在该用例， testCaseId: {}", id);
                 return true;
             }
             /** 排队的用例，更新当前用例状态，等待执行 */
             testCaseDO.setStatus(TestCaseStatus.RUN_WAITING.getCode());
             testCaseMapper.update(testCaseDO);
-            testCaseRedisService.pushCaseIdToList(id);
+            redisService.pushCaseIdToList(id);
             return true;
         }
 
-        String jmxFilePath = jmxDO.getTestCaseJmxDir() + jmxDO.getDstName();
+        String jmxFilePath = jmxVO.getJmxDir() + jmxVO.getDstName();
 
-        String currentTime = MysteriousTimeUtil.getCurrentTime();
+        String currentTime = timeUtil.getCurrentTime();
         /**  创建用例执行报告目录, 区分时间 */
-        String reportDir = testCaseDO.getTestCaseDir() + "report/" + currentTime + "/";
+        String reportDir = testCaseDO.getTestCaseDir() + "report" + File.separator + currentTime + File.separator;
         fileUtils.mkDir(reportDir);
 
         /** jtl文件目录 */
-        String jtlDir = reportDir + "jtl/";
+        String jtlDir = reportDir + "jtl"+ File.separator ;
         fileUtils.mkDir(jtlDir);
         /** jtl文件指定运行 */
         String jtlFile = testCaseDO.getName() + ".jtl";
         String jtlFilePath = jtlDir + jtlFile;
 
         /** 数据报告存放的目录 */
-        String reportFilePath = reportDir + "data/";
+        String reportFilePath = reportDir + "data" + File.separator;
         fileUtils.mkDir(reportFilePath);
 
         /** jmeter.log文件和目录 */
-        String jmeterLogDir = reportDir + "log/";
+        String jmeterLogDir = reportDir + "log" + File.separator;
         fileUtils.mkDir(jmeterLogDir);
         /** log文件 */
         String jmeterLogFile = "jmeter_" + currentTime + ".log";
         String jmeterLogFilePath = jmeterLogDir + jmeterLogFile;
 
-        ReportDO reportDO = new ReportDO();
-        reportDO.setTestCaseId(testCaseDO.getId());
-        //reportDO.setJtlFile(jtlFilePath);
+        ReportVO reportVO = new ReportVO();
+        reportVO.setTestCaseId(testCaseDO.getId());
         /** jtl文件路径存了没啥用，改为保存jmeter.log的路径 */
-        reportDO.setJmeterLogFilePath(jmeterLogFilePath);
-        reportDO.setName(testCaseDO.getName());
-        reportDO.setExecType(ExecTypeEnum.EXEC.getType());
-        reportDO.setDescription("【" + currentTime + "】" + testCaseDO.getDescription());
-        reportDO.setReportDir(reportFilePath);
+        reportVO.setJmeterLogFilePath(jmeterLogFilePath);
+        reportVO.setName(testCaseDO.getName());
+        reportVO.setExecType(ExecTypeEnum.EXEC.getType());
+        reportVO.setDescription("【" + currentTime + "】" + testCaseDO.getDescription());
+        reportVO.setReportDir(reportFilePath);
 
         /** 本地直接执行JMX压测脚本 */
         /** 本地单节点执行脚本 */
 
         /** jmeter可执行程序目录 */
         String masterJmeterHomeBin = configService.getValue(JMeterUtil.MASTER_JMETER_HOME_BIN);
-        String masterJmeterApplication = masterJmeterHomeBin + "/jmeter";
+        String masterJmeterApplication = masterJmeterHomeBin + File.separator + "jmeter";
 
         /** 可执行程序 */
         CommandLine commandLine = new CommandLine(masterJmeterApplication);
@@ -358,7 +441,7 @@ public class TestCaseService implements ITestCaseService {
         //List<NodeDO> enableNodeList = nodeService.getEnableNodeList();
         if (!CollectionUtils.isEmpty(enableNodeList)) {
             commandLine.addArgument("-R");
-            String slaveNodes = enableNodeList.stream().map(nodeDO -> nodeDO.getHost()).collect(Collectors.joining(","));
+            String slaveNodes = enableNodeList.stream().map(NodeVO::getHost).collect(Collectors.joining(","));
             commandLine.addArgument(slaveNodes);
         }
         commandLine.addArgument("-l");
@@ -381,23 +464,43 @@ public class TestCaseService implements ITestCaseService {
 
         /** 运行中 */
         /** 因为执行用例会排队；而从startCaseFromRedis方法里执行用例，没法传入SSO，因此执行用例就不更新SSO相关信息了 */
-        //crudEntityTestCase.initUpdateT(testCaseDO);
         testCaseDO.setStatus(TestCaseStatus.RUN_ING.getCode());
         testCaseMapper.update(testCaseDO);
 
         /** 报告 */
-        reportService.addReport(reportDO, userVO);
-        log.info("新增测试报告: {}", JSON.toJSONString(reportDO, true));
+        Long reportId = reportService.addReport(reportVO, userVO);
+        log.info("新增测试报告: {}", JSON.toJSONString(reportVO, true));
 
         log.info("[runTestCase]commandLine: {}", commandLine.toString()
                 .replace(",", "").replace("[", "").replace("]", ""));
 
-        jmxService.runJmx(commandLine, testCaseDO, reportDO, userVO);
+        jmxService.runJmx(commandLine, id, reportId, userVO);
         return true;
     }
 
+    @Transactional
     @Override
     public Boolean stopTestCase(Long id, UserVO userVO) {
+        TestCaseDO testCaseDO = testCaseMapper.getById(id);
+
+        if (!TestCaseStatus.RUN_ING.getCode().equals(testCaseDO.getStatus())) {
+            throw new MysteriousException(ResponseCodeEnum.TESTCASE_IS_NOT_RUNNING);
+        }
+
+        JmxVO jmxVO = jmxService.getByTestCaseId(id);
+        if (ObjectUtils.isEmpty(jmxVO)) {
+            throw new MysteriousException(ResponseCodeEnum.JMX_NOT_EXIST);
+        }
+        /** jmeter可执行程序目录, shutdown.sh */
+        String masterJmeterHomeBin = configService.getValue(JMeterUtil.MASTER_JMETER_HOME_BIN);
+        String jmxStopScriptPath = masterJmeterHomeBin + File.separator + "shutdown.sh";
+
+        CommandLine commandLine = new CommandLine(jmxStopScriptPath);
+        /** 不管是master单节点压测，还是分布式压测，脚本的执行都是在master节点，因此只需要master节点执行shutdown.sh */
+        log.info("[stopTestCase]commandLine: {}", commandLine.toString()
+                .replace(",", "").replace("[", "").replace("]", ""));
+
+        jmxService.stopJmx(commandLine, id, userVO);
         return true;
     }
 
@@ -411,7 +514,7 @@ public class TestCaseService implements ITestCaseService {
 
     @Override
     public List<TestCaseDO> getByStatus(Integer status) {
-        return null;
+        return testCaseMapper.getTestCaseListByStatus(status);
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.lihuia.mysterious.service.handler.result;
 
 import com.lihuia.mysterious.service.enums.TestCaseStatus;
 import com.lihuia.mysterious.service.handler.dto.ResultDTO;
-import com.lihuia.mysterious.service.redis.TestCaseRedisService;
+import com.lihuia.mysterious.service.redis.RedisService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -13,13 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StopResultHandler extends ResultHandler {
 
-    private TestCaseRedisService testCaseRedisService;
+    private RedisService redisService;
 
     public StopResultHandler(ResultDTO resultDTO) {
         super(resultDTO);
         this.testCaseDO = resultDTO.getTestCaseDO();
         this.testCaseMapper = resultDTO.getTestCaseMapper();
-        this.testCaseRedisService = resultDTO.getTestCaseRedisService();
+        this.redisService = resultDTO.getRedisService();
     }
 
     @Override
@@ -30,6 +30,6 @@ public class StopResultHandler extends ResultHandler {
         }
 
         super.onProcessComplete(exitValue);
-        testCaseRedisService.startCaseFromRedis();
+        redisService.startCaseFromRedis();
     }
 }
