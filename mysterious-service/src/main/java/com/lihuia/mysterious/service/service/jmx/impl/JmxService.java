@@ -23,8 +23,10 @@ import com.lihuia.mysterious.service.crud.CRUDEntity;
 import com.lihuia.mysterious.service.enums.JMeterScriptEnum;
 import com.lihuia.mysterious.service.enums.TestCaseStatus;
 import com.lihuia.mysterious.service.handler.dto.ResultDTO;
+import com.lihuia.mysterious.service.handler.result.DebugResultHandler;
 import com.lihuia.mysterious.service.handler.result.ExecuteResultHandler;
 import com.lihuia.mysterious.service.handler.result.ResultHandler;
+import com.lihuia.mysterious.service.handler.result.StopResultHandler;
 import com.lihuia.mysterious.service.redis.RedisService;
 import com.lihuia.mysterious.service.service.config.IConfigService;
 import com.lihuia.mysterious.service.service.csv.impl.CsvService;
@@ -267,12 +269,66 @@ public class JmxService implements IJmxService {
 
     @Override
     public Boolean debugJmx(CommandLine commandLine, Long testCaseId, Long reportId, UserVO userVO) {
-        return null;
+        DefaultExecutor executor = new DefaultExecutor();
+
+        TestCaseDO testCaseDO = testCaseMapper.getById(testCaseId);
+        ReportDO reportDO = reportMapper.getById(reportId);
+
+        try {
+            /** 非阻塞运行脚本命令，不影响正常其它操作 */
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
+            PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorStream);
+
+            /** 错误输出 */
+            executor.setStreamHandler(streamHandler);
+
+            ResultDTO resultDTO = new ResultDTO();
+            resultDTO.setTestCaseDO(testCaseDO);
+            resultDTO.setReportDO(reportDO);
+            resultDTO.setTestCaseMapper(testCaseMapper);
+            resultDTO.setReportMapper(reportMapper);
+            resultDTO.setOutputStream(outputStream);
+            resultDTO.setErrorStream(errorStream);
+            resultDTO.setRedisService(redisService);
+            ResultHandler resultHandler = new DebugResultHandler(resultDTO);
+
+            log.info("调试JMX脚本: {}", commandLine);
+            executor.execute(commandLine, resultHandler);
+        } catch (Exception e) {
+            throw new MysteriousException(ResponseCodeEnum.SCRIPT_DEBUG_ERROR);
+        }
+        return true;
     }
 
     @Override
     public Boolean stopJmx(CommandLine commandLine, Long testCaseId, UserVO userVO) {
-        return null;
+        DefaultExecutor executor = new DefaultExecutor();
+
+        TestCaseDO testCaseDO = testCaseMapper.getById(testCaseId);
+
+        try {
+            /** 非阻塞运行脚本命令，不影响正常其它操作 */
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
+            PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorStream);
+
+            /** 错误输出 */
+            executor.setStreamHandler(streamHandler);
+
+            ResultDTO resultDTO = new ResultDTO();
+            resultDTO.setTestCaseDO(testCaseDO);
+            resultDTO.setTestCaseMapper(testCaseMapper);
+            resultDTO.setOutputStream(outputStream);
+            resultDTO.setErrorStream(errorStream);
+            ResultHandler resultHandler = new StopResultHandler(resultDTO);
+
+            log.info("停止JMX脚本: {}", commandLine);
+            executor.execute(commandLine, resultHandler);
+        } catch (Exception e) {
+            throw new MysteriousException(ResponseCodeEnum.SCRIPT_STOP_ERROR);
+        }
+        return true;
     }
 
     @Override
