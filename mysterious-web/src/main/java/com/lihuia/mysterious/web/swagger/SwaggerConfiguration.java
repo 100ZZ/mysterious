@@ -45,7 +45,7 @@ public class SwaggerConfiguration {
                 // 接口描述
                 .description("Rest接口")
                 // 联系方式
-                .contact(new Contact("lihuia.com", "lihuia.com", "seven@lihuia.com"))
+                .contact(new Contact("lihuia.com", "https://lihuia.com", "seven@lihuia.com"))
                 // 版本信息
                 .version("1.0")
                 // 构建
