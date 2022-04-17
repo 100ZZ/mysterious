@@ -61,7 +61,9 @@ public class ConfigService implements IConfigService {
         checkConfigExist(configParam);
         ConfigDO configDO = BeanConverter.doSingle(configParam, ConfigDO.class);
         crudEntity.addT(configDO, userVO);
+        log.info("configDO: {}", configDO);
         configMapper.add(configDO);
+        log.info("configDO: {}", configDO);
         return configDO.getId();
     }
 
