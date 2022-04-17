@@ -9,6 +9,7 @@ import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.common.ssh.SSHUtils;
 import com.lihuia.mysterious.core.entity.jar.JarDO;
 import com.lihuia.mysterious.core.mapper.jar.JarMapper;
+import com.lihuia.mysterious.core.vo.jar.JarParam;
 import com.lihuia.mysterious.core.vo.jar.JarQuery;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
@@ -86,7 +87,9 @@ public class JarService implements IJarService {
 
     @Transactional
     @Override
-    public Boolean uploadJar(Long testCaseId, MultipartFile jarFile, UserVO userVO) {
+    public Boolean uploadJar(JarParam jarParam, UserVO userVO) {
+        Long testCaseId = jarParam.getTestCaseId();
+        MultipartFile jarFile = jarParam.getJarFile();
         TestCaseFullVO testCaseFullVO = testCaseService.getFull(testCaseId);
         /** jar上传会修改jmx脚本里jar包classpath绝对路径，因此依赖jmx脚本存在 */
         if (ObjectUtils.isEmpty(testCaseFullVO.getJmxVO())) {

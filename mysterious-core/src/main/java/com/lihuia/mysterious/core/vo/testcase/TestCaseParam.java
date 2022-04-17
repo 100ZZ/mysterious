@@ -1,10 +1,8 @@
 package com.lihuia.mysterious.core.vo.testcase;
 
-import com.lihuia.mysterious.core.vo.base.BaseVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * @author lihuia.com
@@ -13,8 +11,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @ApiModel
-@EqualsAndHashCode(callSuper = true)
-public class TestCaseVO extends BaseVO<Long> {
+public class TestCaseParam {
 
     @ApiModelProperty(value = "用例名称")
     private String name;
@@ -30,10 +27,4 @@ public class TestCaseVO extends BaseVO<Long> {
 
     @ApiModelProperty(value = "版本号")
     private String version;
-
-    @ApiModelProperty(value = "执行状态; 0-未执行，1-执行中, 2-执行成功, 3-执行异常, 4-等待执行, 5-排队取消")
-    private Integer status;
-
-    @ApiModelProperty(value = "用例目录")
-    private String testCaseDir;
 }

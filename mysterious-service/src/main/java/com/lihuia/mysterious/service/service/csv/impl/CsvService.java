@@ -9,6 +9,7 @@ import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.common.ssh.SSHUtils;
 import com.lihuia.mysterious.core.entity.csv.CsvDO;
 import com.lihuia.mysterious.core.mapper.csv.CsvMapper;
+import com.lihuia.mysterious.core.vo.csv.CsvParam;
 import com.lihuia.mysterious.core.vo.csv.CsvQuery;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
@@ -75,7 +76,9 @@ public class CsvService implements ICsvService {
 
     @Transactional
     @Override
-    public Boolean uploadCsv(Long testCaseId, MultipartFile csvFile, UserVO userVO) {
+    public Boolean uploadCsv(CsvParam csvParam, UserVO userVO) {
+        Long testCaseId = csvParam.getTestCaseId();
+        MultipartFile csvFile = csvParam.getCsvFile();
         TestCaseFullVO testCaseFullVO = testCaseService.getFull(testCaseId);
         /** 上传csv的时候，需要修改jmx脚本里csv的文件路径，因此必须先上传jmx，再上传csv */
         if (ObjectUtils.isEmpty(testCaseFullVO.getJmxVO())) {

@@ -17,12 +17,12 @@
     </sql>
 
     <sql id="select-column-list">
-        id,
-        username,
-        password,
-        token,
-        effect_time,
-        expire_time
+        `id`,
+        `username`,
+        `password`,
+        `token`,
+        `effect_time`,
+        `expire_time`
     </sql>
 
     <sql id="set">

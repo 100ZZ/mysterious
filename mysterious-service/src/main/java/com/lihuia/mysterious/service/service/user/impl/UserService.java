@@ -6,6 +6,7 @@ import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.entity.user.UserDO;
 import com.lihuia.mysterious.core.mapper.user.UserMapper;
 import com.lihuia.mysterious.core.vo.page.PageVO;
+import com.lihuia.mysterious.core.vo.user.UserParam;
 import com.lihuia.mysterious.core.vo.user.UserQuery;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.service.user.IUserService;
@@ -35,18 +36,18 @@ public class UserService implements IUserService {
     /** token有效时间12小时 */
     private final static int EXPIRE_TIME = 12;
 
-    private void checkUserParam(UserVO userVO) {
-        if (ObjectUtils.isEmpty(userVO)) {
+    private void checkUserParam(UserParam userParam) {
+        if (ObjectUtils.isEmpty(userParam)) {
             throw new MysteriousException(ResponseCodeEnum.PARAMS_EMPTY);
         }
-        if (StringUtils.isEmpty(userVO.getUsername())
-                || StringUtils.isEmpty(userVO.getPassword())) {
+        if (StringUtils.isEmpty(userParam.getUsername())
+                || StringUtils.isEmpty(userParam.getPassword())) {
             throw new MysteriousException(ResponseCodeEnum.PARAM_MISSING);
         }
     }
 
-    private void checkUserExist(UserVO userVO) {
-        UserDO userDO = userMapper.getByUsername(userVO.getUsername());
+    private void checkUserExist(UserParam userParam) {
+        UserDO userDO = userMapper.getByUsername(userParam.getUsername());
         if (!ObjectUtils.isEmpty(userDO)) {
             throw new MysteriousException(ResponseCodeEnum.USER_EXIST);
         }
@@ -63,12 +64,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Long addUser(UserVO userVO) {
+    public Long addUser(UserParam userParam) {
         /** 参数校验 */
-        checkUserParam(userVO);
+        checkUserParam(userParam);
         /** 已存在 */
-        checkUserExist(userVO);
-        UserDO userDO = BeanConverter.doSingle(userVO, UserDO.class);
+        checkUserExist(userParam);
+        UserDO userDO = BeanConverter.doSingle(userParam, UserDO.class);
         /** 新增用户，会生成一个token，并且配置生效时间 */
         refreshToken(userDO);
         userMapper.add(userDO);
@@ -85,18 +86,15 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Boolean updateUser(UserVO userVO) {
-        if (ObjectUtils.isEmpty(userVO.getId())) {
-            throw new MysteriousException(ResponseCodeEnum.ID_IS_EMPTY);
-        }
-        UserDO userDO = userMapper.getById(userVO.getId());
+    public Boolean updateUser(Long id, UserParam userParam) {
+        UserDO userDO = userMapper.getById(id);
         if (ObjectUtils.isEmpty(userDO)) {
             return false;
         }
-        userDO = BeanConverter.doSingle(userVO, UserDO.class);
+        userDO = BeanConverter.doSingle(userParam, UserDO.class);
         /** 更新用户，会重新生成一个token，并且配置生效时间 */
         refreshToken(userDO);
-        userDO.setId(userVO.getId());
+        userDO.setId(id);
         return userMapper.update(userDO) > 0;
     }
 
@@ -110,16 +108,16 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public String login(UserVO userVO) {
+    public String login(UserParam userParam) {
         /** 参数校验 */
-        checkUserParam(userVO);
+        checkUserParam(userParam);
         /** 不存在 */
-        UserDO userDO = userMapper.getByUsername(userVO.getUsername());
+        UserDO userDO = userMapper.getByUsername(userParam.getUsername());
         if (ObjectUtils.isEmpty(userDO)) {
             throw new MysteriousException(ResponseCodeEnum.USER_NOT_EXIST);
         }
         /** 密码错误 */
-        if (!userDO.getPassword().equals(userVO.getPassword())) {
+        if (!userDO.getPassword().equals(userParam.getPassword())) {
             throw new MysteriousException(ResponseCodeEnum.USER_PASSWORD_ERROR);
         }
         /** 用户密码正确，允许登录，刷新token */
@@ -136,6 +134,7 @@ public class UserService implements IUserService {
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
             List<UserDO> userList = userMapper.getUserList(query.getUsername(), offset, query.getSize());
+            log.info("userList: {}", userList);
             pageVO.setList(userList.stream().map(this::convert).collect(Collectors.toList()));
         }
         return pageVO;
