@@ -112,7 +112,7 @@ public class ResultHandler extends DefaultExecuteResultHandler {
         try {
             log.info(errorStream.toString("UTF-8"));
         } catch (UnsupportedEncodingException ee) {
-            log.info("打印执行结果内容失败", e);
+            log.info("打印执行结果内容失败", ee);
         }
     }
 }
