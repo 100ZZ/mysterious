@@ -44,7 +44,7 @@ CREATE TABLE `node` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='分布式节点表';
 
-CREATE TABLE `test_case` (
+CREATE TABLE `testcase` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name` varchar(255) NOT NULL DEFAULT '' COMMENT '用例名称',
     `description` varchar(255) NOT NULL DEFAULT '' COMMENT '用例描述',
