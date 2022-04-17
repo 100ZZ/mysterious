@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.service.service.jar;
 
+import com.lihuia.mysterious.core.vo.jar.JarParam;
 import com.lihuia.mysterious.core.vo.jar.JarQuery;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
@@ -17,12 +18,11 @@ public interface IJarService {
 
     /**
      * 上传用例脚本依赖的JAR包
-     * @param testCaseId
-     * @param jarFile
+     * @param jarParam
      * @param userVO
      * @return
      */
-    Boolean uploadJar(Long testCaseId, MultipartFile jarFile, UserVO userVO);
+    Boolean uploadJar(JarParam jarParam, UserVO userVO);
 
     /**
      * 更新JAR包

@@ -1,8 +1,10 @@
 package com.lihuia.mysterious.core.vo.jmx;
 
+import com.lihuia.mysterious.core.vo.base.BaseVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author lihuia.com
@@ -11,10 +13,8 @@ import lombok.Data;
 
 @Data
 @ApiModel
-public class JmxVO {
-
-    @ApiModelProperty(value = "JMX脚本编号")
-    private Long id;
+@EqualsAndHashCode(callSuper = true)
+public class JmxVO extends BaseVO<Long> {
 
     @ApiModelProperty(value = "上传前JMX文件名称")
     private String srcName;

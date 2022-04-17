@@ -2,6 +2,7 @@ package com.lihuia.mysterious.web.controller.jar;
 
 import com.lihuia.mysterious.common.response.Response;
 import com.lihuia.mysterious.common.response.ResponseUtil;
+import com.lihuia.mysterious.core.vo.jar.JarParam;
 import com.lihuia.mysterious.core.vo.jar.JarQuery;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
@@ -30,15 +31,8 @@ public class JarController {
 
     @ApiOperation("上传")
     @PostMapping(value = "/upload")
-    public Response<Boolean> uploadJar(@RequestParam(value = "testCaseId") Long testCaseId,
-                                       @RequestParam(value = "jarFile") MultipartFile jarFile) {
-        return ResponseUtil.buildSuccessResponse(jarService.uploadJar(testCaseId, jarFile, UserUtils.getCurrent()));
-    }
-
-    @ApiOperation("更新")
-    @PostMapping(value = "/update")
-    public Response<Boolean> updateJar(@RequestBody JarVO jarVO) {
-        return ResponseUtil.buildSuccessResponse(jarService.updateJar(jarVO, UserUtils.getCurrent()));
+    public Response<Boolean> uploadJar(@RequestBody JarParam jarParam) {
+        return ResponseUtil.buildSuccessResponse(jarService.uploadJar(jarParam, UserUtils.getCurrent()));
     }
 
     @ApiOperation("分页查询")
@@ -54,8 +48,8 @@ public class JarController {
     }
 
     @ApiOperation("删除")
-    @GetMapping(value = "/delete")
-    public Response<Boolean> deleteJar(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/delete/{id}")
+    public Response<Boolean> deleteJar(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(jarService.deleteJar(id));
     }
 }

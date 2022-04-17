@@ -4,6 +4,7 @@ import com.lihuia.mysterious.common.exception.MysteriousException;
 import com.lihuia.mysterious.common.response.Response;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.common.response.ResponseUtil;
+import com.lihuia.mysterious.core.vo.jmx.JmxParam;
 import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
@@ -35,20 +36,13 @@ public class JmxController {
 
     @ApiOperation("上传")
     @PostMapping(value = "/upload")
-    public Response<Boolean> uploadJmx(@RequestParam(value = "testCaseId") Long testCaseId,
-                                       @RequestParam(value = "jmxFile") MultipartFile jmxFile) {
-        return ResponseUtil.buildSuccessResponse(jmxService.uploadJmx(testCaseId, jmxFile, UserUtils.getCurrent()));
-    }
-
-    @ApiOperation("更新")
-    @PostMapping(value = "/update")
-    public Response<Boolean> updateJmx(@RequestBody JmxVO jmxVO) {
-        return ResponseUtil.buildSuccessResponse(jmxService.updateJmx(jmxVO, UserUtils.getCurrent()));
+    public Response<Boolean> uploadJmx(@RequestBody JmxParam jmxParam) {
+        return ResponseUtil.buildSuccessResponse(jmxService.uploadJmx(jmxParam, UserUtils.getCurrent()));
     }
 
     @ApiOperation("删除")
-    @GetMapping(value = "/delete")
-    public Response<Boolean> deleteJxm(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/delete/{id}")
+    public Response<Boolean> deleteJxm(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(jmxService.deleteJmx(id));
     }
 
@@ -58,23 +52,8 @@ public class JmxController {
         return ResponseUtil.buildSuccessResponse(jmxService.getJmxList(jmxQuery));
     }
 
-    @PostMapping(value = "/addOnline")
-    public Response<Boolean> addOnlineJmx(@RequestBody JmxVO jmxVO) {
-        return ResponseUtil.buildSuccessResponse(jmxService.addOnlineJmx(jmxVO));
-    }
-
-    @GetMapping(value = "/getOnline")
-    public Response<JmxVO> getOnlineJmx(@RequestParam(value = "id") Long id) {
-        return ResponseUtil.buildSuccessResponse(jmxService.getOnlineJmx(id));
-    }
-
-    @PostMapping(value = "/updateOnline")
-    public Response<Boolean> updateOnlineJmx(@RequestBody JmxVO jmxVO) {
-        return ResponseUtil.buildSuccessResponse(jmxService.updateOnlineJmx(jmxVO));
-    }
-
-    @GetMapping(value = "/forceDelete")
-    public Response<Boolean> forceDeleteJmx(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/forceDelete/{id}")
+    public Response<Boolean> forceDeleteJmx(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(jmxService.forceDelete(id));
     }
 
