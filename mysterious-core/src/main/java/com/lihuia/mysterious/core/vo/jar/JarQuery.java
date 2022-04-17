@@ -16,12 +16,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class JarQuery extends BaseQuery {
 
-    @ApiModelProperty("上传前JAR文件名称")
+    @ApiModelProperty(value = "上传前JAR文件名称")
     private String srcName;
 
-    @ApiModelProperty("JAR文件关联的用例")
+    @ApiModelProperty(value = "JAR文件关联的用例")
     private Long testCaseId;
 
-    @ApiModelProperty("创建人ID ")
+    @ApiModelProperty(value = "创建人ID")
     private Long creatorId;
 }

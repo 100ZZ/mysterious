@@ -19,16 +19,16 @@ public class PageVO<T> implements Serializable {
 
     private static final long serialVersionUID = 3232302395121415460L;
 
-    @ApiModelProperty("页码")
+    @ApiModelProperty(value = "页码")
     private Integer page;
 
-    @ApiModelProperty("每页数量")
+    @ApiModelProperty(value = "每页数量")
     private Integer size;
 
-    @ApiModelProperty("总数")
+    @ApiModelProperty(value = "总数")
     private Integer total;
 
-    @ApiModelProperty("列表")
+    @ApiModelProperty(value = "列表")
     private List<T> list;
 
     public int getOffset(Integer page, Integer size) {

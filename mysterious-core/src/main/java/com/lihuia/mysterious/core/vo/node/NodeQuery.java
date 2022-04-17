@@ -16,9 +16,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class NodeQuery extends BaseQuery {
 
-    @ApiModelProperty("节点名称")
+    @ApiModelProperty(value = "节点名称")
     private String name;
 
-    @ApiModelProperty("节点地址")
+    @ApiModelProperty(value = "节点地址")
     private String host;
 }

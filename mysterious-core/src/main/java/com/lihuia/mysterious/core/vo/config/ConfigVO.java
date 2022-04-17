@@ -13,13 +13,13 @@ import lombok.Data;
 @ApiModel
 public class ConfigVO {
 
-    @ApiModelProperty("配置编号")
+    @ApiModelProperty(value = "配置编号")
     private Long id;
 
-    @ApiModelProperty("配置字段")
+    @ApiModelProperty(value = "配置字段", required = true)
     private String key;
 
-    @ApiModelProperty("字段值")
+    @ApiModelProperty(value = "字段值", required = true)
     private String value;
 
     @ApiModelProperty("字段描述")
