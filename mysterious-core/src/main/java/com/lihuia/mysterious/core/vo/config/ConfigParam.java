@@ -14,10 +14,10 @@ import lombok.Data;
 public class ConfigParam {
 
     @ApiModelProperty(value = "配置字段", required = true)
-    private String key;
+    private String configKey;
 
     @ApiModelProperty(value = "字段值", required = true)
-    private String value;
+    private String configValue;
 
     @ApiModelProperty("字段描述")
     private String description;
