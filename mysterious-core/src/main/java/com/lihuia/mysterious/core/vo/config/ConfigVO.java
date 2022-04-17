@@ -17,10 +17,10 @@ import lombok.EqualsAndHashCode;
 public class ConfigVO extends BaseVO<Long> {
 
     @ApiModelProperty(value = "配置字段")
-    private String key;
+    private String configKey;
 
     @ApiModelProperty(value = "字段值")
-    private String value;
+    private String configValue;
 
     @ApiModelProperty("字段描述")
     private String description;

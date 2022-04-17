@@ -12,11 +12,11 @@ import java.util.List;
 
 public interface ConfigMapper extends BaseMapper<ConfigDO> {
 
-    Integer getConfigCount(String key);
+    Integer getConfigCount(String configKey);
 
-    List<ConfigDO> getConfigList(String key, Integer offset, Integer limit);
+    List<ConfigDO> getConfigList(String configKey, Integer offset, Integer limit);
 
-    String getValue(String key);
+    String getValue(String configKey);
 
-    List<ConfigDO> getByKey(String key);
+    List<ConfigDO> getByKey(String configKey);
 }

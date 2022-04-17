@@ -41,15 +41,15 @@ public class ConfigService implements IConfigService {
         if (ObjectUtils.isEmpty(configParam)) {
             throw new MysteriousException(ResponseCodeEnum.PARAMS_EMPTY);
         }
-        if (StringUtils.isEmpty(configParam.getKey())
-                || StringUtils.isEmpty(configParam.getValue())
+        if (StringUtils.isEmpty(configParam.getConfigKey())
+                || StringUtils.isEmpty(configParam.getConfigValue())
                 || StringUtils.isEmpty(configParam.getDescription())) {
             throw new MysteriousException(ResponseCodeEnum.PARAM_MISSING);
         }
     }
 
     private void checkConfigExist(ConfigParam configParam) {
-        List<ConfigDO> configList = configMapper.getByKey(configParam.getKey());
+        List<ConfigDO> configList = configMapper.getByKey(configParam.getConfigKey());
         if (!CollectionUtils.isEmpty(configList)) {
             throw new MysteriousException(ResponseCodeEnum.CONFIG_EXIST);
         }
@@ -61,9 +61,7 @@ public class ConfigService implements IConfigService {
         checkConfigExist(configParam);
         ConfigDO configDO = BeanConverter.doSingle(configParam, ConfigDO.class);
         crudEntity.addT(configDO, userVO);
-        log.info("configDO: {}", configDO);
         configMapper.add(configDO);
-        log.info("configDO: {}", configDO);
         return configDO.getId();
     }
 
@@ -92,10 +90,10 @@ public class ConfigService implements IConfigService {
     public PageVO<ConfigVO> getConfigList(ConfigQuery query) {
         PageVO<ConfigVO> pageVO = new PageVO<>();
         Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
-        Integer total = configMapper.getConfigCount(query.getKey());
+        Integer total = configMapper.getConfigCount(query.getConfigKey());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
-            List<ConfigDO> configList = configMapper.getConfigList(query.getKey(), offset, query.getSize());
+            List<ConfigDO> configList = configMapper.getConfigList(query.getConfigKey(), offset, query.getSize());
             pageVO.setList(configList.stream().map(configDO -> {
                 ConfigVO configVO = BeanConverter.doSingle(configDO, ConfigVO.class);
                 configVO.setId(configDO.getId());
