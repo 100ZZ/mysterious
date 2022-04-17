@@ -11,8 +11,8 @@ COMMENT='用户信息表';
 
 CREATE TABLE `config` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `key` varchar(255) NOT NULL DEFAULT '' COMMENT '配置字段',
-    `value` varchar(255) NOT NULL DEFAULT '' COMMENT '配置值',
+    `config_key` varchar(255) NOT NULL DEFAULT '' COMMENT '配置字段',
+    `config_value` varchar(255) NOT NULL DEFAULT '' COMMENT '配置值',
     `description` varchar(255) NOT NULL DEFAULT '' COMMENT '配置描述',
     `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
     `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
