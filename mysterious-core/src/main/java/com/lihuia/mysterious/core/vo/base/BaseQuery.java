@@ -17,9 +17,9 @@ public class BaseQuery implements Serializable {
 
     private static final long serialVersionUID = -6571908061802253006L;
 
-    @ApiModelProperty("页码 第一页:1")
+    @ApiModelProperty(value = "页码 第一页:1", required = true)
     private Integer page;
 
-    @ApiModelProperty("每页数量")
+    @ApiModelProperty(value = "每页数量", required = true)
     private Integer size;
 }
