@@ -16,6 +16,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class ConfigQuery extends BaseQuery {
 
-    @ApiModelProperty(value = "配置字段", required = true)
+    @ApiModelProperty(value = "配置字段")
     private String key;
 }
