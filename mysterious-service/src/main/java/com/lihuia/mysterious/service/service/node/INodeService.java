@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.service.service.node;
 
+import com.lihuia.mysterious.core.vo.node.NodeParam;
 import com.lihuia.mysterious.core.vo.node.NodeQuery;
 import com.lihuia.mysterious.core.vo.node.NodeVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
@@ -16,18 +17,20 @@ public interface INodeService {
 
     /**
      * 新增节点
-     * @param nodeVO
-     * @return
-     */
-    Long addNode(NodeVO nodeVO, UserVO userVO);
-
-    /**
-     * 更新节点
-     * @param nodeVO
+     * @param nodeParam
      * @param userVO
      * @return
      */
-    Boolean updateNode(NodeVO nodeVO, UserVO userVO);
+    Long addNode(NodeParam nodeParam, UserVO userVO);
+
+    /**
+     * 更新节点
+     * @param id
+     * @param nodeParam
+     * @param userVO
+     * @return
+     */
+    Boolean updateNode(Long id, NodeParam nodeParam, UserVO userVO);
 
     /**
      * 查询已启用的所有slave节点列表

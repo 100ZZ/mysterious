@@ -3,6 +3,7 @@ package com.lihuia.mysterious.service.service.testcase;
 import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseFullVO;
+import com.lihuia.mysterious.core.vo.testcase.TestCaseParam;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseQuery;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
@@ -18,11 +19,11 @@ public interface ITestCaseService {
 
     /**
      * 新增压测用例
-     * @param testCaseVO
+     * @param testCaseParam
      * @param userVO
      * @return
      */
-    Long addTestCase(TestCaseVO testCaseVO, UserVO userVO);
+    Long addTestCase(TestCaseParam testCaseParam, UserVO userVO);
 
     /**
      * 清理压测用例
@@ -40,11 +41,12 @@ public interface ITestCaseService {
 
     /**
      * 更新压测用例
-     * @param testCaseVO
+     * @param id
+     * @param testCaseParam
      * @param userVO
      * @return
      */
-    Boolean updateTestCase(TestCaseVO testCaseVO, UserVO userVO);
+    Boolean updateTestCase(Long id, TestCaseParam testCaseParam, UserVO userVO);
 
     /**
      * 分页查询用例列表

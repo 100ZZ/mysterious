@@ -1,10 +1,8 @@
 package com.lihuia.mysterious.core.vo.config;
 
-import com.lihuia.mysterious.core.vo.base.BaseVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * @author lihuia.com
@@ -13,13 +11,12 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @ApiModel
-@EqualsAndHashCode(callSuper = true)
-public class ConfigVO extends BaseVO<Long> {
+public class ConfigParam {
 
-    @ApiModelProperty(value = "配置字段")
+    @ApiModelProperty(value = "配置字段", required = true)
     private String key;
 
-    @ApiModelProperty(value = "字段值")
+    @ApiModelProperty(value = "字段值", required = true)
     private String value;
 
     @ApiModelProperty("字段描述")

@@ -35,7 +35,7 @@
 
     <sql id="set">
         <if test="id != null">id=#{id},</if>
-        <if test="field != null">field=#{field},</if>
+        <if test="key != null">key=#{key},</if>
         <if test="value != null">value=#{value},</if>
         <if test="description != null">description=#{description},</if>
         <if test="creatorId != null">creator_id=#{creatorId},</if>
@@ -68,7 +68,7 @@
         INSERT
         <include refid="table_name"/>
         <set>
-            <include refid="set"></include>
+            <include refid="set"/>
         </set>
     </insert>
     <update id="update" parameterType="com.lihuia.mysterious.core.entity.config.ConfigDO">

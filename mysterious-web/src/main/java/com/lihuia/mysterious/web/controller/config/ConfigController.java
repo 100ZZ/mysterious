@@ -3,6 +3,7 @@ package com.lihuia.mysterious.web.controller.config;
 import com.lihuia.mysterious.common.response.Response;
 import com.lihuia.mysterious.common.response.ResponseUtil;
 import com.lihuia.mysterious.core.vo.config.ConfigQuery;
+import com.lihuia.mysterious.core.vo.config.ConfigParam;
 import com.lihuia.mysterious.core.vo.config.ConfigVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.service.service.config.IConfigService;
@@ -27,19 +28,20 @@ public class ConfigController {
 
     @ApiOperation("新增")
     @PostMapping(value = "/add")
-    public Response<Long> addConfig(@RequestBody ConfigVO configVO) {
-        return ResponseUtil.buildSuccessResponse(configService.addConfig(configVO, UserUtils.getCurrent()));
+    public Response<Long> addConfig(@RequestBody ConfigParam configParam) {
+        return ResponseUtil.buildSuccessResponse(configService.addConfig(configParam, UserUtils.getCurrent()));
     }
 
     @ApiOperation("修改")
-    @PostMapping(value = "/update")
-    public Response<Boolean> updateConfig(@RequestBody ConfigVO configVO) {
-        return ResponseUtil.buildSuccessResponse(configService.updateConfig(configVO, UserUtils.getCurrent()));
+    @PostMapping(value = "/update/{id}")
+    public Response<Boolean> updateConfig(@PathVariable Long id,
+                                          @RequestBody  ConfigParam configParam) {
+        return ResponseUtil.buildSuccessResponse(configService.updateConfig(id, configParam, UserUtils.getCurrent()));
     }
 
     @ApiOperation("删除")
-    @GetMapping(value = "/delete")
-    public Response<Boolean> deleteConfig(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/delete/{id}")
+    public Response<Boolean> deleteConfig(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(configService.deleteConfig(id));
     }
 

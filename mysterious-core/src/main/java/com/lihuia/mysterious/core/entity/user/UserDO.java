@@ -1,8 +1,6 @@
 package com.lihuia.mysterious.core.entity.user;
 
-import com.lihuia.mysterious.core.entity.base.BaseDO;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
@@ -12,8 +10,9 @@ import java.time.LocalDateTime;
  */
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class UserDO extends BaseDO<Long> {
+public class UserDO {
+
+    private Long id;
 
     /** 用户 */
     private String username;

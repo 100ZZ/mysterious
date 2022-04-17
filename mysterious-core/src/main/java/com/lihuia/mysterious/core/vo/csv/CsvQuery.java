@@ -22,6 +22,6 @@ public class CsvQuery extends BaseQuery {
     @ApiModelProperty(value = "CSV文件关联的用例")
     private Long testCaseId;
 
-    @ApiModelProperty(value = "创建人ID ")
+    @ApiModelProperty(value = "创建人ID")
     private Long creatorId;
 }

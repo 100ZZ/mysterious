@@ -8,6 +8,7 @@ import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.common.ssh.SSHUtils;
 import com.lihuia.mysterious.core.mapper.node.NodeMapper;
 import com.lihuia.mysterious.core.entity.node.NodeDO;
+import com.lihuia.mysterious.core.vo.node.NodeParam;
 import com.lihuia.mysterious.core.vo.node.NodeQuery;
 import com.lihuia.mysterious.core.vo.node.NodeVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
@@ -48,30 +49,30 @@ public class NodeService implements INodeService {
     @Autowired
     private CRUDEntity<NodeDO> crudEntity;
 
-    private void checkNodeParam(NodeVO nodeVO) {
-        if (ObjectUtils.isEmpty(nodeVO)) {
+    private void checkNodeParam(NodeParam nodeParam) {
+        if (ObjectUtils.isEmpty(nodeParam)) {
             throw new MysteriousException(ResponseCodeEnum.PARAMS_EMPTY);
         }
-        if (StringUtils.isEmpty(nodeVO.getHost())
-                || StringUtils.isEmpty(nodeVO.getUsername())
-                || ObjectUtils.isEmpty(nodeVO.getPort())
-                || ObjectUtils.isEmpty(nodeVO.getType()) ) {
+        if (StringUtils.isEmpty(nodeParam.getHost())
+                || StringUtils.isEmpty(nodeParam.getUsername())
+                || ObjectUtils.isEmpty(nodeParam.getPort())
+                || ObjectUtils.isEmpty(nodeParam.getType()) ) {
             throw new MysteriousException(ResponseCodeEnum.PARAM_MISSING);
         }
     }
 
-    private void checkNodeExist(NodeVO nodeVO) {
-        List<NodeDO> nodeList = nodeMapper.getByHost(nodeVO.getHost());
+    private void checkNodeExist(NodeParam nodeParam) {
+        List<NodeDO> nodeList = nodeMapper.getByHost(nodeParam.getHost());
         if (!CollectionUtils.isEmpty(nodeList)) {
             throw new MysteriousException(ResponseCodeEnum.NODE_EXIST);
         }
     }
 
     @Override
-    public Long addNode(NodeVO nodeVO, UserVO userVO) {
-        checkNodeParam(nodeVO);
-        checkNodeExist(nodeVO);
-        NodeDO nodeDO = BeanConverter.doSingle(nodeVO, NodeDO.class);
+    public Long addNode(NodeParam nodeParam, UserVO userVO) {
+        checkNodeParam(nodeParam);
+        checkNodeExist(nodeParam);
+        NodeDO nodeDO = BeanConverter.doSingle(nodeParam, NodeDO.class);
         nodeDO.setStatus(NodeStatusEnum.DISABLED.getCode());
         crudEntity.addT(nodeDO, userVO);
         nodeMapper.add(nodeDO);
@@ -79,16 +80,13 @@ public class NodeService implements INodeService {
     }
 
     @Override
-    public Boolean updateNode(NodeVO nodeVO, UserVO userVO) {
-        if (ObjectUtils.isEmpty(nodeVO.getId())) {
-            throw new MysteriousException(ResponseCodeEnum.ID_IS_EMPTY);
-        }
-        NodeDO nodeDO = nodeMapper.getById(nodeVO.getId());
+    public Boolean updateNode(Long id, NodeParam nodeParam, UserVO userVO) {
+        NodeDO nodeDO = nodeMapper.getById(id);
         if (ObjectUtils.isEmpty(nodeDO)) {
             return false;
         }
         log.info("nodeDO:{}", nodeDO);
-        nodeDO = BeanConverter.doSingle(nodeVO, NodeDO.class);
+        nodeDO = BeanConverter.doSingle(nodeParam, NodeDO.class);
         crudEntity.updateT(nodeDO, userVO);
         return nodeMapper.update(nodeDO) > 0;
     }

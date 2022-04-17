@@ -1,8 +1,10 @@
 package com.lihuia.mysterious.core.vo.report;
 
+import com.lihuia.mysterious.core.vo.base.BaseVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author lihuia.com
@@ -11,10 +13,8 @@ import lombok.Data;
 
 @Data
 @ApiModel
-public class ReportVO {
-
-    @ApiModelProperty(value = "报告编号")
-    private Long id;
+@EqualsAndHashCode(callSuper = true)
+public class ReportVO extends BaseVO<Long> {
 
     @ApiModelProperty(value = "报告名称")
     private String name;

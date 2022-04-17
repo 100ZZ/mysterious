@@ -1,5 +1,7 @@
 package com.lihuia.mysterious.core.vo.base;
 
+import java.time.LocalDateTime;
+
 /**
  * @author lihuia.com
  * @date 2022/3/29 10:08 PM
@@ -12,8 +14,8 @@ public class BaseVO<P> {
     private String creator;
     private Long modifierId;
     private String modifier;
-    private Long createTime;
-    private Long modifyTime;
+    private LocalDateTime createTime;
+    private LocalDateTime modifyTime;
 
     public P getId() {
         return id;
@@ -55,19 +57,19 @@ public class BaseVO<P> {
         this.modifierId = modifierId;
     }
 
-    public void setCreateTime(Long createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public Long getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setModifyTime(Long modifyTime) {
+    public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
     }
 
-    public Long getModifyTime() {
+    public LocalDateTime getModifyTime() {
         return modifyTime;
     }
 }

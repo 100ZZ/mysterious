@@ -2,6 +2,7 @@ package com.lihuia.mysterious.web.controller.node;
 
 import com.lihuia.mysterious.common.response.Response;
 import com.lihuia.mysterious.common.response.ResponseUtil;
+import com.lihuia.mysterious.core.vo.node.NodeParam;
 import com.lihuia.mysterious.core.vo.node.NodeQuery;
 import com.lihuia.mysterious.core.vo.node.NodeVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
@@ -27,25 +28,26 @@ public class NodeController {
 
     @ApiOperation("新增")
     @PostMapping(value = "/add")
-    public Response<Long> addNode(@RequestBody NodeVO nodeVO) {
-        return ResponseUtil.buildSuccessResponse(nodeService.addNode(nodeVO, UserUtils.getCurrent()));
+    public Response<Long> addNode(@RequestBody NodeParam nodeParam) {
+        return ResponseUtil.buildSuccessResponse(nodeService.addNode(nodeParam, UserUtils.getCurrent()));
     }
 
     @ApiOperation("修改")
-    @PostMapping(value = "/update")
-    public Response<Boolean> updateNode(@RequestBody NodeVO nodeVO) {
-        return ResponseUtil.buildSuccessResponse(nodeService.updateNode(nodeVO, UserUtils.getCurrent()));
+    @PostMapping(value = "/update/{id}")
+    public Response<Boolean> updateNode(@PathVariable Long id,
+                                        @RequestBody NodeParam nodeParam) {
+        return ResponseUtil.buildSuccessResponse(nodeService.updateNode(id, nodeParam, UserUtils.getCurrent()));
     }
 
     @ApiOperation("详情")
-    @GetMapping(value = "/getById")
-    public Response<NodeVO> getById(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/getById/{id}")
+    public Response<NodeVO> getById(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(nodeService.getById(id));
     }
 
     @ApiOperation("删除")
-    @GetMapping(value = "/delete")
-    public Response<Boolean> deleteNode(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/delete/{id}")
+    public Response<Boolean> deleteNode(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(nodeService.deleteNode(id));
     }
 
@@ -56,14 +58,14 @@ public class NodeController {
     }
 
     @ApiOperation("启用")
-    @GetMapping(value = "/enable")
-    public Response<Boolean> enableNode(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/enable/{id}")
+    public Response<Boolean> enableNode(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(nodeService.enableNode(id, UserUtils.getCurrent()));
     }
 
     @ApiOperation("禁用")
-    @GetMapping(value = "/disable")
-    public Response<Boolean> disableNode(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/disable/{id}")
+    public Response<Boolean> disableNode(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(nodeService.disableNode(id, UserUtils.getCurrent()));
     }
 }

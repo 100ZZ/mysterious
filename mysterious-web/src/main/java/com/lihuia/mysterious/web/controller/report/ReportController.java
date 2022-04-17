@@ -18,10 +18,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -78,8 +75,8 @@ public class ReportController {
     }
 
     @ApiOperation("预览日志")
-    @GetMapping(value = "/getJMeterLog")
-    public Response<Boolean> getLog(@RequestParam(value = "id") Long id,
+    @GetMapping(value = "/getJMeterLog/{id}")
+    public Response<Boolean> getLog(@PathVariable Long id,
                                     HttpServletResponse response) {
         ReportVO reportVO = reportService.getById(id);
         /** 如果是单节点压测，所有日志全都达到jmeter.log里，太大了 */
@@ -113,14 +110,14 @@ public class ReportController {
     }
 
     @ApiOperation("报告清理")
-    @GetMapping(value = "/clean")
-    public Response<Boolean> cleanReport(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/clean/{id}")
+    public Response<Boolean> cleanReport(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(reportService.cleanReport(id));
     }
 
     @ApiOperation("报告预览")
-    @GetMapping(value = "/view")
-    public Response<String> viewReport(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/view/{id}")
+    public Response<String> viewReport(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(reportService.viewReport(id));
     }
 }

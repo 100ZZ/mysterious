@@ -21,6 +21,7 @@ import com.lihuia.mysterious.core.vo.node.NodeVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.report.ReportVO;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseFullVO;
+import com.lihuia.mysterious.core.vo.testcase.TestCaseParam;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseQuery;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
@@ -95,32 +96,29 @@ public class TestCaseService implements ITestCaseService {
     @Autowired
     private CRUDEntity<TestCaseDO> crudEntity;
 
-    private void checkTestCaseParam(TestCaseVO testCaseVO) {
-        if (ObjectUtils.isEmpty(testCaseVO)) {
+    private void checkTestCaseParam(TestCaseParam testCaseParam) {
+        if (ObjectUtils.isEmpty(testCaseParam)) {
             throw new MysteriousException(ResponseCodeEnum.PARAMS_EMPTY);
-        }
-        if (ObjectUtils.isEmpty(testCaseVO.getId())) {
-            throw new MysteriousException(ResponseCodeEnum.PARAM_MISSING);
         }
     }
 
     @Transactional
     @Override
-    public Long addTestCase(TestCaseVO testCaseVO, UserVO userVO) {
-        if (StringUtils.isEmpty(testCaseVO.getName())
-                || testCaseVO.getName().contains(" ")
-                || testCaseVO.getName().contains("#")) {
+    public Long addTestCase(TestCaseParam testCaseParam, UserVO userVO) {
+        if (StringUtils.isEmpty(testCaseParam.getName())
+                || testCaseParam.getName().contains(" ")
+                || testCaseParam.getName().contains("#")) {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_NAME_ERROR);
         }
-        if (testCaseMapper.getTestCaseByName(testCaseVO.getName()) != null) {
+        if (testCaseMapper.getTestCaseByName(testCaseParam.getName()) != null) {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_IS_EXIST);
         }
         /** master节点用例，jmx，jar，csv，报告目录 */
         String mysteriousHomePath = configService.getValue(JMeterUtil.MYSTERIOUS_DATA_HOME);
         String masterTestCasePath = mysteriousHomePath + File.separator
-                + testCaseVO.getName() + "_" + timeUtil.getCurrentTime() + File.separator;
+                + testCaseParam.getName() + "_" + timeUtil.getCurrentTime() + File.separator;
         /** 用例名目录，带当前时间，免得用户修改了用例名，可以根据createTime很容易定位到目录 */
-        TestCaseDO testCaseDO = BeanConverter.doSingle(testCaseVO, TestCaseDO.class);
+        TestCaseDO testCaseDO = BeanConverter.doSingle(testCaseParam, TestCaseDO.class);
         /** 目录保存 */
         testCaseDO.setTestCaseDir(masterTestCasePath);
         /** 新建用例，未执行状态 */
@@ -152,52 +150,52 @@ public class TestCaseService implements ITestCaseService {
 
     @Transactional
     @Override
-    public Boolean updateTestCase(TestCaseVO testCaseVO, UserVO userVO) {
-        checkTestCaseParam(testCaseVO);
+    public Boolean updateTestCase(Long id, TestCaseParam testCaseParam, UserVO userVO) {
+        checkTestCaseParam(testCaseParam);
 
-        TestCaseDO dbTestCaseDO = testCaseMapper.getById(testCaseVO.getId());
+        TestCaseDO dbTestCaseDO = testCaseMapper.getById(id);
         if (ObjectUtils.isEmpty(dbTestCaseDO)) {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_NOT_EXIST);
         }
-        if (StringUtils.isEmpty(testCaseVO.getName())
-                || testCaseVO.getName().contains(" ")
-                || testCaseVO.getName().contains("#")) {
+        if (StringUtils.isEmpty(testCaseParam.getName())
+                || testCaseParam.getName().contains(" ")
+                || testCaseParam.getName().contains("#")) {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_NAME_ERROR);
         }
         /** 如果用例名有变, 同步更新jmx，jar，csv描述 */
-        if (!dbTestCaseDO.getName().equals(testCaseVO.getName())) {
+        if (!dbTestCaseDO.getName().equals(testCaseParam.getName())) {
             log.info("同步修改");
             JmxDO jmxDO = dbTestCaseDO.getJmxDO();
             if (jmxDO != null) {
-                log.info("更新用例同步更新JMX脚本描述: {}", testCaseVO.getName());
+                log.info("更新用例同步更新JMX脚本描述: {}", testCaseParam.getName());
                 JmxVO jmxVO = BeanConverter.doSingle(jmxDO, JmxVO.class);
                 jmxVO.setId(jmxDO.getId());
-                jmxVO.setDescription(testCaseVO.getName());
+                jmxVO.setDescription(testCaseParam.getName());
                 jmxService.updateJmx(jmxVO, userVO);
             }
             List<JarDO> jarDOList = dbTestCaseDO.getJarList();
             if (!CollectionUtils.isEmpty(jarDOList)) {
                 jarDOList.forEach(jarDO -> {
-                    log.info("更新用例同步更新JAR依赖包描述: {}", testCaseVO.getName());
+                    log.info("更新用例同步更新JAR依赖包描述: {}", testCaseParam.getName());
                     JarVO jarVO = BeanConverter.doSingle(jarDO, JarVO.class);
                     jarVO.setId(jarDO.getId());
-                    jarVO.setDescription(testCaseVO.getName());
+                    jarVO.setDescription(testCaseParam.getName());
                     jarService.updateJar(jarVO, userVO);
                 });
             }
             List<CsvDO> csvDOList = dbTestCaseDO.getCsvList();
             if (!CollectionUtils.isEmpty(csvDOList)) {
                 csvDOList.forEach(csvDO ->  {
-                    log.info("更新用例同步更新CSV文件描述: {}", testCaseVO.getName());
+                    log.info("更新用例同步更新CSV文件描述: {}", testCaseParam.getName());
                     CsvVO csvVO = BeanConverter.doSingle(csvDO, CsvVO.class);
                     csvVO.setId(csvDO.getId());
-                    csvVO.setDescription(testCaseVO.getName());
+                    csvVO.setDescription(testCaseParam.getName());
                     csvService.updateCsv(csvVO, userVO);
                 });
             }
         }
 
-        TestCaseDO testCaseDO = BeanConverter.doSingle(testCaseVO, TestCaseDO.class);
+        TestCaseDO testCaseDO = BeanConverter.doSingle(testCaseParam, TestCaseDO.class);
         crudEntity.updateT(testCaseDO, userVO);
         log.info("更新用例: {}", JSON.toJSONString(testCaseDO));
         return testCaseMapper.update(testCaseDO) > 0;

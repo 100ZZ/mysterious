@@ -1,6 +1,7 @@
 package com.lihuia.mysterious.service.service.config;
 
 import com.lihuia.mysterious.core.vo.config.ConfigQuery;
+import com.lihuia.mysterious.core.vo.config.ConfigParam;
 import com.lihuia.mysterious.core.vo.config.ConfigVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
@@ -13,15 +14,20 @@ public interface IConfigService {
 
     /**
      * 新增配置项
-     * @param configVO
+     * @param configParam
+     * @param userVO
+     * @return
      */
-    Long addConfig(ConfigVO configVO, UserVO userVO);
+    Long addConfig(ConfigParam configParam, UserVO userVO);
 
     /**
      * 更新配置项
-     * @param configVO
+     * @param id
+     * @param ConfigParam
+     * @param userVO
+     * @return
      */
-    Boolean updateConfig(ConfigVO configVO, UserVO userVO);
+    Boolean updateConfig(Long id, ConfigParam ConfigParam, UserVO userVO);
 
     /**
      * 删除配置项，只有创建人能删除

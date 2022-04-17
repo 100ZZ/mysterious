@@ -4,6 +4,7 @@ import com.lihuia.mysterious.common.exception.MysteriousException;
 import com.lihuia.mysterious.common.response.Response;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.common.response.ResponseUtil;
+import com.lihuia.mysterious.core.vo.csv.CsvParam;
 import com.lihuia.mysterious.core.vo.csv.CsvQuery;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
@@ -36,16 +37,8 @@ public class CsvController {
 
     @ApiOperation("上传")
     @PostMapping(value = "/upload")
-    public Response<Boolean> uploadCsv(@RequestParam(value = "testCaseId") Long testCaseId,
-                                       @RequestParam(value = "csvFile") MultipartFile csvFile) {
-        csvService.uploadCsv(testCaseId, csvFile, UserUtils.getCurrent());
-        return ResponseUtil.buildSuccessResponse(csvService.uploadCsv(testCaseId, csvFile, UserUtils.getCurrent()));
-    }
-
-    @ApiOperation("更新")
-    @PostMapping(value = "/update")
-    public Response<Boolean> updateCsv(@RequestBody CsvVO csvVO) {
-        return ResponseUtil.buildSuccessResponse(csvService.updateCsv(csvVO, UserUtils.getCurrent()));
+    public Response<Boolean> uploadCsv(@RequestBody CsvParam csvParam) {
+        return ResponseUtil.buildSuccessResponse(csvService.uploadCsv(csvParam, UserUtils.getCurrent()));
     }
 
     @ApiOperation("分页列表")
@@ -55,8 +48,8 @@ public class CsvController {
     }
 
     @ApiOperation("删除")
-    @GetMapping(value = "/delete")
-    public Response<Boolean> deleteTestCase(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/delete/{id}")
+    public Response<Boolean> deleteTestCase(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(csvService.deleteCsv(id));
     }
 

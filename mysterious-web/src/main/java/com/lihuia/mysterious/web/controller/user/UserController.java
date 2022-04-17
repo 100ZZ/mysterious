@@ -3,6 +3,7 @@ package com.lihuia.mysterious.web.controller.user;
 import com.lihuia.mysterious.common.response.Response;
 import com.lihuia.mysterious.common.response.ResponseUtil;
 import com.lihuia.mysterious.core.vo.page.PageVO;
+import com.lihuia.mysterious.core.vo.user.UserParam;
 import com.lihuia.mysterious.core.vo.user.UserQuery;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.service.user.IUserService;
@@ -26,32 +27,33 @@ public class UserController {
 
     @ApiOperation("新增")
     @PostMapping(value = "/add")
-    public Response<Long> addUser(@RequestBody UserVO userVO) {
-        return ResponseUtil.buildSuccessResponse(userService.addUser(userVO));
+    public Response<Long> addUser(@RequestBody UserParam userParam) {
+        return ResponseUtil.buildSuccessResponse(userService.addUser(userParam));
     }
 
     @ApiOperation("删除")
-    @GetMapping(value = "/delete")
-    public Response<Boolean> deleteUser(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/delete/{id}")
+    public Response<Boolean> deleteUser(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(userService.deleteUser(id));
     }
 
     @ApiOperation("修改")
-    @PostMapping(value = "/update")
-    public Response<Boolean> updateUser(@RequestBody UserVO userVO) {
-        return ResponseUtil.buildSuccessResponse(userService.updateUser(userVO));
+    @PostMapping(value = "/update/{id}")
+    public Response<Boolean> updateUser(@PathVariable Long id,
+                                        @RequestBody UserParam userParam) {
+        return ResponseUtil.buildSuccessResponse(userService.updateUser(id, userParam));
     }
 
     @ApiOperation("详情")
-    @GetMapping(value = "/getById")
-    public Response<UserVO> getById(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/getById/{id}")
+    public Response<UserVO> getById(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(userService.getById(id));
     }
 
     @ApiOperation("登录")
     @PostMapping(value = "/login")
-    public Response<String> login(@RequestBody UserVO userVO) {
-        return ResponseUtil.buildSuccessResponse(userService.login(userVO));
+    public Response<String> login(@RequestBody UserParam userParam) {
+        return ResponseUtil.buildSuccessResponse(userService.login(userParam));
     }
 
     @ApiOperation("分页查询")

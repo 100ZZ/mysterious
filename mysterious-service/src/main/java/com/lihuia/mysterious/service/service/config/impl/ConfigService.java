@@ -6,6 +6,7 @@ import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.entity.config.ConfigDO;
 import com.lihuia.mysterious.core.mapper.config.ConfigMapper;
 import com.lihuia.mysterious.core.vo.config.ConfigQuery;
+import com.lihuia.mysterious.core.vo.config.ConfigParam;
 import com.lihuia.mysterious.core.vo.config.ConfigVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
@@ -36,44 +37,42 @@ public class ConfigService implements IConfigService {
     @Autowired
     private CRUDEntity<ConfigDO> crudEntity;
 
-    private void checkConfigParam(ConfigVO configVO) {
-        if (ObjectUtils.isEmpty(configVO)) {
+    private void checkConfigParam(ConfigParam configParam) {
+        if (ObjectUtils.isEmpty(configParam)) {
             throw new MysteriousException(ResponseCodeEnum.PARAMS_EMPTY);
         }
-        if (StringUtils.isEmpty(configVO.getKey())
-                || StringUtils.isEmpty(configVO.getValue())
-                || StringUtils.isEmpty(configVO.getDescription())) {
+        if (StringUtils.isEmpty(configParam.getKey())
+                || StringUtils.isEmpty(configParam.getValue())
+                || StringUtils.isEmpty(configParam.getDescription())) {
             throw new MysteriousException(ResponseCodeEnum.PARAM_MISSING);
         }
     }
 
-    private void checkConfigExist(ConfigVO configVO) {
-        List<ConfigDO> configList = configMapper.getByKey(configVO.getKey());
+    private void checkConfigExist(ConfigParam configParam) {
+        List<ConfigDO> configList = configMapper.getByKey(configParam.getKey());
         if (!CollectionUtils.isEmpty(configList)) {
             throw new MysteriousException(ResponseCodeEnum.CONFIG_EXIST);
         }
     }
 
     @Override
-    public Long addConfig(ConfigVO configVO, UserVO userVO) {
-        checkConfigParam(configVO);
-        checkConfigExist(configVO);
-        ConfigDO configDO = BeanConverter.doSingle(configVO, ConfigDO.class);
+    public Long addConfig(ConfigParam configParam, UserVO userVO) {
+        checkConfigParam(configParam);
+        checkConfigExist(configParam);
+        ConfigDO configDO = BeanConverter.doSingle(configParam, ConfigDO.class);
         crudEntity.addT(configDO, userVO);
         configMapper.add(configDO);
         return configDO.getId();
     }
 
     @Override
-    public Boolean updateConfig(ConfigVO configVO, UserVO userVO) {
-        if (ObjectUtils.isEmpty(configVO.getId())) {
-            throw new MysteriousException(ResponseCodeEnum.ID_IS_EMPTY);
-        }
-        ConfigDO configDO = configMapper.getById(configVO.getId());
+    public Boolean updateConfig(Long id, ConfigParam configParam, UserVO userVO) {
+        ConfigDO configDO = configMapper.getById(id);
         if (ObjectUtils.isEmpty(configDO)) {
             return false;
         }
-        configDO = BeanConverter.doSingle(configVO, ConfigDO.class);
+        configDO = BeanConverter.doSingle(configParam, ConfigDO.class);
+        configDO.setId(id);
         crudEntity.updateT(configDO, userVO);
         return configMapper.update(configDO) > 0;
     }

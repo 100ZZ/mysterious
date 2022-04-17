@@ -1,11 +1,13 @@
 package com.lihuia.mysterious.core.vo.testcase;
 
+import com.lihuia.mysterious.core.vo.base.BaseVO;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
@@ -16,10 +18,8 @@ import java.util.List;
 
 @Data
 @ApiModel
-public class TestCaseFullVO {
-
-    @ApiModelProperty(value = "用例编号")
-    private Long id;
+@EqualsAndHashCode(callSuper = true)
+public class TestCaseFullVO extends BaseVO<Long> {
 
     @ApiModelProperty(value = "用例名称")
     private String name;

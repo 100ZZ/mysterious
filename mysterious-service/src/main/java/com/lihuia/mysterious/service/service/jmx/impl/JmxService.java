@@ -14,6 +14,7 @@ import com.lihuia.mysterious.core.mapper.report.ReportMapper;
 import com.lihuia.mysterious.core.mapper.testcase.TestCaseMapper;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
+import com.lihuia.mysterious.core.vo.jmx.JmxParam;
 import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
@@ -106,7 +107,9 @@ public class JmxService implements IJmxService {
 
     @Transactional
     @Override
-    public Boolean uploadJmx(Long testCaseId, MultipartFile jmxFile, UserVO userVO) {
+    public Boolean uploadJmx(JmxParam jmxParam, UserVO userVO) {
+        Long testCaseId = jmxParam.getTestCaseId();
+        MultipartFile jmxFile = jmxParam.getJmxFile();
         TestCaseFullVO testCaseFullVO = testCaseService.getFull(testCaseId);
         if (!ObjectUtils.isEmpty(testCaseFullVO.getJmxVO())) {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_HAS_JMX);

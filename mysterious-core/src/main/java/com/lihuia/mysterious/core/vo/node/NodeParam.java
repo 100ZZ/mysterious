@@ -1,10 +1,8 @@
 package com.lihuia.mysterious.core.vo.node;
 
-import com.lihuia.mysterious.core.vo.base.BaseVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * @author lihuia.com
@@ -13,8 +11,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @ApiModel
-@EqualsAndHashCode(callSuper = true)
-public class NodeVO extends BaseVO<Long> {
+public class NodeParam {
 
     @ApiModelProperty(value = "节点名称")
     private String name;
@@ -36,7 +33,4 @@ public class NodeVO extends BaseVO<Long> {
 
     @ApiModelProperty(value = "ssh端口")
     private Integer port;
-
-    @ApiModelProperty(value = "节点状态 0-禁用中，1-启用中")
-    private Integer status;
 }
