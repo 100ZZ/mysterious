@@ -1,6 +1,5 @@
-package com.lihuia.mysterious.web.configuration;
+package com.lihuia.mysterious.web.auth;
 
-import com.lihuia.mysterious.web.interceptor.AuthInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -26,6 +25,10 @@ public class AuthConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> patterns = new ArrayList<>();
         patterns.add("/user/**");
+        patterns.add("/swagger/**");
+        patterns.add("/v2/api-docs");
+        patterns.add("/swagger-ui.html");
+        patterns.add("/swagger-resources/**");
         registry.addInterceptor(authInterceptor()).addPathPatterns("/**").excludePathPatterns(patterns);
     }
 }
