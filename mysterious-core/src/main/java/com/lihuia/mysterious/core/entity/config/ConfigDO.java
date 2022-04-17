@@ -14,10 +14,10 @@ import lombok.EqualsAndHashCode;
 public class ConfigDO extends BaseDO<Long> {
 
     /** 配置字段 */
-    private String key;
+    private String configKey;
 
     /** 字段值 */
-    private String value;
+    private String configValue;
 
     /** 字段描述 */
     private String description;
