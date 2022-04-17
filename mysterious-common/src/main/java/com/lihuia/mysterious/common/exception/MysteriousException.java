@@ -51,6 +51,6 @@ public class MysteriousException extends RuntimeException {
 
     @Override
     public String toString() {
-        return "NPSException, [errorCode=" + this.responseCodeEnum.getCode() + ", errorMsg=" + this.responseCodeEnum.getMessage() + "]";
+        return "MysteriousException, [errorCode=" + this.responseCodeEnum.getCode() + ", errorMsg=" + this.responseCodeEnum.getMessage() + "]";
     }
 }

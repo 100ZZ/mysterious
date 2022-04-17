@@ -1,4 +1,4 @@
-package com.lihuia.mysterious.web.interceptor;
+package com.lihuia.mysterious.web.auth;
 
 import com.lihuia.mysterious.common.exception.MysteriousException;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
@@ -34,6 +34,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = TokenUtils.getToken(request);
+        log.info("request: {}", request.getRequestURI());
         if (StringUtils.isEmpty(token)) {
             log.warn(ResponseCodeEnum.USER_NOT_LOGIN.getMessage());
             throw new MysteriousException(ResponseCodeEnum.USER_NOT_LOGIN);
@@ -48,8 +49,8 @@ public class AuthInterceptor implements HandlerInterceptor {
             throw new MysteriousException(ResponseCodeEnum.USER_TOKEN_EXPIRE);
         }
         /** token有效，ThreadLocal获取用户信息，接口调用传递用户信息 */
-        UserUtils.setCurrent(UserVO.builder().id(userDO.getId())
-                .username(userDO.getUsername()).password(userDO.getPassword()).build());
+        UserUtils.setCurrent(UserVO
+                .builder().id(userDO.getId()).username(userDO.getUsername()).password(userDO.getPassword()).build());
         return true;
     }
 
