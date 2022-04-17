@@ -16,12 +16,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class JmxQuery extends BaseQuery {
 
-    @ApiModelProperty("上传前JMX文件名称")
+    @ApiModelProperty(value = "上传前JMX文件名称")
     private String srcName;
 
-    @ApiModelProperty("JMX文件关联的用例")
+    @ApiModelProperty(value = "JMX文件关联的用例")
     private Long testCaseId;
 
-    @ApiModelProperty("创建人ID ")
+    @ApiModelProperty(value = "创建人ID ")
     private Long creatorId;
 }

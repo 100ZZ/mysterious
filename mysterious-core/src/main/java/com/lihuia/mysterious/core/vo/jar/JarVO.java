@@ -13,24 +13,24 @@ import lombok.Data;
 @ApiModel
 public class JarVO {
 
-    @ApiModelProperty("Jar依赖编号")
+    @ApiModelProperty(value = "Jar依赖编号")
     private Long id;
 
-    @ApiModelProperty("上传前JAR文件名称")
+    @ApiModelProperty(value = "上传前JAR文件名称")
     private String srcName;
 
-    @ApiModelProperty("上传后JAR文件名称")
+    @ApiModelProperty(value = "上传后JAR文件名称")
     private String dstName;
 
-    @ApiModelProperty("JAR文件描述")
+    @ApiModelProperty(value = "JAR文件描述")
     private String description;
 
-    @ApiModelProperty("节点")
+    @ApiModelProperty(value = "节点")
     private Long nodeId;
 
-    @ApiModelProperty("JAR包路径")
+    @ApiModelProperty(value = "JAR包路径")
     private String jarDir;
 
-    @ApiModelProperty("JAR文件关联的用例")
+    @ApiModelProperty(value = "JAR文件关联的用例")
     private Long testCaseId;
 }

@@ -13,30 +13,30 @@ import lombok.Data;
 @ApiModel
 public class NodeVO {
 
-    @ApiModelProperty("节点编号")
+    @ApiModelProperty(value = "节点编号")
     private Long id;
 
-    @ApiModelProperty("节点名称")
+    @ApiModelProperty(value = "节点名称")
     private String name;
 
-    @ApiModelProperty("节点描述")
+    @ApiModelProperty(value = "节点描述")
     private String description;
 
-    @ApiModelProperty("节点类型")
+    @ApiModelProperty(value = "节点类型")
     private Integer type;
 
-    @ApiModelProperty("节点IP地址")
+    @ApiModelProperty(value = "节点IP地址")
     private String host;
 
-    @ApiModelProperty("ssh用户")
+    @ApiModelProperty(value = "ssh用户")
     private String username;
 
-    @ApiModelProperty("登录密码")
+    @ApiModelProperty(value = "登录密码")
     private String password;
 
-    @ApiModelProperty("ssh端口")
+    @ApiModelProperty(value = "ssh端口")
     private Integer port;
 
-    @ApiModelProperty("节点状态 0-禁用中，1-启用中")
+    @ApiModelProperty(value = "节点状态 0-禁用中，1-启用中")
     private Integer status;
 }

@@ -16,6 +16,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class UserQuery extends BaseQuery {
 
-    @ApiModelProperty("用户名称")
+    @ApiModelProperty(value = "用户名称")
     private String username;
 }

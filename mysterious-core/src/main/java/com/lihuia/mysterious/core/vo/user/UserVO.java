@@ -15,12 +15,12 @@ import lombok.Data;
 @ApiModel
 public class UserVO {
 
-    @ApiModelProperty("用户编号")
+    @ApiModelProperty(value = "用户编号")
     private Long id;
 
-    @ApiModelProperty("用户名称")
+    @ApiModelProperty(value = "用户名称")
     private String username;
 
-    @ApiModelProperty("用户密码")
+    @ApiModelProperty(value = "用户密码")
     private String password;
 }

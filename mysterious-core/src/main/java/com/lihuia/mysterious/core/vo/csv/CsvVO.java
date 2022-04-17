@@ -13,21 +13,21 @@ import lombok.Data;
 @ApiModel
 public class CsvVO {
 
-    @ApiModelProperty("配置编号")
+    @ApiModelProperty(value = "配置编号")
     private Long id;
 
-    @ApiModelProperty("上传前CSV文件名称")
+    @ApiModelProperty(value = "上传前CSV文件名称")
     private String srcName;
 
-    @ApiModelProperty("上传后CSV文件名称")
+    @ApiModelProperty(value = "上传后CSV文件名称")
     private String dstName;
 
-    @ApiModelProperty("CSV文件描述")
+    @ApiModelProperty(value = "CSV文件描述")
     private String description;
 
-    @ApiModelProperty("CSV文件路径")
+    @ApiModelProperty(value = "CSV文件路径")
     private String csvDir;
 
-    @ApiModelProperty("CSV文件关联的用例")
+    @ApiModelProperty(value = "CSV文件关联的用例")
     private Long testCaseId;
 }
