@@ -47,7 +47,7 @@ public class ConfigController {
 
     @ApiOperation("分页查询")
     @GetMapping(value = "/list")
-    public Response<PageVO<ConfigVO>> getConfigList(ConfigQuery configQuery) {
-        return ResponseUtil.buildSuccessResponse(configService.getConfigList(configQuery));
+    public Response<PageVO<ConfigVO>> getConfigList(ConfigQuery query) {
+        return ResponseUtil.buildSuccessResponse(configService.getConfigList(query));
     }
 }
