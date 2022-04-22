@@ -9,6 +9,7 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.*;
@@ -31,22 +32,13 @@ public class JMeterUtil {
     public final static String MASTER_JMETER_HOME = "MASTER_JMETER_HOME";
 
     /** master节点Jmeter执行目录 */
-    public final static String MASTER_JMETER_HOME_BIN = "MASTER_JMETER_HOME_BIN";
-
-    /** slave节点Jmeter路径 */
-    public final static String SLAVE_JMETER_HOME = "SLAVE_JMETER_HOME";
+    public final static String MASTER_JMETER_BIN_HOME = "MASTER_JMETER_BIN_HOME";
 
     /** slave节点Jmeter-Server执行目录 */
-    public final static String SLAVE_JMETER_HOME_BIN = "SLAVE_JMETER_HOME_BIN";
+    public final static String SLAVE_JMETER_BIN_HOME = "SLAVE_JMETER_BIN_HOME";
 
     /** slave节点Jmeter-Server日志目录 */
-    public final static String SLAVE_JMETER_HOME_LOG = "SLAVE_JMETER_HOME_LOG";
-
-    /** master节点测试计划用户上传的测试报告存储路径 */
-    public final static String MASTER_REPORT_FILES_PATH = "MASTER_REPORT_FILES_PATH";
-
-    /** 在线生成JMeter脚本，基于该目录下的jmx脚本来生成 */
-    public final static String MASTER_BASE_JMX_FILES_PATH = "MASTER_BASE_JMX_FILES_PATH";
+    public final static String SLAVE_JMETER_LOG_HOME = "SLAVE_JMETER_LOG_HOME";
 
     /** 用户jmeter脚本里csv的Name有没有改成上传的csv文件同名，0未改，报错；1修改了，正确 */
     private int csvFlag = 0;
@@ -119,7 +111,7 @@ public class JMeterUtil {
         } catch (DocumentException e) {
             e.printStackTrace();
         }
-        if (null == document) {
+        if (ObjectUtils.isEmpty(document)) {
             throw new MysteriousException(ResponseCodeEnum.JMX_ERROR);
         }
         return document;

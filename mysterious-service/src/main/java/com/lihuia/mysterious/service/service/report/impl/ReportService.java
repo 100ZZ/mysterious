@@ -138,7 +138,7 @@ public class ReportService implements IReportService {
     public Boolean cleanReport(Long id) {
         /** 先删除表记录，再删除磁盘，有问题回滚 */
         ReportDO reportDO = reportMapper.getById(id);
-        if (null == reportDO) {
+        if (ObjectUtils.isEmpty(reportDO)) {
             throw new MysteriousException(ResponseCodeEnum.REPORT_NOT_EXIST);
         }
         log.info("清理测试报告, id: {}", id);

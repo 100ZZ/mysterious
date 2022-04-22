@@ -26,6 +26,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -158,10 +159,10 @@ public class NodeService implements INodeService {
         log.info("启用, 更新节点: {}", JSON.toJSONString(nodeDO, true));
         nodeMapper.update(nodeDO);
         /** slave节点jmeter-server的路径 */
-        String slaveJmeterHomeBin = configService.getValue(JMeterUtil.SLAVE_JMETER_HOME_BIN);
-        String slaveJmeterServer = slaveJmeterHomeBin + "/jmeter-server";
+        String slaveJmeterBinHome = configService.getValue(JMeterUtil.SLAVE_JMETER_BIN_HOME);
+        String slaveJmeterServer = slaveJmeterBinHome + File.separator + "jmeter-server";
         /** slave节点jmeter-server执行日志路径 */
-        String slaveJmeterHomeLog = configService.getValue(JMeterUtil.SLAVE_JMETER_HOME_LOG);
+        String slaveJmeterLogHome = configService.getValue(JMeterUtil.SLAVE_JMETER_LOG_HOME);
 
         /** slave节点指定host启动jmeter-server */
         String host = nodeDO.getHost();
@@ -204,7 +205,7 @@ public class NodeService implements INodeService {
         }
         /** 启动jmeter-server进程 */
         log.info("启动jmeter-server进程");
-        String result = ssh.execCommand("cd " + slaveJmeterHomeLog + "\n" +
+        String result = ssh.execCommand("cd " + slaveJmeterLogHome + "\n" +
                 slaveJmeterServer + " -Djava.rmi.server.hostname=" + host);
         /** 这里返回的结果，华测开发环境和腾讯云主机返回结果不同, 因此更改下判断条件 */
         /** CentOS版本一: 返回结果为: Using local port: 1099 */
@@ -246,7 +247,7 @@ public class NodeService implements INodeService {
     @Override
     public Boolean disableNode(Long id, UserVO userVO) {
         NodeDO nodeDO = nodeMapper.getById(id);
-        if (null == nodeDO) {
+        if (ObjectUtils.isEmpty(nodeDO)) {
             throw new MysteriousException(ResponseCodeEnum.NODE_NOT_EXIST);
         }
         if (NodeTypeEnum.SLAVE.getCode().equals(nodeDO.getType())) {

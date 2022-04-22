@@ -14,6 +14,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.springframework.util.ObjectUtils;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
@@ -154,7 +155,7 @@ public class DebugResultHandler extends ResultHandler {
         } catch (DocumentException e) {
             e.printStackTrace();
         }
-        if (null == document) {
+        if (ObjectUtils.isEmpty(document)) {
             throw new MysteriousException(ResponseCodeEnum.XML_ERROR);
         }
 
