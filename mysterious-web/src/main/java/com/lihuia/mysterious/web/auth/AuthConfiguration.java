@@ -29,6 +29,8 @@ public class AuthConfiguration implements WebMvcConfigurer {
         patterns.add("/v2/api-docs");
         patterns.add("/swagger-ui.html");
         patterns.add("/swagger-resources/**");
+        patterns.add("/webjars/**");
+        patterns.add("/error");
         registry.addInterceptor(authInterceptor()).addPathPatterns("/**").excludePathPatterns(patterns);
     }
 }

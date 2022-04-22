@@ -114,8 +114,8 @@ public class TestCaseService implements ITestCaseService {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_IS_EXIST);
         }
         /** master节点用例，jmx，jar，csv，报告目录 */
-        String mysteriousHomePath = configService.getValue(JMeterUtil.MYSTERIOUS_DATA_HOME);
-        String masterTestCasePath = mysteriousHomePath + File.separator
+        String mysteriousDataHome = configService.getValue(JMeterUtil.MYSTERIOUS_DATA_HOME);
+        String masterTestCasePath = mysteriousDataHome + File.separator
                 + testCaseParam.getName() + "_" + timeUtil.getCurrentTime() + File.separator;
         /** 用例名目录，带当前时间，免得用户修改了用例名，可以根据createTime很容易定位到目录 */
         TestCaseDO testCaseDO = BeanConverter.doSingle(testCaseParam, TestCaseDO.class);
@@ -255,7 +255,7 @@ public class TestCaseService implements ITestCaseService {
 
             /** 查找用例关联的脚本 */
             JmxDO jmxDO = testCaseDO.getJmxDO();
-            if (null == jmxDO) {
+            if (ObjectUtils.isEmpty(jmxDO)) {
                 throw new MysteriousException(ResponseCodeEnum.JMX_NOT_EXIST);
             }
 
@@ -304,8 +304,8 @@ public class TestCaseService implements ITestCaseService {
             /** 本地单节点执行脚本 */
 
             /** jmeter可执行程序目录 */
-            String masterJmeterHomeBin = configService.getValue(JMeterUtil.MASTER_JMETER_HOME_BIN);
-            String masterJmeterApplication = masterJmeterHomeBin + File.separator + "jmeter";
+            String masterJmeterBinHome = configService.getValue(JMeterUtil.MASTER_JMETER_BIN_HOME);
+            String masterJmeterApplication = masterJmeterBinHome + File.separator + "jmeter";
 
             /** 可执行程序 */
             CommandLine commandLine = new CommandLine(masterJmeterApplication);
@@ -427,8 +427,8 @@ public class TestCaseService implements ITestCaseService {
         /** 本地单节点执行脚本 */
 
         /** jmeter可执行程序目录 */
-        String masterJmeterHomeBin = configService.getValue(JMeterUtil.MASTER_JMETER_HOME_BIN);
-        String masterJmeterApplication = masterJmeterHomeBin + File.separator + "jmeter";
+        String masterJmeterBinHome = configService.getValue(JMeterUtil.MASTER_JMETER_BIN_HOME);
+        String masterJmeterApplication = masterJmeterBinHome + File.separator + "jmeter";
 
         /** 可执行程序 */
         CommandLine commandLine = new CommandLine(masterJmeterApplication);
@@ -490,8 +490,8 @@ public class TestCaseService implements ITestCaseService {
             throw new MysteriousException(ResponseCodeEnum.JMX_NOT_EXIST);
         }
         /** jmeter可执行程序目录, shutdown.sh */
-        String masterJmeterHomeBin = configService.getValue(JMeterUtil.MASTER_JMETER_HOME_BIN);
-        String jmxStopScriptPath = masterJmeterHomeBin + File.separator + "shutdown.sh";
+        String masterJmeterBinHome = configService.getValue(JMeterUtil.MASTER_JMETER_BIN_HOME);
+        String jmxStopScriptPath = masterJmeterBinHome + File.separator + "shutdown.sh";
 
         CommandLine commandLine = new CommandLine(jmxStopScriptPath);
         /** 不管是master单节点压测，还是分布式压测，脚本的执行都是在master节点，因此只需要master节点执行shutdown.sh */

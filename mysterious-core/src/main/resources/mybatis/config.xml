@@ -49,8 +49,8 @@
     <select id="getConfigCount" resultType="integer">
         select count(*) from
         <include refid="table_name"/>
+        where 1=1
         <if test="configKey != null">and config_key like concat('%', #{configKey}, '%')</if>
-
     </select>
 
     <select id="getConfigList" resultMap="ConfigResult">
@@ -59,13 +59,13 @@
         from
         <include refid="table_name"/>
         where 1=1
-        order by modify_time desc
         <if test="configKey != null">and config_key like concat('%', #{configKey}, '%')</if>
+        order by modify_time desc
         <if test="limit > 0 and offset >= 0">limit #{offset}, #{limit}</if>
     </select>
 
     <insert id="add" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="com.lihuia.mysterious.core.entity.config.ConfigDO">
-        INSERT
+        insert
         <include refid="table_name"/>
         <set>
             <include refid="set"/>

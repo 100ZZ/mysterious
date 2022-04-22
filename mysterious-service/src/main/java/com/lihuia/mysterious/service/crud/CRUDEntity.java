@@ -34,7 +34,6 @@ public class CRUDEntity<T extends BaseDO> {
      * @param userVO
      */
     public void updateT(T t, UserVO userVO) {
-        t.setId(userVO.getId());
         t.setModifier(userVO.getUsername());
         t.setModifierId(userVO.getId());
         t.setModifyTime(LocalDateTime.now());
