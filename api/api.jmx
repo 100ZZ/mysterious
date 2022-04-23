@@ -755,11 +755,11 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="用例上传JMX脚本" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="用例上传JMX脚本" enabled="true">
           <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
             <collectionProp name="HTTPFileArgs.files">
-              <elementProp name="/Users/lihui/mysterious/单元测试.jmx" elementType="HTTPFileArg">
-                <stringProp name="File.path">/Users/lihui/mysterious/单元测试.jmx</stringProp>
+              <elementProp name="/Users/lihui/mysterious/unittest.jmx" elementType="HTTPFileArg">
+                <stringProp name="File.path">/Users/lihui/mysterious/unittest.jmx</stringProp>
                 <stringProp name="File.paramname">jmxFile</stringProp>
                 <stringProp name="File.mimetype">multipart/form-data</stringProp>
               </elementProp>
@@ -784,15 +784,6 @@
         </HTTPSamplerProxy>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="用例上传CSV文件" enabled="false">
-          <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
-            <collectionProp name="HTTPFileArgs.files">
-              <elementProp name="/Users/lihui/mysterious/单元测试.jmx" elementType="HTTPFileArg">
-                <stringProp name="File.path">/Users/lihui/mysterious/单元测试.jmx</stringProp>
-                <stringProp name="File.paramname">csvFile</stringProp>
-                <stringProp name="File.mimetype">multipart/form-data</stringProp>
-              </elementProp>
-            </collectionProp>
-          </elementProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -812,15 +803,6 @@
         </HTTPSamplerProxy>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="用例上传JAR文件" enabled="false">
-          <elementProp name="HTTPsampler.Files" elementType="HTTPFileArgs">
-            <collectionProp name="HTTPFileArgs.files">
-              <elementProp name="/Users/lihui/mysterious/单元测试.jmx" elementType="HTTPFileArg">
-                <stringProp name="File.path">/Users/lihui/mysterious/单元测试.jmx</stringProp>
-                <stringProp name="File.paramname">csvFile</stringProp>
-                <stringProp name="File.mimetype">multipart/form-data</stringProp>
-              </elementProp>
-            </collectionProp>
-          </elementProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -839,7 +821,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="用例调试" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="用例调试" enabled="false">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
