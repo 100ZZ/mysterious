@@ -27,7 +27,6 @@
         `src_name`,
         `dst_name`,
         `description`,
-        `node_id`,
         `jmx_dir`,
         `test_case_id`,
         `creator_id`,
