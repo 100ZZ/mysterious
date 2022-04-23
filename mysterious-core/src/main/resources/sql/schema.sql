@@ -127,7 +127,7 @@ CREATE TABLE `report` (
     `exec_type` tinyint(2) NOT NULL DEFAULT '1' COMMENT '1-调试, 2-执行',
     `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0-未执行，1-执行中, 2-执行成功, 3-执行异常',
     `response_data` varchar(512) NOT NULL DEFAULT '' COMMENT '调试结果',
-    `jmeterLogFilePath` varchar(255) NOT NULL DEFAULT '' COMMENT '结果JTL文件',
+    `jmeter_log_file_path` varchar(255) NOT NULL DEFAULT '' COMMENT '结果JTL文件',
     `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
     `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
     `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',

@@ -2,7 +2,6 @@ package com.lihuia.mysterious.web.controller.jar;
 
 import com.lihuia.mysterious.common.response.Response;
 import com.lihuia.mysterious.common.response.ResponseUtil;
-import com.lihuia.mysterious.core.vo.jar.JarParam;
 import com.lihuia.mysterious.core.vo.jar.JarQuery;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
@@ -30,9 +29,10 @@ public class JarController {
     private IJarService jarService;
 
     @ApiOperation("上传")
-    @PostMapping(value = "/upload")
-    public Response<Boolean> uploadJar(@RequestBody JarParam jarParam) {
-        return ResponseUtil.buildSuccessResponse(jarService.uploadJar(jarParam, UserUtils.getCurrent()));
+    @PostMapping(value = "/upload/{testCaseId}")
+    public Response<Boolean> uploadJar(@PathVariable Long testCaseId,
+                                       @RequestParam(value = "jarFile") MultipartFile jarFile) {
+        return ResponseUtil.buildSuccessResponse(jarService.uploadJar(testCaseId, jarFile, UserUtils.getCurrent()));
     }
 
     @ApiOperation("分页查询")

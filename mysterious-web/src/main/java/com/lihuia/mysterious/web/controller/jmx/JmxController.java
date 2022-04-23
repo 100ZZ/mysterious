@@ -4,7 +4,6 @@ import com.lihuia.mysterious.common.exception.MysteriousException;
 import com.lihuia.mysterious.common.response.Response;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.common.response.ResponseUtil;
-import com.lihuia.mysterious.core.vo.jmx.JmxParam;
 import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
@@ -35,9 +34,10 @@ public class JmxController {
     private IJmxService jmxService;
 
     @ApiOperation("上传")
-    @PostMapping(value = "/upload")
-    public Response<Boolean> uploadJmx(@RequestBody JmxParam jmxParam) {
-        return ResponseUtil.buildSuccessResponse(jmxService.uploadJmx(jmxParam, UserUtils.getCurrent()));
+    @PostMapping(value = "/upload/{testCaseId}")
+    public Response<Boolean> uploadJmx(@PathVariable Long testCaseId,
+                                       @RequestParam(value = "jmxFile") MultipartFile jmxFile) {
+        return ResponseUtil.buildSuccessResponse(jmxService.uploadJmx(testCaseId, jmxFile, UserUtils.getCurrent()));
     }
 
     @ApiOperation("删除")
@@ -61,7 +61,7 @@ public class JmxController {
     public void downloadJmx(@RequestParam(value = "id") Long id,
                             @RequestParam(value = "type") Integer type,
                             HttpServletResponse response) {
-        JmxVO jmxDO = jmxService.getById(id);
+        JmxVO jmxDO = jmxService.getJmxVO(id);
         String fileName = type.equals(1) ? jmxDO.getSrcName() : "debug_" + jmxDO.getSrcName();
         String filePath = jmxDO.getJmxDir() + fileName;
         File file = new File(filePath);
