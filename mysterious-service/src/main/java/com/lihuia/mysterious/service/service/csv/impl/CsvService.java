@@ -210,7 +210,7 @@ public class CsvService implements ICsvService {
     public List<CsvVO> getByTestCaseId(Long testCaseId) {
         List<CsvDO> csvDOList = csvMapper.getByTestCaseId(testCaseId);
         if (CollectionUtils.isEmpty(csvDOList)) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         return csvDOList.stream().map(csvDO -> {
             CsvVO csvVO = BeanConverter.doSingle(csvDO, CsvVO.class);

@@ -220,7 +220,7 @@ public class JarService implements IJarService {
     public List<JarVO> getByTestCaseId(Long testCaseId) {
         List<JarDO> jarDOList = jarMapper.getByTestCaseId(testCaseId);
         if (CollectionUtils.isEmpty(jarDOList)) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         return jarDOList.stream().map(jarDO -> {
             JarVO jarVO = BeanConverter.doSingle(jarDO, JarVO.class);
