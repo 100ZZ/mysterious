@@ -43,8 +43,8 @@ public class TestCaseDO extends BaseDO<Long> {
     private JmxDO jmxDO;
 
     /** 用例关联的CSV文件 */
-    private List<CsvDO> csvList;
+    private List<CsvDO> csvDOList;
 
     /** 用例关联的JAR包 */
-    private List<JarDO> jarList;
+    private List<JarDO> jarDOList;
 }

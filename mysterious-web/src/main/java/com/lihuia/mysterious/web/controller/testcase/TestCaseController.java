@@ -83,7 +83,7 @@ public class TestCaseController {
     @ApiOperation("查询所有依赖信息")
     @GetMapping(value = "/getFull/{id}")
     public Response<TestCaseFullVO> getFull(@PathVariable Long id) {
-        return ResponseUtil.buildSuccessResponse(testCaseService.getFull(id));
+        return ResponseUtil.buildSuccessResponse(testCaseService.getFullVO(id));
     }
 
     @ApiOperation("同步新增压力机测试数据")

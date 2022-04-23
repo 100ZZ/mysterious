@@ -36,9 +36,10 @@ public class CsvController {
     private ICsvService csvService;
 
     @ApiOperation("上传")
-    @PostMapping(value = "/upload")
-    public Response<Boolean> uploadCsv(@RequestBody CsvParam csvParam) {
-        return ResponseUtil.buildSuccessResponse(csvService.uploadCsv(csvParam, UserUtils.getCurrent()));
+    @PostMapping(value = "/upload/{testCaseId}")
+    public Response<Boolean> uploadCsv(@PathVariable Long testCaseId,
+                                       @RequestParam(value = "csvFile") MultipartFile csvFile) {
+        return ResponseUtil.buildSuccessResponse(csvService.uploadCsv(testCaseId, csvFile, UserUtils.getCurrent()));
     }
 
     @ApiOperation("分页列表")
@@ -63,7 +64,7 @@ public class CsvController {
     @GetMapping(value = "/download")
     public Response<Boolean> downloadJmx(@RequestParam(value = "id") Long id,
                             HttpServletResponse response) {
-        CsvVO csvVO = csvService.getById(id);
+        CsvVO csvVO = csvService.getCsvVO(id);
         String fileName = csvVO.getSrcName();
         String filePath = csvVO.getCsvDir() + fileName;
         File file = new File(filePath);

@@ -9,7 +9,6 @@ import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.common.ssh.SSHUtils;
 import com.lihuia.mysterious.core.entity.jar.JarDO;
 import com.lihuia.mysterious.core.mapper.jar.JarMapper;
-import com.lihuia.mysterious.core.vo.jar.JarParam;
 import com.lihuia.mysterious.core.vo.jar.JarQuery;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
@@ -87,10 +86,8 @@ public class JarService implements IJarService {
 
     @Transactional
     @Override
-    public Boolean uploadJar(JarParam jarParam, UserVO userVO) {
-        Long testCaseId = jarParam.getTestCaseId();
-        MultipartFile jarFile = jarParam.getJarFile();
-        TestCaseFullVO testCaseFullVO = testCaseService.getFull(testCaseId);
+    public Boolean uploadJar(Long testCaseId, MultipartFile jarFile, UserVO userVO) {
+        TestCaseFullVO testCaseFullVO = testCaseService.getFullVO(testCaseId);
         /** jar上传会修改jmx脚本里jar包classpath绝对路径，因此依赖jmx脚本存在 */
         if (ObjectUtils.isEmpty(testCaseFullVO.getJmxVO())) {
             throw new MysteriousException(ResponseCodeEnum.JMX_NOT_EXIST);
@@ -227,5 +224,10 @@ public class JarService implements IJarService {
             jarVO.setId(jarDO.getId());
             return jarVO;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<JarDO> getJarDOList(Long testCaseId) {
+        return jarMapper.getByTestCaseId(testCaseId);
     }
 }
