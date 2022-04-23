@@ -22,9 +22,6 @@ public class CsvDO extends BaseDO<Long> {
     /** CSV文件描述 */
     private String description;
 
-    /** 节点 */
-    private Long nodeId;
-
     /** CSV文件路径 */
     private String csvDir;
 
