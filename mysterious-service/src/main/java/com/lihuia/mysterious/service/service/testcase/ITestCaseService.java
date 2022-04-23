@@ -67,7 +67,7 @@ public interface ITestCaseService {
      * @param id
      * @return
      */
-    TestCaseFullVO getFull(Long id);
+    TestCaseFullVO getFullVO(Long id);
 
 
     /**

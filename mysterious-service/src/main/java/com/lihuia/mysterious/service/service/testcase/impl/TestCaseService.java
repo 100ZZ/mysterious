@@ -173,7 +173,7 @@ public class TestCaseService implements ITestCaseService {
                 jmxVO.setDescription(testCaseParam.getName());
                 jmxService.updateJmx(jmxVO, userVO);
             }
-            List<JarDO> jarDOList = dbTestCaseDO.getJarList();
+            List<JarDO> jarDOList = dbTestCaseDO.getJarDOList();
             if (!CollectionUtils.isEmpty(jarDOList)) {
                 jarDOList.forEach(jarDO -> {
                     log.info("更新用例同步更新JAR依赖包描述: {}", testCaseParam.getName());
@@ -183,7 +183,7 @@ public class TestCaseService implements ITestCaseService {
                     jarService.updateJar(jarVO, userVO);
                 });
             }
-            List<CsvDO> csvDOList = dbTestCaseDO.getCsvList();
+            List<CsvDO> csvDOList = dbTestCaseDO.getCsvDOList();
             if (!CollectionUtils.isEmpty(csvDOList)) {
                 csvDOList.forEach(csvDO ->  {
                     log.info("更新用例同步更新CSV文件描述: {}", testCaseParam.getName());
@@ -235,7 +235,7 @@ public class TestCaseService implements ITestCaseService {
     }
 
     @Override
-    public TestCaseFullVO getFull(Long id) {
+    public TestCaseFullVO getFullVO(Long id) {
         TestCaseDO testCaseDO = testCaseMapper.getById(id);
         if (!ObjectUtils.isEmpty(testCaseDO)) {
             TestCaseFullVO testCaseFullVO = BeanConverter.doSingle(testCaseDO, TestCaseFullVO.class);
@@ -247,12 +247,24 @@ public class TestCaseService implements ITestCaseService {
         return null;
     }
 
+    private TestCaseDO getFullDO(Long id) {
+        TestCaseDO testCaseDO = testCaseMapper.getById(id);
+        if (!ObjectUtils.isEmpty(testCaseDO)) {
+            testCaseDO.setJmxDO(jmxService.getJmxDO(id));
+            testCaseDO.setCsvDOList(csvService.getCsvDOList(id));
+            testCaseDO.setJarDOList(jarService.getJarDOList(id));
+            return testCaseDO;
+        }
+        return null;
+    }
+
     @Transactional
     @Override
     public Boolean debugTestCase(Long id, UserVO userVO) {
             /** 调试用例，直接在Master节点通过jmeter调用，而不再 */
-            TestCaseDO testCaseDO = testCaseMapper.getById(id);
+            TestCaseDO testCaseDO = getFullDO(id);
 
+            log.info("testCaseDO: {}", testCaseDO);
             /** 查找用例关联的脚本 */
             JmxDO jmxDO = testCaseDO.getJmxDO();
             if (ObjectUtils.isEmpty(jmxDO)) {
@@ -355,7 +367,7 @@ public class TestCaseService implements ITestCaseService {
             }
         }
 
-        TestCaseDO testCaseDO = testCaseMapper.getById(id);
+        TestCaseDO testCaseDO = getFullDO(id);
 
         if (TestCaseStatus.RUN_ING.getCode().equals(testCaseDO.getStatus())) {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_IS_RUNNING);
@@ -535,7 +547,7 @@ public class TestCaseService implements ITestCaseService {
         NodeVO nodeVO = nodeService.getById(nodeId);
         SSHUtils ssh = new SSHUtils(nodeVO.getHost(), nodeVO.getPort(), nodeVO.getUsername(), nodeVO.getPassword());
 
-        TestCaseFullVO testCaseFullVO = getFull(testCaseId);
+        TestCaseFullVO testCaseFullVO = getFullVO(testCaseId);
         /** 假如有新增slave节点，需要将用例的所有依赖同步到新的节点上 */
         /** jmx只需要存在于master节点上，所以不需要同步 */
         List<CsvVO> csvVOList = testCaseFullVO.getCsvVOList();

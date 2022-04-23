@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.service.service.jmx;
 
+import com.lihuia.mysterious.core.entity.jmx.JmxDO;
 import com.lihuia.mysterious.core.entity.report.ReportDO;
 import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
 import com.lihuia.mysterious.core.vo.jmx.JmxParam;
@@ -21,11 +22,12 @@ public interface IJmxService {
 
     /**
      * 上传用例的JMX脚本
-     * @param jmxParam
+     * @param testCaseId
+     * @param jmxFile
      * @param userVO
      * @return
      */
-    Boolean uploadJmx(JmxParam jmxParam, UserVO userVO);
+    Boolean uploadJmx(Long testCaseId, MultipartFile jmxFile, UserVO userVO);
 
     /**
      * 更新JMX脚本
@@ -83,6 +85,13 @@ public interface IJmxService {
     JmxVO getByTestCaseId(Long testCaseId);
 
     /**
+     * getJmxDO
+     * @param testCaseId
+     * @return
+     */
+    JmxDO getJmxDO(Long testCaseId);
+
+    /**
      * 在线新增JMX脚本
      * @param jmxVO
      */
@@ -108,9 +117,9 @@ public interface IJmxService {
     Boolean forceDelete(Long id);
 
     /**
-     * getById
+     * getJmxVO
      * @param id
      * @return
      */
-    JmxVO getById(Long id);
+    JmxVO getJmxVO(Long id);
 }

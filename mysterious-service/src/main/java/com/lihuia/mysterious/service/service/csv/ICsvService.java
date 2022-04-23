@@ -1,5 +1,6 @@
 package com.lihuia.mysterious.service.service.csv;
 
+import com.lihuia.mysterious.core.entity.csv.CsvDO;
 import com.lihuia.mysterious.core.vo.csv.CsvParam;
 import com.lihuia.mysterious.core.vo.csv.CsvQuery;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
@@ -17,11 +18,12 @@ import java.util.List;
 public interface ICsvService {
     /**
      * 上传用例里，脚本依赖的CSV参数文件，必须先上传JMX脚本
-     * @param csvParam
+     * @param testCaseId
+     * @param csvFile
      * @param userVO
      * @return
      */
-    Boolean uploadCsv(CsvParam csvParam, UserVO userVO);
+    Boolean uploadCsv(Long testCaseId, MultipartFile csvFile, UserVO userVO);
 
     /**
      * 删除CSV文件
@@ -50,10 +52,16 @@ public interface ICsvService {
     List<CsvVO> getByTestCaseId(Long testCaseId);
 
     /**
-     * getById
+     * getCsvDOList
+     * @param testCaseId
+     * @return
+     */
+    List<CsvDO> getCsvDOList(Long testCaseId);
+
+    /**
+     * getCsvVO
      * @param id
      * @return
      */
-    CsvVO getById(Long id);
-
+    CsvVO getCsvVO(Long id);
 }

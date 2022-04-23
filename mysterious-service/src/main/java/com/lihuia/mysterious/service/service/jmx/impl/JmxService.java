@@ -107,13 +107,12 @@ public class JmxService implements IJmxService {
 
     @Transactional
     @Override
-    public Boolean uploadJmx(JmxParam jmxParam, UserVO userVO) {
-        Long testCaseId = jmxParam.getTestCaseId();
-        MultipartFile jmxFile = jmxParam.getJmxFile();
-        TestCaseFullVO testCaseFullVO = testCaseService.getFull(testCaseId);
+    public Boolean uploadJmx(Long testCaseId, MultipartFile jmxFile, UserVO userVO) {
+        TestCaseFullVO testCaseFullVO = testCaseService.getFullVO(testCaseId);
         if (!ObjectUtils.isEmpty(testCaseFullVO.getJmxVO())) {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_HAS_JMX);
         }
+        log.info("jmxFile: {}", jmxFile);
 
         /** 上传的jmx文件名，带后缀*/
         String srcName = jmxFile.getOriginalFilename();
@@ -200,7 +199,7 @@ public class JmxService implements IJmxService {
     }
 
     @Override
-    public JmxVO getById(Long id) {
+    public JmxVO getJmxVO(Long id) {
         JmxDO jmxDO = jmxMapper.getById(id);
         if (ObjectUtils.isEmpty(jmxDO)) {
             throw new MysteriousException(ResponseCodeEnum.FILE_NOT_EXIST);
@@ -343,6 +342,11 @@ public class JmxService implements IJmxService {
             return jmxVO;
         }
         return null;
+    }
+
+    @Override
+    public JmxDO getJmxDO(Long testCaseId) {
+        return jmxMapper.getByTestCaseId(testCaseId);
     }
 
     @Override

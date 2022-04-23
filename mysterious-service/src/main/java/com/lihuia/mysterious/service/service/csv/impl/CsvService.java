@@ -76,10 +76,8 @@ public class CsvService implements ICsvService {
 
     @Transactional
     @Override
-    public Boolean uploadCsv(CsvParam csvParam, UserVO userVO) {
-        Long testCaseId = csvParam.getTestCaseId();
-        MultipartFile csvFile = csvParam.getCsvFile();
-        TestCaseFullVO testCaseFullVO = testCaseService.getFull(testCaseId);
+    public Boolean uploadCsv(Long testCaseId, MultipartFile csvFile, UserVO userVO) {
+        TestCaseFullVO testCaseFullVO = testCaseService.getFullVO(testCaseId);
         /** 上传csv的时候，需要修改jmx脚本里csv的文件路径，因此必须先上传jmx，再上传csv */
         if (ObjectUtils.isEmpty(testCaseFullVO.getJmxVO())) {
             throw new MysteriousException(ResponseCodeEnum.JMX_NOT_EXIST);
@@ -220,7 +218,12 @@ public class CsvService implements ICsvService {
     }
 
     @Override
-    public CsvVO getById(Long id) {
+    public List<CsvDO> getCsvDOList(Long testCaseId) {
+        return csvMapper.getByTestCaseId(testCaseId);
+    }
+
+    @Override
+    public CsvVO getCsvVO(Long id) {
         CsvDO csvDO = csvMapper.getById(id);
         if (ObjectUtils.isEmpty(csvDO)) {
             throw new MysteriousException(ResponseCodeEnum.FILE_NOT_EXIST);
