@@ -114,7 +114,7 @@ public class TestCaseService implements ITestCaseService {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_IS_EXIST);
         }
         /** master节点用例，jmx，jar，csv，报告目录 */
-        String mysteriousDataHome = configService.getValue(JMeterUtil.MYSTERIOUS_DATA_HOME);
+        String mysteriousDataHome = configService.getValue(JMeterUtil.MASTER_DATA_HOME);
         String masterTestCasePath = mysteriousDataHome + File.separator
                 + testCaseParam.getName() + "_" + timeUtil.getCurrentTime() + File.separator;
         /** 用例名目录，带当前时间，免得用户修改了用例名，可以根据createTime很容易定位到目录 */

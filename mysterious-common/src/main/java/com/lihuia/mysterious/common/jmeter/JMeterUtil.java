@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 public class JMeterUtil {
 
     /** master节点用例，报告目录 */
-    public final static String MYSTERIOUS_DATA_HOME = "MYSTERIOUS_DATA_HOME";
+    public final static String MASTER_DATA_HOME = "MASTER_DATA_HOME";
 
     /** master节点Jmeter路径 */
     public final static String MASTER_JMETER_HOME = "MASTER_JMETER_HOME";
