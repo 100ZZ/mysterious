@@ -25,9 +25,6 @@ public class JmxVO extends BaseVO<Long> {
     @ApiModelProperty(value = "JMX文件描述")
     private String description;
 
-    @ApiModelProperty(value = "节点")
-    private Long nodeId;
-
     @ApiModelProperty(value = "JMX脚本路径")
     private String jmxDir;
 

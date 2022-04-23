@@ -25,9 +25,6 @@ public class JarVO extends BaseVO<Long> {
     @ApiModelProperty(value = "JAR文件描述")
     private String description;
 
-    @ApiModelProperty(value = "节点")
-    private Long nodeId;
-
     @ApiModelProperty(value = "JAR包路径")
     private String jarDir;
 

@@ -138,6 +138,7 @@ public class NodeService implements INodeService {
             pageVO.setList(nodeDOList.stream().map(nodeDO -> {
                 NodeVO nodeVO = BeanConverter.doSingle(nodeDO, NodeVO.class);
                 nodeVO.setId(nodeDO.getId());
+                nodeVO.setPassword("******");
                 return nodeVO;
             }).collect(Collectors.toList()));
         }

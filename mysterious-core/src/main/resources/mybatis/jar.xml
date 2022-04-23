@@ -8,7 +8,6 @@
         <result property="srcName" column="src_name"/>
         <result property="dstName" column="dst_name"/>
         <result property="description" column="description"/>
-        <result property="nodeId" column="node_id"/>
         <result property="jarDir" column="jar_dir"/>
         <result property="testCaseId" column="test_case_id"/>
         <result property="creatorId" column="creator_id"/>
@@ -28,7 +27,6 @@
         `src_name`,
         `dst_name`,
         `description`,
-        `node_id`,
         `jar_dir`,
         `test_case_id`,
         `creator_id`,
@@ -44,7 +42,6 @@
         <if test="srcName != null">src_name=#{srcName},</if>
         <if test="dstName != null">dst_name=#{dstName},</if>
         <if test="description != null">description=#{description},</if>
-        <if test="nodeId != null">node_id=#{nodeId},</if>
         <if test="jarDir != null">jar_dir=#{jarDir},</if>
         <if test="testCaseId != null">test_case_id=#{testCaseId},</if>
         <if test="creatorId != null">creator_id=#{creatorId},</if>
