@@ -28,6 +28,20 @@ mysterious-web：控制层
 ```
 <br> 
 
+**依赖用途**
+```
+java：Amazon Corretto-11.0.12.7.2
+springboot：2.3.12.RELEASE
+mybatis：ORM框架
+druid：数据库连接池
+mysql：业务数据存储
+redis：排队和分布式锁
+mongodb：保存结构体数据
+swagger：接口文档
+nginx：报告预览读取HTML目录
+```
+<br> 
+
 **服务端域名**
 ```
 本地环境：http://localhost:8888/
