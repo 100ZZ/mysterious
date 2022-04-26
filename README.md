@@ -7,11 +7,14 @@
 **接口文档**
 ```
 本地环境：http://localhost:8888/swagger-ui.html
+接口脚本：api/api.jmx
 ```
 <br>
 
-**项目依赖**
+**模块功能**
+<br>
 
+![](../../Documents/流程图/mysterious.png)
 <br>
 
 **项目结构**
@@ -32,5 +35,5 @@ mysterious-web：控制层
 
 **JMeter工具包**
 ```
-待补充
+https://github.com/100ZZ/mysterious-jmeter.git
 ```
