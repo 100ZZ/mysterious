@@ -10,6 +10,7 @@
         <result property="description" column="description"/>
         <result property="jmxDir" column="jmx_dir"/>
         <result property="testCaseId" column="test_case_id"/>
+        <result property="jmeterScriptType" column="jmeter_script_type"/>
         <result property="creatorId" column="creator_id"/>
         <result property="creator" column="creator"/>
         <result property="modifierId" column="modifier_id"/>
@@ -29,6 +30,7 @@
         `description`,
         `jmx_dir`,
         `test_case_id`,
+        `jmeter_script_type`,
         `creator_id`,
         `creator`,
         `modifier_id`,
@@ -44,6 +46,7 @@
         <if test="description != null">description=#{description},</if>
         <if test="jmxDir != null">jmx_dir=#{jmxDir},</if>
         <if test="testCaseId != null">test_case_id=#{testCaseId},</if>
+        <if test="jmeterScriptType != null">jmeter_script_type=#{jmeterScriptType}</if>
         <if test="creatorId != null">creator_id=#{creatorId},</if>
         <if test="creator != null">creator=#{creator},</if>
         <if test="modifierId != null">modifier_id=#{modifierId},</if>
