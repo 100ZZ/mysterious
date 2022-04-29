@@ -46,7 +46,7 @@
         <if test="description != null">description=#{description},</if>
         <if test="jmxDir != null">jmx_dir=#{jmxDir},</if>
         <if test="testCaseId != null">test_case_id=#{testCaseId},</if>
-        <if test="jmeterScriptType != null">jmeter_script_type=#{jmeterScriptType}</if>
+        <if test="jmeterScriptType != null">jmeter_script_type=#{jmeterScriptType},</if>
         <if test="creatorId != null">creator_id=#{creatorId},</if>
         <if test="creator != null">creator=#{creator},</if>
         <if test="modifierId != null">modifier_id=#{modifierId},</if>
