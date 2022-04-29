@@ -137,12 +137,14 @@ public class CsvService implements ICsvService {
         /**
          * 如果是上传的jmx，脚本里会有csv节点相关内容，只需要找name就可以定位到位置
          */
-        if (jmxVO.getJmeterScriptType().equals(JMeterScriptEnum.UPLOAD_JMX.getCode())) {
+        if (JMeterScriptEnum.UPLOAD_JMX.getCode().equals(jmxVO.getJmeterScriptType())) {
             log.info("上传CSV文件后, 更新上传的JMX脚本, jmxFilePath: {}, csvFileName: {}, csvFilePath: {}", jmxFilePath, csvFileName, csvFilePath);
             jMeterUtil.updateJmxCsvFilePath(jmxFilePath, csvFileName, csvFilePath);
             jMeterUtil.updateJmxCsvFilePath(debugJmxFilePath, csvFileName, csvFilePath);
-        } else if (jmxVO.getJmeterScriptType().equals(JMeterScriptEnum.ONLINE_JMX.getCode())) {
+        } else if (JMeterScriptEnum.ONLINE_JMX.getCode().equals(jmxVO.getJmeterScriptType())) {
 
+        } else {
+            throw new MysteriousException(ResponseCodeEnum.SCRIPT_TYPE_ERROR);
         }
         return true;
     }
