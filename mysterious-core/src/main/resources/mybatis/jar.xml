@@ -126,6 +126,6 @@
         where 1=1
         <if test="testCaseId != null">and test_case_id=#{testCaseId}</if>
         <if test="srcName != null">and src_name=#{srcName}</if>
-        <if test="jararDir != null">and jar_dir=#{jarDir}</if>
+        <if test="jarDir != null">and jar_dir=#{jarDir}</if>
     </select>
 </mapper>
