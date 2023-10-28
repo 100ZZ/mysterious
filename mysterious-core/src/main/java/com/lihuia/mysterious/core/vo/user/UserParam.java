@@ -20,4 +20,7 @@ public class UserParam {
 
     @ApiModelProperty(value = "用户密码")
     private String password;
+
+    @ApiModelProperty(value = "姓名")
+    private String realName;
 }
