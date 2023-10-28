@@ -3,8 +3,8 @@ package com.lihuia.mysterious.core.mapper.base;
 import java.util.List;
 
 /**
- * @author lihuia.com
- * @date 2022/3/27 8:14 PM
+ * @author maple@lihuia.com
+ * @date 2023/3/27 8:14 PM
  */
 
 public interface BaseMapper<T> {

@@ -1,7 +1,6 @@
 package com.lihuia.mysterious.service.service.csv;
 
 import com.lihuia.mysterious.core.entity.csv.CsvDO;
-import com.lihuia.mysterious.core.vo.csv.CsvParam;
 import com.lihuia.mysterious.core.vo.csv.CsvQuery;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
@@ -11,8 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 /**
- * @author lihuia.com
- * @date 2022/4/1 下午4:07
+ * @author maple@lihuia.com
+ * @date 2023/4/1 下午4:07
  */
 
 public interface ICsvService {

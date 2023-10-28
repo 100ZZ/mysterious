@@ -5,8 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @author lihuia.com
- * @date 2022/3/27 1:07 PM
+ * @author maple@lihuia.com
+ * @date 2023/5/6 5:05 PM
  */
 
 @MapperScan(basePackages = "com.lihuia.mysterious.core.mapper")

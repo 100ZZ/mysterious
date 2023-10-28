@@ -1,8 +1,8 @@
 package com.lihuia.mysterious.common.response;
 
 /**
- * @author lihuia.com
- * @date 2022/3/29 11:02 PM
+ * @author maple@lihuia.com
+ * @date 2023/3/29 11:02 PM
  */
 
 public enum ResponseCodeEnum {
@@ -23,7 +23,7 @@ public enum ResponseCodeEnum {
     CONFIG_EXIST(1011, "配置已存在", false),
     CONFIG_NOT_EXIST(1012, "配置不存在", false),
     NODE_NOT_EXIST(1013, "节点不存在", false),
-    JMX_NOT_EXIST(1014, "JMX脚本存在", false),
+    JMX_NOT_EXIST(1014, "JMX脚本不存在", false),
     CSV_NAME_ERROR(1015, "CSV文件名称异常", false),
     JMX_ERROR(1016, "JMX脚本异常", false),
     JMX_CSV_NAME_ERROR(1017, "CSV Data Set Config控件的Name没有设置", false),

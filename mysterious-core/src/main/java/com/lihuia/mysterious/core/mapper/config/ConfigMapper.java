@@ -3,11 +3,12 @@ package com.lihuia.mysterious.core.mapper.config;
 import com.lihuia.mysterious.core.entity.config.ConfigDO;
 import com.lihuia.mysterious.core.mapper.base.BaseMapper;
 
+
 import java.util.List;
 
 /**
- * @author lihuia.com
- * @date 2022/4/1 上午9:36
+ * @author maple@lihuia.com
+ * @date 2023/4/1 上午9:36
  */
 
 public interface ConfigMapper extends BaseMapper<ConfigDO> {

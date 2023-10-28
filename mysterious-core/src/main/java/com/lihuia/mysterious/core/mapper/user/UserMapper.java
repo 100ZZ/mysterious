@@ -6,8 +6,8 @@ import com.lihuia.mysterious.core.mapper.base.BaseMapper;
 import java.util.List;
 
 /**
- * @author lihuia.com
- * @date 2022/3/29 10:08 PM
+ * @author maple@lihuia.com
+ * @date 2023/3/29 10:08 PM
  */
 
 public interface UserMapper extends BaseMapper<UserDO> {
@@ -30,16 +30,18 @@ public interface UserMapper extends BaseMapper<UserDO> {
     /**
      * 分页查询total
      * @param username
+     * @param realName
      * @return
      */
-    Integer getUserCount(String username);
+    Integer getUserCount(String username, String realName);
 
     /**
      * 分页查询list
      * @param username
+     * @param realName
      * @param offset
      * @param limit
      * @return
      */
-    List<UserDO> getUserList(String username, Integer offset, Integer limit);
+    List<UserDO> getUserList(String username, String realName, Integer offset, Integer limit);
 }

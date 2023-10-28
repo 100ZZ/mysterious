@@ -6,8 +6,8 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @author lihuia.com
- * @date 2022/4/1 下午4:10
+ * @author maple@lihuia.com
+ * @date 2023/4/1 下午4:10
  */
 
 @Data

@@ -1,13 +1,14 @@
 package com.lihuia.mysterious.core.mapper.csv;
 
+
 import com.lihuia.mysterious.core.entity.csv.CsvDO;
 import com.lihuia.mysterious.core.mapper.base.BaseMapper;
 
 import java.util.List;
 
 /**
- * @author lihuia.com
- * @date 2022/4/1 下午3:31
+ * @author maple@lihuia.com
+ * @date 2023/4/1 下午3:31
  */
 public interface CsvMapper extends BaseMapper<CsvDO> {
 

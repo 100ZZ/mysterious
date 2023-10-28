@@ -19,7 +19,7 @@
     </resultMap>
 
     <sql id="table_name">
-        csv
+        mysterious_csv
     </sql>
 
     <sql id="select-column-list">

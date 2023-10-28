@@ -9,8 +9,8 @@ import com.lihuia.mysterious.core.vo.user.UserVO;
 import java.util.List;
 
 /**
- * @author lihuia.com
- * @date 2022/3/27 10:52 PM
+ * @author maple@lihuia.com
+ * @date 2023/3/27 10:52 PM
  */
 
 public interface INodeService {

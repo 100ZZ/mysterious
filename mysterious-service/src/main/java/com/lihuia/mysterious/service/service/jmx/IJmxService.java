@@ -1,21 +1,16 @@
 package com.lihuia.mysterious.service.service.jmx;
 
 import com.lihuia.mysterious.core.entity.jmx.JmxDO;
-import com.lihuia.mysterious.core.entity.report.ReportDO;
-import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
-import com.lihuia.mysterious.core.vo.jmx.JmxParam;
 import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
-import com.lihuia.mysterious.core.vo.report.ReportVO;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import org.apache.commons.exec.CommandLine;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @author lihuia.com
- * @date 2022/4/1 下午4:38
+ * @author maple@lihuia.com
+ * @date 2023/4/1 下午4:38
  */
 
 public interface IJmxService {

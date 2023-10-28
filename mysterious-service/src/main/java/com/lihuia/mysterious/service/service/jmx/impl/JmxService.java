@@ -14,7 +14,6 @@ import com.lihuia.mysterious.core.mapper.report.ReportMapper;
 import com.lihuia.mysterious.core.mapper.testcase.TestCaseMapper;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
-import com.lihuia.mysterious.core.vo.jmx.JmxParam;
 import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
@@ -52,8 +51,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author lihuia.com
- * @date 2022/4/2 11:26 AM
+ * @author maple@lihuia.com
+ * @date 2023/4/2 11:26 AM
  */
 
 @Slf4j

@@ -2,8 +2,8 @@ package com.lihuia.mysterious.web.controller.config;
 
 import com.lihuia.mysterious.common.response.Response;
 import com.lihuia.mysterious.common.response.ResponseUtil;
-import com.lihuia.mysterious.core.vo.config.ConfigQuery;
 import com.lihuia.mysterious.core.vo.config.ConfigParam;
+import com.lihuia.mysterious.core.vo.config.ConfigQuery;
 import com.lihuia.mysterious.core.vo.config.ConfigVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.service.service.config.IConfigService;
@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author lihuia.com
- * @date 2022/4/1 上午10:30
+ * @author maple@lihuia.com
+ * @date 2023/4/1 上午10:30
  */
 
 @RestController

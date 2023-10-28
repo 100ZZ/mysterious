@@ -4,8 +4,8 @@ import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.ExecuteException;
 
 /**
- * @author lihuia.com
- * @date 2022/4/14 10:08 PM
+ * @author maple@lihuia.com
+ * @date 2023/4/14 10:08 PM
  */
 
 public class TestResultHandler extends DefaultExecuteResultHandler {
@@ -21,6 +21,7 @@ public class TestResultHandler extends DefaultExecuteResultHandler {
         System.out.println("onProcessComplete, a=" + a);
         flag = 0;
         int i = 1 / 0;
+        System.out.println("end");
     }
 
     @Override

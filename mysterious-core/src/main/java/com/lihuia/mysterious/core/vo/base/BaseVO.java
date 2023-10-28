@@ -1,10 +1,12 @@
 package com.lihuia.mysterious.core.vo.base;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 
 /**
- * @author lihuia.com
- * @date 2022/3/29 10:08 PM
+ * @author maple@lihuia.com
+ * @date 2023/3/29 10:08 PM
  */
 
 public class BaseVO<P> {
@@ -14,7 +16,9 @@ public class BaseVO<P> {
     private String creator;
     private Long modifierId;
     private String modifier;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime modifyTime;
 
     public P getId() {

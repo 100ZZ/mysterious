@@ -1,7 +1,8 @@
-CREATE TABLE `user` (
+CREATE TABLE `mysterious_user` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `username` varchar(128) NOT NULL DEFAULT '' COMMENT '节点登陆用户名',
-    `password` varchar(128) NOT NULL DEFAULT '' COMMENT '节点登陆密码',
+    `username` varchar(128) NOT NULL DEFAULT '' COMMENT '用户名',
+    `password` varchar(128) NOT NULL DEFAULT '' COMMENT '密码',
+    `real_name` varchar(128) NOT NULL DEFAULT '' COMMENT '真实姓名',
     `token` varchar(128) NOT NULL DEFAULT '' COMMENT 'token',
     `effect_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生效时间',
     `expire_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '失效时间',
@@ -9,7 +10,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='用户信息表';
 
-CREATE TABLE `config` (
+CREATE TABLE `mysterious_config` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
     `config_key` varchar(255) NOT NULL DEFAULT '' COMMENT '配置字段',
     `config_value` varchar(255) NOT NULL DEFAULT '' COMMENT '配置值',
@@ -24,7 +25,7 @@ CREATE TABLE `config` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='配置表';
 
-CREATE TABLE `node` (
+CREATE TABLE `mysterious_node` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name` varchar(255) NOT NULL DEFAULT '' COMMENT '节点名称',
     `description` varchar(255) NOT NULL DEFAULT '' COMMENT '节点描述',
@@ -44,7 +45,7 @@ CREATE TABLE `node` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='分布式节点表';
 
-CREATE TABLE `testcase` (
+CREATE TABLE `mysterious_testcase` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name` varchar(255) NOT NULL DEFAULT '' COMMENT '用例名称',
     `description` varchar(255) NOT NULL DEFAULT '' COMMENT '用例描述',
@@ -63,7 +64,7 @@ CREATE TABLE `testcase` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='用例表';
 
-CREATE TABLE `jmx` (
+CREATE TABLE `mysterious_jmx` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
     `src_name` varchar(255) NOT NULL DEFAULT '' COMMENT '上传前脚本名称',
     `dst_name` varchar(255) NOT NULL DEFAULT '' COMMENT '上传后脚本名称',
@@ -82,7 +83,7 @@ CREATE TABLE `jmx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='JMX脚本表';
 
-CREATE TABLE `jar` (
+CREATE TABLE `mysterious_jar` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
     `src_name` varchar(255) NOT NULL DEFAULT '' COMMENT '上传前JAR包名称',
     `dst_name` varchar(255) NOT NULL DEFAULT '' COMMENT '上传后JAR包名称',
@@ -100,7 +101,7 @@ CREATE TABLE `jar` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='JAR包表';
 
-CREATE TABLE `csv` (
+CREATE TABLE `mysterious_csv` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
     `src_name` varchar(255) NOT NULL DEFAULT '' COMMENT '上传前CSV文件名称',
     `dst_name` varchar(255) NOT NULL DEFAULT '' COMMENT '上传后CSV文件名称',
@@ -118,7 +119,7 @@ CREATE TABLE `csv` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='CSV文件表';
 
-CREATE TABLE `report` (
+CREATE TABLE `mysterious_report` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
     `name` varchar(255) NOT NULL DEFAULT '' COMMENT '报告名称',
     `description` varchar(255) NOT NULL DEFAULT '' COMMENT '报告描述',

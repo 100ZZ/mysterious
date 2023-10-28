@@ -11,6 +11,7 @@ import com.lihuia.mysterious.core.vo.user.UserQuery;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.service.user.IUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -22,8 +23,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * @author lihuia.com
- * @date 2022/3/29 10:15 PM
+ * @author maple@lihuia.com
+ * @date 2023/3/29 10:15 PM
  */
 
 @Slf4j
@@ -72,6 +73,9 @@ public class UserService implements IUserService {
         UserDO userDO = BeanConverter.doSingle(userParam, UserDO.class);
         /** 新增用户，会生成一个token，并且配置生效时间 */
         refreshToken(userDO);
+        /** 用户密码通过BCrypt进行加密储存 */
+        String slat = BCrypt.gensalt();
+        userDO.setPassword(BCrypt.hashpw(userDO.getPassword(), slat));
         userMapper.add(userDO);
         return userDO.getId();
     }
@@ -104,7 +108,8 @@ public class UserService implements IUserService {
         if (ObjectUtils.isEmpty(userDO)) {
             return null;
         }
-        return UserVO.builder().id(id).username(userDO.getUsername()).password("******").build();
+        //return UserVO.builder().id(id).username(userDO.getUsername()).password("******").build();
+        return convert(userDO);
     }
 
     @Override
@@ -117,7 +122,11 @@ public class UserService implements IUserService {
             throw new MysteriousException(ResponseCodeEnum.USER_NOT_EXIST);
         }
         /** 密码错误 */
-        if (!userDO.getPassword().equals(userParam.getPassword())) {
+//        if (!userDO.getPassword().equals(userParam.getPassword())) {
+//            throw new MysteriousException(ResponseCodeEnum.USER_PASSWORD_ERROR);
+//        }
+        /** 加密了，需要进行匹配验证，而不是简单是否相等 */
+        if (!BCrypt.checkpw(userParam.getPassword(), userDO.getPassword())) {
             throw new MysteriousException(ResponseCodeEnum.USER_PASSWORD_ERROR);
         }
         /** 用户密码正确，允许登录，刷新token */
@@ -130,10 +139,10 @@ public class UserService implements IUserService {
     public PageVO<UserVO> getUserList(UserQuery query) {
         PageVO<UserVO> pageVO = new PageVO<>();
         Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
-        Integer total = userMapper.getUserCount(query.getUsername());
+        Integer total = userMapper.getUserCount(query.getUsername(), query.getRealName());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
-            List<UserDO> userList = userMapper.getUserList(query.getUsername(), offset, query.getSize());
+            List<UserDO> userList = userMapper.getUserList(query.getUsername(), query.getRealName(), offset, query.getSize());
             log.info("userList: {}", userList);
             pageVO.setList(userList.stream().map(this::convert).collect(Collectors.toList()));
         }
@@ -141,6 +150,15 @@ public class UserService implements IUserService {
     }
 
     private UserVO convert(UserDO userDO) {
-        return UserVO.builder().id(userDO.getId()).username(userDO.getUsername()).password("******").build();
+        //UserVO userVO = BeanConverter.doSingle(userDO, UserVO.class);
+        UserVO userVO = new UserVO();
+        userVO.setUsername(userDO.getUsername());
+        userVO.setPassword(userDO.getPassword());
+        userVO.setRealName(userDO.getRealName());
+        userVO.setId(userDO.getId());
+        userVO.setEffectTime(userDO.getEffectTime());
+        userVO.setExpireTime(userDO.getExpireTime());
+        return userVO;
+//        return UserVO.builder().id(userDO.getId()).username(userDO.getUsername()).password("******").build();
     }
 }

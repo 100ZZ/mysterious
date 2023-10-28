@@ -17,7 +17,7 @@
     </resultMap>
 
     <sql id="table_name">
-        config
+        mysterious_config
     </sql>
 
     <sql id="select-column-list">

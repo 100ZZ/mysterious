@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author lihuia.com
- * @date 2022/4/17 10:51 AM
+ * @author maple@lihuia.com
+ * @date 2023/4/17 10:51 AM
  */
 
 @Configuration
@@ -61,7 +61,7 @@ public class SwaggerConfiguration {
                 // 接口描述
                 .description("Rest接口")
                 // 联系方式
-                .contact(new Contact("lihuia.com", "https://lihuia.com", "seven@lihuia.com"))
+                .contact(new Contact("maple@lihuia.com", "https://maple@lihuia.com", "seven@maple@lihuia.com"))
                 // 版本信息
                 .version("1.0")
                 // 构建
