@@ -6,7 +6,7 @@
 
 **接口文档**
 ```
-本地环境：[Google]:http://localhost:9999/swagger-ui.html
+本地环境：http://localhost:9999/swagger-ui.html
 接口脚本：api/api.jmx
 ```
 <br>
@@ -38,6 +38,9 @@ Meter工具：https://github.com/100ZZ/mysterious-jmeter
       2. 前端最好起个nginx（压测报告还是会用到web server），dist放在HTML里
       3. http://${server_ip}:8888即可进入登录页面
 4. 登录页面，注册，输入用户名密码，可以成功登录并跳转到用户管理页面说明对接无误；因为密码后端加密，无法解密，能够isMatch校验，因此没法初始化插库
+![img.png](mysterious-core/src/main/resources/img/login.png)
 
 <br>
-后端服务应该没多少BUG，前端刚开始重写，目前只有登录后的用户管理页面，所以暂时无法玩耍
+后端服务应该没多少BUG，前端刚开始写，目前只有登录后的用户管理页面，所以暂时无法玩耍，大致流程如下
+
+![img.png](mysterious-core/src/main/resources/img/img.png)
