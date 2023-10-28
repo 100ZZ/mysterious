@@ -1,52 +1,43 @@
 # Mysterious
 ```
-分布式压测平台，提供性能相关的服务
+分布式压测平台后端服务，提供性能相关的服务
 ```
 <br> 
 
 **接口文档**
 ```
-本地环境：http://localhost:8888/swagger-ui.html
+本地环境：[Google]:http://localhost:9999/swagger-ui.html
 接口脚本：api/api.jmx
 ```
 <br>
 
-**模块功能**
+**依赖**
 <br>
-[压测平台功能模块](https://di-matrix.feishu.cn/wiki/wikcn42CMTXDF89cqkkPtuKJwDe)
-
+前端服务：https://github.com/100ZZ/mysterious-web
 <br>
-
-**项目结构**
-```
-doc：部署等相关文档
-mysterious-common：公用类，工具
-mysterious-core：DO，VO，持久层，mapper接口，xml文件
-mysterious-service：业务逻辑层
-mysterious-web：控制层
-```
-<br> 
-
-**依赖用途**
-```
-java：jdk8以上
-springboot：2.3.12.RELEASE
-mybatis：ORM框架
-druid：数据库连接池
-mysql：业务数据存储
-redis：排队和分布式锁
-swagger：接口文档
-nginx：报告预览读取HTML目录
-```
-<br> 
-
-**服务端域名**
+Meter工具：https://github.com/100ZZ/mysterious-jmeter
 <br>
+数据库：MySQL，Redis，Nginx
 
-本地环境：[http://localhost:8888](http://localhost:8888)
+**启动服务**
+<br>
+1. 目录选取（建议创建一个mysterious文件夹，供下面子文件夹并列存放）
+   1. mysterious-jmeter（jmeter执行包）    
+   2. mysterious-data（存放testcase相关jmx，csv，jar，report的）
+2. 数据库初始化
+   1. create datebase mysterious
+   2. 建表，执行schema.sql
+   3. 初始化数据，执行insert.sql，也可以后续页面创建配置（路径就是1中的目录）
+3. 前后端分离，已经是跨域
+   1. 如果是本地调试
+      1. 后端直接启动springboot
+      2. 前端npm install；npm run dev
+      3. http://localhost:8888即可进入登录页面
+   2. 如果是服务器部署
+      1. 后端直接启动springboot
+      2. 前端最好起个nginx（压测报告还是会用到web server），dist放在HTML里
+      3. http://${server_ip}:8888即可进入登录页面
+4. 登录页面，注册，输入用户名密码，可以成功登录并跳转到用户管理页面说明对接无误；因为密码后端加密，无法解密，能够isMatch校验，因此没法初始化插库
 
 <br>
-
-**JMeter工具包**
-<br>
-[dm-jmeter.tgz](https://di-matrix.feishu.cn/file/VTLWbGNBMov047xSBixcZEeYnPd)
+后端服务应该没多少BUG，前端刚开始重写，目前只有登录后的用户管理页面，所以暂时无法玩耍
