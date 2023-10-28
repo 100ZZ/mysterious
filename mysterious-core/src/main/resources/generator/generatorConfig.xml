@@ -15,7 +15,7 @@
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
         <!--生成mapper.xml时覆盖原文件-->
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
-        <commentGenerator type="com.matrix.di.core.generator.CommentGenerator">
+        <commentGenerator type="com.lihuia.mysterious.core.generator.CommentGenerator">
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
             <property name="suppressAllComments" value="true"/>
             <property name="suppressDate" value="true"/>
@@ -30,11 +30,11 @@
             <property name="nullCatalogMeansCurrent" value="true" />
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.matrix.di.core.entity" targetProject="mysterious-core/src/main/java"/>
+        <javaModelGenerator targetPackage="com.lihuia.mysterious.core.entity" targetProject="mysterious-core/src/main/java"/>
 
         <sqlMapGenerator targetPackage="mybatis" targetProject="mysterious-core/src/main/resources"/>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.matrix.di.core.mapper" targetProject="mysterious-core/src/main/java"/>
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.lihuia.mysterious.core.mapper" targetProject="mysterious-core/src/main/java"/>
         <!--生成全部表tableName设为%-->
         <table tableName="%">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
