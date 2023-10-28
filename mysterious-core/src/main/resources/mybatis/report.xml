@@ -40,7 +40,7 @@
     </sql>
 
     <sql id="table_name">
-        report
+        mysterious_report
     </sql>
 
     <sql id="set">

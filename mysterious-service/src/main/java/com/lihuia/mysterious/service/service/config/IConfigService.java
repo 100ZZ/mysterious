@@ -1,14 +1,14 @@
 package com.lihuia.mysterious.service.service.config;
 
-import com.lihuia.mysterious.core.vo.config.ConfigQuery;
 import com.lihuia.mysterious.core.vo.config.ConfigParam;
+import com.lihuia.mysterious.core.vo.config.ConfigQuery;
 import com.lihuia.mysterious.core.vo.config.ConfigVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 
 /**
- * @author lihuia.com
- * @date 2022/4/1 上午9:48
+ * @author maple@lihuia.com
+ * @date 2023/4/1 上午9:48
  */
 public interface IConfigService {
 

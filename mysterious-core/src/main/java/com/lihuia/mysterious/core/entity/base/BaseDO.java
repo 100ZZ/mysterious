@@ -1,11 +1,13 @@
 package com.lihuia.mysterious.core.entity.base;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author lihuia.com
- * @date 2022/3/27 8:06 PM
+ * @author maple@lihuia.com
+ * @date 2023/3/27 8:06 PM
  */
 
 public class BaseDO<P> implements Serializable {
@@ -16,7 +18,9 @@ public class BaseDO<P> implements Serializable {
     private String creator;
     private Long modifierId;
     private String modifier;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime modifyTime;
 
     public P getId() {

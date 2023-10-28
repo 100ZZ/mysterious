@@ -32,8 +32,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * @author lihuia.com
- * @date 2022/4/5 5:45 PM
+ * @author maple@lihuia.com
+ * @date 2023/4/5 5:45 PM
  */
 
 @Slf4j
@@ -95,7 +95,7 @@ public class ReportService implements IReportService {
 
     @Override
     public List<ReportVO> getDebugReportListByTestCaseId(Long testCaseId, Integer execType, Integer limit) {
-        List<ReportDO> reportDOList = reportMapper.getReportByType(testCaseId, execType, limit);
+        List<ReportDO> reportDOList = reportMapper.getReportByType(testCaseId, execType, 0, limit);
         if (CollectionUtils.isEmpty(reportDOList)) {
             return Collections.emptyList();
         }
@@ -152,7 +152,7 @@ public class ReportService implements IReportService {
     }
 
     public static void main(String[] args) {
-        String ss = "/data/2022-04-04-10:35:00/log/";
+        String ss = "/data/2023-04-04-10:35:00/log/";
 
         int lastIndex = ss.replaceAll("/$", "").lastIndexOf("/");
         System.out.println(lastIndex);
@@ -203,7 +203,7 @@ public class ReportService implements IReportService {
 
     @Override
     public String viewReport(Long id) {
-        ///依赖csv文件_2022-03-25-17:09:34/report/2022-04-01-16:10:16/data/
+        ///依赖csv文件_2023-03-25-17:09:34/report/2023-04-01-16:10:16/data/
         ReportDO reportDO = reportMapper.getById(id);
         if (ObjectUtils.isEmpty(reportDO)) {
             throw new MysteriousException(ResponseCodeEnum.REPORT_NOT_EXIST);
@@ -225,8 +225,8 @@ public class ReportService implements IReportService {
             throw new MysteriousException(ResponseCodeEnum.REPORT_DIR_IS_EMPTY);
         }
         String reportDir;
-        if (testCaseReportDir.contains("mysterious-data")) {
-            reportDir = testCaseReportDir.split("mysterious-data")[1];
+        if (testCaseReportDir.contains("dm-data")) {
+            reportDir = testCaseReportDir.split("dm-data")[1];
         } else {
             reportDir = testCaseReportDir.replaceAll("^\\/data", "");
         }

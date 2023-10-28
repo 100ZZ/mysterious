@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 
 /**
- * @author lihuia.com
- * @date 2022/3/28 11:22 PM
+ * @author maple@lihuia.com
+ * @date 2023/3/28 11:22 PM
  */
 
 @Slf4j
@@ -49,8 +49,12 @@ public class AuthInterceptor implements HandlerInterceptor {
             throw new MysteriousException(ResponseCodeEnum.USER_TOKEN_EXPIRE);
         }
         /** token有效，ThreadLocal获取用户信息，接口调用传递用户信息 */
-        UserUtils.setCurrent(UserVO
-                .builder().id(userDO.getId()).username(userDO.getUsername()).password(userDO.getPassword()).build());
+        UserVO userVO = new UserVO();
+        userVO.setId(userDO.getId());
+        userVO.setUsername(userDO.getUsername());
+        userVO.setPassword(userDO.getPassword());
+        userVO.setRealName(userDO.getRealName());
+        UserUtils.setCurrent(userVO);
         return true;
     }
 

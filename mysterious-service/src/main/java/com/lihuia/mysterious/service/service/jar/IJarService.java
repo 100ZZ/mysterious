@@ -1,7 +1,6 @@
 package com.lihuia.mysterious.service.service.jar;
 
 import com.lihuia.mysterious.core.entity.jar.JarDO;
-import com.lihuia.mysterious.core.vo.jar.JarParam;
 import com.lihuia.mysterious.core.vo.jar.JarQuery;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
@@ -11,8 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 /**
- * @author lihuia.com
- * @date 2022/4/1 下午4:35
+ * @author maple@lihuia.com
+ * @date 2023/4/1 下午4:35
  */
 
 public interface IJarService {

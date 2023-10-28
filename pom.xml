@@ -7,14 +7,14 @@
     <groupId>com.lihuia</groupId>
     <artifactId>mysterious</artifactId>
     <version>1.0</version>
-    <packaging>pom</packaging>
-
     <modules>
         <module>mysterious-common</module>
         <module>mysterious-core</module>
         <module>mysterious-service</module>
         <module>mysterious-web</module>
     </modules>
+    <packaging>pom</packaging>
+
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -23,14 +23,14 @@
     </parent>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler.compilerVersion>11</maven.compiler.compilerVersion>
-        <jmeter.version>5.4</jmeter.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+        <jmeter.version>5.5</jmeter.version>
         <druid.version>1.1.23</druid.version>
         <hutool.version>5.4.0</hutool.version>
         <swagger2.version>2.9.2</swagger2.version>
@@ -50,6 +50,7 @@
         <dom4j.version>2.1.1</dom4j.version>
         <commons-io.version>2.6</commons-io.version>
         <ganymed-ssh2.version>build210</ganymed-ssh2.version>
+        <jBCrypt.version>0.4.3</jBCrypt.version>
     </properties>
 
     <dependencies>
@@ -204,37 +205,11 @@
                 <artifactId>ganymed-ssh2</artifactId>
                 <version>${ganymed-ssh2.version}</version>
             </dependency>
+            <dependency>
+                <groupId>de.svenkubiak</groupId>
+                <artifactId>jBCrypt</artifactId>
+                <version>${jBCrypt.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <finalName>mysteriousr-${project.version}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>com.</mainClass>
-                    <layout>ZIP</layout>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <showWarnings>true</showWarnings>
-                    <showDeprecation>false</showDeprecation>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

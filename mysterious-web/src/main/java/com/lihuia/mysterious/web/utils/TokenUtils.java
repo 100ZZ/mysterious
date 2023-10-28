@@ -5,8 +5,8 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author lihuia.com
- * @date 2022/3/30 11:17 PM
+ * @author maple@lihuia.com
+ * @date 2023/3/30 11:17 PM
  */
 
 public class TokenUtils {

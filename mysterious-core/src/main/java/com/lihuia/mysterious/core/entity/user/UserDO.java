@@ -5,8 +5,8 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * @author lihuia.com
- * @date 2022/3/28 11:39 PM
+ * @author maple@lihuia.com
+ * @date 2023/3/28 11:39 PM
  */
 
 @Data
@@ -19,6 +19,9 @@ public class UserDO {
 
     /** 密码 */
     private String password;
+
+    /** 姓名 */
+    private String realName;
 
     /** token */
     private String token;

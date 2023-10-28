@@ -7,19 +7,21 @@
         <result property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
+        <result property="realName" column="real_name"/>
         <result property="token" column="token"/>
         <result property="effectTime" column="effect_time"/>
         <result property="expireTime" column="expire_time"/>
     </resultMap>
 
     <sql id="table_name">
-        user
+        mysterious_user
     </sql>
 
     <sql id="select-column-list">
         `id`,
         `username`,
         `password`,
+        `real_name`,
         `token`,
         `effect_time`,
         `expire_time`
@@ -29,6 +31,7 @@
         <if test="id != null">id=#{id},</if>
         <if test="username != null">username=#{username},</if>
         <if test="password != null">password=#{password},</if>
+        <if test="realName != null">real_name=#{realName},</if>
         <if test="token != null">token=#{token},</if>
         <if test="effectTime != null">effect_time=#{effectTime},</if>
         <if test="expireTime != null">expire_time=#{expireTime},</if>
@@ -91,6 +94,7 @@
         <include refid="table_name"/>
         where 1=1
         <if test="username != null">and username like concat('%', #{username}, '%')</if>
+        <if test="realName != null">and real_name like concat('%', #{realName}, '%')</if>
     </select>
 
     <select id="getUserList" resultMap="UserResult">
@@ -100,6 +104,7 @@
         <include refid="table_name"/>
         where 1=1
         <if test="username != null">and username like concat('%', #{username}, '%')</if>
+        <if test="realName != null">and real_name like concat('%', #{realName}, '%')</if>
         order by effect_time desc
         <if test="limit > 0 and offset >= 0">limit #{offset}, #{limit}</if>
     </select>

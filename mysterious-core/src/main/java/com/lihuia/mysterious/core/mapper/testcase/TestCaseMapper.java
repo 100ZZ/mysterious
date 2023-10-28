@@ -6,8 +6,8 @@ import com.lihuia.mysterious.core.mapper.base.BaseMapper;
 import java.util.List;
 
 /**
- * @author lihuia.com
- * @date 2022/4/1 下午3:34
+ * @author maple@lihuia.com
+ * @date 2023/4/1 下午3:34
  */
 
 public interface TestCaseMapper extends BaseMapper<TestCaseDO> {

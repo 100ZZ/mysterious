@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 /**
- * @author lihuia.com
- * @date 2022/3/31 11:41 PM
+ * @author maple@lihuia.com
+ * @date 2023/3/31 11:41 PM
  */
 
 @Component
@@ -20,10 +20,10 @@ public class CRUDEntity<T extends BaseDO> {
      * @param userVO
      */
     public void addT(T t, UserVO userVO) {
-        t.setCreator(userVO.getUsername());
+        t.setCreator(userVO.getRealName());
         t.setCreatorId(userVO.getId());
         t.setCreateTime(LocalDateTime.now());
-        t.setModifier(userVO.getUsername());
+        t.setModifier(userVO.getRealName());
         t.setModifierId(userVO.getId());
         t.setModifyTime(LocalDateTime.now());
     }
@@ -34,7 +34,7 @@ public class CRUDEntity<T extends BaseDO> {
      * @param userVO
      */
     public void updateT(T t, UserVO userVO) {
-        t.setModifier(userVO.getUsername());
+        t.setModifier(userVO.getRealName());
         t.setModifierId(userVO.getId());
         t.setModifyTime(LocalDateTime.now());
     }}

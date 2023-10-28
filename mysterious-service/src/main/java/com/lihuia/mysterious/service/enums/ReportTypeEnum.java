@@ -1,8 +1,8 @@
 package com.lihuia.mysterious.service.enums;
 
 /**
- * @author lihuia.com
- * @date 2022/3/27 10:58 PM
+ * @author maple@lihuia.com
+ * @date 2023/3/27 10:58 PM
  */
 
 public enum ReportTypeEnum {

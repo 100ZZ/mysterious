@@ -1,8 +1,8 @@
 package com.lihuia.mysterious.service.enums;
 
 /**
- * @author lihuia.com
- * @date 2022/4/10 11:44 AM
+ * @author maple@lihuia.com
+ * @date 2023/4/10 11:44 AM
  */
 
 public enum JMeterScriptEnum {

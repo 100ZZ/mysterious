@@ -7,8 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @author lihuia.com
- * @date 2022/4/10 9:23 PM
+ * @author maple@lihuia.com
+ * @date 2023/4/10 9:23 PM
  */
 
 @Data

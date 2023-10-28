@@ -7,8 +7,8 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author lihuia.com
- * @date 2022/4/1 下午2:31
+ * @author maple@lihuia.com
+ * @date 2023/4/1 下午2:31
  */
 
 @Data

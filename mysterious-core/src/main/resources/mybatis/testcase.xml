@@ -21,7 +21,7 @@
     </resultMap>
 
     <sql id="table_name">
-        testcase
+        mysterious_testcase
     </sql>
 
     <sql id="select-column-list">

@@ -89,7 +89,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.lihuia.mysterious.core.mapper" level="DEBUG" additivity="false">
+    <logger name="com.matrix.di.core.mapper" level="DEBUG" additivity="false">
         <appender-ref ref="SQLFile"/>
     </logger>
 
