@@ -1,6 +1,6 @@
 # Mysterious
 ```
-分布式压测平台后端服务，提供性能相关的服务
+分布式压测平台后端服务，纯SpringBoot服务，提供性能相关的服务
 ```
 <br> 
 
@@ -13,11 +13,15 @@
 
 **依赖**
 <br>
+后端服务：https://github.com/100ZZ/mysterious
+<br>
 前端服务：https://github.com/100ZZ/mysterious-web
 <br>
-Meter工具：https://github.com/100ZZ/mysterious-jmeter
+JMeter工具包：https://github.com/100ZZ/mysterious-jmeter
 <br>
 数据库：MySQL，Redis，Nginx
+
+<br> 
 
 **启动服务**
 <br>
@@ -41,6 +45,9 @@ Meter工具：https://github.com/100ZZ/mysterious-jmeter
 ![image](https://raw.githubusercontent.com/100ZZ/mysterious/master/pic/login.png)
 
 <br>
-后端服务应该没多少BUG，前端刚开始写，目前只有登录后的用户管理页面，所以暂时无法玩耍，大致流程如下
+
+**进度**
+<br>
+后端服务应该没多少BUG，前端还没写完，目前只有几个页面可以展示，所以暂时无法玩耍，大致流程如下
 
 ![image](https://raw.githubusercontent.com/100ZZ/mysterious/master/pic/img.png)
