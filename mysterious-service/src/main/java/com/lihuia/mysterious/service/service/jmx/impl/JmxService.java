@@ -212,11 +212,11 @@ public class JmxService implements IJmxService {
     public PageVO<JmxVO> getJmxList(JmxQuery query) {
         PageVO<JmxVO> pageVO = new PageVO<>();
         Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
-        Integer total = jmxMapper.getJmxCount(query.getSrcName(), query.getTestCaseId(), query.getCreatorId());
+        Integer total = jmxMapper.getJmxCount(query.getSrcName(), query.getTestCaseId());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
             List<JmxDO> jmxDOList =
-                    jmxMapper.getJmxList(query.getSrcName(), query.getTestCaseId(), query.getCreatorId(), offset, query.getSize());
+                    jmxMapper.getJmxList(query.getSrcName(), query.getTestCaseId(), offset, query.getSize());
             if (!CollectionUtils.isEmpty(jmxDOList)) {
                 pageVO.setList(jmxDOList.stream().map(jmxDO -> {
                     JmxVO jmxVO = BeanConverter.doSingle(jmxDO, JmxVO.class);
