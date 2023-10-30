@@ -21,7 +21,4 @@ public class JmxQuery extends BaseQuery {
 
     @ApiModelProperty(value = "JMX文件关联的用例")
     private Long testCaseId;
-
-    @ApiModelProperty(value = "创建人ID ")
-    private Long creatorId;
 }

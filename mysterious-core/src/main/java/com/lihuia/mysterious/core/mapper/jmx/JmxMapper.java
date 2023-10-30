@@ -13,9 +13,9 @@ import java.util.List;
 
 public interface JmxMapper extends BaseMapper<JmxDO> {
 
-    Integer getJmxCount(String srcName, Long testCaseId, Long creatorId);
+    Integer getJmxCount(String srcName, Long testCaseId);
 
-    List<JmxDO> getJmxList(String srcName, Long testCaseId, Long creatorId, Integer offset, Integer limit);
+    List<JmxDO> getJmxList(String srcName, Long testCaseId, Integer offset, Integer limit);
 
     JmxDO getByTestCaseId(Long testCaseId);
 
