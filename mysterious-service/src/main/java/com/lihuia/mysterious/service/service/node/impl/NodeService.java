@@ -88,6 +88,7 @@ public class NodeService implements INodeService {
         }
         log.info("nodeDO:{}", nodeDO);
         nodeDO = BeanConverter.doSingle(nodeParam, NodeDO.class);
+        nodeDO.setId(id);
         crudEntity.updateT(nodeDO, userVO);
         return nodeMapper.update(nodeDO) > 0;
     }
