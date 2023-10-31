@@ -53,8 +53,8 @@ public class ReportController {
     }
 
     @ApiOperation("报告下载")
-    @GetMapping(value = "/download")
-    public Object downloadReport(@RequestParam("id") Long id) throws IOException {
+    @GetMapping(value = "/download/{id}")
+    public Object downloadReport(@PathVariable Long id) throws IOException {
         ReportVO reportVO = reportService.getById(id);
         FileSystemResource reportZipFile = reportService.downloadReport(reportVO);
 
