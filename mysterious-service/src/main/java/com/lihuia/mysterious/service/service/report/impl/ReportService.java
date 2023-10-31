@@ -57,11 +57,11 @@ public class ReportService implements IReportService {
     public PageVO<ReportVO> getReportList(ReportQuery query) {
         PageVO<ReportVO> pageVO = new PageVO<>();
         Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
-        Integer total = reportMapper.getReportCount(query.getName(), query.getCreatorId());
+        Integer total = reportMapper.getReportCount(query.getName());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
             List<ReportDO> reportList =
-                    reportMapper.getReportList(query.getName(), query.getCreatorId(), offset, query.getSize());
+                    reportMapper.getReportList(query.getName(), offset, query.getSize());
             if (!CollectionUtils.isEmpty(reportList)) {
                 pageVO.setList(reportList.stream().map(reportDO -> {
                     ReportVO reportVO = BeanConverter.doSingle(reportDO, ReportVO.class);

@@ -18,7 +18,4 @@ public class ReportQuery extends BaseQuery {
 
     @ApiModelProperty(value = "用例名称")
     private String name;
-
-    @ApiModelProperty(value = "创建人")
-    private Long creatorId;
 }

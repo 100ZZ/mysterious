@@ -14,9 +14,9 @@ import java.util.List;
 public interface ReportMapper extends BaseMapper<ReportDO> {
 
 
-    Integer getReportCount(String name, Long creatorId);
+    Integer getReportCount(String name);
 
-    List<ReportDO> getReportList(String name, Long creatorId, Integer offset, Integer limit);
+    List<ReportDO> getReportList(String name, Integer offset, Integer limit);
 
     Integer getReportCountByTestCase(String name, Long testCaseId, Long creatorId);
 
