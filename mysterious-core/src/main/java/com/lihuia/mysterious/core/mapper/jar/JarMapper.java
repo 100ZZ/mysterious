@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface JarMapper extends BaseMapper<JarDO> {
 
-    Integer getJarCount(String srcName, Long testCaseId, Long creatorId);
+    Integer getJarCount(String srcName, Long testCaseId);
 
-    List<JarDO> getJarList(String srcName, Long testCaseId, Long creatorId, Integer offset, Integer limit);
+    List<JarDO> getJarList(String srcName, Long testCaseId, Integer offset, Integer limit);
 
     List<JarDO> getByTestCaseId(Long testCaseId);
 
