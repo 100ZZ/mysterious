@@ -59,7 +59,6 @@
         where 1=1
         <if test="srcName != null">and src_name like concat('%', #{srcName}, '%')</if>
         <if test="testCaseId != null">and test_case_id=#{testCaseId}</if>
-        <if test="creatorId != null">and creator_id=#{creatorId}</if>
     </select>
 
     <select id="getJarList" resultMap="JarResult">
@@ -70,7 +69,6 @@
         where 1=1
         <if test="srcName != null">and src_name like concat('%', #{srcName}, '%')</if>
         <if test="testCaseId != null">and test_case_id=#{testCaseId}</if>
-        <if test="creatorId != null">and creator_id=#{creatorId}</if>
         order by modify_time desc
         <if test="limit > 0 and offset >= 0">limit #{offset}, #{limit}</if>
     </select>

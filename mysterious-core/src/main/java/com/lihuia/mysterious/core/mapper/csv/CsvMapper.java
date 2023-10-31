@@ -12,9 +12,9 @@ import java.util.List;
  */
 public interface CsvMapper extends BaseMapper<CsvDO> {
 
-    Integer getCsvCount(String srcName, Long testCaseId, Long creatorId);
+    Integer getCsvCount(String srcName, Long testCaseId);
 
-    List<CsvDO> getCsvList(String srcName, Long testCaseId, Long creatorId, Integer offset, Integer limit);
+    List<CsvDO> getCsvList(String srcName, Long testCaseId, Integer offset, Integer limit);
 
     List<CsvDO> getByTestCaseId(Long testCaseId);
 

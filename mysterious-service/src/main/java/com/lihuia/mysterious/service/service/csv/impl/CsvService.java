@@ -189,11 +189,11 @@ public class CsvService implements ICsvService {
     public PageVO<CsvVO> getCsvList(CsvQuery query) {
         PageVO<CsvVO> pageVO = new PageVO<>();
         Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
-        Integer total = csvMapper.getCsvCount(query.getSrcName(), query.getTestCaseId(), query.getCreatorId());
+        Integer total = csvMapper.getCsvCount(query.getSrcName(), query.getTestCaseId());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
             List<CsvDO> csvDOList =
-                    csvMapper.getCsvList(query.getSrcName(), query.getTestCaseId(), query.getCreatorId(), offset, query.getSize());
+                    csvMapper.getCsvList(query.getSrcName(), query.getTestCaseId(), offset, query.getSize());
             if (!CollectionUtils.isEmpty(csvDOList)) {
                 pageVO.setList(csvDOList.stream().map(csvDO -> {
                     CsvVO csvVO = BeanConverter.doSingle(csvDO, CsvVO.class);

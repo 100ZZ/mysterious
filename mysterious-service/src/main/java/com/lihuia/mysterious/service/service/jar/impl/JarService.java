@@ -197,11 +197,11 @@ public class JarService implements IJarService {
     public PageVO<JarVO> getJarList(JarQuery query) {
         PageVO<JarVO> pageVO = new PageVO<>();
         Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
-        Integer total = jarMapper.getJarCount(query.getSrcName(), query.getTestCaseId(), query.getCreatorId());
+        Integer total = jarMapper.getJarCount(query.getSrcName(), query.getTestCaseId());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
             List<JarDO> jarDOList =
-                    jarMapper.getJarList(query.getSrcName(), query.getTestCaseId(), query.getCreatorId(), offset, query.getSize());
+                    jarMapper.getJarList(query.getSrcName(), query.getTestCaseId(), offset, query.getSize());
             if (!CollectionUtils.isEmpty(jarDOList)) {
                 pageVO.setList(jarDOList.stream().map(jarDO -> {
                     JarVO jarVO = BeanConverter.doSingle(jarDO, JarVO.class);
