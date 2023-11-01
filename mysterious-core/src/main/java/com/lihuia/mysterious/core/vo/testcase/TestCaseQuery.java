@@ -27,7 +27,4 @@ public class TestCaseQuery extends BaseQuery {
 
     @ApiModelProperty(value = "服务")
     private String service;
-
-    @ApiModelProperty(value = "创建人")
-    private Long creatorId;
 }

@@ -206,12 +206,12 @@ public class TestCaseService implements ITestCaseService {
         PageVO<TestCaseVO> pageVO = new PageVO<>();
         Integer offset = pageVO.getOffset(query.getPage(), query.getSize());
         Integer total = testCaseMapper.getTestCaseCount(
-                        query.getId(), query.getName(), query.getBiz(), query.getService(), query.getCreatorId());
+                        query.getId(), query.getName(), query.getBiz(), query.getService());
         if (total.compareTo(0) > 0) {
             pageVO.setTotal(total);
             List<TestCaseDO> testCaseDOList =
                     testCaseMapper.getTestCaseList(
-                            query.getId(), query.getName(), query.getBiz(), query.getService(), query.getCreatorId(), offset, query.getSize());
+                            query.getId(), query.getName(), query.getBiz(), query.getService(), offset, query.getSize());
             if (!CollectionUtils.isEmpty(testCaseDOList)) {
                 pageVO.setList(testCaseDOList.stream().map(testCaseDO -> {
                     TestCaseVO testCaseVO = BeanConverter.doSingle(testCaseDO, TestCaseVO.class);

@@ -36,7 +36,7 @@ JMeter工具包：https://github.com/100ZZ/mysterious-jmeter
    1. 如果是本地调试
       1. 后端直接启动springboot
       2. 前端npm install；npm run dev
-      3. http://localhost:8888即可进入登录页面
+      3. http://localhost:7777 即可进入登录页面
    2. 如果是服务器部署
       1. 后端直接启动springboot
       2. 前端最好起个nginx（压测报告还是会用到web server），dist放在HTML里

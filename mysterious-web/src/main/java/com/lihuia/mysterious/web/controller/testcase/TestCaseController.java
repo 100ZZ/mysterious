@@ -87,8 +87,8 @@ public class TestCaseController {
     }
 
     @ApiOperation("同步新增压力机测试数据")
-    @GetMapping(value = "/syncNode")
-    public Response<Boolean> syncNode(@RequestParam(value = "nodeId") Long nodeId) {
+    @GetMapping(value = "/syncNode/{nodeId}")
+    public Response<Boolean> syncNode(@PathVariable Long nodeId) {
         return ResponseUtil.buildSuccessResponse(testCaseService.syncNode(nodeId));
     }
 

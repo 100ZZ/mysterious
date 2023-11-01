@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface TestCaseMapper extends BaseMapper<TestCaseDO> {
 
-    Integer getTestCaseCount(Long id, String name, String biz, String service, Long creatorId);
+    Integer getTestCaseCount(Long id, String name, String biz, String service);
 
-    List<TestCaseDO> getTestCaseList(Long id, String name, String biz, String service, Long creatorId, Integer offset, Integer limit);
+    List<TestCaseDO> getTestCaseList(Long id, String name, String biz, String service, Integer offset, Integer limit);
 
     List<TestCaseDO> getTestCaseListByStatus(Integer status);
 
