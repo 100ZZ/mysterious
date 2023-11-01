@@ -115,7 +115,6 @@ public class NodeService implements INodeService {
         }
         NodeVO nodeVO = BeanConverter.doSingle(nodeDO, NodeVO.class);
         nodeVO.setId(id);
-        nodeVO.setPassword("******");
         return nodeVO;
     }
 
@@ -241,6 +240,7 @@ public class NodeService implements INodeService {
             crudEntity.updateT(nodeDO, userVO);
             log.info("启动节点失败, id: {}", nodeDO.getId());
             nodeMapper.update(nodeDO);
+            throw new MysteriousException(e.getMessage());
         }
         return true;
     }

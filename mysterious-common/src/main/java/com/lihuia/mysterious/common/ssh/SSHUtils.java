@@ -81,7 +81,7 @@ public class SSHUtils {
             returnLine.append(br.readLine());
             br.close();
         } catch (Exception e) {
-            throw new MysteriousException(ResponseCodeEnum.SSH_EXEC_ERROR.getMessage(), e);
+            throw new MysteriousException(ResponseCodeEnum.SSH_EXEC_ERROR);
         } finally {
             if (null != session) {
                 session.close();
