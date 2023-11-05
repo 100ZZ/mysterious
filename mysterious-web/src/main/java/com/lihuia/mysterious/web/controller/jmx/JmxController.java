@@ -57,12 +57,11 @@ public class JmxController {
         return ResponseUtil.buildSuccessResponse(jmxService.forceDelete(id));
     }
 
-    @GetMapping(value = "/downloadJmx")
-    public void downloadJmx(@RequestParam(value = "id") Long id,
-                            @RequestParam(value = "type") Integer type,
+    @GetMapping(value = "/download/{id}")
+    public void downloadJmx(@PathVariable Long id,
                             HttpServletResponse response) {
         JmxVO jmxDO = jmxService.getJmxVO(id);
-        String fileName = type.equals(1) ? jmxDO.getSrcName() : "debug_" + jmxDO.getSrcName();
+        String fileName = jmxDO.getSrcName();
         String filePath = jmxDO.getJmxDir() + fileName;
         File file = new File(filePath);
         if (!file.exists()) {
