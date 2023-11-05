@@ -60,9 +60,9 @@ public class CsvController {
     }
 
     @ApiOperation("下载")
-    @GetMapping(value = "/download")
-    public Response<Boolean> downloadJmx(@RequestParam(value = "id") Long id,
-                            HttpServletResponse response) {
+    @GetMapping(value = "/download/{id}")
+    public void downloadJmx(@PathVariable Long id,
+                                         HttpServletResponse response) {
         CsvVO csvVO = csvService.getCsvVO(id);
         String fileName = csvVO.getSrcName();
         String filePath = csvVO.getCsvDir() + fileName;
@@ -86,6 +86,6 @@ public class CsvController {
         } catch (Exception e) {
             throw new MysteriousException(ResponseCodeEnum.DOWNLOAD_ERROR);
         }
-        return ResponseUtil.buildSuccessResponse(ResponseCodeEnum.SUCCESS.getSuccess());
+//        return ResponseUtil.buildSuccessResponse(ResponseCodeEnum.SUCCESS.getSuccess());
     }
 }
