@@ -225,15 +225,14 @@ public class ReportService implements IReportService {
             throw new MysteriousException(ResponseCodeEnum.REPORT_DIR_IS_EMPTY);
         }
         String reportDir;
-        if (testCaseReportDir.contains("dm-data")) {
-            reportDir = testCaseReportDir.split("dm-data")[1];
+        if (testCaseReportDir.contains("mysterious-data")) {
+            reportDir = testCaseReportDir.split("mysterious-data")[1];
         } else {
             reportDir = testCaseReportDir.replaceAll("^\\/data", "");
         }
 
-        String host = configService.getValue("host");
-        String port = configService.getValue("port");
-        String url = "http://" + host + ":" + port + reportDir + "index.html";
+        String host = configService.getValue("MASTER_HOST_PORT");
+        String url = "http://" + host + reportDir + "index.html";
         return url;
     }
 
