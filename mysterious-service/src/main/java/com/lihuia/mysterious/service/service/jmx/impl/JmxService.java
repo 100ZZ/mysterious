@@ -115,7 +115,10 @@ public class JmxService implements IJmxService {
 
         /** 上传的jmx文件名，带后缀*/
         String srcName = jmxFile.getOriginalFilename();
-        if (StringUtils.isEmpty(srcName) || srcName.contains(" ")) {
+        if (ObjectUtils.isEmpty(srcName)
+                || !srcName.contains(".jmx")
+                || StringUtils.isEmpty(srcName)
+                || srcName.contains(" ")) {
             throw new MysteriousException(ResponseCodeEnum.JMX_NAME_ERROR);
         }
         /** 上传后保存，以及最终执行的jmx文件名 */

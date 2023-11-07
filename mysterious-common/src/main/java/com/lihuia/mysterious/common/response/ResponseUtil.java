@@ -1,5 +1,7 @@
 package com.lihuia.mysterious.common.response;
 
+import java.time.LocalDateTime;
+
 /**
  * @author maple@lihuia.com
  * @date 2023/3/29 11:02 PM
@@ -46,7 +48,7 @@ public class ResponseUtil {
                 .code(responseCodeEnum.getCode())
                 .message(responseCodeEnum.getMessage())
                 .success(responseCodeEnum.getSuccess())
-                .currentTime(System.currentTimeMillis())
+                .currentTime(LocalDateTime.now())
                 .data(data)
                 .build();
     }
@@ -62,7 +64,7 @@ public class ResponseUtil {
                 .code(resp.getCode())
                 .message(resp.getMessage())
                 .success(resp.getSuccess())
-                .currentTime(System.currentTimeMillis())
+                .currentTime(LocalDateTime.now())
                 .data(data)
                 .build();
     }
@@ -77,7 +79,7 @@ public class ResponseUtil {
                 .code(responseCodeEnum.getCode())
                 .message(responseCodeEnum.getMessage())
                 .success(responseCodeEnum.getSuccess())
-                .currentTime(System.currentTimeMillis())
+                .currentTime(LocalDateTime.now())
                 .build();
     }
 }
