@@ -85,7 +85,6 @@
         where 1=1
         <if test="name != null">and name like concat('%', #{name}, '%')</if>
         <if test="testCaseId != null">and test_case_id=#{testCaseId}</if>
-        <if test="creatorId != null">and creator_id=#{creatorId}</if>
     </select>
 
     <select id="getReportListByTestCase" resultMap="ReportResult">
@@ -96,7 +95,6 @@
         where 1=1
         <if test="name != null">and name like concat('%', #{name}, '%')</if>
         <if test="testCaseId != null">and test_case_id=#{testCaseId}</if>
-        <if test="creatorId != null">and creator_id=#{creatorId}</if>
         order by id desc
         <if test="limit > 0 and offset >= 0">limit #{offset}, #{limit}</if>
     </select>

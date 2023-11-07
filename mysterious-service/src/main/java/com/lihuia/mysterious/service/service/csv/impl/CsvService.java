@@ -89,7 +89,10 @@ public class CsvService implements ICsvService {
         /** master节点保存csv文件的目录 */
         String csvDir = testCaseFullVO.getTestCaseDir() + "csv/";
         String csvFileName = csvFile.getOriginalFilename();
-        if (StringUtils.isEmpty(csvFileName) || csvFileName.contains(" ")) {
+        if (ObjectUtils.isEmpty(csvFileName)
+                || !csvFileName.contains(".csv")
+                || StringUtils.isEmpty(csvFileName)
+                || csvFileName.contains(" ")) {
             throw new MysteriousException(ResponseCodeEnum.CSV_NAME_ERROR);
         }
         String csvFilePath = csvDir + csvFileName;

@@ -94,7 +94,10 @@ public class JarService implements IJarService {
         }
         /** 用例jar包完整路径 */
         String jarFileName = jarFile.getOriginalFilename();
-        if (StringUtils.isEmpty(jarFileName) || jarFileName.contains(" ")) {
+        if (ObjectUtils.isEmpty(jarFileName)
+                || !jarFileName.contains(".jar")
+                || StringUtils.isEmpty(jarFileName)
+                || jarFileName.contains(" ")) {
             throw new MysteriousException(ResponseCodeEnum.JAR_NAME_ERROR);
         }
         /** 如果是以jmeter-plugins-开头的jar包，当做是插件依赖包，放在系统/lib/ext下;

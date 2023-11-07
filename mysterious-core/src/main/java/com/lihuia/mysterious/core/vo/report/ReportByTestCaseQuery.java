@@ -16,13 +16,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class ReportByTestCaseQuery extends BaseQuery {
 
-
     @ApiModelProperty(value = "用例名称")
     private String name;
 
     @ApiModelProperty(value = "用例ID")
     private Long testCaseId;
-
-    @ApiModelProperty(value = "创建人")
-    private Long creatorId;
 }

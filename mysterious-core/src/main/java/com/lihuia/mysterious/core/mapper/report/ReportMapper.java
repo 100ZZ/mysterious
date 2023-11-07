@@ -18,9 +18,9 @@ public interface ReportMapper extends BaseMapper<ReportDO> {
 
     List<ReportDO> getReportList(String name, Integer offset, Integer limit);
 
-    Integer getReportCountByTestCase(String name, Long testCaseId, Long creatorId);
+    Integer getReportCountByTestCase(String name, Long testCaseId);
 
-    List<ReportDO> getReportListByTestCase(String name, Long testCaseId, Long creatorId, Integer offset, Integer limit);
+    List<ReportDO> getReportListByTestCase(String name, Long testCaseId, Integer offset, Integer limit);
 
     /** 根据执行类型查询数量 */
     Integer getReportCountByExecType(Integer execType);
