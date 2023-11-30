@@ -60,9 +60,9 @@ public class JmxController {
     @GetMapping(value = "/download/{id}")
     public void downloadJmx(@PathVariable Long id,
                             HttpServletResponse response) {
-        JmxVO jmxDO = jmxService.getJmxVO(id);
-        String fileName = jmxDO.getSrcName();
-        String filePath = jmxDO.getJmxDir() + fileName;
+        JmxVO jmxVO = jmxService.getJmxVO(id);
+        String fileName = jmxVO.getSrcName();
+        String filePath = jmxVO.getJmxDir() + fileName;
         File file = new File(filePath);
         if (!file.exists()) {
             throw new MysteriousException(ResponseCodeEnum.FILE_NOT_EXIST);
