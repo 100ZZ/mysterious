@@ -196,6 +196,7 @@ public class TestCaseService implements ITestCaseService {
         }
 
         TestCaseDO testCaseDO = BeanConverter.doSingle(testCaseParam, TestCaseDO.class);
+        testCaseDO.setId(id);
         crudEntity.updateT(testCaseDO, userVO);
         log.info("更新用例: {}", JSON.toJSONString(testCaseDO));
         return testCaseMapper.update(testCaseDO) > 0;

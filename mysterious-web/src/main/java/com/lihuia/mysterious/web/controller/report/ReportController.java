@@ -74,7 +74,7 @@ public class ReportController {
                 .body(new InputStreamResource(reportZipFile.getInputStream()));
     }
 
-    @ApiOperation("预览日志")
+    @ApiOperation("查看日志")
     @GetMapping(value = "/getJMeterLog/{id}")
     public Response<Boolean> getLog(@PathVariable Long id,
                                     HttpServletResponse response) {
