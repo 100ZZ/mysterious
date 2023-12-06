@@ -12,6 +12,7 @@ import com.lihuia.mysterious.service.enums.ReportTypeEnum;
 import com.lihuia.mysterious.service.service.report.IReportService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
@@ -32,6 +33,7 @@ import java.nio.charset.StandardCharsets;
  * @date 2023/4/10 9:29 PM
  */
 
+@Slf4j
 @RestController
 @Api(tags = "报告管理")
 @RequestMapping(value = "/report")
@@ -88,13 +90,15 @@ public class ReportController {
         String[] s = jmeterLogFilePath.split("jmeter");
         String jmeterLogFile = "jmeter" + s[1];
         File file = new File(jmeterLogFilePath);
+        log.info("jmeterLogFilePath: {}", jmeterLogFilePath);
         if (!file.exists()) {
             throw new MysteriousException(ResponseCodeEnum.FILE_NOT_EXIST);
         }
         try {
             InputStream inputStream = new FileInputStream(jmeterLogFilePath);
             response.reset();
-            response.setContentType(MediaType.APPLICATION_OCTET_STREAM.toString());
+            //response.setContentType(MediaType.APPLICATION_OCTET_STREAM.toString());
+            response.setContentType("bin");
             response.addHeader("Content-Disposition", "attachment; filename=\"" + jmeterLogFile + "\"");
             // 循环取出流中的数据
             byte[] b = new byte[100];
