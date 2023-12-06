@@ -356,7 +356,8 @@ public class TestCaseService implements ITestCaseService {
     public Boolean runTestCase(Long id, UserVO userVO) {
         List<ReportVO> reportVOList = reportService.getDebugReportListByTestCaseId(id, ExecTypeEnum.DEBUG.getType(), 1);
         if (CollectionUtils.isEmpty(reportVOList) || !reportVOList.get(0).getStatus().equals(TestCaseStatus.RUN_SUCCESS.getCode())) {
-            throw new MysteriousException(ResponseCodeEnum.DEBUG_BEFORE_RUN);
+            //throw new MysteriousException(ResponseCodeEnum.DEBUG_BEFORE_RUN);
+            log.info("调试不成功，发送压测请求了，暂时让通过");
         }
         List<NodeVO> enableNodeList = nodeService.getEnableNodeList();
         /** slave节点数据库是enable状态，但是机器挂了 */

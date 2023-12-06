@@ -56,7 +56,7 @@ public enum ResponseCodeEnum {
     REPORT_NOT_EXIST(1044, "报告不存在", false),
     DEBUG_REPORT_NOT_DOWNLOAD(1045, "调试报告不下载", false),
     REPORT_DIR_NOT_EXIST(1046, "报告目录不存在", false),
-    REPORT_DIR_IS_EMPTY(1047, "报告目录卫东", false),
+    REPORT_DIR_IS_EMPTY(1047, "报告目录为空", false),
     DEBUG_REPORT_NOT_VIEW(1048, "非压测报告无法预览", false),
     NODE_TYPE_ERROR(1049, "节点不存在或者类型不对", false),
     NODE_CANNOT_CONNECT(1050, "节点无法连通", false),
