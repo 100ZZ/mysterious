@@ -44,9 +44,7 @@ JMeter工具包：https://github.com/100ZZ/mysterious-jmeter
 4. 登录页面，注册，输入用户名密码，可以成功登录并跳转到用户管理页面说明对接无误；因为密码后端加密，无法解密，能够isMatch校验，因此没法初始化插库
 ![image](https://raw.githubusercontent.com/100ZZ/mysterious/master/pic/login.png)
 
-**进度**
 <br>
-后端服务应该没多少BUG，前端还没写完（第一次玩），目前功能还没实现完，所以暂时无法玩耍，大致流程如下
 
 **经验总结**
 <br>
