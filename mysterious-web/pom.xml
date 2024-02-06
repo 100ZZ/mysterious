@@ -44,7 +44,7 @@
     </dependencies>
 
     <build>
-        <finalName>mysterious-${project.version}</finalName>
+        <finalName>mysterious</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
