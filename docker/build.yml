@@ -1,0 +1,7 @@
+version: '3.0'
+services:
+  test-platform:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: 100zz/mysterious:${MYSTERIOUS_VERSION}
