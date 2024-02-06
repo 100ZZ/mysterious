@@ -1,9 +1,5 @@
 version: '3.0'
 
-networks:
-  mysterious_network:
-    driver: external
-
 services:
   mysterious-mysql:
     container_name: mysterious-mysql
@@ -19,8 +15,8 @@ services:
       TZ: Asia/Shanghai
     ports:
       - "13306:3306"
-    networks:
-      - mysterious_network
+    depends_on:
+      - mysterious
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pTest@123456" ]
       interval: 10s
@@ -36,8 +32,8 @@ services:
       - /opt/mysterious/nginx/html:/usr/share/nginx/html
     ports:
       - "1234:1234"
-    networks:
-      - mysterious_network
+    depends_on:
+      - mysterious
 
   mysterious:
     container_name: mysterious
@@ -48,7 +44,3 @@ services:
       JAVA_OPTS: -Xmx4g -Xms4g
     ports:
       - "4321:4321"
-    depends_on:
-      - mysterious-mysql
-    networks:
-      - mysterious_network
