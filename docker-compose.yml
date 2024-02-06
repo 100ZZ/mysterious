@@ -2,7 +2,7 @@ version: '3.0'
 
 networks:
   mysterious_network:
-    driver: bridge
+    driver: external
 
 services:
   mysterious-mysql:
