@@ -1,0 +1,54 @@
+version: '3.0'
+
+networks:
+  mysterious_network:
+    driver: bridge
+
+services:
+  mysterious-mysql:
+    container_name: mysterious-mysql
+    image: 100zz/test-mysql:${MYSQL_VERSION}
+    restart: always
+    command: --max-connections=1000 --slow_query_log=1 --slow_query_log_file=/var/lib/mysql/slow-log.log --long_query_time=1
+    volumes:
+      - /opt/mysterious/mysql/data:/var/lib/mysql
+      - /opt/mysterious/mysql/sql:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: Test@123456
+      MYSQL_DATABASE: mysterious
+      TZ: Asia/Shanghai
+    ports:
+      - "13306:3306"
+    networks:
+      - mysterious_network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pTest@123456" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  mysterious-nginx:
+    container_name: mysterious-nginx
+    image: 100zz/test-nginx:${NGINX_VERSION}
+    restart: always
+    volumes:
+      - /opt/mysterious/nginx/conf.d:/etc/nginx/conf.d
+      - /opt/mysterious/nginx/html:/usr/share/nginx/html
+    ports:
+      - "1234:1234"
+    networks:
+      - mysterious_network
+
+  mysterious:
+    container_name: mysterious
+    image: 100zz/mysterious:${MYSTERIOUS_VERSION}
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      JAVA_OPTS: -Xmx4g -Xms4g
+    ports:
+      - "4321:4321"
+    depends_on:
+      - mysterious-mysql
+    networks:
+      - mysterious_network
