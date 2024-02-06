@@ -42,5 +42,9 @@ services:
     environment:
       TZ: Asia/Shanghai
       JAVA_OPTS: -Xmx4g -Xms4g
+    volumes:
+      - /opt/mysterious/mysql/sql:/docker-entrypoint-initdb.d
+      - /opt/mysterious/nginx/conf.d:/etc/nginx/conf.d
+      - /opt/mysterious/nginx/html:/usr/share/nginx/html
     ports:
       - "4321:4321"
