@@ -12,6 +12,6 @@ ENV TZ=Asia/Shanghai
 # 设置工作目录
 WORKDIR /opt
 
-COPY mysterious.jar /opt/mysterious/running/
+COPY mysterious.jar /opt/
 
-ENTRYPOINT ["java", "-jar", "/opt/mysterious/running/mysterious.jar"]
+ENTRYPOINT ["java", "-jar", "/opt/mysterious.jar"]
