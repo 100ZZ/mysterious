@@ -16,6 +16,20 @@ services:
     ports:
       - "23306:3306"
 
+  mysterious-redis:
+    container_name: mysterious-redis
+    image: 100zz/test-redis:${REDIS_VERSION}
+    restart: always
+    volumes:
+      - redis_data:/data
+      - redis_conf:/etc/redis
+    sysctls:
+      - net.core.somaxconn=1024
+    ports:
+      - "16379:6379"
+    command: >  # 注意多个命令时的写法
+      bash -c "echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf && redis-server /etc/redis/redis.conf"
+
   mysterious-nginx:
     container_name: mysterious-nginx
     image: 100zz/test-nginx:${NGINX_VERSION}
