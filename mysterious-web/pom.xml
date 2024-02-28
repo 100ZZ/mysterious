@@ -52,6 +52,7 @@
                 <configuration>
                     <mainClass>com.lihuia.mysterious.MysteriousApplication</mainClass>
                     <layout>ZIP</layout>
+                    <outputDirectory>../docker</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>
