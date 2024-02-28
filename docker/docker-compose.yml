@@ -1,5 +1,10 @@
 version: '3.0'
 
+networks:
+  default:
+    external:
+      name: mysterious-network
+
 services:
   mysterious-mysql:
     container_name: mysterious-mysql
