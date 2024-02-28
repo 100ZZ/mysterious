@@ -20,6 +20,7 @@ mkdir -p ${BASE_DIR}/mysql/data
 
 mkdir -p ${BASE_DIR}/redis/data
 mkdir -p ${BASE_DIR}/redis/etc
+cp redis.conf ${BASE_DIR}/redis/etc/
 
 # 创建nginx目录
 mkdir -p ${BASE_DIR}/nginx/conf.d
