@@ -14,7 +14,7 @@ WORKDIR /opt
 
 COPY dist /usr/share/nginx/html/dist
 COPY 1234.conf /etc/nginx/conf.d/
-COPY mysterious-core/target/classes/sql/* /docker-entrypoint-initdb.d/
-COPY mysterious-web/target/mysterious.jar /opt/mysterious/
+COPY mysterious-core/target/classes/sql/*.sql /docker-entrypoint-initdb.d/
+COPY ../mysterious-web/target/mysterious.jar /opt/mysterious/
 
 ENTRYPOINT ["java", "-jar", "/opt/mysterious/mysterious.jar"]
