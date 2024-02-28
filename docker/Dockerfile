@@ -12,9 +12,7 @@ ENV TZ=Asia/Shanghai
 # 设置工作目录
 WORKDIR /opt
 
-COPY dist /usr/share/nginx/html/dist
 COPY 1234.conf /etc/nginx/conf.d/
-COPY mysterious-core/target/classes/sql/*.sql /docker-entrypoint-initdb.d/
-COPY ../mysterious-web/target/mysterious.jar /opt/mysterious/
+COPY mysterious.jar /opt/mysterious/running/
 
-ENTRYPOINT ["java", "-jar", "/opt/mysterious/mysterious.jar"]
+ENTRYPOINT ["java", "-jar", "/opt/mysterious/running/mysterious.jar"]
