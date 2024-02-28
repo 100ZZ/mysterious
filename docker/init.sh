@@ -10,6 +10,9 @@ fi
 
 mkdir $BASE_DIR
 
+# 创建执行，日志目录
+mkdir -p ${BASE_DIR}/logs
+
 # 创建mysql目录
 mkdir -p ${BASE_DIR}/mysql/sql
 cp schema.sql ${BASE_DIR}/mysql/sql/
@@ -25,8 +28,10 @@ mkdir -p ${BASE_DIR}/mysterious-data
 
 # 创建jmeter工具包目录
 cd ${BASE_DIR}
-git clone https://github.com/100ZZ/mysterious-jmeter.git
-rm -rf mysterious-jmeter/.git*
+if test ! -d mysterious-jmeter; then
+  git clone https://github.com/100ZZ/mysterious-jmeter.git
+  rm -rf mysterious-jmeter/.git*
+fi
 
 
 

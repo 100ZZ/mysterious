@@ -12,7 +12,6 @@ ENV TZ=Asia/Shanghai
 # 设置工作目录
 WORKDIR /opt
 
-COPY 1234.conf /etc/nginx/conf.d/
 COPY mysterious.jar /opt/mysterious/running/
 
 ENTRYPOINT ["java", "-jar", "/opt/mysterious/running/mysterious.jar"]

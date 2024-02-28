@@ -33,6 +33,8 @@ services:
     environment:
       TZ: Asia/Shanghai
       JAVA_OPTS: -Xmx4g -Xms4g
+    volumes:
+      - /opt/mysterious/logs:/opt/mysterious/logs
     ports:
       - "4321:4321"
     depends_on:
