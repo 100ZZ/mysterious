@@ -26,8 +26,8 @@ services:
     image: 100zz/test-redis:${REDIS_VERSION}
     restart: always
     volumes:
-      - redis_data:/data
-      - redis_conf:/etc/redis
+      - /opt/mysterious/redis/data:/data
+      - /opt/mysterious/redis/etc:/etc/redis
     sysctls:
       - net.core.somaxconn=1024
     ports:

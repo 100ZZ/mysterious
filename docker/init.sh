@@ -15,8 +15,11 @@ mkdir -p ${BASE_DIR}/logs
 
 # 创建mysql目录
 mkdir -p ${BASE_DIR}/mysql/sql
-cp schema.sql ${BASE_DIR}/mysql/sql/
+cp init.sql ${BASE_DIR}/mysql/sql/
 mkdir -p ${BASE_DIR}/mysql/data
+
+mkdir -p ${BASE_DIR}/redis/data
+mkdir -p ${BASE_DIR}/redis/etc
 
 # 创建nginx目录
 mkdir -p ${BASE_DIR}/nginx/conf.d
