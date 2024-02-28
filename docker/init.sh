@@ -19,6 +19,12 @@ mkdir -p mysql/data
 mkdir -p nginx/html
 mkdir -p nginx/conf.d
 
+# 创建mysterious执行目录
+mkdir -p running
+
+# 创建压测数据，报告目录
+mkdir -p mysterious-data
+
 # 创建jmeter工具包目录
 git clone https://github.com/100ZZ/mysterious-jmeter.git
 rm -rf mysterious-jmeter/.git*
