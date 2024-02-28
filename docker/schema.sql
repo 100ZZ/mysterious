@@ -1,4 +1,6 @@
-USE mysterious;
+create database if not exists mysterious default charset utf8mb4 collate utf8mb4_0900_ai_ci;
+use mysterious;
+
 CREATE TABLE `mysterious_user` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
     `username` varchar(128) NOT NULL DEFAULT '' COMMENT '用户名',
@@ -140,3 +142,16 @@ CREATE TABLE `mysterious_report` (
     KEY `idx_test_case_id` (`test_case_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='测试报告表';
+
+-- master节点用例，报告目录
+INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("MASTER_DATA_HOME", "/opt/mysterious/mysterious-data", "master节点用例，报告目录");
+-- master节点Jmeter路径
+INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("MASTER_JMETER_HOME", "/opt/mysterious/mysterious-jmeter", "master节点Jmeter路径");
+-- master节点Jmeter执行目录
+INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("MASTER_JMETER_BIN_HOME", "/opt/mysterious/mysterious-jmeter/bin", "master节点Jmeter执行目录");
+-- slave节点Jmeter-Server执行目录
+INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("SLAVE_JMETER_BIN_HOME", "/opt/mysterious/mysterious-jmeter/bin", "slave节点Jmeter-Server执行目录");
+-- slave节点Jmeter-Server日志目录
+INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("SLAVE_JMETER_LOG_HOME", "/opt/mysterious/mysterious-jmeter/log", "slave节点Jmeter-Server日志目录");
+-- master节点host
+INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("MASTER_HOST_PORT", "192.168.100.186:9998", "压测报告预览链接的Host");
