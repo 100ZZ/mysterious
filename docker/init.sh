@@ -13,7 +13,6 @@ mkdir $BASE_DIR
 # 创建mysql目录
 mkdir -p ${BASE_DIR}/mysql/sql
 cp schema.sql ${BASE_DIR}/mysql/sql/
-cp insert.sql ${BASE_DIR}/mysql/sql/
 mkdir -p ${BASE_DIR}/mysql/data
 
 # 创建nginx目录
