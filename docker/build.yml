@@ -2,6 +2,6 @@ version: '3.0'
 services:
   mysterious:
     build:
-      context: ..
+      context: .
       dockerfile: Dockerfile
     image: 100zz/mysterious:${MYSTERIOUS_VERSION}

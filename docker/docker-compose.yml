@@ -8,12 +8,13 @@ services:
     command: --max-connections=1000 --slow_query_log=1 --slow_query_log_file=/var/lib/mysql/slow-log.log --long_query_time=1
     volumes:
       - /opt/mysterious/mysql/data:/var/lib/mysql
+      - /opt/mysterious/mysql:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: Test@123456
       MYSQL_DATABASE: mysterious
       TZ: Asia/Shanghai
     ports:
-      - "13306:3306"
+      - "23306:3306"
 
   mysterious-nginx:
     container_name: mysterious-nginx

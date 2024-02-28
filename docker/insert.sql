@@ -1,3 +1,4 @@
+use mysterious;
 -- master节点用例，报告目录
 INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("MASTER_DATA_HOME", "/opt/mysterious/mysterious-data", "master节点用例，报告目录");
 -- master节点Jmeter路径

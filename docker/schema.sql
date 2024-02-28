@@ -1,3 +1,4 @@
+USE mysterious;
 CREATE TABLE `mysterious_user` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
     `username` varchar(128) NOT NULL DEFAULT '' COMMENT '用户名',
