@@ -25,13 +25,17 @@ services:
     container_name: mysterious-redis
     image: 100zz/test-redis:${REDIS_VERSION}
     restart: always
+    environment:
+      TZ: Asia/Shanghai
     volumes:
       - /opt/mysterious/redis/data:/data
-      - /opt/mysterious/redis/etc:/etc/redis
+      - /opt/mysterious/redis/logs:/logs
+      - /opt/mysterious/redis/conf/redis.conf:/etc/redis/redis.conf
     sysctls:
       - net.core.somaxconn=1024
     ports:
       - "16379:6379"
+    privileged: true
     command: >  # 注意多个命令时的写法
       bash -c "echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf && redis-server /etc/redis/redis.conf"
 
@@ -39,6 +43,8 @@ services:
     container_name: mysterious-nginx
     image: 100zz/test-nginx:${NGINX_VERSION}
     restart: always
+    environment:
+      TZ: Asia/Shanghai
     volumes:
       - /opt/mysterious/nginx/conf.d:/etc/nginx/conf.d
       - /opt/mysterious/nginx/html:/usr/share/nginx/html
@@ -58,3 +64,5 @@ services:
       - "4321:4321"
     depends_on:
       - mysterious-mysql
+      - mysterious-nginx
+      - mysterious-redis

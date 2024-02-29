@@ -18,9 +18,11 @@ mkdir -p ${BASE_DIR}/mysql/sql
 cp init.sql ${BASE_DIR}/mysql/sql/
 mkdir -p ${BASE_DIR}/mysql/data
 
+# 创建redis目录
 mkdir -p ${BASE_DIR}/redis/data
-mkdir -p ${BASE_DIR}/redis/etc
-cp redis.conf ${BASE_DIR}/redis/etc/
+mkdir -p ${BASE_DIR}/redis/logs
+mkdir -p ${BASE_DIR}/redis/conf
+cp redis.conf ${BASE_DIR}/redis/conf/
 
 # 创建nginx目录
 mkdir -p ${BASE_DIR}/nginx/conf.d
