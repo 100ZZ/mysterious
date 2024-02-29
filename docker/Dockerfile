@@ -9,6 +9,9 @@ RUN apk --no-cache add tzdata
 # 设置时区为Asia/Shanghai
 ENV TZ=Asia/Shanghai
 
+# 暴露端口
+EXPOSE 4321
+
 # 设置工作目录
 WORKDIR /opt
 
