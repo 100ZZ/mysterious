@@ -46,6 +46,7 @@ services:
       - /opt/mysterious/nginx/html:/usr/share/nginx/html
     ports:
       - "1234:1234"
+      - "9998:9998"
 
   mysterious:
     container_name: mysterious
