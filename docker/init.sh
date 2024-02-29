@@ -27,6 +27,7 @@ cp redis.conf ${BASE_DIR}/redis/conf/
 # 创建nginx目录
 mkdir -p ${BASE_DIR}/nginx/conf.d
 cp 1234.conf ${BASE_DIR}/nginx/conf.d/
+cp 9998.conf ${BASE_DIR}/nginx/conf.d/
 mkdir -p ${BASE_DIR}/nginx/html
 
 # 创建压测数据，报告目录
