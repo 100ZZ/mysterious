@@ -5,51 +5,56 @@
 <br>
 
 **依赖**
-<br>
+```
 后端服务：https://github.com/100ZZ/mysterious
-<br>
 前端服务：https://github.com/100ZZ/mysterious-web
-<br>
 JMeter工具包：https://github.com/100ZZ/mysterious-jmeter
-<br>
-数据库：MySQL，Redis，Nginx
+其它组件：MySQL，Redis，Nginx
+```
 
 <br> 
 
 **服务部署**
 <br>
-1. Docker-Compose方式
-   1. 编译前端
-      1. git clone https://github.com/100ZZ/mysterious-web
-      2. cd mysterious-web
-      3. npm install
-      4. npm run build (生成dist)
-   2. 部署服务
-      1. https://github.com/100ZZ/mysterious
-      2. cd mysterious/docker
-      3. ./init.sh (包括创建base目录默认/opt/mysterious，初始化sql，nginx配置，下载jmeter包等，如果有报错，看shell脚本定位)
-      4. cp [上一步前端目录]/dist /opt/mysterious/nginx/html/
-      5. docker-compose --env-file VERSION.env up -d
-      6. docker-compose ps查看，有mysterious，mysterious-mysql，mysterious-nginx，mysterious-redis四个容器
-   3. 访问平台
-      1. http://xx.xx.xx.xx:1234
-      2. 注册个用户，登录即可玩耍
-2. 二进制方式
-   1. 编译前端
-      1. git clone https://github.com/100ZZ/mysterious-web
-      2. cd mysterious-web
-      3. npm install
-      4. npm run build (生成dist)
-   2. 安装nginx
-      1. 待续
-   3. 安装mysql
-      1. 待续
-   4. 安装redis
-      1. 待续
-   5. 部署后端
-      1. 待续
-3. Slave节点部署
+Docker-Compose部署方式
+```html
+A. 编译前端
+   1. git clone https://github.com/100ZZ/mysterious-web
+   2. cd mysterious-web
+   3. npm install
+   4. npm run build (生成dist)
+B. 部署服务
+   1. https://github.com/100ZZ/mysterious
+   2. cd mysterious/docker
+   3. ./init.sh (包括创建base目录默认/opt/mysterious，初始化sql，nginx配置，下载jmeter包等，如果有报错，看shell脚本定位)
+   4. cp [上一步前端目录]/dist /opt/mysterious/nginx/html/
+   5. docker-compose --env-file VERSION.env up -d
+   6. docker-compose ps查看，有mysterious，mysterious-mysql，mysterious-nginx，mysterious-redis四个容器
+C. 访问平台
+   1. http://xx.xx.xx.xx:1234
+   2. 注册个用户，登录即可玩耍
+```
+二进制部署方式
+```html
+A. 编译前端
+   1. git clone https://github.com/100ZZ/mysterious-web
+   2. cd mysterious-web
+   3. npm install
+   4. npm run build (生成dist)
+B. 安装nginx
    1. 待续
+C. 安装mysql
+   1. 待续
+D. 安装redis
+   1. 待续
+E. 部署后端
+   1. 待续
+```
+4. Slave节点部署
+如果需要用分布式压测，需要部署Slave节点
+```html
+A. 待续
+```
 <br>
 
 **经验总结**
