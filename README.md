@@ -2,13 +2,6 @@
 ```
 分布式压测平台后端服务，纯SpringBoot服务，提供性能相关的服务
 ```
-<br> 
-
-**接口文档**
-```
-本地环境：http://localhost:9999/swagger-ui.html
-接口脚本：api/api.jmx
-```
 <br>
 
 **依赖**
@@ -23,27 +16,40 @@ JMeter工具包：https://github.com/100ZZ/mysterious-jmeter
 
 <br> 
 
-**启动服务**
+**服务部署**
 <br>
-1. 目录选取（建议创建一个mysterious文件夹，供下面子文件夹并列存放）
-   1. mysterious-jmeter（jmeter执行包）    
-   2. mysterious-data（存放testcase相关jmx，csv，jar，report的）
-2. 数据库初始化
-   1. create datebase mysterious
-   2. 建表，执行schema.sql
-   3. 初始化数据，执行insert.sql，也可以后续页面创建配置（路径就是1中的目录）
-3. 前后端分离，已经是跨域
-   1. 如果是本地调试
-      1. 后端直接启动springboot
-      2. 前端npm install；npm run dev
-      3. http://localhost:7777 即可进入登录页面
-   2. 如果是服务器部署
-      1. 后端直接启动springboot
-      2. 前端最好起个nginx（压测报告还是会用到web server），dist放在HTML里
-      3. http://${server_ip}:7777 即可进入登录页面
-4. 登录页面，注册，输入用户名密码，可以成功登录并跳转到用户管理页面说明对接无误；因为密码后端加密，无法解密，能够isMatch校验，因此没法初始化插库
-![image](https://raw.githubusercontent.com/100ZZ/mysterious/master/pic/login.png)
-
+1. Docker-Compose方式
+   1. 编译前端
+      1. git clone https://github.com/100ZZ/mysterious-web
+      2. cd mysterious-web
+      3. npm install
+      4. npm run build (生成dist)
+   2. 部署服务
+      1. https://github.com/100ZZ/mysterious
+      2. cd mysterious/docker
+      3. ./init.sh (包括创建base目录默认/opt/mysterious，初始化sql，nginx配置，下载jmeter包等，如果有报错，看shell脚本定位)
+      4. cp [上一步前端目录]/dist /opt/mysterious/nginx/html/
+      5. docker-compose --env-file VERSION.env up -d
+      6. docker-compose ps查看，有mysterious，mysterious-mysql，mysterious-nginx，mysterious-redis四个容器
+   3. 访问平台
+      1. http://xx.xx.xx.xx:1234
+      2. 注册个用户，登录即可玩耍
+2. 二进制方式
+   1. 编译前端
+      1. git clone https://github.com/100ZZ/mysterious-web
+      2. cd mysterious-web
+      3. npm install
+      4. npm run build (生成dist)
+   2. 安装nginx
+      1. 待续
+   3. 安装mysql
+      1. 待续
+   4. 安装redis
+      1. 待续
+   5. 部署后端
+      1. 待续
+3. Slave节点部署
+   1. 待续
 <br>
 
 **经验总结**
