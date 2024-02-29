@@ -44,6 +44,7 @@ services:
     volumes:
       - /opt/mysterious/nginx/conf.d:/etc/nginx/conf.d
       - /opt/mysterious/nginx/html:/usr/share/nginx/html
+      - /opt/mysterious/mysterious-data:/opt/mysterious/mysterious-data
     ports:
       - "1234:1234"
       - "9998:9998"
