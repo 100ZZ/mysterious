@@ -37,7 +37,7 @@ _容器化部署比较简单，但Master节点需要部署一堆Docker的组件�
 >- 注册个用户，登录即可玩耍
 ### 二进制部署方式（Master节点）
 _比较推荐弄一个高配额的单节点来部署平台进行压测，避免了Docker和分布式交互的开销，下面以CentOS7为例介绍下安装步骤_
-1. 编译前端
+1. 前端部署
 >- git clone https://github.com/100ZZ/mysterious-web.git
 >- cd mysterious-web
 >- npm install
@@ -54,9 +54,11 @@ _比较推荐弄一个高配额的单节点来部署平台进行压测，避免�
 >- mysql> use mysql;
 >- mysql> update user set host='%' where user='root';
 
-> redis没啥好说的，起来就行了，不用设密码
+> redis
+>- 没啥好说的，起来就行了，不用设密码
+>- redis.conf可自行下载，或者docker目录下有
    
-3. 部署后端mysterious
+3. 平台部署
 >- git clone https://github.com/100ZZ/mysterious.git
 >- 修改application.properties，mysterious-mysql和mysterious-redis都改成localhost
 >- mvn -f pom.xml clean install package -Dmaven.test.skip=true
