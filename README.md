@@ -88,3 +88,8 @@ _整个安装部署包括平台的前后端服务和JMeter工具包目录_
 >- 如果是分布式压测，除了上面Master节点安装部署外，还要在Slave节点上安装Jmeter工具包，启动jmeter-server进程，大致数据流如下
    ![分布式压测](https://lihuia.com/wp-content/uploads/2020/12/UntitledImage.png)
    <br>
+
+
+```html
+<iframe src="//player.bilibili.com/player.html?aid=1551452381&bvid=BV1by421i7cn&cid=1457887769&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+```
