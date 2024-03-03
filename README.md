@@ -18,7 +18,7 @@
 
 ## 安装部署
 ### Docker-Compose部署方式（Master节点）
-_容器化部署比较简单，但Master节点需要部署一堆Docker的组件，会有一些资源占用的损耗，本身是性能测试，所以如果是对压测数据要求比较高，还是推荐二进制单节点部署_
+_容器化部署比较简单，但Master节点需要部署一堆Docker的组件，会有一些资源占用的损耗，本身是性能测试，所以如果是对压测数据要求比较高，也可以二进制单节点部署_
 1. 前端部署
 >- git clone https://github.com/100ZZ/mysterious-web.git
 >- cd mysterious-web
@@ -62,11 +62,12 @@ _比较推荐弄一个高配额的单节点来部署平台进行压测，避免�
 >- git clone https://github.com/100ZZ/mysterious.git
 >- 修改application.properties，mysterious-mysql和mysterious-redis都改成localhost
 >- mvn -f pom.xml clean install package -Dmaven.test.skip=true
->- mkdir -p /opt/mysterious
->- cd mysterious
->- mkdir mysterious-data; mkdir running
+>- mkdir -p /opt/mysterious/mysterious-data
+>- mkdir -p /opt/mysterious/running
+>- cp docker/mysterious.jar /opt/mysterious/running/
+>- cp docker/service.sh /opt/mysterious/running/
+>- cd /opt/mysterious
 >- git clone https://github.com/100ZZ/mysterious-jmeter.git
->- cp mysterious.jar /opt/mysterious/running/; cp service.sh /opt/mysterious/running/
 >- sh /opt/mysterious/running/service.sh restart
 4. 访问平台
 >- http://xx.xx.xx.xx:1234
@@ -84,6 +85,6 @@ _如果需要分布式部署，找到和Master节点网络互通的节点，最�
 ## 说明
 _整个安装部署包括平台的前后端服务和JMeter工具包目录_
 >- 如果是单节点压测，只需要在一个Master节点上安装部署压测平台和Jmeter工具包，通过平台来调用Jmeter来执行压测用例，并返回压测结果
->- 如果是分布式压测（其实并不推荐），除了上面Master节点安装部署外，还要在Slave节点上安装Jmeter工具包，启动jmeter-server进程，大致数据流如下
+>- 如果是分布式压测，除了上面Master节点安装部署外，还要在Slave节点上安装Jmeter工具包，启动jmeter-server进程，大致数据流如下
    ![分布式压测](https://lihuia.com/wp-content/uploads/2020/12/UntitledImage.png)
    <br>

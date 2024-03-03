@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping(value = "/unittest")
+@RequestMapping(value = "/test")
 public class UnittestController {
 
     @Autowired
