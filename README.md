@@ -19,6 +19,8 @@
 ## 安装部署
 ### Docker-Compose部署方式（Master节点）
 _容器化部署比较简单，但Master节点需要部署一堆Docker的组件，会有一些资源占用的损耗，本身是性能测试，所以如果是对压测数据要求比较高，也可以二进制单节点部署_
+<br>
+_视频说明：https://www.bilibili.com/video/BV1by421i7cn_
 1. 前端部署
 >- git clone https://github.com/100ZZ/mysterious-web.git
 >- cd mysterious-web
@@ -88,8 +90,3 @@ _整个安装部署包括平台的前后端服务和JMeter工具包目录_
 >- 如果是分布式压测，除了上面Master节点安装部署外，还要在Slave节点上安装Jmeter工具包，启动jmeter-server进程，大致数据流如下
    ![分布式压测](https://lihuia.com/wp-content/uploads/2020/12/UntitledImage.png)
    <br>
-
-
-```html
-<iframe src="//player.bilibili.com/player.html?aid=1551452381&bvid=BV1by421i7cn&cid=1457887769&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-```
