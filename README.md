@@ -48,8 +48,8 @@ _比较推荐弄一个高配额的单节点来部署平台进行压测，避免�
 2. 安装nginx，mysql，redis
 > nginx
 >- 1234.conf和9998.conf复制到/etc/nginx/conf.d下（根据系统实际情况），并修改下，比如mysterious-nginx改成localhost，mysterious改成最后前端页面访问的IP地址
->- mkdir -p /usr/share/nginx/html/mysterious/
->- cp -r [上一步前端目录]/dist /usr/share/nginx/html/mysterious/
+>- mkdir -p /usr/share/nginx/html/
+>- cp -r [上一步前端目录]/dist /usr/share/nginx/html/
 
 > mysql
 >- mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'Test@123456';
@@ -80,7 +80,7 @@ _如果需要分布式部署，找到和Master节点网络互通的节点，最�
 >- mkdir /opt/mysterious
 >- cd /opt/mysterious
 >- git clone https://github.com/100ZZ/mysterious-jmeter.git
->- 如果之前有一些测试用例，可以页面节点管理，启用该节点后，点一下同步即可
+>- 如果之前有一些测试用例，可以页面节点管理，先点击一下节点同步，会将master节点用例数据都同步到slave节点，然后启用slave节点即可
 >- 只要有slave节点启用，压测都会是分布式压测，如果全都禁用，压测就只是Master单节点压测
 
 
