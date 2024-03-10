@@ -16,11 +16,14 @@
 >- JMeter工具包：https://github.com/100ZZ/mysterious-jmeter
 >- 其它组件：MySQL，Redis，Nginx
 
+## 操作视频
+>- 安装部署：https://www.bilibili.com/video/BV1by421i7cn
+>- 使用说明：https://www.bilibili.com/video/BV15j421Z7mY
+
 ## 安装部署
 ### Docker-Compose部署方式（Master节点）
 _容器化部署比较简单，但Master节点需要部署一堆Docker的组件，会有一些资源占用的损耗，本身是性能测试，所以如果是对压测数据要求比较高，也可以二进制单节点部署_
 <br>
-_视频说明：https://www.bilibili.com/video/BV1by421i7cn_
 1. 前端部署
 >- git clone https://github.com/100ZZ/mysterious-web.git
 >- cd mysterious-web
