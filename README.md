@@ -9,6 +9,8 @@
 >- [5. JMeter分布式平台化相关的异常问题汇总](https://lihuia.com/jmeter%e5%88%86%e5%b8%83%e5%bc%8f%e7%9b%b8%e5%85%b3%e7%9a%84%e5%bc%82%e5%b8%b8%e9%97%ae%e9%a2%98%e6%b1%87%e6%80%bb/)
 >- [6. 分布式压测平台响应时间的损耗分析](https://lihuia.com/%e5%8e%8b%e6%b5%8b%e5%b9%b3%e5%8f%b0%e5%93%8d%e5%ba%94%e6%97%b6%e9%97%b4%e7%9a%84%e6%8d%9f%e8%80%97%e5%88%86%e6%9e%90/)
 >- [7. 平台化：JMeter脚本在线编辑初步实现](https://lihuia.com/%e5%b9%b3%e5%8f%b0%e5%8c%96%ef%bc%9ajmeter%e8%84%9a%e6%9c%ac%e5%9c%a8%e7%ba%bf%e7%bc%96%e8%be%91%e5%88%9d%e6%ad%a5%e5%ae%9e%e7%8e%b0/)
+>- [8. Grafana和InfluxDB帮JMeter提升性能监控的美感](https://lihuia.com/grafana%e5%92%8cinfluxdb%e5%b8%aejmeter%e5%b1%95%e7%a4%ba%e7%be%8e%e8%a7%82%e7%9a%84%e6%80%a7%e8%83%bd%e7%9b%91%e6%8e%a7/)
+
 
 ## 平台依赖
 >- 后端服务：https://github.com/100ZZ/mysterious
