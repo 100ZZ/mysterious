@@ -7,7 +7,6 @@ if test -d $BASE_DIR; then
   exit
 fi
 
-
 mkdir $BASE_DIR
 
 # 创建执行，日志目录
@@ -24,21 +23,19 @@ mkdir -p ${BASE_DIR}/redis/logs
 mkdir -p ${BASE_DIR}/redis/conf
 cp redis.conf ${BASE_DIR}/redis/conf/
 
-# 创建nginx目录
+# 创建nginx目录, 配置文件，静态资源目录
 mkdir -p ${BASE_DIR}/nginx/conf.d
 cp 1234.conf ${BASE_DIR}/nginx/conf.d/
 cp 9998.conf ${BASE_DIR}/nginx/conf.d/
 mkdir -p ${BASE_DIR}/nginx/html
+cp -r dist ${BASE_DIR}/nginx/html/
 
 # 创建压测数据，报告目录
 mkdir -p ${BASE_DIR}/mysterious-data
 
-# 创建jmeter工具包目录
-cd ${BASE_DIR}
-if test ! -d mysterious-jmeter; then
-  git clone https://github.com/100ZZ/mysterious-jmeter.git
-  rm -rf mysterious-jmeter/.git*
-fi
+# copy compose文件和env文件
+cp docker-compose.yml ${BASE_DIR}/
+cp VERSION.env ${BASE_DIR}/
 
 
 
