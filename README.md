@@ -16,6 +16,7 @@
 >- 后端服务：https://github.com/100ZZ/mysterious
 >- 前端服务：https://github.com/100ZZ/mysterious-web
 >- JMeter工具包：https://github.com/100ZZ/mysterious-jmeter
+>- 离线镜像：https://pan.baidu.com/s/128k3uiUvaKf0vgbD-BO28Q?pwd=e9qy 提取码: e9qy
 >- 其它组件：MySQL，Redis，Nginx
 
 ## 操作视频
@@ -26,7 +27,7 @@
 ### Docker-Compose部署方式（Master节点）
 _容器化部署通过docker-compose方式_
 <br>
-1. 平台部署（默认是X86_64环境，如果是ARM环境用docker-compose-arm.yml和VERSION-arm.env部署）
+1. 平台部署（默认是X86_64环境，如果是ARM环境替换成docker-compose-arm.yml和VERSION-arm.env启动）
 >- git clone https://github.com/100ZZ/mysterious.git /root/mysterious
 >- cd /root/mysterious/docker
 >- ./init.sh
@@ -59,7 +60,7 @@ _下面以CentOS7为例介绍下安装步骤_
 >- 没啥好说的，起来就行了，不用设密码
 >- redis.conf可自行下载，或者docker目录下有
    
-3. 平台部署
+3. 后端部署
 >- git clone https://github.com/100ZZ/mysterious.git
 >- 修改application.properties，mysterious-mysql和mysterious-redis都改成localhost
 >- mvn -f pom.xml clean install package -Dmaven.test.skip=true
