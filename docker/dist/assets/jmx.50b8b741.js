@@ -1,1 +1,0 @@
-import{s as e}from"./request.1a4c1a35.js";const a=t=>e({url:"/jmx/list",method:"get",params:t}),m=t=>e({url:"/jmx/delete/"+t,method:"get"}),d=(t,o)=>e({url:"/jmx/upload/"+t,method:"post",headers:{"Content-Type":"multipart/form-data"},data:o}),s=t=>e({url:"/jmx/download/"+t,method:"get"});export{s as a,m as d,a as g,d as u};
