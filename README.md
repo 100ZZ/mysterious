@@ -32,8 +32,8 @@ _容器化部署通过docker-compose方式_
 >- git clone https://github.com/100ZZ/mysterious.git /root/mysterious
 >- cd /root/mysterious/docker
 >- ./init.sh
->- git clone https://github.com/100ZZ/mysterious-jmeter.git /opt/mysterious/mysterious-jmeter
 >- cd /opt/mysterious
+>- git clone https://github.com/100ZZ/mysterious-jmeter.git
 >- docker-compose up -d
 2. 访问平台
 >- http://xx.xx.xx.xx:1234
