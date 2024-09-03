@@ -22,7 +22,7 @@
 ## 操作视频
 >- 安装部署：https://www.bilibili.com/video/BV1by421i7cn
 >- 使用说明：https://www.bilibili.com/video/BV15j421Z7mY
->- 平台试用：http://101.43.119.176:1234（demo/demo）
+>- 平台试用：http://101.43.119.176:1234 (demo/demo)
 
 ## 安装部署
 ### Docker-Compose部署方式（Master节点）
