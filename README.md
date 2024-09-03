@@ -27,13 +27,13 @@
 ### Docker-Compose部署方式（Master节点）
 _容器化部署通过docker-compose方式_
 <br>
-1. 平台部署（默认是X86_64环境，如果是ARM环境替换成docker-compose-arm.yml和VERSION-arm.env启动）
+1. 平台部署（默认是X86_64环境，如果是ARM环境替换成docker-compose-arm.yml和arm.env启动）
 >- git clone https://github.com/100ZZ/mysterious.git /root/mysterious
 >- cd /root/mysterious/docker
 >- ./init.sh
 >- git clone https://github.com/100ZZ/mysterious-jmeter.git /opt/mysterious/mysterious-jmeter
 >- cd /opt/mysterious
->- docker-compose --env-file VERSION.env up -d
+>- docker-compose up -d
 2. 访问平台
 >- http://xx.xx.xx.xx:1234
 >- 注册个用户，登录即可玩耍
