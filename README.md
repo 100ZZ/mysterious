@@ -26,7 +26,7 @@
 >- 平台试用：http://101.43.119.176:1234 (demo/demo)
 
 ## 安装部署
-### Docker-Compose部署方式（推荐，一键部署）
+### Docker-Compose部署方式(推荐，一键部署)
 _容器化部署通过docker-compose方式，如果docker下载不畅，可直接上面网盘下离线镜像_
 <br>
 1. 平台部署（默认是X86_64环境，如果是ARM环境替换成docker-compose-arm.yml和arm.env启动）
@@ -77,7 +77,7 @@ _下面以CentOS7为例介绍下安装步骤_
 >- http://xx.xx.xx.xx:1234
 >- 注册个用户，登录即可玩耍
 
-### Slave节点部署(如果需要分布式压测，额外部署Slave节点Agent服务)
+### Slave节点部署(分布式压测，Slave节点作为压力机，启动Agent服务)
 >- 无特殊情况，推荐高配置单节点(平台管理+压力机)部署来进行压测，因为分布式压测交互也有开销
 >- 无Slave节点启用，就只有Master单节点(平台管理+压力机)进行压测
 >- 只要有Slave节点启用，就会作为Agent压力机进行分布式压测，Master节点作为Client
