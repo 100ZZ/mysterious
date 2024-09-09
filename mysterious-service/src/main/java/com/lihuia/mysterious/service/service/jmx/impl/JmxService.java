@@ -667,7 +667,7 @@ public class JmxService implements IJmxService {
             Long httpId = newHttpVO.getId();
 
             /**  body都存在mongodb */
-            String body = newHttpVO.getBody();
+            String body = httpVO.getBody();
             if (!checkHttpBodyIsEmpty(body)) {
                 JSONObject json = new JSONObject();
                 json.put("body", JSON.parseObject(body));
