@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lihuia.mysterious.core.mapper.jmx.sample.http.HttpMapper">
+    <resultMap id="HttpResult" type="com.lihuia.mysterious.core.entity.jmx.sample.http.HttpDO">
+        <result property="id" column="id"/>
+        <result property="testCaseId" column="test_case_id"/>
+        <result property="jmxId" column="jmx_id"/>
+        <result property="method" column="method"/>
+        <result property="protocol" column="protocol"/>
+        <result property="domain" column="domain"/>
+        <result property="port" column="port"/>
+        <result property="path" column="path"/>
+        <result property="contentEncoding" column="content_encoding"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="creator" column="creator"/>
+        <result property="modifierId" column="modifier_id"/>
+        <result property="modifier" column="modifier"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <sql id="table_name">
+        mysterious_jmx_http
+    </sql>
+    
+    <sql id="select-column-list">
+        `id`,
+        `test_case_id`,
+        `jmx_id`,
+        `method`,
+        `protocol`,
+        `domain`,
+        `port`,
+        `path`,
+        `content_encoding`,
+        `creator_id`,
+        `creator`,
+        `modifier_id`,
+        `modifier`,
+        `create_time`,
+        `modify_time`
+    </sql>
+    
+    <sql id="set">
+        <if test="id != null">id=#{id},</if>
+        <if test="testCaseId != null">test_case_id=#{testCaseId},</if>
+        <if test="jmxId != null">jmx_id=#{jmxId},</if>
+        <if test="method != null">method=#{method},</if>
+        <if test="protocol != null">protocol=#{protocol},</if>
+        <if test="domain != null">domain=#{domain},</if>
+        <if test="port != null">port=#{port},</if>
+        <if test="path != null">path=#{path},</if>
+        <if test="contentEncoding != null">content_encoding=#{contentEncoding},</if>
+        <if test="creatorId != null">creator_id=#{creatorId},</if>
+        <if test="creator != null">creator=#{creator},</if>
+        <if test="modifierId != null">modifier_id=#{modifierId},</if>
+        <if test="modifier != null">modifier=#{modifier},</if>
+        <if test="createTime != null">create_time=#{createTime},</if>
+        <if test="modifyTime != null">modify_time=#{modifyTime},</if>
+    </sql>
+    
+    <insert id="add" parameterType="com.lihuia.mysterious.core.entity.jmx.sample.http.HttpDO">
+        INSERT
+        <include refid="table_name"/>
+        <set>
+            <include refid="set"></include>
+        </set>
+    </insert>
+
+    <select id="getByJmxId" resultMap="HttpResult">
+        SELECT
+        <include refid="select-column-list"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE 1=1
+        <if test="jmxId != null">and jmx_id=#{jmxId}</if>
+    </select>
+
+    <update id="update" parameterType="com.lihuia.mysterious.core.entity.jmx.sample.http.HttpDO">
+        UPDATE
+        <include refid="table_name"/>
+        <set>
+            <include refid="set"></include>
+        </set>
+        WHERE 1=1
+        <if test="id != null">and id=#{id}</if>
+    </update>
+
+    <delete id="delete">
+        DELETE FROM
+        <include refid="table_name"/>
+        WHERE 1=1
+        <if test="id != null">and id=#{id}</if>
+    </delete>
+</mapper>

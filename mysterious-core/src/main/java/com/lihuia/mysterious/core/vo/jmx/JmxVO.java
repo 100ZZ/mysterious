@@ -1,6 +1,12 @@
 package com.lihuia.mysterious.core.vo.jmx;
 
 import com.lihuia.mysterious.core.vo.base.BaseVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.dubbo.DubboVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.java.JavaVO;
+import com.lihuia.mysterious.core.vo.jmx.thread.ConcurrencyThreadGroupVO;
+import com.lihuia.mysterious.core.vo.jmx.thread.SteppingThreadGroupVO;
+import com.lihuia.mysterious.core.vo.jmx.thread.ThreadGroupVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -33,4 +39,36 @@ public class JmxVO extends BaseVO<Long> {
 
     @ApiModelProperty(value = "脚本生成方式, 枚举类：JMeterScriptEnum 0-脚本本地上传, 1-脚本在线编辑")
     private Integer jmeterScriptType;
+
+    /** 线程组类型, 枚举类：JMeterThreadsEnum 0-ThreadGroup， 1-SteppingThreadGroup, 2-ConcurrencyThreadGroup */
+    @ApiModelProperty(value = "线程组类型, 枚举类：JMeterThreadsEnum 0-ThreadGroup， 1-SteppingThreadGroup, 2-ConcurrencyThreadGroup")
+    private Integer jmeterThreadsType;
+
+    /** ThreadGroup 结构体编辑, jmeterThreadsType = 0 */
+    @ApiModelProperty(value = "ThreadGroup 结构体编辑, jmeterThreadsType = 0")
+    private ThreadGroupVO threadGroupVO;
+
+    /** SteppingThreadGroup 结构体编辑, jmeterThreadsType = 1 */
+    @ApiModelProperty(value = "SteppingThreadGroup 结构体编辑, jmeterThreadsType = 1")
+    private SteppingThreadGroupVO steppingThreadGroupVO;
+
+    /** ConcurrencyThreadGroup 结构体编辑, jmeterThreadsType = 2 */
+    @ApiModelProperty(value = "ConcurrencyThreadGroup 结构体编辑, jmeterThreadsType = 2")
+    private ConcurrencyThreadGroupVO concurrencyThreadGroupVO;
+
+    /** Sample类型, 枚举类：JMeterSampleEnum 0-HTTP Request, 1-Dubbo Sample, 2-Java Request */
+    @ApiModelProperty(value = "Sample类型, 枚举类：JMeterSampleEnum 0-HTTP Request, 1-Dubbo Sample, 2-Java Request")
+    private Integer jmeterSampleType;
+
+    /** HttpVO结构体编辑, jmeterSampleType = 0 */
+    @ApiModelProperty(value = "HttpVO结构体编辑, jmeterSampleType = 0")
+    private HttpVO httpVO;
+
+    /** DubboVO结构体编辑, jmeterSampleType = 1 */
+    @ApiModelProperty(value = "DubboVO结构体编辑, jmeterSampleType = 1")
+    private DubboVO dubboVO;
+
+    /** JavaVO结构体编辑, jmeterSampleType = 2 */
+    @ApiModelProperty(value = "JavaVO结构体编辑, jmeterSampleType = 2")
+    private JavaVO javaVO;
 }

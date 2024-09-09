@@ -52,6 +52,11 @@ public class JmxController {
         return ResponseUtil.buildSuccessResponse(jmxService.getJmxList(jmxQuery));
     }
 
+    @PostMapping(value = "/addOnline")
+    public Response<Boolean> addOnlineJmx(@RequestBody JmxVO jmxVO) {
+        return ResponseUtil.buildSuccessResponse(jmxService.addOnlineJmx(jmxVO, UserUtils.getCurrent()));
+    }
+
     @GetMapping(value = "/forceDelete/{id}")
     public Response<Boolean> forceDeleteJmx(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(jmxService.forceDelete(id));

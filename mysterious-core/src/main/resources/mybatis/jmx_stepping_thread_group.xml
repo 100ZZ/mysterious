@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lihuia.mysterious.core.mapper.jmx.thread.SteppingThreadGroupMapper">
+    <resultMap id="SteppingThreadGroupResult" type="com.lihuia.mysterious.core.entity.jmx.thread.SteppingThreadGroupDO">
+        <result property="id" column="id"/>
+        <result property="testCaseId" column="test_case_id"/>
+        <result property="jmxId" column="jmx_id"/>
+        <result property="numThreads" column="num_threads"/>
+        <result property="firstWaitForSeconds" column="first_wait_for_seconds"/>
+        <result property="thenStartThreads" column="then_start_threads"/>
+        <result property="nextAddThreads" column="next_add_threads"/>
+        <result property="nextAddThreadsEverySeconds" column="next_add_threads_every_seconds"/>
+        <result property="usingRampUpSeconds" column="using_ramp_up_seconds"/>
+        <result property="thenHoldLoadForSeconds" column="then_hold_load_for_seconds"/>
+        <result property="finallyStopThreads" column="finally_stop_threads"/>
+        <result property="finallyStopThreadsEverySeconds" column="finally_stop_threads_every_seconds"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="creator" column="creator"/>
+        <result property="modifierId" column="modifier_id"/>
+        <result property="modifier" column="modifier"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <sql id="table_name">
+        mysterious_jmx_thread_group
+    </sql>
+    
+    <sql id="select-column-list">
+        `id`,
+        `test_case_id`,
+        `jmx_id`,
+        `num_threads`,
+        `first_wait_for_seconds`,
+        `then_start_threads`,
+        `next_add_threads`,
+        `next_add_threads_every_seconds`,
+        `using_ramp_up_seconds`,
+        `then_hold_load_for_seconds`,
+        `finally_stop_threads`,
+        `finally_stop_threads_every_seconds`,
+        `creator_id`,
+        `creator`,
+        `modifier_id`,
+        `modifier`,
+        `create_time`,
+        `modify_time`
+    </sql>
+    
+    <sql id="set">
+        <if test="id != null">id=#{id},</if>
+        <if test="testCaseId != null">test_case_id=#{testCaseId},</if>
+        <if test="jmxId != null">jmx_id=#{jmxId},</if>
+        <if test="numThreads != null">num_threads=#{numThreads},</if>
+        <if test="firstWaitForSeconds != null">first_wait_for_seconds=#{firstWaitForSeconds},</if>
+        <if test="thenStartThreads != null">then_start_threads=#{thenStartThreads},</if>
+        <if test="nextAddThreads != null">next_add_threads=#{nextAddThreads},</if>
+        <if test="nextAddThreadsEverySeconds != null">next_add_threads_every_seconds=#{nextAddThreadsEverySeconds},</if>
+        <if test="usingRampUpSeconds != null">using_ramp_up_seconds=#{usingRampUpSeconds},</if>
+        <if test="thenHoldLoadForSeconds != null">then_hold_load_for_seconds=#{thenHoldLoadForSeconds},</if>
+        <if test="finallyStopThreads != null">finally_stop_threads=#{finallyStopThreads},</if>
+        <if test="finallyStopThreadsEverySeconds != null">finally_stop_threads_every_seconds=#{finallyStopThreadsEverySeconds},</if>
+        <if test="creatorId != null">creator_id=#{creatorId},</if>
+        <if test="creator != null">creator=#{creator},</if>
+        <if test="modifierId != null">modifier_id=#{modifierId},</if>
+        <if test="modifier != null">modifier=#{modifier},</if>
+        <if test="createTime != null">create_time=#{createTime},</if>
+        <if test="modifyTime != null">modify_time=#{modifyTime},</if>
+    </sql>
+    
+    <insert id="add" parameterType="com.lihuia.mysterious.core.entity.jmx.thread.SteppingThreadGroupDO">
+        INSERT
+        <include refid="table_name"/>
+        <set>
+            <include refid="set"></include>
+        </set>
+    </insert>
+
+    <select id="getByJmxId" resultMap="SteppingThreadGroupResult">
+        SELECT
+        <include refid="select-column-list"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE 1=1
+        <if test="jmxId != null">and jmx_id=#{jmxId}</if>
+    </select>
+
+    <update id="update" parameterType="com.lihuia.mysterious.core.entity.jmx.thread.SteppingThreadGroupDO">
+        UPDATE
+        <include refid="table_name"/>
+        <set>
+            <include refid="set"></include>
+        </set>
+        WHERE 1=1
+        <if test="id != null">and id=#{id}</if>
+    </update>
+
+    <delete id="delete">
+        DELETE FROM
+        <include refid="table_name"/>
+        WHERE 1=1
+        <if test="id != null">and id=#{id}</if>
+    </delete>
+</mapper>

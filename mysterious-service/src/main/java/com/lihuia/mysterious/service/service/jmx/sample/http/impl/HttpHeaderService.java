@@ -1,6 +1,9 @@
 package com.lihuia.mysterious.service.service.jmx.sample.http.impl;
 
+import com.lihuia.mysterious.common.convert.BeanConverter;
 import com.lihuia.mysterious.core.entity.jmx.sample.http.HttpHeaderDO;
+import com.lihuia.mysterious.core.mapper.jmx.sample.http.HttpHeaderMapper;
+import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpHeaderVO;
 import com.lihuia.mysterious.service.service.jmx.sample.http.IHttpHeaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,33 +22,33 @@ public class HttpHeaderService implements IHttpHeaderService {
     private HttpHeaderMapper httpHeaderMapper;
 
     @Override
-    public void addHttpHeader(HttpHeaderDO httpHeaderDO) {
-        httpHeaderMapper.add(httpHeaderDO);
+    public void addHttpHeader(HttpHeaderVO httpHeaderVO) {
+        httpHeaderMapper.add(BeanConverter.doSingle(httpHeaderVO, HttpHeaderDO.class));
     }
 
     @Override
-    public void batchAddHttpHeader(List<HttpHeaderDO> httpHeaderDOList) {
-        httpHeaderMapper.batchAdd(httpHeaderDOList);
+    public void batchAddHttpHeader(List<HttpHeaderVO> httpHeaderVOList) {
+        httpHeaderMapper.batchAdd(BeanConverter.doList(httpHeaderVOList, HttpHeaderDO.class));
     }
 
     @Override
-    public List<HttpHeaderDO> getListByHttpId(Long httpId) {
-        return httpHeaderMapper.getListByHttpId(httpId);
+    public List<HttpHeaderVO> getListByHttpId(Long httpId) {
+        return BeanConverter.doList(httpHeaderMapper.getListByHttpId(httpId), HttpHeaderVO.class);
     }
 
     @Override
-    public List<HttpHeaderDO> getListByJmxId(Long jmxId) {
-        return httpHeaderMapper.getListByJmxid(jmxId);
+    public List<HttpHeaderVO> getListByJmxId(Long jmxId) {
+        return BeanConverter.doList(httpHeaderMapper.getListByJmxId(jmxId), HttpHeaderVO.class);
     }
 
     @Override
-    public void updateHttpHeader(HttpHeaderDO httpHeaderDO) {
-        httpHeaderMapper.update(httpHeaderDO);
+    public void updateHttpHeader(HttpHeaderVO httpHeaderVO) {
+        httpHeaderMapper.update(BeanConverter.doSingle(httpHeaderVO, HttpHeaderDO.class));
     }
 
     @Override
-    public void batchUpdateHttpHeader(List<HttpHeaderDO> httpHeaderDOList) {
-        httpHeaderMapper.batchUpdate(httpHeaderDOList);
+    public void batchUpdateHttpHeader(List<HttpHeaderVO> httpHeaderVOList) {
+        httpHeaderMapper.batchUpdate(BeanConverter.doList(httpHeaderVOList, HttpHeaderDO.class));
     }
 
     @Override
@@ -59,7 +62,7 @@ public class HttpHeaderService implements IHttpHeaderService {
     }
 
     @Override
-    public List<HttpHeaderDO> getExistHeaderList(Long httpId, String name) {
-        return httpHeaderMapper.getExistHeaderList(httpId, name);
+    public List<HttpHeaderVO> getExistHeaderList(Long httpId, String name) {
+        return BeanConverter.doList(httpHeaderMapper.getExistHeaderList(httpId, name), HttpHeaderVO.class);
     }
 }

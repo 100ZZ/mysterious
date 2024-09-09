@@ -1,6 +1,6 @@
 package com.lihuia.mysterious.web.utils;
 
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +18,7 @@ public class TokenUtils {
      */
     public static String getToken(HttpServletRequest httpRequest) {
         String token = httpRequest.getHeader("token");
-        if (StringUtils.isEmpty(token)) {
+        if (StringUtils.isBlank(token)) {
             token = httpRequest.getParameter("token");
         }
         return token;

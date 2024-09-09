@@ -2,6 +2,8 @@ package com.lihuia.mysterious.common.jmeter;
 
 import com.lihuia.mysterious.common.exception.MysteriousException;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -9,8 +11,7 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
+
 
 import java.io.*;
 import java.nio.channels.FileChannel;
@@ -40,6 +41,10 @@ public class JMeterUtil {
     /** slave节点Jmeter-Server日志目录 */
     public final static String SLAVE_JMETER_LOG_HOME = "SLAVE_JMETER_LOG_HOME";
 
+
+    /** 在线生成JMeter脚本，基于该目录下的jmx脚本来生成 */
+    public final static String MASTER_BASE_JMX_FILES_PATH = "MASTER_BASE_JMX_FILES_PATH";
+
     /** 用户jmeter脚本里csv的Name有没有改成上传的csv文件同名，0未改，报错；1修改了，正确 */
     private int csvFlag = 0;
 
@@ -56,7 +61,7 @@ public class JMeterUtil {
             // 循环读取文件的每一行, 对需要修改的行进行修改, 放入缓冲对象中
             while ((line = br.readLine()) != null) {
                 Matcher matcher = Pattern.compile(regex).matcher(line);
-                if (matcher.find() && !StringUtils.isEmpty(matcher.group(1))) {
+                if (matcher.find() && !StringUtils.isBlank(matcher.group(1))) {
                     buf.append(line.replace(matcher.group(1), replaceContent));
                 }
                 // 如果不用修改, 则按原来的内容回写

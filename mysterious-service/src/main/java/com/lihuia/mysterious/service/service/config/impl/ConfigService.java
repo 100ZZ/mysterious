@@ -16,8 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,9 +41,9 @@ public class ConfigService implements IConfigService {
         if (ObjectUtils.isEmpty(configParam)) {
             throw new MysteriousException(ResponseCodeEnum.PARAMS_EMPTY);
         }
-        if (StringUtils.isEmpty(configParam.getConfigKey())
-                || StringUtils.isEmpty(configParam.getConfigValue())
-                || StringUtils.isEmpty(configParam.getDescription())) {
+        if (StringUtils.isBlank(configParam.getConfigKey())
+                || StringUtils.isBlank(configParam.getConfigValue())
+                || StringUtils.isBlank(configParam.getDescription())) {
             throw new MysteriousException(ResponseCodeEnum.PARAM_MISSING);
         }
     }
@@ -105,7 +105,7 @@ public class ConfigService implements IConfigService {
 
     @Override
     public String getValue(String key) {
-        if (StringUtils.isEmpty(key)) {
+        if (StringUtils.isBlank(key)) {
             throw new MysteriousException(ResponseCodeEnum.CONFIG_NOT_EXIST);
         }
         return configMapper.getValue(key);

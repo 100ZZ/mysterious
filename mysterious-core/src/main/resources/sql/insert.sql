@@ -10,4 +10,6 @@ INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("S
 INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("SLAVE_JMETER_LOG_HOME", "/opt/mysterious/mysterious-jmeter/log", "slave节点Jmeter-Server日志目录");
 -- master节点host
 INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("MASTER_HOST_PORT", "192.168.20.224:9998", "压测报告预览链接的Host");
+-- jmeter在线编辑，基础jmx脚本文件路径
+INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("MASTER_BASE_JMX_FILES_PATH", "/opt/mysterious/mysterious-jmx", "jmeter在线编辑，基础jmx脚本文件路径");
 

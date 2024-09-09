@@ -1,5 +1,10 @@
 package com.lihuia.mysterious.service.service.jmx.sample.http.impl;
 
+import com.lihuia.mysterious.common.convert.BeanConverter;
+import com.lihuia.mysterious.core.entity.jmx.sample.http.HttpDO;
+import com.lihuia.mysterious.core.mapper.jmx.sample.http.HttpMapper;
+import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpVO;
+import com.lihuia.mysterious.service.service.jmx.sample.http.IHttpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,18 +20,18 @@ public class HttpService implements IHttpService {
     private HttpMapper httpMapper;
 
     @Override
-    public HttpDO getByJmxId(Long jmxId) {
-        return httpMapper.getByJmxId(jmxId);
+    public HttpVO getByJmxId(Long jmxId) {
+        return BeanConverter.doSingle(httpMapper.getByJmxId(jmxId), HttpVO.class);
     }
 
     @Override
-    public void addHttp(HttpDO httpDO) {
-        httpMapper.add(httpDO);
+    public void addHttp(HttpVO httpVO) {
+        httpMapper.add(BeanConverter.doSingle(httpVO, HttpDO.class));
     }
 
     @Override
-    public void updateHttp(HttpDO httpDO) {
-        httpMapper.update(httpDO);
+    public void updateHttp(HttpVO httpVO) {
+        httpMapper.update(BeanConverter.doSingle(httpVO, HttpDO.class));
     }
 
     @Override

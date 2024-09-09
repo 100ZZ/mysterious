@@ -24,9 +24,9 @@ public class HttpParamDO extends BaseDO<Long> {
     /** 关联HttpDO */
     private Long httpId;
 
-    /** 字段 */
-    private String name;
+    /** param 字段 */
+    private String paramKey;
 
-    /** 字段的值 */
-    private String value;
+    /** param 字段的值 */
+    private String paramValue;
 }

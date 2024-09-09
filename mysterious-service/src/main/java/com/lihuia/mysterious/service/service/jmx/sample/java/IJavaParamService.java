@@ -1,5 +1,7 @@
 package com.lihuia.mysterious.service.service.jmx.sample.java;
 
+import com.lihuia.mysterious.core.vo.jmx.sample.java.JavaParamVO;
+
 import java.util.List;
 
 /**
@@ -11,41 +13,41 @@ public interface IJavaParamService {
 
     /**
      * 新增java参数
-     * @param javaParamDO
+     * @param javaParamVO
      */
-    void addJavaParam(JavaParamDO javaParamDO);
+    void addJavaParam(JavaParamVO javaParamVO);
 
     /**
      * 批量新增
-     * @param javaParamDOList
+     * @param javaParamVOList
      */
-    void batchAddJavaParam(List<JavaParamDO> javaParamDOList);
+    void batchAddJavaParam(List<JavaParamVO> javaParamVOList);
 
     /**
      * 根据java sample获取所有的param参数
      * @param javaId
      * @return
      */
-    List<JavaParamDO> getListByJavaId(Long javaId);
+    List<JavaParamVO> getListByJavaId(Long javaId);
 
     /**
      * 根据jmxId获取param
      * @param jmxId
      * @return
      */
-    List<JavaParamDO> getListByJmxId(Long jmxId);
+    List<JavaParamVO> getListByJmxId(Long jmxId);
 
     /**
      * 更新java参数
-     * @param javaParamDO
+     * @param javaParamVO
      */
-    void updateJavaParam(JavaParamDO javaParamDO);
+    void updateJavaParam(JavaParamVO javaParamVO);
 
     /**
      * 批量更新
-     * @param javaParamDOList
+     * @param javaParamVOList
      */
-    void batchUpdateJavaParam(List<JavaParamDO> javaParamDOList);
+    void batchUpdateJavaParam(List<JavaParamVO> javaParamVOList);
 
     /**
      * 删除
@@ -65,5 +67,5 @@ public interface IJavaParamService {
      * @param name
      * @return
      */
-    List<JavaParamDO> getExistParamList(Long javaId, String name);
+    List<JavaParamVO> getExistParamList(Long javaId, String name);
 }

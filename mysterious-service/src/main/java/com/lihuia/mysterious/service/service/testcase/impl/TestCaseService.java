@@ -39,12 +39,12 @@ import com.lihuia.mysterious.service.service.report.IReportService;
 import com.lihuia.mysterious.service.service.testcase.ITestCaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.exec.CommandLine;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -105,7 +105,7 @@ public class TestCaseService implements ITestCaseService {
     @Transactional
     @Override
     public Long addTestCase(TestCaseParam testCaseParam, UserVO userVO) {
-        if (StringUtils.isEmpty(testCaseParam.getName())
+        if (StringUtils.isBlank(testCaseParam.getName())
                 || testCaseParam.getName().contains(" ")
                 || testCaseParam.getName().contains("#")) {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_NAME_ERROR);
@@ -157,7 +157,7 @@ public class TestCaseService implements ITestCaseService {
         if (ObjectUtils.isEmpty(dbTestCaseDO)) {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_NOT_EXIST);
         }
-        if (StringUtils.isEmpty(testCaseParam.getName())
+        if (StringUtils.isBlank(testCaseParam.getName())
                 || testCaseParam.getName().contains(" ")
                 || testCaseParam.getName().contains("#")) {
             throw new MysteriousException(ResponseCodeEnum.TESTCASE_NAME_ERROR);

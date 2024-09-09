@@ -1,5 +1,10 @@
 package com.lihuia.mysterious.service.service.jmx.sample.java.impl;
 
+import com.lihuia.mysterious.common.convert.BeanConverter;
+import com.lihuia.mysterious.core.entity.jmx.sample.java.JavaParamDO;
+import com.lihuia.mysterious.core.mapper.jmx.sample.java.JavaParamMapper;
+import com.lihuia.mysterious.core.vo.jmx.sample.java.JavaParamVO;
+import com.lihuia.mysterious.service.service.jmx.sample.java.IJavaParamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,33 +22,33 @@ public class JavaParamService implements IJavaParamService {
     private JavaParamMapper javaParamMapper;
 
     @Override
-    public void addJavaParam(JavaParamDO javaParamDO) {
-        javaParamMapper.add(javaParamDO);
+    public void addJavaParam(JavaParamVO javaParamVO) {
+        javaParamMapper.add(BeanConverter.doSingle(javaParamVO, JavaParamDO.class));
     }
 
     @Override
-    public void batchAddJavaParam(List<JavaParamDO> javaParamDOList) {
-        javaParamMapper.batchAdd(javaParamDOList);
+    public void batchAddJavaParam(List<JavaParamVO> javaParamVOList) {
+        javaParamMapper.batchAdd(BeanConverter.doList(javaParamVOList, JavaParamDO.class));
     }
 
     @Override
-    public List<JavaParamDO> getListByJavaId(Long javaId) {
-        return javaParamMapper.getListByJavaId(javaId);
+    public List<JavaParamVO> getListByJavaId(Long javaId) {
+        return BeanConverter.doList(javaParamMapper.getListByJavaId(javaId), JavaParamVO.class);
     }
 
     @Override
-    public List<JavaParamDO> getListByJmxId(Long jmxId) {
-        return javaParamMapper.getListByJmxId(jmxId);
+    public List<JavaParamVO> getListByJmxId(Long jmxId) {
+        return BeanConverter.doList(javaParamMapper.getListByJmxId(jmxId), JavaParamVO.class);
     }
 
     @Override
-    public void updateJavaParam(JavaParamDO javaParamDO) {
-        javaParamMapper.update(javaParamDO);
+    public void updateJavaParam(JavaParamVO javaParamVO) {
+        javaParamMapper.update(BeanConverter.doSingle(javaParamVO, JavaParamDO.class));
     }
 
     @Override
-    public void batchUpdateJavaParam(List<JavaParamDO> javaParamDOList) {
-        javaParamMapper.batchUpdate(javaParamDOList);
+    public void batchUpdateJavaParam(List<JavaParamVO> javaParamVOList) {
+        javaParamMapper.batchUpdate(BeanConverter.doList(javaParamVOList, JavaParamDO.class));
     }
 
     @Override
@@ -57,7 +62,7 @@ public class JavaParamService implements IJavaParamService {
     }
 
     @Override
-    public List<JavaParamDO> getExistParamList(Long javaId, String name) {
-        return javaParamMapper.getExistParamList(javaId, name);
+    public List<JavaParamVO> getExistParamList(Long javaId, String name) {
+        return BeanConverter.doList(javaParamMapper.getExistParamList(javaId, name), JavaParamVO.class);
     }
 }
