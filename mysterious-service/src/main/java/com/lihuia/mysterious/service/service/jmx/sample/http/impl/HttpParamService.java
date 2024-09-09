@@ -1,5 +1,10 @@
 package com.lihuia.mysterious.service.service.jmx.sample.http.impl;
 
+import com.lihuia.mysterious.common.convert.BeanConverter;
+import com.lihuia.mysterious.core.entity.jmx.sample.http.HttpParamDO;
+import com.lihuia.mysterious.core.mapper.jmx.sample.http.HttpParamMapper;
+import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpParamVO;
+import com.lihuia.mysterious.service.service.jmx.sample.http.IHttpParamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,33 +22,33 @@ public class HttpParamService implements IHttpParamService {
     private HttpParamMapper httpParamMapper;
 
     @Override
-    public void addHttpParam(HttpParamDO httpParamDO) {
-        httpParamMapper.add(httpParamDO);
+    public void addHttpParam(HttpParamVO httpParamVO) {
+        httpParamMapper.add(BeanConverter.doSingle(httpParamVO, HttpParamDO.class));
     }
 
     @Override
-    public void batchAddHttpParam(List<HttpParamDO> httpParamDOList) {
-        httpParamMapper.batchAdd(httpParamDOList);
+    public void batchAddHttpParam(List<HttpParamVO> httpParamVOList) {
+        httpParamMapper.batchAdd(BeanConverter.doList(httpParamVOList, HttpParamDO.class));
     }
 
     @Override
-    public List<HttpParamDO> getListByHttpId(Long httpId) {
-        return httpParamMapper.getListByHttpId(httpId);
+    public List<HttpParamVO> getListByHttpId(Long httpId) {
+        return BeanConverter.doList(httpParamMapper.getListByHttpId(httpId), HttpParamVO.class);
     }
 
     @Override
-    public List<HttpParamDO> getListByJmxId(Long jmxId) {
-        return httpParamMapper.getListByJmxId(jmxId);
+    public List<HttpParamVO> getListByJmxId(Long jmxId) {
+        return BeanConverter.doList(httpParamMapper.getListByJmxId(jmxId), HttpParamVO.class);
     }
 
     @Override
-    public void updateHttpParam(HttpParamDO httpParamDO) {
-        httpParamMapper.update(httpParamDO);
+    public void updateHttpParam(HttpParamVO httpParamVO) {
+        httpParamMapper.update(BeanConverter.doSingle(httpParamVO, HttpParamDO.class));
     }
 
     @Override
-    public void batchUpdateHttpParam(List<HttpParamDO> httpParamDOList) {
-        httpParamMapper.batchUpdate(httpParamDOList);
+    public void batchUpdateHttpParam(List<HttpParamVO> httpParamVOList) {
+        httpParamMapper.batchUpdate(BeanConverter.doList(httpParamVOList, HttpParamDO.class));
     }
 
     @Override
@@ -57,7 +62,7 @@ public class HttpParamService implements IHttpParamService {
     }
 
     @Override
-    public List<HttpParamDO> getExistParamList(Long httpId, String name) {
-        return httpParamMapper.getExistParamList(httpId, name);
+    public List<HttpParamVO> getExistParamList(Long httpId, String name) {
+        return BeanConverter.doList(httpParamMapper.getExistParamList(httpId, name), HttpParamVO.class);
     }
 }

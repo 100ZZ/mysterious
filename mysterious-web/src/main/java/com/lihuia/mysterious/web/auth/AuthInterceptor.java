@@ -9,8 +9,8 @@ import com.lihuia.mysterious.web.utils.TokenUtils;
 import com.lihuia.mysterious.web.utils.UserUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,7 +35,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = TokenUtils.getToken(request);
         log.info("request: {}", request.getRequestURI());
-        if (StringUtils.isEmpty(token)) {
+        if (StringUtils.isBlank(token)) {
             log.warn(ResponseCodeEnum.USER_NOT_LOGIN.getMessage());
             throw new MysteriousException(ResponseCodeEnum.USER_NOT_LOGIN);
         }

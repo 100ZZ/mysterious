@@ -22,9 +22,9 @@ public class HttpHeaderDO extends BaseDO<Long> {
     /** 关联HttpDO */
     private Long httpId;
 
-    /** 字段 */
-    private String name;
+    /** header 的key */
+    private String headerKey;
 
-    /** 字段的值 */
-    private String value;
+    /** header 的值 */
+    private String headerValue;
 }

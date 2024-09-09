@@ -14,8 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -41,8 +41,8 @@ public class UserService implements IUserService {
         if (ObjectUtils.isEmpty(userParam)) {
             throw new MysteriousException(ResponseCodeEnum.PARAMS_EMPTY);
         }
-        if (StringUtils.isEmpty(userParam.getUsername())
-                || StringUtils.isEmpty(userParam.getPassword())) {
+        if (StringUtils.isBlank(userParam.getUsername())
+                || StringUtils.isBlank(userParam.getPassword())) {
             throw new MysteriousException(ResponseCodeEnum.PARAM_MISSING);
         }
     }

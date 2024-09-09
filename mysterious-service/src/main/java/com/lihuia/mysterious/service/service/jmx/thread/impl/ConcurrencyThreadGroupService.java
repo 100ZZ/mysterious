@@ -1,5 +1,8 @@
 package com.lihuia.mysterious.service.service.jmx.thread.impl;
 
+import com.lihuia.mysterious.core.entity.jmx.thread.ConcurrencyThreadGroupDO;
+import com.lihuia.mysterious.core.mapper.jmx.thread.ConcurrencyThreadGroupMapper;
+import com.lihuia.mysterious.service.service.jmx.thread.IConcurrencyThreadGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

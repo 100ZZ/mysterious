@@ -1,5 +1,7 @@
 package com.lihuia.mysterious.service.service.jmx.thread;
 
+import com.lihuia.mysterious.core.entity.jmx.thread.ThreadGroupDO;
+
 /**
  * @author lihuia.com
  * @date 2024/9/6 10:23

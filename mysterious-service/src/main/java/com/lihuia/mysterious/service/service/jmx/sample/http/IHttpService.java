@@ -1,5 +1,7 @@
 package com.lihuia.mysterious.service.service.jmx.sample.http;
 
+import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpVO;
+
 /**
  * @author lihuia.com
  * @date 2024/9/6 10:23
@@ -13,19 +15,19 @@ public interface IHttpService {
      * @param jmxId
      * @return
      */
-    HttpDO getByJmxId(Long jmxId);
+    HttpVO getByJmxId(Long jmxId);
 
     /**
      * 新增http sample
-     * @param httpDO
+     * @param httpVO
      */
-    void addHttp(HttpDO httpDO);
+    void addHttp(HttpVO httpVO);
 
     /**
      * 更新http sample
-     * @param httpDO
+     * @param httpVO
      */
-    void updateHttp(HttpDO httpDO);
+    void updateHttp(HttpVO httpVO);
 
     /**
      * 删除

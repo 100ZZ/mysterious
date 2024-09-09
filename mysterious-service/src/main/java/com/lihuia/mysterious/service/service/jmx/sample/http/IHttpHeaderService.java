@@ -1,5 +1,7 @@
 package com.lihuia.mysterious.service.service.jmx.sample.http;
 
+import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpHeaderVO;
+
 import java.util.List;
 
 /**
@@ -13,39 +15,39 @@ public interface IHttpHeaderService {
      * 添加http header
      * @param httpHeaderDO
      */
-    void addHttpHeader(HttpHeaderDO httpHeaderDO);
+    void addHttpHeader(HttpHeaderVO httpHeaderDO);
 
     /**
      * 批量添加http header
-     * @param httpHeaderDOList
+     * @param httpHeaderVOList
      */
-    void batchAddHttpHeader(List<HttpHeaderDO> httpHeaderDOList);
+    void batchAddHttpHeader(List<HttpHeaderVO> httpHeaderVOList);
 
     /**
      * 根据http id获取所有的header
      * @param httpId
      * @return
      */
-    List<HttpHeaderDO> getListByHttpId(Long httpId);
+    List<HttpHeaderVO> getListByHttpId(Long httpId);
 
     /**
      * 根据jmx id获取所有的header
      * @param jmxId
      * @return
      */
-    List<HttpHeaderDO> getListByJmxId(Long jmxId);
+    List<HttpHeaderVO> getListByJmxId(Long jmxId);
 
     /**
      * 更新http header
-     * @param httpHeaderDO
+     * @param httpHeaderVO
      */
-    void updateHttpHeader(HttpHeaderDO httpHeaderDO);
+    void updateHttpHeader(HttpHeaderVO httpHeaderVO);
 
     /**
      * 批量更新
-     * @param httpHeaderDOList
+     * @param httpHeaderVOList
      */
-    void batchUpdateHttpHeader(List<HttpHeaderDO> httpHeaderDOList);
+    void batchUpdateHttpHeader(List<HttpHeaderVO> httpHeaderVOList);
 
     /**
      * 删除
@@ -65,5 +67,5 @@ public interface IHttpHeaderService {
      * @param name
      * @return
      */
-    List<HttpHeaderDO> getExistHeaderList(Long httpId, String name);
+    List<HttpHeaderVO> getExistHeaderList(Long httpId, String name);
 }

@@ -23,8 +23,8 @@ public class JavaParamDO extends BaseDO<Long> {
     private Long javaId;
 
     /** 名称 */
-    private String name;
+    private String paramKey;
 
     /** 值 */
-    private String value;
+    private String paramValue;
 }

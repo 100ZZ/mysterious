@@ -1,5 +1,7 @@
 package com.lihuia.mysterious.service.service.jmx.sample.java;
 
+import com.lihuia.mysterious.core.vo.jmx.sample.java.JavaVO;
+
 /**
  * @author lihuia.com
  * @date 2024/9/6 10:23
@@ -13,13 +15,13 @@ public interface IJavaService {
      * @param jmxId
      * @return
      */
-    JavaDO getByJmxId(Long jmxId);
+    JavaVO getByJmxId(Long jmxId);
 
     /**
      * 新增java request
-     * @param javaDO
+     * @param javaVO
      */
-    void addJava(JavaDO javaDO);
+    void addJava(JavaVO javaVO);
 
     /**
      * 删除java
@@ -29,7 +31,7 @@ public interface IJavaService {
 
     /**
      * 更新java请求
-     * @param javaDO
+     * @param javaVO
      */
-    void updateJava(JavaDO javaDO);
+    void updateJava(JavaVO javaVO);
 }

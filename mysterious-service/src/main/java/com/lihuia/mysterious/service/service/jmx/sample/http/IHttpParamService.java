@@ -1,5 +1,7 @@
 package com.lihuia.mysterious.service.service.jmx.sample.http;
 
+import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpParamVO;
+
 import java.util.List;
 
 /**
@@ -11,41 +13,41 @@ public interface IHttpParamService {
 
     /**
      * 新增http参数
-     * @param httpParamDO
+     * @param httpParamVO
      */
-    void addHttpParam(HttpParamDO httpParamDO);
+    void addHttpParam(HttpParamVO httpParamVO);
 
     /**
      * 批量新增
-     * @param httpParamDOList
+     * @param httpParamVOList
      */
-    void batchAddHttpParam(List<HttpParamDO> httpParamDOList);
+    void batchAddHttpParam(List<HttpParamVO> httpParamVOList);
 
     /**
      * 根据http sample获取所有的param参数
      * @param httpId
      * @return
      */
-    List<HttpParamDO> getListByHttpId(Long httpId);
+    List<HttpParamVO> getListByHttpId(Long httpId);
 
     /**
      * 根据jmxId获取param
      * @param jmxId
      * @return
      */
-    List<HttpParamDO> getListByJmxId(Long jmxId);
+    List<HttpParamVO> getListByJmxId(Long jmxId);
 
     /**
      * 更新http参数
-     * @param httpParamDO
+     * @param httpParamVO
      */
-    void updateHttpParam(HttpParamDO httpParamDO);
+    void updateHttpParam(HttpParamVO httpParamVO);
 
     /**
      * 批量更新
-     * @param httpParamDOList
+     * @param httpParamVOList
      */
-    void batchUpdateHttpParam(List<HttpParamDO> httpParamDOList);
+    void batchUpdateHttpParam(List<HttpParamVO> httpParamVOList);
 
     /**
      * 删除
@@ -65,5 +67,5 @@ public interface IHttpParamService {
      * @param name
      * @return
      */
-    List<HttpParamDO> getExistParamList(Long httpId, String name);
+    List<HttpParamVO> getExistParamList(Long httpId, String name);
 }

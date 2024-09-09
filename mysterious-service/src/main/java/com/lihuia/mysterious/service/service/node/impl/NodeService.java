@@ -23,8 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.Collections;
@@ -54,8 +54,8 @@ public class NodeService implements INodeService {
         if (ObjectUtils.isEmpty(nodeParam)) {
             throw new MysteriousException(ResponseCodeEnum.PARAMS_EMPTY);
         }
-        if (StringUtils.isEmpty(nodeParam.getHost())
-                || StringUtils.isEmpty(nodeParam.getUsername())
+        if (StringUtils.isBlank(nodeParam.getHost())
+                || StringUtils.isBlank(nodeParam.getUsername())
                 || ObjectUtils.isEmpty(nodeParam.getPort())
                 || ObjectUtils.isEmpty(nodeParam.getType()) ) {
             throw new MysteriousException(ResponseCodeEnum.PARAM_MISSING);

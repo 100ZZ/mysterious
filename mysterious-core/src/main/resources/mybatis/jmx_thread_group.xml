@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lihuia.mysterious.core.mapper.jmx.thread.ThreadGroupMapper">
+    <resultMap id="ThreadGroupResult" type="com.lihuia.mysterious.core.entity.jmx.thread.ThreadGroupDO">
+        <result property="id" column="id"/>
+        <result property="testCaseId" column="test_case_id"/>
+        <result property="jmxId" column="jmx_id"/>
+        <result property="numThreads" column="num_threads"/>
+        <result property="rampTime" column="ramp_time"/>
+        <result property="loops" column="loops"/>
+        <result property="sameUserOnNextIteration" column="same_user_on_next_iteration"/>
+        <result property="delayedStart" column="delayed_start"/>
+        <result property="scheduler" column="scheduler"/>
+        <result property="duration" column="duration"/>
+        <result property="delay" column="delay"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="creator" column="creator"/>
+        <result property="modifierId" column="modifier_id"/>
+        <result property="modifier" column="modifier"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <sql id="table_name">
+        mysterious_jmx_thread_group
+    </sql>
+    
+    <sql id="select-column-list">
+        `id`,
+        `test_case_id`,
+        `jmx_id`,
+        `num_threads`,
+        `ramp_time`,
+        `loops`,
+        `same_user_on_next_iteration`,
+        `delayed_start`,
+        `scheduler`,
+        `duration`,
+        `delay`,
+        `creator_id`,
+        `creator`,
+        `modifier_id`,
+        `modifier`,
+        `create_time`,
+        `modify_time`
+    </sql>
+
+    <sql id="set">
+        <if test="id != null">id=#{id},</if>
+        <if test="testCaseId != null">test_case_id=#{testCaseId},</if>
+        <if test="jmxId != null">jmx_id=#{jmxId},</if>
+        <if test="numThreads != null">num_threads=#{numThreads},</if>
+        <if test="rampTime != null">ramp_time=#{rampTime},</if>
+        <if test="loops != null">loops=#{loops},</if>
+        <if test="sameUserOnNextIteration != null">same_user_on_next_iteration=#{sameUserOnNextIteration},</if>
+        <if test="delayedStart != null">delayed_start=#{delayedStart},</if>
+        <if test="scheduler != null">scheduler=#{scheduler},</if>
+        <if test="duration != null">duration=#{duration},</if>
+        <if test="delay != null">delay=#{delay},</if>
+        <if test="creatorId != null">creator_id=#{creatorId},</if>
+        <if test="creator != null">creator=#{creator},</if>
+        <if test="modifierId != null">modifier_id=#{modifierId},</if>
+        <if test="modifier != null">modifier=#{modifier},</if>
+        <if test="createTime != null">create_time=#{createTime},</if>
+        <if test="modifyTime != null">modify_time=#{modifyTime},</if>
+    </sql>
+
+    <insert id="add" parameterType="com.lihuia.mysterious.core.entity.jmx.thread.ThreadGroupDO">
+        insert
+        <include refid="table_name"/>
+        <set>
+            <include refid="set"></include>
+        </set>
+    </insert>
+
+    <select id="getByJmxId" resultMap="ThreadGroupResult">
+        SELECT
+        <include refid="select-column-list"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE 1=1
+        <if test="jmxId != null">and jmx_id=#{jmxId}</if>
+    </select>
+
+    <update id="update" parameterType="com.lihuia.mysterious.core.entity.jmx.thread.ThreadGroupDO">
+        UPDATE
+        <include refid="select-column-list"/>
+        <set>
+            <include refid="set"></include>
+        </set>
+        WHERE 1=1
+        <if test="id != null">and id=#{id}</if>
+    </update>
+
+    <delete id="delete">
+        DELETE FROM
+        <include refid="select-column-list"/>
+        WHERE 1=1
+        <if test="id != null">and id=#{id}</if>
+    </delete>
+</mapper>

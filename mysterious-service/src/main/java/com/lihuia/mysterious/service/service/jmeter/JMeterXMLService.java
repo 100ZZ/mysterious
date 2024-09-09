@@ -6,6 +6,7 @@ import com.lihuia.mysterious.core.entity.jmx.sample.http.HttpDO;
 import com.lihuia.mysterious.core.entity.jmx.thread.ConcurrencyThreadGroupDO;
 import com.lihuia.mysterious.core.entity.jmx.thread.SteppingThreadGroupDO;
 import com.lihuia.mysterious.core.entity.jmx.thread.ThreadGroupDO;
+import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpVO;
 import com.lihuia.mysterious.service.enums.JMeterSampleEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
@@ -16,7 +17,7 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.util.List;
@@ -185,30 +186,30 @@ public class JMeterXMLService {
         stringProp.setText(body);
     }
 
-    public void updateHttpSample(HttpDO httpDO) {
-        log.info("updateHttpSample: {}", httpDO);
+    public void updateHttpSample(HttpVO httpVO) {
+        log.info("updateHttpSample: {}", httpVO);
         initFlag();
         findElement(document.getRootElement(), "HTTPSamplerProxy");
 
         dest.elements().forEach(element -> {
             if ("HTTPSampler.domain".equals(element.attributeValue("name"))) {
-                log.info("domain=>{}", httpDO.getDomain());
-                element.setText(httpDO.getDomain());
+                log.info("domain=>{}", httpVO.getDomain());
+                element.setText(httpVO.getDomain());
             } else if ("HTTPSampler.port".equals(element.attributeValue("name"))) {
-                log.info("port=>{}", httpDO.getPort());
-                element.setText(httpDO.getPort());
+                log.info("port=>{}", httpVO.getPort());
+                element.setText(httpVO.getPort());
             } else if ("HTTPSampler.protocol".equals(element.attributeValue("name"))) {
-                log.info("protocol=>{}", httpDO.getProtocol());
-                element.setText(httpDO.getProtocol());
+                log.info("protocol=>{}", httpVO.getProtocol());
+                element.setText(httpVO.getProtocol());
             } else if ("HTTPSampler.contentEncoding".equals(element.attributeValue("name"))) {
-                log.info("contentEncoding=>{}", httpDO.getContentEncoding());
-                element.setText(httpDO.getContentEncoding());
+                log.info("contentEncoding=>{}", httpVO.getContentEncoding());
+                element.setText(httpVO.getContentEncoding());
             } else if ("HTTPSampler.path".equals(element.attributeValue("name"))) {
-                log.info("path=>{}", httpDO.getPath());
-                element.setText(httpDO.getPath());
+                log.info("path=>{}", httpVO.getPath());
+                element.setText(httpVO.getPath());
             } else if ("HTTPSampler.method".equals(element.attributeValue("name"))) {
-                log.info("method=>{}", httpDO.getMethod());
-                element.setText(httpDO.getMethod());
+                log.info("method=>{}", httpVO.getMethod());
+                element.setText(httpVO.getMethod());
             } else {
                 log.info("updateHttpSample, name: {}", element.attributeValue("name"));
             }
@@ -338,13 +339,13 @@ public class JMeterXMLService {
             } else if ("ThreadGroup.duration".equals(element.attributeValue("name"))) {
                 log.info("duration=>{}", threadGroupDO.getDuration());
                 if (threadGroupDO.getScheduler().equals(1)
-                        && !StringUtils.isEmpty(threadGroupDO.getDuration())) {
+                        && !StringUtils.isBlank(threadGroupDO.getDuration())) {
                     element.setText(threadGroupDO.getDuration());
                 }
             } else if ("ThreadGroup.delay".equals(element.attributeValue("name"))) {
                 log.info("delay=>{}", threadGroupDO.getDelay());
                 if (threadGroupDO.getScheduler().equals(1)
-                        && !StringUtils.isEmpty(threadGroupDO.getDelay())) {
+                        && !StringUtils.isBlank(threadGroupDO.getDelay())) {
                     element.setText(threadGroupDO.getDelay());
                 }
             } else if ("ThreadGroup.same_user_on_next_iteration".equals(element.attributeValue("name"))) {
