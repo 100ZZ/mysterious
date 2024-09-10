@@ -944,7 +944,7 @@ public class JmxService implements IJmxService {
         jmxMapper.update(jmxDO);
 
 
-        /** 2021-08-20 更新脚本要注意，如果更新为不同类型线程组的情况 */
+        /** 更新脚本要注意，如果更新为不同类型线程组的情况 */
         /** 线程组 */
         if (jmxVO.getJmeterThreadsType().equals(JMeterThreadsEnum.THREAD_GROUP.getCode())) {
             ThreadGroupVO threadGroupVO = jmxVO.getThreadGroupVO();
@@ -1067,7 +1067,7 @@ public class JmxService implements IJmxService {
              *  2、更新的没有，表里有的，删除
              *  3、更新的有，表里也有的，更新 */
 
-            /* 2021-08-03这种分别求差集，交集再入库的方法太麻烦了，放弃
+            /* 这种分别求差集，交集再入库的方法太麻烦了，放弃
             List<HttpHeaderDO> newHeaderDOList = httpDO.getHttpHeaderDOList();
             List<HttpHeaderDO> dbHeaderDOList = httpHeaderService.getListByHttpId(httpDO.getId());
 
