@@ -9,7 +9,6 @@ import com.lihuia.mysterious.common.jmeter.JMeterUtil;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.entity.jmx.JmxDO;
 import com.lihuia.mysterious.core.entity.jmx.sample.http.HttpDO;
-import com.lihuia.mysterious.core.entity.jmx.sample.java.JavaDO;
 import com.lihuia.mysterious.core.entity.jmx.thread.ConcurrencyThreadGroupDO;
 import com.lihuia.mysterious.core.entity.jmx.thread.SteppingThreadGroupDO;
 import com.lihuia.mysterious.core.entity.jmx.thread.ThreadGroupDO;
@@ -69,6 +68,9 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -263,6 +265,52 @@ public class JmxService implements IJmxService {
 
         log.info("删除JMX: {}", JSON.toJSONString(jmxDO));
         jmxMapper.delete(id);
+
+        /** 如果是在线编辑的脚本，除了上面，还需要删除关联的所有记录 */
+        if (jmxDO.getJmeterScriptType().equals(JMeterScriptEnum.ONLINE_JMX.getCode())) {
+
+            if (jmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.THREAD_GROUP.getCode())) {
+                threadGroupService.deleteThreadGroup(threadGroupService.getByJmxId(id).getId());
+            } else if (jmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.STEPPING_THREAD_GROUP.getCode())) {
+                steppingThreadGroupService.deleteSteppingThreadGroup(steppingThreadGroupService.getByJmxId(id).getId());
+            } else if (jmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.CONCURRENCY_THREAD_GROUP.getCode())) {
+                concurrencyThreadGroupService.deleteConcurrencyThreadGroup(concurrencyThreadGroupService.getByJmxId(id).getId());
+            } else {
+                throw new MysteriousException("deleteJmx, 线程组类型异常, 请确认");
+            }
+
+            if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.HTTP_REQUEST.getCode())) {
+                HttpVO httpVO = httpService.getByJmxId(id);
+                httpService.deleteHttp(httpVO.getId());
+                /** 删除mongo里的body */
+                Query query = new Query(Criteria
+                        .where("httpId").is(httpVO.getId())
+                        .and("jmxId").is(httpVO.getJmxId())
+                        .and("testCaseId").is(httpVO.getTestCaseId()));
+                log.info("Mongo remove body, httpId:{}, jmxId:{}, testCaseId:{}", httpVO.getId(), httpVO.getJmxId(), httpVO.getTestCaseId());
+                mongoTemplate.remove(query, BODY_COLLECTION);
+                List<HttpHeaderVO> headerVOList = httpHeaderService.getListByHttpId(httpVO.getId());
+                if (!CollectionUtils.isEmpty(headerVOList)) {
+                    headerVOList.forEach(httpHeaderVO -> httpHeaderService.deleteHttpHeader(httpHeaderVO.getId()));
+                }
+                List<HttpParamVO> paramVOList = httpParamService.getListByHttpId(httpVO.getId());
+                if (!CollectionUtils.isEmpty(paramVOList)) {
+                    paramVOList.forEach(httpParamVO -> httpParamService.deleteHttpParam(httpParamVO.getId()));
+                }
+            } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.DUBBO_SAMPLE.getCode())) {
+
+            } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.JAVA_REQUEST.getCode())) {
+                JavaVO javaVO = javaService.getByJmxId(id);
+                javaService.deleteJava(javaVO.getId());
+                List<JavaParamVO> javaParamVOList = javaParamService.getListByJavaId(javaVO.getId());
+                if (!CollectionUtils.isEmpty(javaParamVOList)) {
+                    javaParamVOList.forEach(javaParamVO -> javaParamService.deleteJavaParam(javaParamVO.getId()));
+                }
+            } else {
+                throw new MysteriousException("deleteJmx, sample类型异常, 请确认");
+            }
+        }
+
         /** Jmx脚本文件只保存在master节点上，删除文件 */
         log.info("删除JMX目录: {}", jmxDO.getJmxDir());
         fileUtils.rmFile(jmxDO.getJmxDir());
@@ -524,7 +572,7 @@ public class JmxService implements IJmxService {
         }
     }
 
-    private void checkJmxDO(JmxVO jmxVO) {
+    private void checkJmxVO(JmxVO jmxVO) {
 
         /** 脚本类型，是在线编辑，直接写死，不用传，不用判断 */
 //        if (!jmxDO.getJmeterScriptType().equals(JMeterScriptEnum.ONLINE_JMX.getCode())) {
@@ -572,7 +620,7 @@ public class JmxService implements IJmxService {
         }
 
         log.info("开始校验脚本关联参数...");
-        checkJmxDO(jmxVO);
+        checkJmxVO(jmxVO);
         String baseJmxFilePath = getBaseJmxFilePath(jmxVO);
         log.info("baseJmxFilePath: {}", baseJmxFilePath);
 
@@ -621,31 +669,28 @@ public class JmxService implements IJmxService {
         /** 线程组 */
         if (jmxVO.getJmeterThreadsType().equals(JMeterThreadsEnum.THREAD_GROUP.getCode())) {
             ThreadGroupVO threadGroupVO = jmxVO.getThreadGroupVO();
-            ThreadGroupDO threadGroupDO = BeanConverter.doSingle(threadGroupVO, ThreadGroupDO.class);
-            threadGroupDO.setJmxId(jmxId);
-            threadGroupDO.setTestCaseId(jmxDO.getTestCaseId());
+            threadGroupVO.setJmxId(jmxId);
+            threadGroupVO.setTestCaseId(jmxDO.getTestCaseId());
             /** 默认线程组入库 */
-            threadGroupService.addThreadGroup(threadGroupDO);
+            threadGroupService.addThreadGroup(threadGroupVO);
             /** 线程组扩充 */
-            jmeterXMLService.updateThreadGroup(threadGroupDO);
+            jmeterXMLService.updateThreadGroup(threadGroupVO);
 
         } else if (jmxVO.getJmeterThreadsType().equals(JMeterThreadsEnum.STEPPING_THREAD_GROUP.getCode())) {
             SteppingThreadGroupVO steppingThreadGroupVO = jmxVO.getSteppingThreadGroupVO();
-            SteppingThreadGroupDO steppingThreadGroupDO = BeanConverter.doSingle(steppingThreadGroupVO, SteppingThreadGroupDO.class);
-            steppingThreadGroupDO.setTestCaseId(testCaseId);
-            steppingThreadGroupDO.setJmxId(jmxId);
+            steppingThreadGroupVO.setTestCaseId(testCaseId);
+            steppingThreadGroupVO.setJmxId(jmxId);
             /** 梯度线程组入库 */
-            steppingThreadGroupService.addSteppingThreadGroup(steppingThreadGroupDO);
+            steppingThreadGroupService.addSteppingThreadGroup(steppingThreadGroupVO);
             /** todo 梯度线程组扩充 */
-            jmeterXMLService.updateSteppingThreadGroup(steppingThreadGroupDO);
+            jmeterXMLService.updateSteppingThreadGroup(steppingThreadGroupVO);
         } else if (jmxVO.getJmeterThreadsType().equals(JMeterThreadsEnum.CONCURRENCY_THREAD_GROUP.getCode())) {
             ConcurrencyThreadGroupVO concurrencyThreadGroupVO = jmxVO.getConcurrencyThreadGroupVO();
-            ConcurrencyThreadGroupDO concurrencyThreadGroupDO = BeanConverter.doSingle(concurrencyThreadGroupVO, ConcurrencyThreadGroupDO.class);
-            concurrencyThreadGroupDO.setTestCaseId(testCaseId);
-            concurrencyThreadGroupDO.setJmxId(jmxId);
+            concurrencyThreadGroupVO.setTestCaseId(testCaseId);
+            concurrencyThreadGroupVO.setJmxId(jmxId);
             /** 线程组入库 */
-            concurrencyThreadGroupService.addConcurrencyThreadGroup(concurrencyThreadGroupDO);
-            jmeterXMLService.updateConcurrencyThreadGroup(concurrencyThreadGroupDO);
+            concurrencyThreadGroupService.addConcurrencyThreadGroup(concurrencyThreadGroupVO);
+            jmeterXMLService.updateConcurrencyThreadGroup(concurrencyThreadGroupVO);
         } else {
             log.warn("系统异常, 线程组类型: {}", jmxVO.getJmeterThreadsType());
             throw new MysteriousException("系统异常, 线程组类型不合法");
@@ -801,16 +846,406 @@ public class JmxService implements IJmxService {
 
     @Override
     public JmxVO getOnlineJmx(Long id) {
-        return null;
+        JmxDO jmxDO = jmxMapper.getById(id);
+        if (null == jmxDO) {
+            throw new MysteriousException("脚本不存在: " + id);
+        }
+        if (!jmxDO.getJmeterScriptType().equals(JMeterScriptEnum.ONLINE_JMX.getCode())) {
+            throw new MysteriousException("当前关联的脚本, 非在线编辑生成, 无法操作");
+        }
+        JmxVO jmxVO = BeanConverter.doSingle(jmxDO, JmxVO.class);
+        if (jmxVO.getJmeterThreadsType().equals(JMeterThreadsEnum.THREAD_GROUP.getCode())) {
+            jmxVO.setThreadGroupVO(threadGroupService.getByJmxId(id));
+        } else if (jmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.STEPPING_THREAD_GROUP.getCode())) {
+            jmxVO.setSteppingThreadGroupVO(steppingThreadGroupService.getByJmxId(id));
+        } else if (jmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.CONCURRENCY_THREAD_GROUP.getCode())) {
+            jmxVO.setConcurrencyThreadGroupVO(concurrencyThreadGroupService.getByJmxId(id));
+        } else {
+            throw new MysteriousException("线程组类型异常, 请确认");
+        }
+
+        if (jmxVO.getJmeterSampleType().equals(JMeterSampleEnum.HTTP_REQUEST.getCode())) {
+            HttpVO httpVO = httpService.getByJmxId(id);
+            httpVO.setHttpHeaderVOList(httpHeaderService.getListByHttpId(httpVO.getId()));
+            httpVO.setHttpParamVOList(httpParamService.getListByHttpId(httpVO.getId()));
+            /** 从mongodb里捞body */
+            Query query = new Query(Criteria
+                    .where("httpId").is(httpVO.getId())
+                    .and("jmxId").is(httpVO.getJmxId())
+                    .and("testCaseId").is(httpVO.getTestCaseId()));
+            log.info("Mongo search body, httpId:{}, jmxId:{}, testCaseId:{}", httpVO.getId(), httpVO.getJmxId(), httpVO.getTestCaseId());
+            JSONObject json = mongoTemplate.findOne(query, JSONObject.class, BODY_COLLECTION);
+            log.info("Mongo search body, json:{}", JSON.toJSONString(json, true));
+            httpVO.setBody(JSON.toJSONString(json.get("body"), true));
+            jmxVO.setHttpVO(httpVO);
+        } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.DUBBO_SAMPLE.getCode())) {
+            jmxVO.setDubboVO(dubboService.getByJmxId(id));
+        } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.JAVA_REQUEST.getCode())) {
+            JavaVO javaVO = javaService.getByJmxId(id);
+            javaVO.setJavaParamVOList(javaParamService.getListByJavaId(javaVO.getId()));
+            jmxVO.setJavaVO(javaVO);
+        } else {
+            throw new MysteriousException("sample类型异常, 请确认");
+        }
+
+        log.info("jmxVO: {}", JSON.toJSONString(jmxVO, true));
+        return jmxVO;
     }
 
+    @Synchronized
+    @Transactional
     @Override
     public Boolean updateOnlineJmx(JmxVO jmxVO, UserVO userVO) {
-        return null;
+        /** 直接更新脚本各个模块的表，以及对应XML的数据，主键ID必传 */
+        if (null == jmxVO.getId()) {
+            throw new MysteriousException("JMX主键为空");
+        }
+
+        /** 如果jmx脚本关联了jar包和csv文件，先删除掉jar和csv，否则会导致脚本里配置的异常，因为上传依赖会修改脚本 */
+        List<JarVO> jarVOList = jarService.getByTestCaseId(jmxVO.getTestCaseId());
+        if (!CollectionUtils.isEmpty(jarVOList)) {
+            throw new MysteriousException("该脚本关联了JAR文件,请先删除依赖,再更新在线脚本");
+        }
+        List<CsvVO> csvVOList = csvService.getByTestCaseId(jmxVO.getTestCaseId());
+        if (!CollectionUtils.isEmpty(csvVOList)) {
+            throw new MysteriousException("该脚本关联了CSV文件，请先删除依赖,再更新在线脚本");
+        }
+
+        //当前的脚本信息
+        /**
+         * 线程组可以改，因为更换压测模式
+         * Sample无法修改，因为接口都变了？重新新增脚本
+         */
+        JmxDO dbJmxDO = jmxMapper.getById(jmxVO.getId());
+        if (null == dbJmxDO) {
+            throw new MysteriousException("更新的JMX脚本不存在");
+        }
+
+        if (!dbJmxDO.getJmeterSampleType().equals(jmxVO.getJmeterSampleType())) {
+            throw new MysteriousException("脚本Sample类型无法修改");
+        }
+
+        log.info("update, jmxVO: {}", JSON.toJSONString(jmxVO, true));
+
+        /** 输出脚本 */
+        String jmxFilePath = jmxVO.getJmxDir() + jmxVO.getDstName();
+        log.info("jmxFilePath: {}", jmxFilePath);
+        String debugJmxFilePath = jmxVO.getJmxDir() + "debug_" + jmxVO.getDstName();
+        log.info("debugJmxFilePath: {}", debugJmxFilePath);
+
+        checkJmxVO(jmxVO);
+        String baseJmxFilePath = getBaseJmxFilePath(jmxVO);
+        /** 每种类型，提供不同的base脚本 */
+        jmeterXMLService.init(baseJmxFilePath);
+
+        JmxDO jmxDO = BeanConverter.doSingle(jmxVO, JmxDO.class);
+        /** 名称, 路径无法修改 */
+        crudEntity.updateT(jmxDO, userVO);
+        jmxMapper.update(jmxDO);
+
+
+        /** 2021-08-20 更新脚本要注意，如果更新为不同类型线程组的情况 */
+        /** 线程组 */
+        if (jmxVO.getJmeterThreadsType().equals(JMeterThreadsEnum.THREAD_GROUP.getCode())) {
+            ThreadGroupVO threadGroupVO = jmxVO.getThreadGroupVO();
+            //ThreadGroup => ThreadGroup
+            if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.THREAD_GROUP.getCode())) {
+                /** 入库 */
+                threadGroupService.updateThreadGroup(threadGroupVO);
+            } else if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.STEPPING_THREAD_GROUP.getCode())) {
+                //SteppingThreadGroup => ThreadGroup
+                //删除db里的stepping
+                SteppingThreadGroupVO steppingThreadGroupVO = steppingThreadGroupService.getByJmxId(jmxVO.getId());
+                steppingThreadGroupService.deleteSteppingThreadGroup(steppingThreadGroupVO.getId());
+                //新增一条threadgroup
+                threadGroupVO.setJmxId(jmxVO.getId());
+                threadGroupVO.setTestCaseId(jmxVO.getTestCaseId());
+                threadGroupService.addThreadGroup(threadGroupVO);
+            } else if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.CONCURRENCY_THREAD_GROUP.getCode())) {
+                //ConcurrencyThreadGroup => ThreadGroup
+                //删除db里的concurrency
+                ConcurrencyThreadGroupVO concurrencyThreadGroupVO = concurrencyThreadGroupService.getByJmxId(jmxVO.getId());
+                concurrencyThreadGroupService.deleteConcurrencyThreadGroup(concurrencyThreadGroupVO.getId());
+                //新增一条threadGroup
+                threadGroupVO.setJmxId(jmxDO.getId());
+                threadGroupVO.setTestCaseId(jmxDO.getTestCaseId());
+                threadGroupService.addThreadGroup(threadGroupVO);
+            } else {
+                log.warn("jmeterThreadsType: {} => {}", dbJmxDO.getJmeterThreadsType(), jmxDO.getJmeterThreadsType());
+            }
+            //修改JMX脚本对应线程组参数
+            log.info("threadGroupDO: {}", JSON.toJSONString(threadGroupVO, true));
+            jmeterXMLService.updateThreadGroup(threadGroupVO);
+        } else if (jmxVO.getJmeterThreadsType().equals(JMeterThreadsEnum.STEPPING_THREAD_GROUP.getCode())) {
+            //更新为SteppingThreadGroup脚本
+            SteppingThreadGroupVO steppingThreadGroupVO = jmxVO.getSteppingThreadGroupVO();
+            if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.STEPPING_THREAD_GROUP.getCode())) {
+                //Stepping => Stepping
+                steppingThreadGroupService.updateSteppingThreadGroup(steppingThreadGroupVO);
+            } else if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.THREAD_GROUP.getCode())) {
+                //ThreadGroup => Stepping
+                //删除db里的threadgroup
+                ThreadGroupVO threadGroupVO = threadGroupService.getByJmxId(jmxVO.getId());
+                threadGroupService.deleteThreadGroup(threadGroupVO.getId());
+                //新增一条stepping
+                steppingThreadGroupVO.setJmxId(jmxDO.getId());
+                steppingThreadGroupVO.setTestCaseId(jmxDO.getTestCaseId());
+                steppingThreadGroupService.addSteppingThreadGroup(steppingThreadGroupVO);
+            } else if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.CONCURRENCY_THREAD_GROUP.getCode())) {
+                //Concurrency => Stepping
+                ConcurrencyThreadGroupVO concurrencyThreadGroupVO = concurrencyThreadGroupService.getByJmxId(jmxVO.getId());
+                concurrencyThreadGroupService.deleteConcurrencyThreadGroup(concurrencyThreadGroupVO.getId());
+                //新增一条Stepping
+                steppingThreadGroupVO.setJmxId(jmxDO.getId());
+                steppingThreadGroupVO.setTestCaseId(jmxDO.getTestCaseId());
+                steppingThreadGroupService.addSteppingThreadGroup(steppingThreadGroupVO);
+            } else {
+                log.warn("jmeterThreadsType: {} => {}", dbJmxDO.getJmeterThreadsType(), jmxDO.getJmeterThreadsType());
+            }
+            //修改JMX脚本对应梯度加压参数
+            log.info("steppingThreadGroupDO: {}", JSON.toJSONString(steppingThreadGroupVO, true));
+            jmeterXMLService.updateSteppingThreadGroup(steppingThreadGroupVO);
+        } else if (jmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.CONCURRENCY_THREAD_GROUP.getCode())) {
+            //更新为ConcurrencyThreadGroup脚本
+            ConcurrencyThreadGroupVO concurrencyThreadGroupVO = jmxVO.getConcurrencyThreadGroupVO();
+            if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.CONCURRENCY_THREAD_GROUP.getCode())) {
+                //Concurrency => Concurrency
+                concurrencyThreadGroupService.updateConcurrencyThreadGroup(concurrencyThreadGroupVO);
+            } else if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.THREAD_GROUP.getCode())) {
+                //ThreadGroup => Concurrency
+                ThreadGroupVO threadGroupVO = threadGroupService.getByJmxId(jmxVO.getId());
+                threadGroupService.deleteThreadGroup(threadGroupVO.getId());
+                //add
+                concurrencyThreadGroupVO.setJmxId(jmxDO.getId());
+                concurrencyThreadGroupVO.setTestCaseId(jmxDO.getTestCaseId());
+                concurrencyThreadGroupService.addConcurrencyThreadGroup(concurrencyThreadGroupVO);
+            } else if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.STEPPING_THREAD_GROUP.getCode())) {
+                //Stepping => Concurrency
+                SteppingThreadGroupVO steppingThreadGroupVO = steppingThreadGroupService.getByJmxId(jmxVO.getId());
+                steppingThreadGroupService.deleteSteppingThreadGroup(steppingThreadGroupVO.getId());
+                //add
+                concurrencyThreadGroupVO.setJmxId(jmxDO.getId());
+                concurrencyThreadGroupVO.setTestCaseId(jmxDO.getTestCaseId());
+                concurrencyThreadGroupService.addConcurrencyThreadGroup(concurrencyThreadGroupVO);
+            } else {
+                log.warn("jmeterThreadsType: {} => {}", dbJmxDO.getJmeterThreadsType(), jmxDO.getJmeterThreadsType());
+            }
+            //修改JMX脚本对应加压参数
+            log.info("concurrencyThreadGroupVO: {}", JSON.toJSONString(concurrencyThreadGroupVO, true));
+            jmeterXMLService.updateConcurrencyThreadGroup(concurrencyThreadGroupVO);
+        } else {
+            throw new MysteriousException("线程组类型异常, 请确认");
+        }
+
+        /** Sample
+         * 更新脚本的时候，Sample不能修改，也就是比如当前是个HTTP请求，不能修改成Java Request */
+        if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.HTTP_REQUEST.getCode())) {
+            //http
+            HttpVO httpVO = jmxVO.getHttpVO();
+            httpService.updateHttp(httpVO);
+            //修改JMX脚本里HTTP信息
+            jmeterXMLService.updateHttpSample(httpVO);
+
+            /**  mongodb更新body */
+            String body = httpVO.getBody();
+            if (!checkHttpBodyIsEmpty(body)) {
+                Query query = new Query(Criteria
+                        .where("httpId").is(httpVO.getId())
+                        .and("jmxId").is(httpVO.getJmxId())
+                        .and("testCaseId").is(httpVO.getTestCaseId()));
+                Update update = new Update();
+                update.set("body", JSON.parseObject(body));
+                log.info("Mongo update body, httpId:{}, jmxId:{}, testCaseId:{}", httpVO.getId(), httpVO.getJmxId(), httpVO.getTestCaseId());
+                log.info("Mongo update body, body:{}", JSON.parseObject(body).toJSONString());
+                mongoTemplate.updateFirst(query, update, BODY_COLLECTION);
+                /** add body会jmx里先清理body节点，再新增 */
+                jmeterXMLService.addHttpBody(httpVO.getBody());
+            }
+
+            /** Http header和param的更新（太麻烦，放弃） */
+            /** 1、更新的有，表里没有的，入库
+             *  2、更新的没有，表里有的，删除
+             *  3、更新的有，表里也有的，更新 */
+
+            /* 2021-08-03这种分别求差集，交集再入库的方法太麻烦了，放弃
+            List<HttpHeaderDO> newHeaderDOList = httpDO.getHttpHeaderDOList();
+            List<HttpHeaderDO> dbHeaderDOList = httpHeaderService.getListByHttpId(httpDO.getId());
+
+            List<HttpHeaderDO> addHeaderDOList = new ArrayList<>(newHeaderDOList);
+            List<HttpHeaderDO> deleteHeaderDOList = new ArrayList<>(dbHeaderDOList);
+            List<HttpHeaderDO> updateHeaderDOList = addHeaderDOList;
+
+            addHeaderDOList.removeAll(dbHeaderDOList);
+            httpHeaderService.batchUpdateHttpHeader(addHeaderDOList);
+
+            deleteHeaderDOList.removeAll(newHeaderDOList);
+            httpHeaderService.batchDeleteHttpHeader(deleteHeaderDOList.stream().map(HttpHeaderDO::getId).collect(Collectors.toList()));
+
+            updateHeaderDOList.retainAll(dbHeaderDOList);
+            httpHeaderService.batchUpdateHttpHeader(updateHeaderDOList);
+            */
+
+            /** Http header和param的更新，直接删掉表里的，然后将请求里的入库 */
+            List<HttpHeaderVO> dbHeaderVOList = httpHeaderService.getListByHttpId(httpVO.getId());
+            if (!CollectionUtils.isEmpty(dbHeaderVOList)) {
+                log.info("HTTP删除dbHeaderVOList: {}", dbHeaderVOList);
+                httpHeaderService.batchDeleteHttpHeader(
+                        dbHeaderVOList.stream().map(HttpHeaderVO::getId).collect(Collectors.toList()));
+                jmeterXMLService.cleanHttpHeader();
+            }
+            /** 传过来的header */
+            List<HttpHeaderVO> headerVOList = httpVO.getHttpHeaderVOList();
+            log.info("HTTP新增headerVOList: {}", headerVOList);
+            if (!CollectionUtils.isEmpty(headerVOList)) {
+                for (HttpHeaderVO httpHeaderVO : headerVOList) {
+                    if (!CollectionUtils.isEmpty(httpHeaderService.getExistHeaderList(httpVO.getId(), httpHeaderVO.getHeaderKey()))) {
+                        throw new MysteriousException("HTTP Header: " + httpHeaderVO.getHeaderKey() + " 已存在");
+                    }
+                    httpHeaderVO.setTestCaseId(jmxDO.getTestCaseId());
+                    httpHeaderVO.setJmxId(jmxVO.getId());
+                    httpHeaderVO.setHttpId(httpVO.getId());
+                    httpHeaderService.addHttpHeader(httpHeaderVO);
+                    jmeterXMLService.addHttpHeader(httpHeaderVO.getHeaderKey(), httpHeaderVO.getHeaderValue());
+                }
+            }
+
+            List<HttpParamVO> dbParamVOList = httpParamService.getListByHttpId(httpVO.getId());
+            if (!CollectionUtils.isEmpty(dbParamVOList)) {
+                log.info("HTTP删除dbParamVOList: {}", dbParamVOList);
+                httpParamService.batchDeleteHttpParam(
+                        dbParamVOList.stream().map(HttpParamVO::getId).collect(Collectors.toList()));
+                jmeterXMLService.cleanHttpParam();
+            }
+            /** 传过来的param */
+            List<HttpParamVO> paramVOList = httpVO.getHttpParamVOList();
+            log.info("HTTP新增paramVOList: {}", paramVOList);
+            if (!CollectionUtils.isEmpty(paramVOList)) {
+                for (HttpParamVO httpParamVO : paramVOList) {
+                    if (!CollectionUtils.isEmpty(httpParamService.getExistParamList(httpVO.getId(), httpParamVO.getParamKey()))) {
+                        throw new MysteriousException("HTTP Param: " + httpParamVO.getParamKey() + " 已存在");
+                    }
+                    httpParamVO.setTestCaseId(jmxVO.getTestCaseId());
+                    httpParamVO.setJmxId(jmxVO.getId());
+                    httpParamVO.setHttpId(httpVO.getId());
+                    httpParamService.addHttpParam(httpParamVO);
+                    jmeterXMLService.addHttpParam(httpParamVO.getParamKey(), httpParamVO.getParamValue());
+                }
+            }
+        } else if (jmxVO.getJmeterSampleType().equals(JMeterSampleEnum.JAVA_REQUEST.getCode())) {
+            //java request
+            JavaVO javaVO = jmxVO.getJavaVO();
+            javaService.updateJava(javaVO);
+            jmeterXMLService.updateJavaRequest(javaVO.getJavaRequestClassPath());
+
+            /** 删除已有的param */
+            List<JavaParamVO> dbParamVOList = javaParamService.getListByJavaId(javaVO.getId());
+            if (!CollectionUtils.isEmpty(dbParamVOList)) {
+                log.info("Java删除dbParamVOList: {}", dbParamVOList);
+                javaParamService.batchDeleteJavaParam(
+                        dbParamVOList.stream().map(JavaParamVO::getId).collect(Collectors.toList()));
+                jmeterXMLService.cleanJavaParam();
+            }
+
+            /** 新增传入的param */
+            List<JavaParamVO> paramVOList = javaVO.getJavaParamVOList();
+            log.info("Java新增paramVOList: {}", paramVOList);
+            if (!CollectionUtils.isEmpty(paramVOList)) {
+                for (JavaParamVO javaParamVO : paramVOList) {
+                    if (!CollectionUtils.isEmpty(javaParamService.getExistParamList(javaVO.getId(), javaParamVO.getParamKey()))) {
+                        throw new MysteriousException("Java Param: " + javaParamVO.getParamKey() + " 已存在");
+                    }
+                    javaParamVO.setTestCaseId(jmxVO.getTestCaseId());
+                    javaParamVO.setJmxId(jmxVO.getId());
+                    javaParamVO.setJavaId(javaVO.getId());
+                    javaParamService.addJavaParam(javaParamVO);
+                    jmeterXMLService.addJavaParam(javaParamVO.getParamKey(), javaParamVO.getParamValue());
+                }
+            }
+        } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.DUBBO_SAMPLE.getCode())) {
+            //dubbo sample
+
+        } else {
+
+        }
+
+
+        /** 将JMX的更改写入指定路径脚本 */
+        jmeterXMLService.writeJmxFile(jmxFilePath);
+
+        /** 将jmx脚本拷贝一份，修改线程变量，调试执行一次使用 */
+        fileUtils.copyFile(jmxFilePath, debugJmxFilePath);
+
+        /** 拷贝完之后，修改debug脚本的线程数，全部修改为1，使得只执行一次 */
+        //JMeterUtil jmeter = new JMeterUtil();
+        jMeterUtil.updateDebugThread(debugJmxFilePath);
+
+        return true;
     }
 
     @Override
     public Boolean forceDelete(Long id) {
-        return null;
+        //jmx
+        JmxDO jmxDO = jmxMapper.getById(id);
+        if (null != jmxDO) {
+            jmxMapper.delete(id);
+        }
+        //threadgroup
+        ThreadGroupVO threadGroupVO = threadGroupService.getByJmxId(id);
+        if (null != threadGroupVO) {
+            threadGroupService.deleteThreadGroup(threadGroupVO.getId());
+        }
+
+        //stepping
+        SteppingThreadGroupVO steppingThreadGroupVO = steppingThreadGroupService.getByJmxId(id);
+        if (null != steppingThreadGroupVO) {
+            steppingThreadGroupService.deleteSteppingThreadGroup(steppingThreadGroupVO.getId());
+        }
+
+        //concurrency
+        ConcurrencyThreadGroupVO concurrencyThreadGroupVO = concurrencyThreadGroupService.getByJmxId(id);
+        if (null != concurrencyThreadGroupVO) {
+            concurrencyThreadGroupService.deleteConcurrencyThreadGroup(concurrencyThreadGroupVO.getId());
+        }
+
+        //httpDO
+        HttpVO httpVO = httpService.getByJmxId(id);
+        if (null != httpVO) {
+            httpService.deleteHttp(httpVO.getId());
+        }
+
+        //body
+        //String body = httpDO.getBody();
+        //if (StringUtils.isNotBlank(body)) {
+        Query query = new Query(Criteria
+                .where("httpId").is(httpVO.getId())
+                .and("jmxId").is(httpVO.getJmxId())
+                .and("testCaseId").is(httpVO.getTestCaseId()));
+        mongoTemplate.remove(query, BODY_COLLECTION);
+        //}
+
+        //header
+        List<HttpHeaderVO> httpHeaderVOList = httpHeaderService.getListByJmxId(id);
+        if (!CollectionUtils.isEmpty(httpHeaderVOList)) {
+            httpHeaderVOList.forEach(httpHeaderVO -> httpHeaderService.deleteHttpHeader(httpHeaderVO.getId()));
+        }
+
+        //param
+        List<HttpParamVO> httpParamVOList = httpParamService.getListByJmxId(id);
+        if (!CollectionUtils.isEmpty(httpParamVOList)) {
+            httpParamVOList.forEach(httpParamVO -> httpParamService.deleteHttpParam(httpParamVO.getId()));
+        }
+
+        //javaDO
+        JavaVO javaVO = javaService.getByJmxId(id);
+        if (null != javaVO) {
+            javaService.deleteJava(javaVO.getId());
+        }
+
+        //java param
+        List<JavaParamVO> javaParamVOList = javaParamService.getListByJmxId(id);
+        if (!CollectionUtils.isEmpty(javaParamVOList)) {
+            javaParamVOList.forEach(javaParamVO -> javaParamService.deleteJavaParam(javaParamVO.getId()));
+        }
+        return true;
     }
 }

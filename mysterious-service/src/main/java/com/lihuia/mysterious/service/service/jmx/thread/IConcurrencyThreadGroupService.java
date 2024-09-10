@@ -1,6 +1,6 @@
 package com.lihuia.mysterious.service.service.jmx.thread;
 
-import com.lihuia.mysterious.core.entity.jmx.thread.ConcurrencyThreadGroupDO;
+import com.lihuia.mysterious.core.vo.jmx.thread.ConcurrencyThreadGroupVO;
 
 /**
  * @author lihuia.com
@@ -14,13 +14,13 @@ public interface IConcurrencyThreadGroupService {
      * @param jmxId
      * @return
      */
-    ConcurrencyThreadGroupDO getByJmxId(Long jmxId);
+    ConcurrencyThreadGroupVO getByJmxId(Long jmxId);
 
     /**
      * 新增梯度线程组
-     * @param concurrencyThreadGroupDO
+     * @param concurrencyThreadGroupVO
      */
-    void addConcurrencyThreadGroup(ConcurrencyThreadGroupDO concurrencyThreadGroupDO);
+    void addConcurrencyThreadGroup(ConcurrencyThreadGroupVO concurrencyThreadGroupVO);
 
     /**
      * 删除
@@ -30,7 +30,7 @@ public interface IConcurrencyThreadGroupService {
 
     /**
      * 更新
-     * @param concurrencyThreadGroupDO
+     * @param concurrencyThreadGroupVO
      */
-    void updateConcurrencyThreadGroup(ConcurrencyThreadGroupDO concurrencyThreadGroupDO);
+    void updateConcurrencyThreadGroup(ConcurrencyThreadGroupVO concurrencyThreadGroupVO);
 }

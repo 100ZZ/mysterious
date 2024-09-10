@@ -1,7 +1,7 @@
 package com.lihuia.mysterious.service.service.jmx.sample.dubbo;
 
 
-import com.lihuia.mysterious.core.entity.jmx.sample.dubbo.DubboDO;
+import com.lihuia.mysterious.core.vo.jmx.sample.dubbo.DubboVO;
 
 /**
  * @author lihuia.com
@@ -16,11 +16,11 @@ public interface IDubboService {
      * @param jmxId
      * @return
      */
-    DubboDO getByJmxId(Long jmxId);
+    DubboVO getByJmxId(Long jmxId);
 
     /**
      * 心脏dubbo sample
-     * @param dubboDO
+     * @param dubboVO
      */
-    void addDubbo(DubboDO dubboDO);
+    void addDubbo(DubboVO dubboVO);
 }

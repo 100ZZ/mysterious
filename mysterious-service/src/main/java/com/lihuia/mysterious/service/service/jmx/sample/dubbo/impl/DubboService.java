@@ -1,6 +1,6 @@
 package com.lihuia.mysterious.service.service.jmx.sample.dubbo.impl;
 
-import com.lihuia.mysterious.core.entity.jmx.sample.dubbo.DubboDO;
+import com.lihuia.mysterious.core.vo.jmx.sample.dubbo.DubboVO;
 import com.lihuia.mysterious.service.service.jmx.sample.dubbo.IDubboService;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class DubboService implements IDubboService {
     @Override
-    public DubboDO getByJmxId(Long jmxId) {
+    public DubboVO getByJmxId(Long jmxId) {
         return null;
     }
 
     @Override
-    public void addDubbo(DubboDO dubboDO) {
+    public void addDubbo(DubboVO dubboVO) {
 
     }
 }
