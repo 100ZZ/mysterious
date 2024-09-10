@@ -1,7 +1,9 @@
 package com.lihuia.mysterious.service.service.jmx.thread.impl;
 
+import com.lihuia.mysterious.common.convert.BeanConverter;
 import com.lihuia.mysterious.core.entity.jmx.thread.ConcurrencyThreadGroupDO;
 import com.lihuia.mysterious.core.mapper.jmx.thread.ConcurrencyThreadGroupMapper;
+import com.lihuia.mysterious.core.vo.jmx.thread.ConcurrencyThreadGroupVO;
 import com.lihuia.mysterious.service.service.jmx.thread.IConcurrencyThreadGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,13 +20,13 @@ public class ConcurrencyThreadGroupService implements IConcurrencyThreadGroupSer
     private ConcurrencyThreadGroupMapper concurrencyThreadGroupMapper;
 
     @Override
-    public ConcurrencyThreadGroupDO getByJmxId(Long jmxId) {
-        return concurrencyThreadGroupMapper.getByJmxId(jmxId);
+    public ConcurrencyThreadGroupVO getByJmxId(Long jmxId) {
+        return BeanConverter.doSingle(concurrencyThreadGroupMapper.getByJmxId(jmxId), ConcurrencyThreadGroupVO.class);
     }
 
     @Override
-    public void addConcurrencyThreadGroup(ConcurrencyThreadGroupDO concurrencyThreadGroupDO) {
-        concurrencyThreadGroupMapper.add(concurrencyThreadGroupDO);
+    public void addConcurrencyThreadGroup(ConcurrencyThreadGroupVO concurrencyThreadGroupVO) {
+        concurrencyThreadGroupMapper.add(BeanConverter.doSingle(concurrencyThreadGroupVO, ConcurrencyThreadGroupDO.class));
     }
 
     @Override
@@ -33,7 +35,7 @@ public class ConcurrencyThreadGroupService implements IConcurrencyThreadGroupSer
     }
 
     @Override
-    public void updateConcurrencyThreadGroup(ConcurrencyThreadGroupDO concurrencyThreadGroupDO) {
-        concurrencyThreadGroupMapper.update(concurrencyThreadGroupDO);
+    public void updateConcurrencyThreadGroup(ConcurrencyThreadGroupVO concurrencyThreadGroupVO) {
+        concurrencyThreadGroupMapper.update(BeanConverter.doSingle(concurrencyThreadGroupVO, ConcurrencyThreadGroupDO.class));
     }
 }

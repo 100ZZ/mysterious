@@ -7,6 +7,9 @@ import com.lihuia.mysterious.core.entity.jmx.thread.ConcurrencyThreadGroupDO;
 import com.lihuia.mysterious.core.entity.jmx.thread.SteppingThreadGroupDO;
 import com.lihuia.mysterious.core.entity.jmx.thread.ThreadGroupDO;
 import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpVO;
+import com.lihuia.mysterious.core.vo.jmx.thread.ConcurrencyThreadGroupVO;
+import com.lihuia.mysterious.core.vo.jmx.thread.SteppingThreadGroupVO;
+import com.lihuia.mysterious.core.vo.jmx.thread.ThreadGroupVO;
 import com.lihuia.mysterious.service.enums.JMeterSampleEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
@@ -262,48 +265,48 @@ public class JMeterXMLService {
         argumentMetadata.setText("=");
     }
 
-    public void updateConcurrencyThreadGroup(ConcurrencyThreadGroupDO concurrencyThreadGroupDO) {
-        log.info("updateConcurrencyThreadGroup: {}", concurrencyThreadGroupDO);
+    public void updateConcurrencyThreadGroup(ConcurrencyThreadGroupVO concurrencyThreadGroupVO) {
+        log.info("updateConcurrencyThreadGroup: {}", concurrencyThreadGroupVO);
         initFlag();
         findElement(document.getRootElement(), "com.blazemeter.jmeter.threads.concurrency.ConcurrencyThreadGroup");
         dest.elements().forEach(element -> {
             if ("TargetLevel".equals(element.attributeValue("name"))) {
-                element.setText(concurrencyThreadGroupDO.getTargetConcurrency());
+                element.setText(concurrencyThreadGroupVO.getTargetConcurrency());
             } else if ("RampUp".equals(element.attributeValue("name"))) {
-                element.setText(concurrencyThreadGroupDO.getRampUpTime());
+                element.setText(concurrencyThreadGroupVO.getRampUpTime());
             } else if ("Steps".equals(element.attributeValue("name"))) {
-                element.setText(concurrencyThreadGroupDO.getRampUpStepsCount());
+                element.setText(concurrencyThreadGroupVO.getRampUpStepsCount());
             } else if ("Hold".equals(element.attributeValue("name"))) {
-                element.setText(concurrencyThreadGroupDO.getHoldTargetRateTime());
+                element.setText(concurrencyThreadGroupVO.getHoldTargetRateTime());
             } else {
                 log.info("updateConcurrencyThreadGroup, name: {}", element.attributeValue("name"));
             }
         });
     }
 
-    public void updateSteppingThreadGroup(SteppingThreadGroupDO steppingThreadGroupDO) {
-        log.info("updateSteppingThreadGroup: {}", steppingThreadGroupDO);
+    public void updateSteppingThreadGroup(SteppingThreadGroupVO steppingThreadGroupVO) {
+        log.info("updateSteppingThreadGroup: {}", steppingThreadGroupVO);
         initFlag();
         findElement(document.getRootElement(), "kg.apc.jmeter.threads.SteppingThreadGroup");
         dest.elements().forEach(element -> {
             if ("ThreadGroup.num_threads".equals(element.attributeValue("name"))) {
-                element.setText(steppingThreadGroupDO.getNumThreads());
+                element.setText(steppingThreadGroupVO.getNumThreads());
             } else if ("Threads initial delay".equals(element.attributeValue("name"))) {
-                element.setText(steppingThreadGroupDO.getFirstWaitForSeconds());
+                element.setText(steppingThreadGroupVO.getFirstWaitForSeconds());
             } else if ("Start users count".equals(element.attributeValue("name"))) {
-                element.setText(steppingThreadGroupDO.getNextAddThreads());
+                element.setText(steppingThreadGroupVO.getNextAddThreads());
             } else if ("Start users count burst".equals(element.attributeValue("name"))) {
-                element.setText(steppingThreadGroupDO.getThenStartThreads());
+                element.setText(steppingThreadGroupVO.getThenStartThreads());
             } else if ("Start users period".equals(element.attributeValue("name"))) {
-                element.setText(steppingThreadGroupDO.getNextAddThreadsEverySeconds());
+                element.setText(steppingThreadGroupVO.getNextAddThreadsEverySeconds());
             } else if ("Stop users count".equals(element.attributeValue("name"))) {
-                element.setText(steppingThreadGroupDO.getFinallyStopThreads());
+                element.setText(steppingThreadGroupVO.getFinallyStopThreads());
             } else if ("Stop users period".equals(element.attributeValue("name"))) {
-                element.setText(steppingThreadGroupDO.getFinallyStopThreadsEverySeconds());
+                element.setText(steppingThreadGroupVO.getFinallyStopThreadsEverySeconds());
             } else if ("flighttime".equals(element.attributeValue("name"))) {
-                element.setText(steppingThreadGroupDO.getThenHoldLoadForSeconds());
+                element.setText(steppingThreadGroupVO.getThenHoldLoadForSeconds());
             } else if ("rampUp".equals(element.attributeValue("name"))) {
-                element.setText(steppingThreadGroupDO.getUsingRampUpSeconds());
+                element.setText(steppingThreadGroupVO.getUsingRampUpSeconds());
             } else {
                 log.info("updateSteppingThreadGroup, name: {}", element.attributeValue("name"));
             }
@@ -311,54 +314,54 @@ public class JMeterXMLService {
 
     }
 
-    public void updateThreadGroup(ThreadGroupDO threadGroupDO) {
-        log.info("updateThreadGroup: {}", threadGroupDO);
+    public void updateThreadGroup(ThreadGroupVO threadGroupVO) {
+        log.info("updateThreadGroup: {}", threadGroupVO);
         initFlag();
         findElement(document.getRootElement(), "ThreadGroup");
         dest.elements().forEach(element -> {
             if ("ThreadGroup.main_controller".equals(element.attributeValue("name"))) {
                 for (Element loop : element.elements()) {
                     if ("LoopController.loops".equals(loop.attributeValue("name"))) {
-                        log.info("loops=>{}", threadGroupDO.getLoops());
-                        loop.setText(threadGroupDO.getLoops());
+                        log.info("loops=>{}", threadGroupVO.getLoops());
+                        loop.setText(threadGroupVO.getLoops());
                     }
                 }
             } else if ("ThreadGroup.num_threads".equals(element.attributeValue("name"))) {
-                log.info("numThreads=>{}", threadGroupDO.getNumThreads());
-                element.setText(threadGroupDO.getNumThreads());
+                log.info("numThreads=>{}", threadGroupVO.getNumThreads());
+                element.setText(threadGroupVO.getNumThreads());
             } else if ("ThreadGroup.ramp_time".equals(element.attributeValue("name"))) {
-                log.info("rampTime=>{}", threadGroupDO.getRampTime());
-                element.setText(threadGroupDO.getRampTime());
+                log.info("rampTime=>{}", threadGroupVO.getRampTime());
+                element.setText(threadGroupVO.getRampTime());
             } else if ("ThreadGroup.scheduler".equals(element.attributeValue("name"))) {
-                log.info("scheduler=>{}", threadGroupDO.getScheduler());
+                log.info("scheduler=>{}", threadGroupVO.getScheduler());
                 log.info("修改前ThreadGroup.scheduler: {}", element.getText());
-                if (threadGroupDO.getScheduler().equals(0)) {
+                if (threadGroupVO.getScheduler().equals(0)) {
                     element.setText("false");
                     log.info("修改后ThreadGroup.scheduler: {}", element.getText());
                 }
             } else if ("ThreadGroup.duration".equals(element.attributeValue("name"))) {
-                log.info("duration=>{}", threadGroupDO.getDuration());
-                if (threadGroupDO.getScheduler().equals(1)
-                        && !StringUtils.isBlank(threadGroupDO.getDuration())) {
-                    element.setText(threadGroupDO.getDuration());
+                log.info("duration=>{}", threadGroupVO.getDuration());
+                if (threadGroupVO.getScheduler().equals(1)
+                        && !StringUtils.isBlank(threadGroupVO.getDuration())) {
+                    element.setText(threadGroupVO.getDuration());
                 }
             } else if ("ThreadGroup.delay".equals(element.attributeValue("name"))) {
-                log.info("delay=>{}", threadGroupDO.getDelay());
-                if (threadGroupDO.getScheduler().equals(1)
-                        && !StringUtils.isBlank(threadGroupDO.getDelay())) {
-                    element.setText(threadGroupDO.getDelay());
+                log.info("delay=>{}", threadGroupVO.getDelay());
+                if (threadGroupVO.getScheduler().equals(1)
+                        && !StringUtils.isBlank(threadGroupVO.getDelay())) {
+                    element.setText(threadGroupVO.getDelay());
                 }
             } else if ("ThreadGroup.same_user_on_next_iteration".equals(element.attributeValue("name"))) {
-                log.info("same_user_on_next_iteration=>{}", threadGroupDO.getSameUserOnNextIteration());
-                if (threadGroupDO.getSameUserOnNextIteration().equals(0)) {
+                log.info("same_user_on_next_iteration=>{}", threadGroupVO.getSameUserOnNextIteration());
+                if (threadGroupVO.getSameUserOnNextIteration().equals(0)) {
                     element.setText("false");
                 }
             } else {
                 log.info("updateThreadGroup, name: {}", element.attributeValue("name"));
             }
         });
-        if (null != threadGroupDO.getDelayedStart() &&
-                threadGroupDO.getDelayedStart().equals(1)) {
+        if (null != threadGroupVO.getDelayedStart() &&
+                threadGroupVO.getDelayedStart().equals(1)) {
             Element boolProp = dest.addElement("boolProp");
             boolProp.addAttribute("name", "ThreadGroup.delayedStart");
             boolProp.setText("true");

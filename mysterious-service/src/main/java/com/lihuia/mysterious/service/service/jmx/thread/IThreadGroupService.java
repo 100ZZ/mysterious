@@ -1,6 +1,6 @@
 package com.lihuia.mysterious.service.service.jmx.thread;
 
-import com.lihuia.mysterious.core.entity.jmx.thread.ThreadGroupDO;
+import com.lihuia.mysterious.core.vo.jmx.thread.ThreadGroupVO;
 
 /**
  * @author lihuia.com
@@ -15,19 +15,19 @@ public interface IThreadGroupService {
      * @param jmxId
      * @return
      */
-    ThreadGroupDO getByJmxId(Long jmxId);
+    ThreadGroupVO getByJmxId(Long jmxId);
 
     /**
      * 新增默认线程组
-     * @param threadGroupDO
+     * @param threadGroupVO
      */
-    void addThreadGroup(ThreadGroupDO threadGroupDO);
+    void addThreadGroup(ThreadGroupVO threadGroupVO);
 
     /**
      * 更新默认线程组
-     * @param threadGroupDO
+     * @param threadGroupVO
      */
-    void updateThreadGroup(ThreadGroupDO threadGroupDO);
+    void updateThreadGroup(ThreadGroupVO threadGroupVO);
 
     /**
      * 删除

@@ -11,6 +11,8 @@
         <result property="jmxDir" column="jmx_dir"/>
         <result property="testCaseId" column="test_case_id"/>
         <result property="jmeterScriptType" column="jmeter_script_type"/>
+        <result property="jmeterThreadsType" column="jmeter_threads_type"/>
+        <result property="jmeterSampleType" column="jmeter_sample_type"/>
         <result property="creatorId" column="creator_id"/>
         <result property="creator" column="creator"/>
         <result property="modifierId" column="modifier_id"/>
@@ -31,6 +33,8 @@
         `jmx_dir`,
         `test_case_id`,
         `jmeter_script_type`,
+        `jmeter_threads_type`,
+        `jmeter_sample_type`,
         `creator_id`,
         `creator`,
         `modifier_id`,
@@ -47,6 +51,8 @@
         <if test="jmxDir != null">jmx_dir=#{jmxDir},</if>
         <if test="testCaseId != null">test_case_id=#{testCaseId},</if>
         <if test="jmeterScriptType != null">jmeter_script_type=#{jmeterScriptType},</if>
+        <if test="jmeterThreadsType != null">jmeter_threads_type=#{jmeterThreadsType},</if>
+        <if test="jmeterSampleType != null">jmeter_sample_type=#{jmeterSampleType},</if>
         <if test="creatorId != null">creator_id=#{creatorId},</if>
         <if test="creator != null">creator=#{creator},</if>
         <if test="modifierId != null">modifier_id=#{modifierId},</if>

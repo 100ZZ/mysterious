@@ -1,6 +1,6 @@
 package com.lihuia.mysterious.service.service.jmx.thread;
 
-import com.lihuia.mysterious.core.entity.jmx.thread.SteppingThreadGroupDO;
+import com.lihuia.mysterious.core.vo.jmx.thread.SteppingThreadGroupVO;
 
 /**
  * @author lihuia.com
@@ -14,19 +14,19 @@ public interface ISteppingThreadGroupService {
      * @param jmxId
      * @return
      */
-    SteppingThreadGroupDO getByJmxId(Long jmxId);
+    SteppingThreadGroupVO getByJmxId(Long jmxId);
 
     /**
      * 新增梯度线程组
-     * @param steppingThreadGroupDO
+     * @param steppingThreadGroupVO
      */
-    void addSteppingThreadGroup(SteppingThreadGroupDO steppingThreadGroupDO);
+    void addSteppingThreadGroup(SteppingThreadGroupVO steppingThreadGroupVO);
 
     /**
      * 更新梯度线程组
-     * @param steppingThreadGroupDO
+     * @param steppingThreadGroupVO
      */
-    void updateSteppingThreadGroup(SteppingThreadGroupDO steppingThreadGroupDO);
+    void updateSteppingThreadGroup(SteppingThreadGroupVO steppingThreadGroupVO);
 
     /**
      * 删除

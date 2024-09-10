@@ -1,7 +1,9 @@
 package com.lihuia.mysterious.service.service.jmx.thread.impl;
 
+import com.lihuia.mysterious.common.convert.BeanConverter;
 import com.lihuia.mysterious.core.entity.jmx.thread.SteppingThreadGroupDO;
 import com.lihuia.mysterious.core.mapper.jmx.thread.SteppingThreadGroupMapper;
+import com.lihuia.mysterious.core.vo.jmx.thread.SteppingThreadGroupVO;
 import com.lihuia.mysterious.service.service.jmx.thread.ISteppingThreadGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,18 +20,18 @@ public class SteppingThreadGroupService implements ISteppingThreadGroupService {
     private SteppingThreadGroupMapper steppingThreadGroupMapper;
 
     @Override
-    public SteppingThreadGroupDO getByJmxId(Long jmxId) {
-        return steppingThreadGroupMapper.getByJmxId(jmxId);
+    public SteppingThreadGroupVO getByJmxId(Long jmxId) {
+        return BeanConverter.doSingle(steppingThreadGroupMapper.getByJmxId(jmxId), SteppingThreadGroupVO.class);
     }
 
     @Override
-    public void addSteppingThreadGroup(SteppingThreadGroupDO steppingThreadGroupDO) {
-        steppingThreadGroupMapper.add(steppingThreadGroupDO);
+    public void addSteppingThreadGroup(SteppingThreadGroupVO steppingThreadGroupVO) {
+        steppingThreadGroupMapper.add(BeanConverter.doSingle(steppingThreadGroupVO, SteppingThreadGroupDO.class));
     }
 
     @Override
-    public void updateSteppingThreadGroup(SteppingThreadGroupDO steppingThreadGroupDO) {
-        steppingThreadGroupMapper.update(steppingThreadGroupDO);
+    public void updateSteppingThreadGroup(SteppingThreadGroupVO steppingThreadGroupVO) {
+        steppingThreadGroupMapper.update(BeanConverter.doSingle(steppingThreadGroupVO, SteppingThreadGroupDO.class));
     }
 
     @Override

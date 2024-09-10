@@ -52,9 +52,22 @@ public class JmxController {
         return ResponseUtil.buildSuccessResponse(jmxService.getJmxList(jmxQuery));
     }
 
+    @ApiOperation("新增在线脚本")
     @PostMapping(value = "/addOnline")
     public Response<Boolean> addOnlineJmx(@RequestBody JmxVO jmxVO) {
         return ResponseUtil.buildSuccessResponse(jmxService.addOnlineJmx(jmxVO, UserUtils.getCurrent()));
+    }
+
+    @ApiOperation("查询在线脚本")
+    @GetMapping(value = "/getOnline")
+    public Response<JmxVO> getOnlineJmx(@RequestParam(value = "id") Long id) {
+        return ResponseUtil.buildSuccessResponse(jmxService.getOnlineJmx(id));
+    }
+
+    @ApiOperation("编辑在线脚本")
+    @PostMapping(value = "/updateOnline")
+    public Response<Boolean> updateOnlineJmx(@RequestBody JmxVO jmxVO) {
+        return ResponseUtil.buildSuccessResponse(jmxService.updateOnlineJmx(jmxVO, UserUtils.getCurrent()));
     }
 
     @GetMapping(value = "/forceDelete/{id}")

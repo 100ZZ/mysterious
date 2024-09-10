@@ -30,4 +30,11 @@ public class JmxDO extends BaseDO<Long> {
 
     /** 脚本生成方式, 枚举类：JMeterScriptEnum 0-脚本本地上传, 1-脚本在线编辑 */
     private Integer jmeterScriptType;
+
+    /** 线程组类型, 枚举类：JMeterThreadsEnum 0-ThreadGroup， 1-SteppingThreadGroup, 2-ConcurrentThreadGroup */
+    private Integer jmeterThreadsType;
+
+    /** Sample类型, 枚举类：JMeterSampleEnum 0-HTTP Request, 1-Dubbo Sample, 2-Java Request */
+    private Integer jmeterSampleType;
+
 }
