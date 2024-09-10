@@ -7,7 +7,7 @@ import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/4/1 上午9:48
  */
 public interface IConfigService {

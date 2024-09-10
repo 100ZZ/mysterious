@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/4/14 9:05 PM
  */
 

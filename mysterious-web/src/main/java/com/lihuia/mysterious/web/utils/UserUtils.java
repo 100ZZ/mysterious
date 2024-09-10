@@ -4,7 +4,7 @@ import com.lihuia.mysterious.core.vo.user.UserVO;
 import org.springframework.core.NamedThreadLocal;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/3/30 11:17 PM
  */
 

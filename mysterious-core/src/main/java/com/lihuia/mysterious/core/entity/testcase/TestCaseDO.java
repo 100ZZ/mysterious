@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/4/1 下午3:16
  */
 

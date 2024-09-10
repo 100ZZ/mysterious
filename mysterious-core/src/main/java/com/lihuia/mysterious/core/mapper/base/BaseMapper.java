@@ -3,7 +3,7 @@ package com.lihuia.mysterious.core.mapper.base;
 import java.util.List;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/3/27 8:14 PM
  */
 

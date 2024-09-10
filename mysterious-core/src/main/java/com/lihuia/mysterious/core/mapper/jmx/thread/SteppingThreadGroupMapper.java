@@ -5,7 +5,7 @@ import com.lihuia.mysterious.core.entity.jmx.thread.SteppingThreadGroupDO;
 import com.lihuia.mysterious.core.mapper.base.BaseMapper;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/4/1 下午3:33
  */
 

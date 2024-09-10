@@ -7,7 +7,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/4/1 下午2:31
  */
 

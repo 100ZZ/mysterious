@@ -23,7 +23,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/3/29 10:15 PM
  */
 

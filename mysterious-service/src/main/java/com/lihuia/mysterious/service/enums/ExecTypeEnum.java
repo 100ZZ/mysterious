@@ -1,7 +1,7 @@
 package com.lihuia.mysterious.service.enums;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/4/16 2:56 PM
  */
 

@@ -6,7 +6,7 @@ import com.lihuia.mysterious.core.vo.user.UserQuery;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/3/29 10:15 PM
  */
 

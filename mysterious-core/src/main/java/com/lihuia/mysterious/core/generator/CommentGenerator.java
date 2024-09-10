@@ -11,7 +11,7 @@ import org.mybatis.generator.internal.util.StringUtility;
 import java.util.Properties;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/3/27 8:49 PM
  */
 

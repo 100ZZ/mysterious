@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/3/29 10:38 PM
  */
 
