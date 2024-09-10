@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/3/27 8:06 PM
  */
 

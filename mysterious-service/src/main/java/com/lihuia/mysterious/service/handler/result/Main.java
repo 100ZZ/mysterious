@@ -6,7 +6,7 @@ import org.apache.commons.exec.DefaultExecutor;
 import java.io.IOException;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/4/14 10:54 PM
  */
 public class Main {

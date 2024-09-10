@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/3/28 11:39 PM
  */
 

@@ -21,7 +21,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/4/4 2:25 PM
  */
 
@@ -59,8 +59,8 @@ public class JmxController {
     }
 
     @ApiOperation("查询在线脚本")
-    @GetMapping(value = "/getOnline")
-    public Response<JmxVO> getOnlineJmx(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/getOnline/{id}")
+    public Response<JmxVO> getOnlineJmx(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(jmxService.getOnlineJmx(id));
     }
 

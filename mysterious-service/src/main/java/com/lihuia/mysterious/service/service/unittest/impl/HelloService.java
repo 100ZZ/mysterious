@@ -4,7 +4,7 @@ import com.lihuia.mysterious.service.service.unittest.IHelloService;
 import org.springframework.stereotype.Service;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/4/23 8:27 PM
  */
 

@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/4/2 11:53 AM
  */
 

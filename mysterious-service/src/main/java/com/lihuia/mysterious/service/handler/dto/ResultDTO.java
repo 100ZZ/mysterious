@@ -10,7 +10,7 @@ import lombok.Data;
 import java.io.ByteArrayOutputStream;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/4/14 9:01 PM
  */
 

@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author maple@lihuia.com
+ * @author lihuia.com
  * @date 2023/3/27 11:04 PM
  */
 
