@@ -65,9 +65,10 @@ public class JmxController {
     }
 
     @ApiOperation("编辑在线脚本")
-    @PostMapping(value = "/updateOnline")
-    public Response<Boolean> updateOnlineJmx(@RequestBody JmxVO jmxVO) {
-        return ResponseUtil.buildSuccessResponse(jmxService.updateOnlineJmx(jmxVO, UserUtils.getCurrent()));
+    @PostMapping(value = "/updateOnline/{id}")
+    public Response<Boolean> updateOnlineJmx(@PathVariable Long id,
+                                             @RequestBody JmxVO jmxVO) {
+        return ResponseUtil.buildSuccessResponse(jmxService.updateOnlineJmx(id, jmxVO, UserUtils.getCurrent()));
     }
 
     @GetMapping(value = "/forceDelete/{id}")
