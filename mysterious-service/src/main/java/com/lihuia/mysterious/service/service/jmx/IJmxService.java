@@ -101,9 +101,10 @@ public interface IJmxService {
 
     /**
      * 编辑更新在线脚本
+     * @param id
      * @param jmxVO
      */
-    Boolean updateOnlineJmx(JmxVO jmxVO, UserVO userVO);
+    Boolean updateOnlineJmx(Long id, JmxVO jmxVO, UserVO userVO);
 
     /**
      * 强制删除jmx所有相关的信息，不对外开放，不关注合理性

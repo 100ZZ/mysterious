@@ -851,7 +851,7 @@ public class JmxService implements IJmxService {
             throw new MysteriousException("脚本不存在: " + id);
         }
         if (!jmxDO.getJmeterScriptType().equals(JMeterScriptEnum.ONLINE_JMX.getCode())) {
-            throw new MysteriousException("当前关联的脚本, 非在线编辑生成, 无法操作");
+            throw new MysteriousException("当前已关联了非在线编写的脚本,无法进行脚本在线操作");
         }
         JmxVO jmxVO = BeanConverter.doSingle(jmxDO, JmxVO.class);
         if (jmxVO.getJmeterThreadsType().equals(JMeterThreadsEnum.THREAD_GROUP.getCode())) {
@@ -895,11 +895,11 @@ public class JmxService implements IJmxService {
     @Synchronized
     @Transactional
     @Override
-    public Boolean updateOnlineJmx(JmxVO jmxVO, UserVO userVO) {
+    public Boolean updateOnlineJmx(Long id, JmxVO jmxVO, UserVO userVO) {
         /** 直接更新脚本各个模块的表，以及对应XML的数据，主键ID必传 */
-        if (null == jmxVO.getId()) {
-            throw new MysteriousException("JMX主键为空");
-        }
+//        if (null == jmxVO.getId()) {
+//            throw new MysteriousException("JMX主键为空");
+//        }
 
         /** 如果jmx脚本关联了jar包和csv文件，先删除掉jar和csv，否则会导致脚本里配置的异常，因为上传依赖会修改脚本 */
         List<JarVO> jarVOList = jarService.getByTestCaseId(jmxVO.getTestCaseId());
@@ -916,7 +916,7 @@ public class JmxService implements IJmxService {
          * 线程组可以改，因为更换压测模式
          * Sample无法修改，因为接口都变了？重新新增脚本
          */
-        JmxDO dbJmxDO = jmxMapper.getById(jmxVO.getId());
+        JmxDO dbJmxDO = jmxMapper.getById(id);
         if (null == dbJmxDO) {
             throw new MysteriousException("更新的JMX脚本不存在");
         }
@@ -955,16 +955,16 @@ public class JmxService implements IJmxService {
             } else if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.STEPPING_THREAD_GROUP.getCode())) {
                 //SteppingThreadGroup => ThreadGroup
                 //删除db里的stepping
-                SteppingThreadGroupVO steppingThreadGroupVO = steppingThreadGroupService.getByJmxId(jmxVO.getId());
+                SteppingThreadGroupVO steppingThreadGroupVO = steppingThreadGroupService.getByJmxId(id);
                 steppingThreadGroupService.deleteSteppingThreadGroup(steppingThreadGroupVO.getId());
                 //新增一条threadgroup
-                threadGroupVO.setJmxId(jmxVO.getId());
+                threadGroupVO.setJmxId(id);
                 threadGroupVO.setTestCaseId(jmxVO.getTestCaseId());
                 threadGroupService.addThreadGroup(threadGroupVO);
             } else if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.CONCURRENCY_THREAD_GROUP.getCode())) {
                 //ConcurrencyThreadGroup => ThreadGroup
                 //删除db里的concurrency
-                ConcurrencyThreadGroupVO concurrencyThreadGroupVO = concurrencyThreadGroupService.getByJmxId(jmxVO.getId());
+                ConcurrencyThreadGroupVO concurrencyThreadGroupVO = concurrencyThreadGroupService.getByJmxId(id);
                 concurrencyThreadGroupService.deleteConcurrencyThreadGroup(concurrencyThreadGroupVO.getId());
                 //新增一条threadGroup
                 threadGroupVO.setJmxId(jmxDO.getId());
@@ -985,7 +985,7 @@ public class JmxService implements IJmxService {
             } else if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.THREAD_GROUP.getCode())) {
                 //ThreadGroup => Stepping
                 //删除db里的threadgroup
-                ThreadGroupVO threadGroupVO = threadGroupService.getByJmxId(jmxVO.getId());
+                ThreadGroupVO threadGroupVO = threadGroupService.getByJmxId(id);
                 threadGroupService.deleteThreadGroup(threadGroupVO.getId());
                 //新增一条stepping
                 steppingThreadGroupVO.setJmxId(jmxDO.getId());
@@ -993,7 +993,7 @@ public class JmxService implements IJmxService {
                 steppingThreadGroupService.addSteppingThreadGroup(steppingThreadGroupVO);
             } else if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.CONCURRENCY_THREAD_GROUP.getCode())) {
                 //Concurrency => Stepping
-                ConcurrencyThreadGroupVO concurrencyThreadGroupVO = concurrencyThreadGroupService.getByJmxId(jmxVO.getId());
+                ConcurrencyThreadGroupVO concurrencyThreadGroupVO = concurrencyThreadGroupService.getByJmxId(id);
                 concurrencyThreadGroupService.deleteConcurrencyThreadGroup(concurrencyThreadGroupVO.getId());
                 //新增一条Stepping
                 steppingThreadGroupVO.setJmxId(jmxDO.getId());
@@ -1013,7 +1013,7 @@ public class JmxService implements IJmxService {
                 concurrencyThreadGroupService.updateConcurrencyThreadGroup(concurrencyThreadGroupVO);
             } else if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.THREAD_GROUP.getCode())) {
                 //ThreadGroup => Concurrency
-                ThreadGroupVO threadGroupVO = threadGroupService.getByJmxId(jmxVO.getId());
+                ThreadGroupVO threadGroupVO = threadGroupService.getByJmxId(id);
                 threadGroupService.deleteThreadGroup(threadGroupVO.getId());
                 //add
                 concurrencyThreadGroupVO.setJmxId(jmxDO.getId());
@@ -1021,7 +1021,7 @@ public class JmxService implements IJmxService {
                 concurrencyThreadGroupService.addConcurrencyThreadGroup(concurrencyThreadGroupVO);
             } else if (dbJmxDO.getJmeterThreadsType().equals(JMeterThreadsEnum.STEPPING_THREAD_GROUP.getCode())) {
                 //Stepping => Concurrency
-                SteppingThreadGroupVO steppingThreadGroupVO = steppingThreadGroupService.getByJmxId(jmxVO.getId());
+                SteppingThreadGroupVO steppingThreadGroupVO = steppingThreadGroupService.getByJmxId(id);
                 steppingThreadGroupService.deleteSteppingThreadGroup(steppingThreadGroupVO.getId());
                 //add
                 concurrencyThreadGroupVO.setJmxId(jmxDO.getId());
@@ -1102,7 +1102,7 @@ public class JmxService implements IJmxService {
                         throw new MysteriousException("HTTP Header: " + httpHeaderVO.getHeaderKey() + " 已存在");
                     }
                     httpHeaderVO.setTestCaseId(jmxDO.getTestCaseId());
-                    httpHeaderVO.setJmxId(jmxVO.getId());
+                    httpHeaderVO.setJmxId(id);
                     httpHeaderVO.setHttpId(httpVO.getId());
                     httpHeaderService.addHttpHeader(httpHeaderVO);
                     jmeterXMLService.addHttpHeader(httpHeaderVO.getHeaderKey(), httpHeaderVO.getHeaderValue());
@@ -1125,7 +1125,7 @@ public class JmxService implements IJmxService {
                         throw new MysteriousException("HTTP Param: " + httpParamVO.getParamKey() + " 已存在");
                     }
                     httpParamVO.setTestCaseId(jmxVO.getTestCaseId());
-                    httpParamVO.setJmxId(jmxVO.getId());
+                    httpParamVO.setJmxId(id);
                     httpParamVO.setHttpId(httpVO.getId());
                     httpParamService.addHttpParam(httpParamVO);
                     jmeterXMLService.addHttpParam(httpParamVO.getParamKey(), httpParamVO.getParamValue());
@@ -1155,7 +1155,7 @@ public class JmxService implements IJmxService {
                         throw new MysteriousException("Java Param: " + javaParamVO.getParamKey() + " 已存在");
                     }
                     javaParamVO.setTestCaseId(jmxVO.getTestCaseId());
-                    javaParamVO.setJmxId(jmxVO.getId());
+                    javaParamVO.setJmxId(id);
                     javaParamVO.setJavaId(javaVO.getId());
                     javaParamService.addJavaParam(javaParamVO);
                     jmeterXMLService.addJavaParam(javaParamVO.getParamKey(), javaParamVO.getParamValue());
