@@ -876,7 +876,9 @@ public class JmxService implements IJmxService {
             log.info("Mongo search body, httpId:{}, jmxId:{}, testCaseId:{}", httpVO.getId(), httpVO.getJmxId(), httpVO.getTestCaseId());
             JSONObject json = mongoTemplate.findOne(query, JSONObject.class, BODY_COLLECTION);
             log.info("Mongo search body, json:{}", JSON.toJSONString(json, true));
-            httpVO.setBody(JSON.toJSONString(json.get("body"), true));
+            if (ObjectUtils.isNotEmpty(json)) {
+                httpVO.setBody(JSON.toJSONString(json.get("body"), true));
+            }
             jmxVO.setHttpVO(httpVO);
         } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.DUBBO_SAMPLE.getCode())) {
             jmxVO.setDubboVO(dubboService.getByJmxId(id));
