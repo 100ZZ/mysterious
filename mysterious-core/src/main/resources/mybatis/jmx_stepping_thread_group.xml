@@ -25,7 +25,7 @@
     </resultMap>
 
     <sql id="table_name">
-        mysterious_jmx_thread_group
+        mysterious_jmx_stepping_thread_group
     </sql>
     
     <sql id="select-column-list">
