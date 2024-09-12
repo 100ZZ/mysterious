@@ -8,10 +8,6 @@ import com.lihuia.mysterious.common.io.MysteriousFileUtils;
 import com.lihuia.mysterious.common.jmeter.JMeterUtil;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.entity.jmx.JmxDO;
-import com.lihuia.mysterious.core.entity.jmx.sample.http.HttpDO;
-import com.lihuia.mysterious.core.entity.jmx.thread.ConcurrencyThreadGroupDO;
-import com.lihuia.mysterious.core.entity.jmx.thread.SteppingThreadGroupDO;
-import com.lihuia.mysterious.core.entity.jmx.thread.ThreadGroupDO;
 import com.lihuia.mysterious.core.entity.report.ReportDO;
 import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
 import com.lihuia.mysterious.core.mapper.jmx.JmxMapper;
@@ -67,10 +63,6 @@ import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -154,11 +146,11 @@ public class JmxService implements IJmxService {
     @Autowired
     private IJavaParamService javaParamService;
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
+//    @Autowired
+//    private MongoTemplate mongoTemplate;
 
     /** mongodb保存body */
-    private final static String BODY_COLLECTION = "mysterious_jmx_http_body";
+    //private final static String BODY_COLLECTION = "mysterious_jmx_http_body";
 
     private void checkJmxParam(JmxVO jmxVO) {
         if (ObjectUtils.isEmpty(jmxVO)) {
@@ -282,13 +274,14 @@ public class JmxService implements IJmxService {
             if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.HTTP_REQUEST.getCode())) {
                 HttpVO httpVO = httpService.getByJmxId(id);
                 httpService.deleteHttp(httpVO.getId());
-                /** 删除mongo里的body */
-                Query query = new Query(Criteria
-                        .where("httpId").is(httpVO.getId())
-                        .and("jmxId").is(httpVO.getJmxId())
-                        .and("testCaseId").is(httpVO.getTestCaseId()));
-                log.info("Mongo remove body, httpId:{}, jmxId:{}, testCaseId:{}", httpVO.getId(), httpVO.getJmxId(), httpVO.getTestCaseId());
-                mongoTemplate.remove(query, BODY_COLLECTION);
+                /** 不再用mongo寸body，删除httpDO即可 */
+//                /** 删除mongo里的body */
+//                Query query = new Query(Criteria
+//                        .where("httpId").is(httpVO.getId())
+//                        .and("jmxId").is(httpVO.getJmxId())
+//                        .and("testCaseId").is(httpVO.getTestCaseId()));
+//                log.info("Mongo remove body, httpId:{}, jmxId:{}, testCaseId:{}", httpVO.getId(), httpVO.getJmxId(), httpVO.getTestCaseId());
+//                mongoTemplate.remove(query, BODY_COLLECTION);
                 List<HttpHeaderVO> headerVOList = httpHeaderService.getListByHttpId(httpVO.getId());
                 if (!CollectionUtils.isEmpty(headerVOList)) {
                     headerVOList.forEach(httpHeaderVO -> httpHeaderService.deleteHttpHeader(httpHeaderVO.getId()));
@@ -703,6 +696,13 @@ public class JmxService implements IJmxService {
             httpService.addHttp(httpVO);
             /** 填充http内容 */
             jmeterXMLService.updateHttpSample(httpVO);
+            /** http body */
+            String body = httpVO.getBody();
+            if (!checkHttpBodyIsEmpty(body)) {
+                log.info("insert body, body:{}", JSON.parseObject(body));
+                /** 不再用mongodb了，直接mysql入库 */
+                jmeterXMLService.addHttpBody(body);
+            }
 
             /** 获取httpId，后面入库; 因为一个jmx只有一个http */
             HttpVO newHttpVO = httpService.getByJmxId(jmxId);
@@ -712,19 +712,19 @@ public class JmxService implements IJmxService {
             Long httpId = newHttpVO.getId();
 
             /**  body都存在mongodb */
-            String body = httpVO.getBody();
-            if (!checkHttpBodyIsEmpty(body)) {
-                JSONObject json = new JSONObject();
-                json.put("body", JSON.parseObject(body));
-                json.put("testCaseId", testCaseId);
-                json.put("jmxId", jmxId);
-                json.put("httpId", httpId);
-                log.info("Mongo insert body, httpId:{}, jmxId:{}, testCaseId:{}", httpId, httpVO.getJmxId(), httpVO.getTestCaseId());
-                log.info("Mongo insert body, body:{}", JSON.parseObject(body));
-                mongoTemplate.insert(json, BODY_COLLECTION);
-                /** 修改脚本文件 */
-                jmeterXMLService.addHttpBody(body);
-            }
+//            String body = httpVO.getBody();
+//            if (!checkHttpBodyIsEmpty(body)) {
+//                JSONObject json = new JSONObject();
+//                json.put("body", JSON.parseObject(body));
+//                json.put("testCaseId", testCaseId);
+//                json.put("jmxId", jmxId);
+//                json.put("httpId", httpId);
+//                log.info("Mongo insert body, httpId:{}, jmxId:{}, testCaseId:{}", httpId, httpVO.getJmxId(), httpVO.getTestCaseId());
+//                log.info("Mongo insert body, body:{}", JSON.parseObject(body));
+//                mongoTemplate.insert(json, BODY_COLLECTION);
+//                /** 修改脚本文件 */
+//                jmeterXMLService.addHttpBody(body);
+//            }
 
             /** 是否有http header */
             List<HttpHeaderVO> headerVOList = httpVO.getHttpHeaderVOList();
@@ -868,17 +868,18 @@ public class JmxService implements IJmxService {
             HttpVO httpVO = httpService.getByJmxId(id);
             httpVO.setHttpHeaderVOList(httpHeaderService.getListByHttpId(httpVO.getId()));
             httpVO.setHttpParamVOList(httpParamService.getListByHttpId(httpVO.getId()));
-            /** 从mongodb里捞body */
-            Query query = new Query(Criteria
-                    .where("httpId").is(httpVO.getId())
-                    .and("jmxId").is(httpVO.getJmxId())
-                    .and("testCaseId").is(httpVO.getTestCaseId()));
-            log.info("Mongo search body, httpId:{}, jmxId:{}, testCaseId:{}", httpVO.getId(), httpVO.getJmxId(), httpVO.getTestCaseId());
-            JSONObject json = mongoTemplate.findOne(query, JSONObject.class, BODY_COLLECTION);
-            log.info("Mongo search body, json:{}", JSON.toJSONString(json, true));
-            if (ObjectUtils.isNotEmpty(json)) {
-                httpVO.setBody(JSON.toJSONString(json.get("body"), true));
-            }
+//            /** 从mongodb里捞body */
+//            Query query = new Query(Criteria
+//                    .where("httpId").is(httpVO.getId())
+//                    .and("jmxId").is(httpVO.getJmxId())
+//                    .and("testCaseId").is(httpVO.getTestCaseId()));
+//            log.info("Mongo search body, httpId:{}, jmxId:{}, testCaseId:{}", httpVO.getId(), httpVO.getJmxId(), httpVO.getTestCaseId());
+//            JSONObject json = mongoTemplate.findOne(query, JSONObject.class, BODY_COLLECTION);
+//            log.info("Mongo search body, json:{}", JSON.toJSONString(json, true));
+//            if (ObjectUtils.isNotEmpty(json)) {
+//                httpVO.setBody(JSON.toJSONString(json.get("body"), true));
+//            }
+            /** 不再mongo里捞body */
             jmxVO.setHttpVO(httpVO);
         } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.DUBBO_SAMPLE.getCode())) {
             jmxVO.setDubboVO(dubboService.getByJmxId(id));
@@ -1047,22 +1048,24 @@ public class JmxService implements IJmxService {
             httpService.updateHttp(httpVO);
             //修改JMX脚本里HTTP信息
             jmeterXMLService.updateHttpSample(httpVO);
+            /** 修改jmx里body信息 */
+            jmeterXMLService.addHttpBody(httpVO.getBody());
 
-            /**  mongodb更新body */
-            String body = httpVO.getBody();
-            if (!checkHttpBodyIsEmpty(body)) {
-                Query query = new Query(Criteria
-                        .where("httpId").is(httpVO.getId())
-                        .and("jmxId").is(httpVO.getJmxId())
-                        .and("testCaseId").is(httpVO.getTestCaseId()));
-                Update update = new Update();
-                update.set("body", JSON.parseObject(body));
-                log.info("Mongo update body, httpId:{}, jmxId:{}, testCaseId:{}", httpVO.getId(), httpVO.getJmxId(), httpVO.getTestCaseId());
-                log.info("Mongo update body, body:{}", JSON.parseObject(body).toJSONString());
-                mongoTemplate.updateFirst(query, update, BODY_COLLECTION);
-                /** add body会jmx里先清理body节点，再新增 */
-                jmeterXMLService.addHttpBody(httpVO.getBody());
-            }
+            /**  不再mongodb里更新body */
+//            String body = httpVO.getBody();
+//            if (!checkHttpBodyIsEmpty(body)) {
+//                Query query = new Query(Criteria
+//                        .where("httpId").is(httpVO.getId())
+//                        .and("jmxId").is(httpVO.getJmxId())
+//                        .and("testCaseId").is(httpVO.getTestCaseId()));
+//                Update update = new Update();
+//                update.set("body", JSON.parseObject(body));
+//                log.info("Mongo update body, httpId:{}, jmxId:{}, testCaseId:{}", httpVO.getId(), httpVO.getJmxId(), httpVO.getTestCaseId());
+//                log.info("Mongo update body, body:{}", JSON.parseObject(body).toJSONString());
+//                mongoTemplate.updateFirst(query, update, BODY_COLLECTION);
+//                /** add body会jmx里先清理body节点，再新增 */
+//                jmeterXMLService.addHttpBody(httpVO.getBody());
+//            }
 
             /** Http header和param的更新（太麻烦，放弃） */
             /** 1、更新的有，表里没有的，入库
@@ -1218,11 +1221,12 @@ public class JmxService implements IJmxService {
         //body
         //String body = httpDO.getBody();
         //if (StringUtils.isNotBlank(body)) {
-        Query query = new Query(Criteria
-                .where("httpId").is(httpVO.getId())
-                .and("jmxId").is(httpVO.getJmxId())
-                .and("testCaseId").is(httpVO.getTestCaseId()));
-        mongoTemplate.remove(query, BODY_COLLECTION);
+        /** 不在mongo保存body */
+//        Query query = new Query(Criteria
+//                .where("httpId").is(httpVO.getId())
+//                .and("jmxId").is(httpVO.getJmxId())
+//                .and("testCaseId").is(httpVO.getTestCaseId()));
+//        mongoTemplate.remove(query, BODY_COLLECTION);
         //}
 
         //header

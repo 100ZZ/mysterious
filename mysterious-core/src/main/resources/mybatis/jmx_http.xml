@@ -13,6 +13,7 @@
         <result property="port" column="port"/>
         <result property="path" column="path"/>
         <result property="contentEncoding" column="content_encoding"/>
+        <result property="body" column="body"/>
         <result property="creatorId" column="creator_id"/>
         <result property="creator" column="creator"/>
         <result property="modifierId" column="modifier_id"/>
@@ -35,6 +36,7 @@
         `port`,
         `path`,
         `content_encoding`,
+        `body`,
         `creator_id`,
         `creator`,
         `modifier_id`,
@@ -53,6 +55,7 @@
         <if test="port != null">port=#{port},</if>
         <if test="path != null">path=#{path},</if>
         <if test="contentEncoding != null">content_encoding=#{contentEncoding},</if>
+        <if test="body != null">body=#{body},</if>
         <if test="creatorId != null">creator_id=#{creatorId},</if>
         <if test="creator != null">creator=#{creator},</if>
         <if test="modifierId != null">modifier_id=#{modifierId},</if>

@@ -221,7 +221,7 @@ CREATE TABLE `mysterious_jmx_http` (
     `port` varchar(32) NOT NULL DEFAULT '' COMMENT '端口',
     `path` varchar(255) NOT NULL DEFAULT '' COMMENT '路径',
     `content_encoding` varchar(32) NOT NULL DEFAULT '' COMMENT '编码',
-    `body` varchar(255) NOT NULL DEFAULT '' COMMENT 'http的body',
+    `body` varchar(4096) NOT NULL DEFAULT '' COMMENT 'http的body',
     `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
     `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
     `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
