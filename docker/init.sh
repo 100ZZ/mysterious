@@ -33,6 +33,10 @@ cp -r dist ${BASE_DIR}/nginx/html/
 # 创建压测数据，报告目录
 mkdir -p ${BASE_DIR}/mysterious-data
 
+# 创建基础jmx模板文件，在线编辑脚本用
+mkdir -p ${BASE_DIR}/mysterious-jmx
+cp jmx/*.jmx ${BASE_DIR}/mysterious-jmx/
+
 # copy compose文件和env文件
 cp docker-compose.yml ${BASE_DIR}/
 cp VERSION.env ${BASE_DIR}/
