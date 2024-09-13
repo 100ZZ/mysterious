@@ -142,7 +142,7 @@ public class JMeterXMLService {
         argumentMetadata.setText("=");
 
         Element useEquals = elementProp.addElement("boolProp");
-        useEquals.addAttribute("name", "TTPArgument.use_equals");
+        useEquals.addAttribute("name", "HTTPArgument.use_equals");
         useEquals.setText("true");
 
         Element argumentName = elementProp.addElement("stringProp");
@@ -165,28 +165,28 @@ public class JMeterXMLService {
         }
 
         /** 添加post节点 */
-        Element boolProp = dest.addElement("boolProp");
-        boolProp.addAttribute("name", "HTTPSampler.postBodyRaw");
-        boolProp.setText("true");
+        Element httpPostBoolProp = dest.addElement("boolProp");
+        httpPostBoolProp.addAttribute("name", "HTTPSampler.postBodyRaw");
+        httpPostBoolProp.setText("true");
 
-        Element elementProp = dest.addElement("elementProp");
-        elementProp.addAttribute("name", "HTTPsampler.Arguments");
-        elementProp.addAttribute("elementType", "Arguments");
+        Element httpSamplerArgElementProp = dest.addElement("elementProp");
+        httpSamplerArgElementProp.addAttribute("name", "HTTPsampler.Arguments");
+        httpSamplerArgElementProp.addAttribute("elementType", "Arguments");
 
-        Element collectionProp = elementProp.addElement("collectionProp");
-        collectionProp.addAttribute("name", "Arguments.arguments");
+        Element argumentsCollectionProp = httpSamplerArgElementProp.addElement("collectionProp");
+        argumentsCollectionProp.addAttribute("name", "Arguments.arguments");
 
-        elementProp = collectionProp.addElement("elementProp");
-        elementProp.addAttribute("name", "");
-        elementProp.addAttribute("elementType", "HTTPArgument");
+        Element httpArgElementProp = argumentsCollectionProp.addElement("elementProp");
+        httpArgElementProp.addAttribute("name", "");
+        httpArgElementProp.addAttribute("elementType", "HTTPArgument");
 
-        boolProp = elementProp.addElement("boolProp");
-        boolProp.addAttribute("name", "HTTPArgument.always_encode");
-        boolProp.setText("false");
+        Element alwaysEncodeBoolProp = httpArgElementProp.addElement("boolProp");
+        alwaysEncodeBoolProp.addAttribute("name", "HTTPArgument.always_encode");
+        alwaysEncodeBoolProp.setText("false");
 
-        Element stringProp = elementProp.addElement("stringProp");
-        stringProp.addAttribute("name", "Argument.value");
-        stringProp.setText(body);
+        Element arguValueStringProp = httpArgElementProp.addElement("stringProp");
+        arguValueStringProp.addAttribute("name", "Argument.value");
+        arguValueStringProp.setText(body);
     }
 
     public void updateHttpSample(HttpVO httpVO) {
