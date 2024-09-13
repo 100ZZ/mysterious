@@ -513,17 +513,16 @@ public class JmxService implements IJmxService {
         }
     }
 
-    private boolean checkHttpBodyIsEmpty(String body) {
-        if (StringUtils.isBlank(body)) {
-            return true;
-        }
-        JSONObject json;
+    private void checkHttpBodyIsJSON(String body) {
         try {
-            json = JSONObject.parseObject(body);
+            JSONObject.parseObject(body);
         } catch (Exception e) {
             throw new MysteriousException("body不是JSON格式, 请确认");
         }
-        return json.isEmpty();
+    }
+
+    private boolean checkHttpBodyIsEmpty(String body) {
+        return StringUtils.isBlank(body);
     }
 
     private void checkHttpVO(HttpVO httpVO) {
@@ -693,14 +692,17 @@ public class JmxService implements IJmxService {
             HttpVO httpVO = jmxVO.getHttpVO();
             httpVO.setTestCaseId(testCaseId);
             httpVO.setJmxId(jmxId);
+            /** http body */
+            String body = httpVO.getBody();
+            /** 新增操作，body可以为空；但如果非空，需要校验json，是json才写jmx */
+            if (!checkHttpBodyIsEmpty(body)) {
+                checkHttpBodyIsJSON(body);
+                log.info("insert body, body:{}", JSON.parseObject(body));
+            }
             httpService.addHttp(httpVO);
             /** 填充http内容 */
             jmeterXMLService.updateHttpSample(httpVO);
-            /** http body */
-            String body = httpVO.getBody();
             if (!checkHttpBodyIsEmpty(body)) {
-                log.info("insert body, body:{}", JSON.parseObject(body));
-                /** 不再用mongodb了，直接mysql入库 */
                 jmeterXMLService.addHttpBody(body);
             }
 
@@ -1045,11 +1047,18 @@ public class JmxService implements IJmxService {
         if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.HTTP_REQUEST.getCode())) {
             //http
             HttpVO httpVO = jmxVO.getHttpVO();
+            String body = httpVO.getBody();
+            /** 更新操作，body同样可以变为空；但如果非空，校验body是不是json，以及写jmx */
+            if (!checkHttpBodyIsEmpty(body)) {
+                checkHttpBodyIsJSON(body);
+            }
             httpService.updateHttp(httpVO);
             //修改JMX脚本里HTTP信息
             jmeterXMLService.updateHttpSample(httpVO);
             /** 修改jmx里body信息 */
-            jmeterXMLService.addHttpBody(httpVO.getBody());
+            if (!checkHttpBodyIsEmpty(body)) {
+                jmeterXMLService.addHttpBody(body);
+            }
 
             /**  不再mongodb里更新body */
 //            String body = httpVO.getBody();
