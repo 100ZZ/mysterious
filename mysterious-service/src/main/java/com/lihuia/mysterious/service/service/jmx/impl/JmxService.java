@@ -611,6 +611,9 @@ public class JmxService implements IJmxService {
             throw new MysteriousException("用例已经关联了jmx脚本");
         }
 
+        /** param和body不能同时都非空，互斥 */
+        checkParamAndBody(jmxVO);
+
         log.info("开始校验脚本关联参数...");
         checkJmxVO(jmxVO);
         String baseJmxFilePath = getBaseJmxFilePath(jmxVO);
@@ -897,6 +900,13 @@ public class JmxService implements IJmxService {
         return jmxVO;
     }
 
+    void checkParamAndBody(JmxVO jmxVO) {
+        /** param和body不能同时都非空，互斥 */
+        if (!CollectionUtils.isEmpty(jmxVO.getHttpVO().getHttpParamVOList()) && StringUtils.isNotEmpty(jmxVO.getHttpVO().getBody())) {
+            throw new MysteriousException("param和body不能同时非空，请确认");
+        }
+    }
+
     @Synchronized
     @Transactional
     @Override
@@ -915,7 +925,8 @@ public class JmxService implements IJmxService {
         if (!CollectionUtils.isEmpty(csvVOList)) {
             throw new MysteriousException("该脚本关联了CSV文件，请先删除依赖,再更新在线脚本");
         }
-
+        /** param和body不能同时都非空，互斥 */
+        checkParamAndBody(jmxVO);
         //当前的脚本信息
         /**
          * 线程组可以改，因为更换压测模式
@@ -1051,6 +1062,8 @@ public class JmxService implements IJmxService {
             /** 更新操作，body同样可以变为空；但如果非空，校验body是不是json，以及写jmx */
             if (!checkHttpBodyIsEmpty(body)) {
                 checkHttpBodyIsJSON(body);
+            } else {
+                httpVO.setBody("");
             }
             httpService.updateHttp(httpVO);
             //修改JMX脚本里HTTP信息
