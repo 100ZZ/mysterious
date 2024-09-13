@@ -75,6 +75,8 @@ CREATE TABLE `mysterious_jmx` (
     `jmx_dir` varchar(255) NOT NULL DEFAULT '' COMMENT '脚本目录',
     `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
     `jmeter_script_type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '脚本生成方式',
+    `jmeter_threads_type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '线程组类型',
+    `jmeter_sample_type` tinyint(2) NOT NULL DEFAULT '0' COMMENT 'Sample类型',
     `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
     `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
     `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
@@ -143,6 +145,175 @@ CREATE TABLE `mysterious_report` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='测试报告表';
 
+CREATE TABLE `mysterious_jmx_thread_group` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
+    `num_threads` varchar(32) NOT NULL DEFAULT '' COMMENT '线程数',
+    `ramp_time` varchar(32) NOT NULL DEFAULT '' COMMENT '持续时间',
+    `loops` varchar(32) NOT NULL DEFAULT '' COMMENT '循环次数',
+    `same_user_on_next_iteration` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-不勾选，1-勾选',
+    `delayed_start` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-不勾选，1-勾选',
+    `scheduler` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-不勾选，1-勾选',
+    `duration` varchar(32) NOT NULL DEFAULT '' COMMENT '持续时间',
+    `delay` varchar(32) NOT NULL DEFAULT '' COMMENT '延迟启动',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
+    KEY `idx_jmx_id` (`jmx_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='JXM脚本普通线程组表';
+
+CREATE TABLE `mysterious_jmx_stepping_thread_group` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
+    `num_threads` varchar(32) NOT NULL DEFAULT '' COMMENT 'ThreadGroup.num_threads',
+    `first_wait_for_seconds` varchar(32) NOT NULL DEFAULT '' COMMENT 'Threads initial delay',
+    `then_start_threads` varchar(32) NOT NULL DEFAULT '' COMMENT 'Start users count burst',
+    `next_add_threads` varchar(32) NOT NULL DEFAULT '' COMMENT 'Start users count',
+    `next_add_threads_every_seconds` varchar(32) NOT NULL DEFAULT '' COMMENT 'Start users period',
+    `using_ramp_up_seconds` varchar(32) NOT NULL DEFAULT '' COMMENT 'rampUp',
+    `then_hold_load_for_seconds` varchar(32) NOT NULL DEFAULT '' COMMENT 'flighttime',
+    `finally_stop_threads` varchar(32) NOT NULL DEFAULT '' COMMENT 'Stop users count',
+    `finally_stop_threads_every_seconds` varchar(32) NOT NULL DEFAULT '' COMMENT 'Stop users period',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
+    KEY `idx_jmx_id` (`jmx_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='JXM脚本梯度加压线程组表';
+
+CREATE TABLE `mysterious_jmx_concurrency_thread_group` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
+    `target_concurrency` varchar(32) NOT NULL DEFAULT '' COMMENT '目标线程数',
+    `ramp_up_time` varchar(32) NOT NULL DEFAULT '' COMMENT '目标时间',
+    `ramp_up_steps_count` varchar(32) NOT NULL DEFAULT '' COMMENT '梯度数量',
+    `hold_target_rate_time` varchar(32) NOT NULL DEFAULT '' COMMENT '梯度结束持续时间',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
+    KEY `idx_jmx_id` (`jmx_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='JXM脚本并发线程组表';
+
+CREATE TABLE `mysterious_jmx_http` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
+    `method` varchar(32) NOT NULL DEFAULT '' COMMENT '方法',
+    `protocol` varchar(32) NOT NULL DEFAULT '' COMMENT '协议',
+    `domain` varchar(255) NOT NULL DEFAULT '' COMMENT 'IP',
+    `port` varchar(32) NOT NULL DEFAULT '' COMMENT '端口',
+    `path` varchar(255) NOT NULL DEFAULT '' COMMENT '路径',
+    `content_encoding` varchar(32) NOT NULL DEFAULT '' COMMENT '编码',
+    `body` varchar(4096) NOT NULL DEFAULT '' COMMENT 'http的body',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
+    KEY `idx_jmx_id` (`jmx_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='JXM脚本HTTP请求表';
+
+CREATE TABLE `mysterious_jmx_http_header` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
+    `http_id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'HTTP请求ID',
+    `header_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'header名称',
+    `header_value` varchar(255) NOT NULL DEFAULT '' COMMENT 'header值',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
+    KEY `idx_jmx_id` (`jmx_id`) USING BTREE,
+    KEY `idx_http_id` (`http_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='JXM脚本HTTP请求Header表';
+
+CREATE TABLE `mysterious_jmx_http_param` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
+    `http_id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'HTTP请求ID',
+    `param_key` varchar(255) NOT NULL DEFAULT '' COMMENT '参数名称',
+    `param_value` varchar(255) NOT NULL DEFAULT '' COMMENT '参数值',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
+    KEY `idx_jmx_id` (`jmx_id`) USING BTREE,
+    KEY `idx_http_id` (`http_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='JXM脚本HTTP请求参数表';
+
+CREATE TABLE `mysterious_jmx_java` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
+    `java_request_class_path` varchar(32) NOT NULL DEFAULT '' COMMENT 'Java类路径',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
+    KEY `idx_jmx_id` (`jmx_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='JXM脚本Java请求表';
+
+CREATE TABLE `mysterious_jmx_java_param` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
+    `java_id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'Java请求ID',
+    `param_key` varchar(255) NOT NULL DEFAULT '' COMMENT '参数名称',
+    `param_value` varchar(255) NOT NULL DEFAULT '' COMMENT '参数值',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
+    KEY `idx_jmx_id` (`jmx_id`) USING BTREE,
+    KEY `idx_java_id` (`java_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='JXM脚本Java请求参数表';
+
 -- master节点用例，报告目录
 INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("MASTER_DATA_HOME", "/opt/mysterious/mysterious-data", "master节点用例，报告目录");
 -- master节点Jmeter路径
@@ -154,4 +325,6 @@ INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("S
 -- slave节点Jmeter-Server日志目录
 INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("SLAVE_JMETER_LOG_HOME", "/opt/mysterious/mysterious-jmeter/log", "slave节点Jmeter-Server日志目录");
 -- master节点host
-INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("MASTER_HOST_PORT", "192.168.100.186:9998", "压测报告预览链接的Host");
+INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("MASTER_HOST_PORT", "192.168.20.224:9998", "压测报告预览链接的Host");
+-- jmeter在线编辑，基础jmx脚本文件路径
+INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("MASTER_BASE_JMX_FILES_PATH", "/opt/mysterious/mysterious-jmx", "jmeter在线编辑，基础jmx脚本文件路径");

@@ -18,7 +18,7 @@ start() {
     exit 0
   else
     echo "开始启动mysterious, wait ......"
-    nohup java -Xms4g -Xmx4g -Dfile.encoding=UTF-8 -jar mysterious-1.0.jar>nohup.out 2>&1 &
+    nohup java -Xms4g -Xmx4g -Dfile.encoding=UTF-8 -jar mysterious.jar>nohup.out 2>&1 &
     sleep 5
     echo $! > run.pid
     echo "结束启动mysterious"

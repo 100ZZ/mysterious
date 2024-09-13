@@ -23,11 +23,11 @@
 ## 操作视频
 >- 安装部署：https://www.bilibili.com/video/BV1by421i7cn
 >- 使用说明：https://www.bilibili.com/video/BV15j421Z7mY
->- 平台试用：http://101.43.119.176:1234 (demo/demo)
+>- 平台试用：http://101.43.119.176:1234 (demo/demo, v1.0版本)
 
 ## 安装部署
 ### Docker-Compose部署方式(推荐，一键部署)
-_容器化部署通过docker-compose方式，如果docker下载不畅，可直接上面网盘下离线镜像_
+_容器化部署通过docker-compose方式，如果拉镜像不畅，可直接TAG附件或者上面网盘下离线镜像，目前离线镜像都是v1.0版本_
 <br>
 1. 平台部署（默认是X86_64环境，如果是ARM环境替换成docker-compose-arm.yml和arm.env启动）
 >- git clone https://github.com/100ZZ/mysterious.git /root/mysterious
@@ -45,9 +45,9 @@ _下面以CentOS7为例介绍下安装步骤_
 >- git clone https://github.com/100ZZ/mysterious-web.git
 >- cd mysterious-web
 >- npm install
->- npm run build (生成dist)
+>- npm run build (生成dist，如果不想build，mysterious的docker里有最新的dist)
 
-2. 安装nginx，mysql，redis
+2. 安装nginx，mysql，redis，jdk8+
 > nginx
 >- 1234.conf和9998.conf复制到/etc/nginx/conf.d下（根据系统实际情况），并修改下，比如mysterious-nginx改成localhost，mysterious改成最后前端页面访问的IP地址
 >- mkdir -p /usr/share/nginx/html/
