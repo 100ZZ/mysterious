@@ -150,19 +150,39 @@ public class JMeterXMLService {
         argumentName.setText(name);
     }
 
+    public void deleteByElement(Element now, String prop) {
+        if (now.element(prop) != null) {
+            now.remove(now.element(prop));
+        }
+    }
+
+    public void deleteByAttribute(Element now, String prop, String name) {
+        if (now.element(prop) != null) {
+            Element nowProp = now.element(prop);
+            /** 如果<boolProp name="HTTPSampler.postBodyRaw"></boolProp> 删除 */
+            if (nowProp != null && nowProp.attributeValue("name").equals(name)) {
+                now.remove(nowProp);
+            }
+        }
+    }
+
     public void addHttpBody(String body) {
         log.info("addHttpBody: {}", body);
         initFlag();
         findElement(document.getRootElement(), "HTTPSamplerProxy");
 
-        /** 先删除默认脚本里带的HTTP GET argument节点 */
-        if (dest.element("elementProp") != null) {
-            dest.remove(dest.element("elementProp"));
-        }
+        /** 先删除默认脚本里带的HTTP argument节点 */
+        /** GET:  <elementProp name="HTTPsampler.Arguments" elementType="Arguments"
+         *          guiclass="HTTPArgumentsPanel" testclass="Arguments"
+         *          testname="User Defined Variables" enabled="true">
+         *  POST: <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+         */
+        deleteByElement(dest, "elementProp");
+
         /** 如果boolProp存在，也删除 */
-        if (dest.element("boolProp") != null) {
-            dest.remove(dest.element("boolProp"));
-        }
+        /** POST(仅仅)： <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+         */
+        deleteByAttribute(dest, "boolProp", "HTTPSampler.postBodyRaw");
 
         /** 添加post节点 */
         Element httpPostBoolProp = dest.addElement("boolProp");
@@ -187,6 +207,7 @@ public class JMeterXMLService {
         Element arguValueStringProp = httpArgElementProp.addElement("stringProp");
         arguValueStringProp.addAttribute("name", "Argument.value");
         arguValueStringProp.setText(body);
+
     }
 
     public void updateHttpSample(HttpVO httpVO) {
@@ -480,13 +501,17 @@ public class JMeterXMLService {
     public static void main(String[] args) {
         //JMeterXMLService jmx = new JMeterXMLService();
         //jmx.init("jmx/out.jmx");
-        String filePath = "jmx/out.jmx";
-        try {
-            System.out.println(new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "UTF-8")).readLine().replace(" ", ""));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        String filePath = "jmx/out.jmx";
+//        try {
+//            System.out.println(new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "UTF-8")).readLine().replace(" ", ""));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 //        jmx.addCsv("a.csv", "/home/a.csv", "a,b,c", JMeterSampleEnum.HTTP_REQUEST.getCode());
 //        jmx.writeJmxFile("jmx/out.jmx");
+        JMeterXMLService jmx = new JMeterXMLService();
+        jmx.init("docker/jmx/thread_group_http.jmx");
+        jmx.addHttpBody("{\"one\": 1}");
+        jmx.writeJmxFile("docker/jmx/out.jmx");
     }
 }

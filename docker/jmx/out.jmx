@@ -1,6 +1,6 @@
-<?xml version="1.0"   encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.4"> 
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5"> 
   <hashTree> 
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true"> 
       <stringProp name="TestPlan.comments"></stringProp>  
@@ -32,9 +32,6 @@
       </ThreadGroup>  
       <hashTree> 
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request" enabled="true"> 
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true"> 
-            <collectionProp name="Arguments.arguments"></collectionProp> 
-          </elementProp>  
           <stringProp name="HTTPSampler.domain"></stringProp>  
           <stringProp name="HTTPSampler.port"></stringProp>  
           <stringProp name="HTTPSampler.protocol"></stringProp>  
@@ -47,57 +44,18 @@
           <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>  
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>  
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>  
-          <stringProp name="HTTPSampler.response_timeout"></stringProp> 
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>  
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{"one": 1}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
         </HTTPSamplerProxy>  
-        <hashTree> 
-          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="a.csv" enabled="true"> 
-            <stringProp name="filename">haha</stringProp> 
-          </CSVDataSet>  
-          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="a.csv" enabled="true"> 
-            <stringProp name="filename">/home/a.csv</stringProp>  
-            <stringProp name="fileEncoding">UTF-8</stringProp>  
-            <stringProp name="variableNames">a,b,c</stringProp>  
-            <boolProp name="ignoreFirstLine">true</boolProp>  
-            <stringProp name="delimiter">,</stringProp>  
-            <boolProp name="quotedData">false</boolProp>  
-            <boolProp name="recycle">true</boolProp>  
-            <boolProp name="stopThread">false</boolProp>  
-            <stringProp name="shareMode">,</stringProp> 
-          </CSVDataSet>  
-          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="a.csv" enabled="true"> 
-            <stringProp name="filename">/home/a.csv</stringProp>  
-            <stringProp name="fileEncoding">UTF-8</stringProp>  
-            <stringProp name="variableNames">a,b,c</stringProp>  
-            <boolProp name="ignoreFirstLine">true</boolProp>  
-            <stringProp name="delimiter">,</stringProp>  
-            <boolProp name="quotedData">false</boolProp>  
-            <boolProp name="recycle">true</boolProp>  
-            <boolProp name="stopThread">false</boolProp>  
-            <stringProp name="shareMode">,</stringProp> 
-          </CSVDataSet>  
-          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="a.csv" enabled="true"> 
-            <stringProp name="filename">/home/a.csv</stringProp>  
-            <stringProp name="fileEncoding">UTF-8</stringProp>  
-            <stringProp name="variableNames">a,b,c</stringProp>  
-            <boolProp name="ignoreFirstLine">true</boolProp>  
-            <stringProp name="delimiter">,</stringProp>  
-            <boolProp name="quotedData">false</boolProp>  
-            <boolProp name="recycle">true</boolProp>  
-            <boolProp name="stopThread">false</boolProp>  
-            <stringProp name="shareMode">,</stringProp> 
-          </CSVDataSet>  
-          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="a.csv" enabled="true">
-            <stringProp name="filename">/home/a.csv</stringProp>
-            <stringProp name="fileEncoding">UTF-8</stringProp>
-            <stringProp name="variableNames">a,b,c</stringProp>
-            <boolProp name="ignoreFirstLine">true</boolProp>
-            <stringProp name="delimiter">,</stringProp>
-            <boolProp name="quotedData">false</boolProp>
-            <boolProp name="recycle">true</boolProp>
-            <boolProp name="stopThread">false</boolProp>
-            <stringProp name="shareMode">,</stringProp>
-          </CSVDataSet>
-        </hashTree> 
+        <hashTree></hashTree> 
       </hashTree> 
     </hashTree> 
   </hashTree> 
