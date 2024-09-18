@@ -1,5 +1,5 @@
 # Mysterious
-> 分布式压测平台后端服务，前端Vue3+TypeScript，后端SpringBoot服务，压测引擎JMeter5.5，基础是JMeter的分布式压测
+> 分布式压测平台后端服务，前端Vue3+TypeScript，后端SpringBoot-2.3.12服务，压测引擎JMeter5.5，基础是JMeter的分布式压测
 
 ## 经验总结
 >- [1. JMeter分布式压测](https://lihuia.com/jmeter%e5%88%86%e5%b8%83%e5%bc%8f%e5%8e%8b%e6%b5%8b/)
@@ -15,7 +15,7 @@
 ## 平台依赖
 >- 后端服务：https://github.com/100ZZ/mysterious
 >- 前端服务：https://github.com/100ZZ/mysterious-web
->- 压测工具：https://github.com/100ZZ/mysterious-jmeter
+>- 压测引擎：https://github.com/100ZZ/mysterious-jmeter
 >- 离线镜像：https://pan.baidu.com/s/128k3uiUvaKf0vgbD-BO28Q?pwd=e9qy 提取码: e9qy
 >- 其它组件：MySQL，Redis，Nginx
 >- 其它依赖：JDK1.8+(JMeter依赖)，Docker，Docker-Compose
@@ -61,7 +61,7 @@ _下面以CentOS7为例介绍下安装步骤_
 > redis
 >- 没啥好说的，起来就行了，不用设密码
 >- redis.conf可自行下载，或者docker目录下有
-   
+
 3. 后端部署
 >- git clone https://github.com/100ZZ/mysterious.git
 >- 修改application.properties，mysterious-mysql和mysterious-redis都改成localhost
