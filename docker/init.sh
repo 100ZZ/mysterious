@@ -39,9 +39,4 @@ cp jmx/*.jmx ${BASE_DIR}/mysterious-jmx/
 
 # copy compose文件和env文件
 cp docker-compose.yml ${BASE_DIR}/
-cp VERSION.env ${BASE_DIR}/
-
-
-
-
-
+cp amd64.env ${BASE_DIR}/.env

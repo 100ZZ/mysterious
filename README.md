@@ -27,9 +27,9 @@
 
 ## 安装部署
 ### Docker-Compose部署方式(推荐，一键部署)
-_容器化部署通过docker-compose方式，如果拉镜像不畅，可直接TAG附件或者上面网盘下离线镜像，目前离线镜像都是v1.0版本_
+_容器化部署通过docker-compose方式，如果拉镜像不畅，可直接上面网盘下最新v1.5版本容器镜像_
 <br>
-1. 平台部署（默认是X86_64环境，如果是ARM环境替换成docker-compose-arm.yml和arm.env启动）
+1. 平台部署（默认是X86_64环境，如果是ARM环境替换成docker-compose-arm.yml和arm64.env启动）
 >- git clone https://github.com/100ZZ/mysterious.git /root/mysterious
 >- cd /root/mysterious/docker
 >- ./init.sh
