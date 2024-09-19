@@ -20,10 +20,7 @@ import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.node.NodeVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.report.ReportVO;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseFullVO;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseParam;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseQuery;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseVO;
+import com.lihuia.mysterious.core.vo.testcase.*;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.crud.CRUDEntity;
 import com.lihuia.mysterious.service.enums.ExecTypeEnum;
@@ -46,9 +43,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -571,5 +574,42 @@ public class TestCaseService implements ITestCaseService {
             }
             log.info("jar文件同步结束");
         }
+    }
+
+
+    @Override
+    public List<JMeterResultVO> getJMeterResult(Long id) {
+        List<JMeterResultVO> jmeterResultVOList = new ArrayList<>();
+        List<ReportVO> reportVOList = reportService.getDebugReportListByTestCaseId(id, null, 10);
+        if (CollectionUtils.isEmpty(reportVOList)) {
+            return jmeterResultVOList;
+        }
+        String jmeterLogFilePath = reportVOList.get(0).getJmeterLogFilePath();
+        if (StringUtils.isBlank(jmeterLogFilePath)) {
+            return jmeterResultVOList;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(jmeterLogFilePath))) {
+            String line;
+//            Pattern pattern = Pattern.compile("([\\d\\-\\s:,]+) INFO.*summary =.* (\\d+\\.\\d+)/s Avg: +(\\d+)");
+            Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2} (\\d{2}:\\d{2}:\\d{2}),\\d{3} INFO.*summary =.* (\\d+\\.\\d+)/s Avg: +(\\d+)");
+            while ((line = br.readLine()) != null) {
+                Matcher matcher = pattern.matcher(line);
+                if (matcher.find()) {
+                    String timestamp = matcher.group(1);  // 时间戳
+                    String throughput = matcher.group(2); // 吞吐量
+                    String avgResponseTime = matcher.group(3); // 平均响应时间
+
+                    JMeterResultVO jMeterResultVO = new JMeterResultVO(timestamp, Double.parseDouble(throughput), Double.parseDouble(avgResponseTime));
+                    jmeterResultVOList.add(jMeterResultVO);
+                }
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage(), e.toString());
+            throw new MysteriousException("实时数据读取失败");
+        }
+
+
+        return jmeterResultVOList;
     }
 }

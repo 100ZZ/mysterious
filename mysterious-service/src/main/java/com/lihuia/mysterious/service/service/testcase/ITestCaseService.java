@@ -2,10 +2,7 @@ package com.lihuia.mysterious.service.service.testcase;
 
 import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseFullVO;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseParam;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseQuery;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseVO;
+import com.lihuia.mysterious.core.vo.testcase.*;
 import com.lihuia.mysterious.core.vo.user.UserVO;
 
 import java.util.List;
@@ -115,4 +112,12 @@ public interface ITestCaseService {
      * @return
      */
     Boolean syncNode(Long nodeId);
+
+
+    /**
+     * 获取jmeter。log里的吞吐量和响应时间数据
+     * @param id
+     * @return
+     */
+    List<JMeterResultVO> getJMeterResult(Long id);
 }

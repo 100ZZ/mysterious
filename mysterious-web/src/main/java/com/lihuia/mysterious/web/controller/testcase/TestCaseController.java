@@ -4,10 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.lihuia.mysterious.common.response.Response;
 import com.lihuia.mysterious.common.response.ResponseUtil;
 import com.lihuia.mysterious.core.vo.page.PageVO;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseFullVO;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseParam;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseQuery;
-import com.lihuia.mysterious.core.vo.testcase.TestCaseVO;
+import com.lihuia.mysterious.core.vo.report.ReportVO;
+import com.lihuia.mysterious.core.vo.testcase.*;
 import com.lihuia.mysterious.service.service.testcase.ITestCaseService;
 import com.lihuia.mysterious.web.utils.UserUtils;
 import io.swagger.annotations.Api;
@@ -92,4 +90,9 @@ public class TestCaseController {
         return ResponseUtil.buildSuccessResponse(testCaseService.syncNode(nodeId));
     }
 
+    @ApiOperation("查看日志实时数据")
+    @GetMapping(value = "/getJMeterResult/{id}")
+    public Response<List<JMeterResultVO>> getJMeterResult(@PathVariable Long id) {
+        return ResponseUtil.buildSuccessResponse(testCaseService.getJMeterResult(id));
+    }
 }

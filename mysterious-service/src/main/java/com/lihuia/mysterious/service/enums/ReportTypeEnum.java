@@ -8,7 +8,7 @@ package com.lihuia.mysterious.service.enums;
 public enum ReportTypeEnum {
 
     DEBUG(1, "调试"),
-    RUNNING(2, "执行");
+    RUNNING(2, "压测");
 
     private Integer code;
     private String description;
