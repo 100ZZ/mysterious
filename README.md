@@ -1,5 +1,5 @@
 # Mysterious
-> 分布式压测平台后端服务，前端Vue3+TypeScript，后端SpringBoot-2.3.12服务，压测引擎JMeter5.5，基础是JMeter的分布式压测
+> 分布式压测平台，前端Vue3+TypeScript，后端SpringBoot-2.3.12，压测引擎JMeter-5.5，支持JMeter的分布式压测，管理，执行，报告，日志等。
 
 ## 经验总结
 >- [1. JMeter分布式压测](https://lihuia.com/jmeter%e5%88%86%e5%b8%83%e5%bc%8f%e5%8e%8b%e6%b5%8b/)
