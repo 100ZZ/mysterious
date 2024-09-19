@@ -1,0 +1,1 @@
+import{s as t}from"./request.207160df.js";const s=e=>t({url:"/user/login",method:"post",data:e}),o=e=>t({url:"/user/add",method:"post",data:e}),a=e=>t({url:"/user/list",method:"get",params:e}),d=e=>t({url:"/user/delete/"+e,method:"get"});export{o as a,d,a as g,s as l};

@@ -44,5 +44,4 @@ logs/*
 *.iws
 .jde*
 /lib/
-docker/dist/
 LOG_HOME_IS_UNDEFINED
