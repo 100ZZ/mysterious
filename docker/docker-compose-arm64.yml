@@ -55,11 +55,12 @@ services:
     restart: always
     environment:
       TZ: Asia/Shanghai
-      JAVA_OPTS: -Xmx4g -Xms4g
+      JAVA_OPTS: -Xmx1g -Xms1g
     volumes:
       - /opt/mysterious/logs:/opt/logs
       - /opt/mysterious/mysterious-jmeter:/opt/mysterious/mysterious-jmeter
       - /opt/mysterious/mysterious-data:/opt/mysterious/mysterious-data
+      - /opt/mysterious/mysterious-jmx:/opt/mysterious/mysterious-jmx
     ports:
       - "4321:4321"
     depends_on:
