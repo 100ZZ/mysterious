@@ -144,7 +144,17 @@ public class UserService implements IUserService {
             pageVO.setTotal(total);
             List<UserDO> userList = userMapper.getUserList(query.getUsername(), query.getRealName(), offset, query.getSize());
             log.info("userList: {}", userList);
-            pageVO.setList(userList.stream().map(this::convert).collect(Collectors.toList()));
+            pageVO.setList(userList.stream().map(userDO -> {
+                //UserVO userVO = BeanConverter.doSingle(userDO, UserVO.class);
+                UserVO userVO = new UserVO();
+                userVO.setUsername(userDO.getUsername());
+                userVO.setPassword("******");
+                userVO.setRealName(userDO.getRealName());
+                userVO.setId(userDO.getId());
+                userVO.setEffectTime(userDO.getEffectTime());
+                userVO.setExpireTime(userDO.getExpireTime());
+                return userVO;
+            }).collect(Collectors.toList()));
         }
         return pageVO;
     }
