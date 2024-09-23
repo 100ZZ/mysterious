@@ -840,7 +840,7 @@ public class JmxService implements IJmxService {
             }
         }
         /** jsonPath校验JSON Path表达式 */
-        if (!jsonPath.contains("$")) {
+        if (StringUtils.isNotBlank(jsonPath) && !jsonPath.contains("$")) {
             throw new MysteriousException("JSON Path表达式不合法");
         }
     }
