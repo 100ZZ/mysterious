@@ -23,7 +23,7 @@ https://github.com/user-attachments/assets/b951548a-7d16-4f0e-9d3e-7d3f1172a85f
 ## 操作视频
 - 安装部署：https://www.bilibili.com/video/BV1by421i7cn
 - 使用说明：https://www.bilibili.com/video/BV15j421Z7mY
-- 平台试用：http://101.43.119.176:1234 (demo/demo, v1.5版本)
+- 平台试用：http://101.43.119.176:1234 (demo/demo或者新注册个用户, v1.5版本)
 
 ## 测试流程
 - 如果是单节点压测，只需要在一个Master节点上安装部署平台和Jmeter工具包，通过平台来调用Jmeter来执行压测用例，并返回压测结果
