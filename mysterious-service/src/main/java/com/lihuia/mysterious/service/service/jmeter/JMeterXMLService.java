@@ -148,103 +148,110 @@ public class JMeterXMLService {
             throw new MysteriousException("hashTree节点不存在");
         }
 
-        // 添加Response Code断言
-        Element responseCodeAssertion = hashTree.addElement("ResponseAssertion");
-        responseCodeAssertion.addAttribute("guiclass", "AssertionGui");
-        responseCodeAssertion.addAttribute("testclass", "ResponseAssertion");
-        responseCodeAssertion.addAttribute("testname", "ResponseCodeAssertion");
-        responseCodeAssertion.addAttribute("enabled", "true");
+        if (StringUtils.isNotBlank(responseCode)) {
+            // 添加Response Code断言
+            Element responseCodeAssertion = hashTree.addElement("ResponseAssertion");
+            responseCodeAssertion.addAttribute("guiclass", "AssertionGui");
+            responseCodeAssertion.addAttribute("testclass", "ResponseAssertion");
+            responseCodeAssertion.addAttribute("testname", "ResponseCodeAssertion");
+            responseCodeAssertion.addAttribute("enabled", "true");
 
-        Element collectionProp = responseCodeAssertion.addElement("collectionProp");
-        collectionProp.addAttribute("name", "Asserion.test_strings");
+            Element collectionProp = responseCodeAssertion.addElement("collectionProp");
+            collectionProp.addAttribute("name", "Asserion.test_strings");
 
-        Element stringProp = collectionProp.addElement("stringProp");
-        stringProp.addAttribute("name", "49586");
-        stringProp.setText(responseCode);
+            Element stringProp = collectionProp.addElement("stringProp");
+            stringProp.addAttribute("name", "49586");
+            stringProp.setText(responseCode);
 
-        Element customMessage = responseCodeAssertion.addElement("stringProp");
-        customMessage.addAttribute("name", "Assertion.custom_message");
+            Element customMessage = responseCodeAssertion.addElement("stringProp");
+            customMessage.addAttribute("name", "Assertion.custom_message");
 
-        Element testField = responseCodeAssertion.addElement("stringProp");
-        testField.addAttribute("name", "Assertion.test_field");
-        testField.setText("Assertion.response_code");
+            Element testField = responseCodeAssertion.addElement("stringProp");
+            testField.addAttribute("name", "Assertion.test_field");
+            testField.setText("Assertion.response_code");
 
-        Element assumeSuccess = responseCodeAssertion.addElement("boolProp");
-        assumeSuccess.addAttribute("name", "Assertion.assume_success");
-        assumeSuccess.setText("false");
+            Element assumeSuccess = responseCodeAssertion.addElement("boolProp");
+            assumeSuccess.addAttribute("name", "Assertion.assume_success");
+            assumeSuccess.setText("false");
 
-        Element testType = responseCodeAssertion.addElement("intProp");
-        testType.addAttribute("name", "Assertion.test_type");
-        testType.setText("8");
+            Element testType = responseCodeAssertion.addElement("intProp");
+            testType.addAttribute("name", "Assertion.test_type");
+            testType.setText("8");
 
-        // 添加 <hashTree/>
-        hashTree.addElement("hashTree");
+            // 添加 <hashTree/>
+            hashTree.addElement("hashTree");
+        }
 
-        // 添加Response Message断言
-        Element responseMessageAssertion = hashTree.addElement("ResponseAssertion");
-        responseMessageAssertion.addAttribute("guiclass", "AssertionGui");
-        responseMessageAssertion.addAttribute("testclass", "ResponseAssertion");
-        responseMessageAssertion.addAttribute("testname", "ResponseMessageAssertion");
-        responseMessageAssertion.addAttribute("enabled", "true");
+        if (StringUtils.isNotBlank(responseMessage)) {
+            // 添加Response Message断言
+            Element responseMessageAssertion = hashTree.addElement("ResponseAssertion");
+            responseMessageAssertion.addAttribute("guiclass", "AssertionGui");
+            responseMessageAssertion.addAttribute("testclass", "ResponseAssertion");
+            responseMessageAssertion.addAttribute("testname", "ResponseMessageAssertion");
+            responseMessageAssertion.addAttribute("enabled", "true");
 
-        Element collectionPropMessage = responseMessageAssertion.addElement("collectionProp");
-        collectionPropMessage.addAttribute("name", "Asserion.test_strings");
+            Element collectionPropMessage = responseMessageAssertion.addElement("collectionProp");
+            collectionPropMessage.addAttribute("name", "Asserion.test_strings");
 
-        Element stringPropMessage = collectionPropMessage.addElement("stringProp");
-        stringPropMessage.addAttribute("name", "789079806");
-        stringPropMessage.setText(responseMessage);
+            Element stringPropMessage = collectionPropMessage.addElement("stringProp");
+            stringPropMessage.addAttribute("name", "789079806");
+            stringPropMessage.setText(responseMessage);
 
-        Element customMessageAssertion = responseMessageAssertion.addElement("stringProp");
-        customMessageAssertion.addAttribute("name", "Assertion.custom_message");
+            Element customMessageAssertion = responseMessageAssertion.addElement("stringProp");
+            customMessageAssertion.addAttribute("name", "Assertion.custom_message");
 
-        Element testFieldMessage = responseMessageAssertion.addElement("stringProp");
-        testFieldMessage.addAttribute("name", "Assertion.test_field");
-        testFieldMessage.setText("Assertion.response_data");
+            Element testFieldMessage = responseMessageAssertion.addElement("stringProp");
+            testFieldMessage.addAttribute("name", "Assertion.test_field");
+            testFieldMessage.setText("Assertion.response_data");
 
-        Element assumeSuccessMessage = responseMessageAssertion.addElement("boolProp");
-        assumeSuccessMessage.addAttribute("name", "Assertion.assume_success");
-        assumeSuccessMessage.setText("false");
+            Element assumeSuccessMessage = responseMessageAssertion.addElement("boolProp");
+            assumeSuccessMessage.addAttribute("name", "Assertion.assume_success");
+            assumeSuccessMessage.setText("false");
 
-        Element testTypeMessage = responseMessageAssertion.addElement("intProp");
-        testTypeMessage.addAttribute("name", "Assertion.test_type");
-        testTypeMessage.setText("2");
+            Element testTypeMessage = responseMessageAssertion.addElement("intProp");
+            testTypeMessage.addAttribute("name", "Assertion.test_type");
+            testTypeMessage.setText("2");
 
-        // 添加 <hashTree/>
-        hashTree.addElement("hashTree");
+            // 添加 <hashTree/>
+            hashTree.addElement("hashTree");
+        }
 
-        // 添加JSON Path断言
-        Element jsonPathAssertion = hashTree.addElement("JSONPathAssertion");
-        jsonPathAssertion.addAttribute("guiclass", "JSONPathAssertionGui");
-        jsonPathAssertion.addAttribute("testclass", "JSONPathAssertion");
-        jsonPathAssertion.addAttribute("testname", "JSONAssertion");
-        jsonPathAssertion.addAttribute("enabled", "true");
+        if (StringUtils.isNotBlank(expectedValue)) {
+            /** 坑爹的，如果json path的value为空，jmeter会报错;所以非空才添加控件 */
+            // 添加JSON Path断言
+            Element jsonPathAssertion = hashTree.addElement("JSONPathAssertion");
+            jsonPathAssertion.addAttribute("guiclass", "JSONPathAssertionGui");
+            jsonPathAssertion.addAttribute("testclass", "JSONPathAssertion");
+            jsonPathAssertion.addAttribute("testname", "JSONAssertion");
+            jsonPathAssertion.addAttribute("enabled", "true");
 
-        Element jsonPathProp = jsonPathAssertion.addElement("stringProp");
-        jsonPathProp.addAttribute("name", "JSON_PATH");
-        jsonPathProp.setText(jsonPath);
+            Element jsonPathProp = jsonPathAssertion.addElement("stringProp");
+            jsonPathProp.addAttribute("name", "JSON_PATH");
+            jsonPathProp.setText(jsonPath);
 
-        Element expectedValueProp = jsonPathAssertion.addElement("stringProp");
-        expectedValueProp.addAttribute("name", "EXPECTED_VALUE");
-        expectedValueProp.setText(expectedValue);
+            Element expectedValueProp = jsonPathAssertion.addElement("stringProp");
+            expectedValueProp.addAttribute("name", "EXPECTED_VALUE");
+            expectedValueProp.setText(expectedValue);
 
-        Element jsonValidation = jsonPathAssertion.addElement("boolProp");
-        jsonValidation.addAttribute("name", "JSONVALIDATION");
-        jsonValidation.setText("true");
+            Element jsonValidation = jsonPathAssertion.addElement("boolProp");
+            jsonValidation.addAttribute("name", "JSONVALIDATION");
+            jsonValidation.setText("true");
 
-        Element expectNull = jsonPathAssertion.addElement("boolProp");
-        expectNull.addAttribute("name", "EXPECT_NULL");
-        expectNull.setText("false");
+            Element expectNull = jsonPathAssertion.addElement("boolProp");
+            expectNull.addAttribute("name", "EXPECT_NULL");
+            expectNull.setText("false");
 
-        Element invert = jsonPathAssertion.addElement("boolProp");
-        invert.addAttribute("name", "INVERT");
-        invert.setText("false");
+            Element invert = jsonPathAssertion.addElement("boolProp");
+            invert.addAttribute("name", "INVERT");
+            invert.setText("false");
 
-        Element isRegex = jsonPathAssertion.addElement("boolProp");
-        isRegex.addAttribute("name", "ISREGEX");
-        isRegex.setText("false");
+            Element isRegex = jsonPathAssertion.addElement("boolProp");
+            isRegex.addAttribute("name", "ISREGEX");
+            isRegex.setText("false");
 
-        // 添加 <hashTree/>
-        hashTree.addElement("hashTree");
+            // 添加 <hashTree/>
+            hashTree.addElement("hashTree");
+        }
 
         log.info("Assertions added successfully.");
     }
