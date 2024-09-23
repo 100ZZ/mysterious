@@ -25,4 +25,11 @@ public interface IAssertionService {
      * @param id
      */
     void deleteAssertion(Long id);
+
+    /**
+     * 根据JMX ID获取断言
+     * @param jmxId
+     * @return
+     */
+    AssertionVO getByJmxId(Long jmxId);
 }

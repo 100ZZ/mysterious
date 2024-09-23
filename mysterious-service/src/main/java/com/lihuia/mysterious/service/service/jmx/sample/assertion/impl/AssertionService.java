@@ -35,4 +35,9 @@ public class AssertionService implements IAssertionService {
     public void deleteAssertion(Long id) {
         assertionMapper.delete(id);
     }
+
+    @Override
+    public AssertionVO getByJmxId(Long jmxId) {
+        return BeanConverter.doSingle(assertionMapper.getByJmxId(jmxId), AssertionVO.class);
+    }
 }

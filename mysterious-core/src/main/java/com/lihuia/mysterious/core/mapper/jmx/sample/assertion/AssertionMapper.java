@@ -8,4 +8,6 @@ import com.lihuia.mysterious.core.mapper.base.BaseMapper;
  * @date 2024/9/23 09:56
  */
 public interface AssertionMapper extends BaseMapper<AssertionDO> {
+
+    AssertionDO getByJmxId(Long jmxId);
 }

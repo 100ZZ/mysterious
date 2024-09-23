@@ -309,6 +309,12 @@ public class JmxService implements IJmxService {
             }
         }
 
+        /** 删除断言 */
+        AssertionVO assertionVO = assertionService.getByJmxId(id);
+        if (ObjectUtils.isNotEmpty(assertionVO)) {
+            assertionService.deleteAssertion(assertionVO.getId());
+        }
+
         /** Jmx脚本文件只保存在master节点上，删除文件 */
         log.info("删除JMX目录: {}", jmxDO.getJmxDir());
         fileUtils.rmFile(jmxDO.getJmxDir());
@@ -804,6 +810,7 @@ public class JmxService implements IJmxService {
 
         /** 断言 */
         AssertionVO assertionVO = jmxVO.getAssertionVO();
+        checkAssertion(assertionVO);
         if (!isAssertionEmpty(assertionVO)) {
             assertionVO.setTestCaseId(testCaseId);
             assertionVO.setJmxId(jmxId);
@@ -823,6 +830,21 @@ public class JmxService implements IJmxService {
         return true;
     }
 
+    private void checkAssertion(AssertionVO assertionVO) {
+        String expectedValue = assertionVO.getExpectedValue();
+        String jsonPath = assertionVO.getJsonPath();
+        /** jsonPath和expectedValue必须同时为空，或者同时非空  */
+        if (StringUtils.isNotBlank(jsonPath) || StringUtils.isNotBlank(expectedValue)) {
+            if (StringUtils.isBlank(jsonPath) || StringUtils.isBlank(expectedValue)) {
+                throw new MysteriousException("断言jsonPath和expectedValue必须同时为空，或者同时非空");
+            }
+        }
+        /** jsonPath校验JSON Path表达式 */
+        if (!jsonPath.contains("$")) {
+            throw new MysteriousException("JSON Path表达式不合法");
+        }
+    }
+
     private boolean isAssertionEmpty(AssertionVO assertionVO) {
         // 如果 assertionVO 为空，直接返回 true
         if (ObjectUtils.isEmpty(assertionVO)) {
@@ -837,9 +859,9 @@ public class JmxService implements IJmxService {
 
         // 检查所有属性是否为空或空白
         return StringUtils.isBlank(responseCode)
-                || StringUtils.isBlank(responseMessage)
-                || StringUtils.isBlank(expectedValue)
-                || StringUtils.isBlank(jsonPath);
+                && StringUtils.isBlank(responseMessage)
+                && StringUtils.isBlank(expectedValue)
+                && StringUtils.isBlank(jsonPath);
     }
 
 
@@ -929,6 +951,9 @@ public class JmxService implements IJmxService {
         } else {
             throw new MysteriousException("sample类型异常, 请确认");
         }
+
+        /** 理论上assert不和任何sample request相关，只要根据jmxId就可以查 */
+        jmxVO.setAssertionVO(assertionService.getByJmxId(id));
 
         log.info("jmxVO: {}", JSON.toJSONString(jmxVO, true));
         return jmxVO;
@@ -1230,6 +1255,13 @@ public class JmxService implements IJmxService {
         }
 
 
+        /** 如果断言有修改 */
+        AssertionVO assertionVO = jmxVO.getAssertionVO();
+        checkAssertion(assertionVO);
+        assertionService.updateAssertion(assertionVO);
+        jmeterXMLService.addAssertion(jmxVO.getJmeterSampleType(), jmxVO.getAssertionVO().getResponseCode(), jmxVO.getAssertionVO().getResponseMessage(), jmxVO.getAssertionVO().getJsonPath(), jmxVO.getAssertionVO().getExpectedValue());
+
+
         /** 将JMX的更改写入指定路径脚本 */
         jmeterXMLService.writeJmxFile(jmxFilePath);
 
@@ -1308,6 +1340,13 @@ public class JmxService implements IJmxService {
         if (!CollectionUtils.isEmpty(javaParamVOList)) {
             javaParamVOList.forEach(javaParamVO -> javaParamService.deleteJavaParam(javaParamVO.getId()));
         }
+
+        //assertion
+        AssertionVO assertionVO = assertionService.getByJmxId(id);
+        if (null != assertionVO) {
+            assertionService.deleteAssertion(assertionVO.getId());
+        }
+
         return true;
     }
 }
