@@ -115,6 +115,143 @@ public class JMeterXMLService {
         }
     }
 
+    public void addAssertion(Integer jmeterSampleType, String responseCode, String responseMessage, String jsonPath, String expectedValue) {
+        log.info("Adding assertions: ResponseCode={}, ResponseMessage={}, JSONPath={}, ExpectedValue={}",
+                responseCode, responseMessage, jsonPath, expectedValue);
+        initFlag();
+
+        // 根据类型找到目标节点（HTTP, Java, Dubbo请求）
+        if (JMeterSampleEnum.HTTP_REQUEST.getCode().equals(jmeterSampleType)) {
+            findElement(document.getRootElement(), "HTTPSamplerProxy");
+        } else if (JMeterSampleEnum.JAVA_REQUEST.getCode().equals(jmeterSampleType)) {
+            findElement(document.getRootElement(), "JavaSampler");
+        } else if (JMeterSampleEnum.DUBBO_SAMPLE.getCode().equals(jmeterSampleType)) {
+            findElement(document.getRootElement(), "DubboSampler");
+        } else {
+            log.error("jmeterSampleType异常: {}", jmeterSampleType);
+            throw new MysteriousException("jmeterSampleType异常:" + jmeterSampleType);
+        }
+
+        // 确保目标节点存在
+        if (dest == null) {
+            log.error("未找到合适的采样器节点");
+            throw new MysteriousException("未找到合适的采样器节点");
+        }
+
+        // 找到当前采样器的父节点并获取其 hashTree
+        Element parent = dest.getParent();
+        Element hashTree = parent.element("hashTree");
+
+        // 如果 hashTree 不存在，则记录日志并返回
+        if (hashTree == null) {
+            log.error("hashTree节点不存在");
+            throw new MysteriousException("hashTree节点不存在");
+        }
+
+        // 添加Response Code断言
+        Element responseCodeAssertion = hashTree.addElement("ResponseAssertion");
+        responseCodeAssertion.addAttribute("guiclass", "AssertionGui");
+        responseCodeAssertion.addAttribute("testclass", "ResponseAssertion");
+        responseCodeAssertion.addAttribute("testname", "ResponseCodeAssertion");
+        responseCodeAssertion.addAttribute("enabled", "true");
+
+        Element collectionProp = responseCodeAssertion.addElement("collectionProp");
+        collectionProp.addAttribute("name", "Asserion.test_strings");
+
+        Element stringProp = collectionProp.addElement("stringProp");
+        stringProp.addAttribute("name", "49586");
+        stringProp.setText(responseCode);
+
+        Element customMessage = responseCodeAssertion.addElement("stringProp");
+        customMessage.addAttribute("name", "Assertion.custom_message");
+
+        Element testField = responseCodeAssertion.addElement("stringProp");
+        testField.addAttribute("name", "Assertion.test_field");
+        testField.setText("Assertion.response_code");
+
+        Element assumeSuccess = responseCodeAssertion.addElement("boolProp");
+        assumeSuccess.addAttribute("name", "Assertion.assume_success");
+        assumeSuccess.setText("false");
+
+        Element testType = responseCodeAssertion.addElement("intProp");
+        testType.addAttribute("name", "Assertion.test_type");
+        testType.setText("8");
+
+        // 添加 <hashTree/>
+        hashTree.addElement("hashTree");
+
+        // 添加Response Message断言
+        Element responseMessageAssertion = hashTree.addElement("ResponseAssertion");
+        responseMessageAssertion.addAttribute("guiclass", "AssertionGui");
+        responseMessageAssertion.addAttribute("testclass", "ResponseAssertion");
+        responseMessageAssertion.addAttribute("testname", "ResponseMessageAssertion");
+        responseMessageAssertion.addAttribute("enabled", "true");
+
+        Element collectionPropMessage = responseMessageAssertion.addElement("collectionProp");
+        collectionPropMessage.addAttribute("name", "Asserion.test_strings");
+
+        Element stringPropMessage = collectionPropMessage.addElement("stringProp");
+        stringPropMessage.addAttribute("name", "789079806");
+        stringPropMessage.setText(responseMessage);
+
+        Element customMessageAssertion = responseMessageAssertion.addElement("stringProp");
+        customMessageAssertion.addAttribute("name", "Assertion.custom_message");
+
+        Element testFieldMessage = responseMessageAssertion.addElement("stringProp");
+        testFieldMessage.addAttribute("name", "Assertion.test_field");
+        testFieldMessage.setText("Assertion.response_data");
+
+        Element assumeSuccessMessage = responseMessageAssertion.addElement("boolProp");
+        assumeSuccessMessage.addAttribute("name", "Assertion.assume_success");
+        assumeSuccessMessage.setText("false");
+
+        Element testTypeMessage = responseMessageAssertion.addElement("intProp");
+        testTypeMessage.addAttribute("name", "Assertion.test_type");
+        testTypeMessage.setText("2");
+
+        // 添加 <hashTree/>
+        hashTree.addElement("hashTree");
+
+        // 添加JSON Path断言
+        Element jsonPathAssertion = hashTree.addElement("JSONPathAssertion");
+        jsonPathAssertion.addAttribute("guiclass", "JSONPathAssertionGui");
+        jsonPathAssertion.addAttribute("testclass", "JSONPathAssertion");
+        jsonPathAssertion.addAttribute("testname", "JSONAssertion");
+        jsonPathAssertion.addAttribute("enabled", "true");
+
+        Element jsonPathProp = jsonPathAssertion.addElement("stringProp");
+        jsonPathProp.addAttribute("name", "JSON_PATH");
+        jsonPathProp.setText(jsonPath);
+
+        Element expectedValueProp = jsonPathAssertion.addElement("stringProp");
+        expectedValueProp.addAttribute("name", "EXPECTED_VALUE");
+        expectedValueProp.setText(expectedValue);
+
+        Element jsonValidation = jsonPathAssertion.addElement("boolProp");
+        jsonValidation.addAttribute("name", "JSONVALIDATION");
+        jsonValidation.setText("true");
+
+        Element expectNull = jsonPathAssertion.addElement("boolProp");
+        expectNull.addAttribute("name", "EXPECT_NULL");
+        expectNull.setText("false");
+
+        Element invert = jsonPathAssertion.addElement("boolProp");
+        invert.addAttribute("name", "INVERT");
+        invert.setText("false");
+
+        Element isRegex = jsonPathAssertion.addElement("boolProp");
+        isRegex.addAttribute("name", "ISREGEX");
+        isRegex.setText("false");
+
+        // 添加 <hashTree/>
+        hashTree.addElement("hashTree");
+
+        log.info("Assertions added successfully.");
+    }
+
+
+
+
     public void addHttpParam(String name, String value) {
         /** hashTree这种节点名太多了，一层一层遍历太麻烦了，直接递归找到对应的节点
          * 但是有一个问题，假如脚本里有多个HTTP Sample，就会有重复的

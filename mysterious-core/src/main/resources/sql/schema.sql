@@ -310,3 +310,23 @@ CREATE TABLE `mysterious_jmx_java_param` (
     KEY `idx_java_id` (`java_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='JXM脚本Java请求参数表';
+
+CREATE TABLE `mysterious_assertion` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
+    `response_code` varchar(32) NOT NULL DEFAULT '' COMMENT '响应码',
+    `response_message` varchar(255) NOT NULL DEFAULT '' COMMENT '响应内容',
+    `json_path` varchar(32) NOT NULL DEFAULT '' COMMENT 'JSON路径',
+    `expected_value` varchar(255) NOT NULL DEFAULT '' COMMENT '期望值',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
+    KEY `idx_jmx_id` (`jmx_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='断言表';

@@ -17,6 +17,7 @@ import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.assertion.AssertionVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.dubbo.DubboVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpHeaderVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpParamVO;
@@ -45,6 +46,7 @@ import com.lihuia.mysterious.service.service.csv.impl.CsvService;
 import com.lihuia.mysterious.service.service.jar.impl.JarService;
 import com.lihuia.mysterious.service.service.jmeter.JMeterXMLService;
 import com.lihuia.mysterious.service.service.jmx.IJmxService;
+import com.lihuia.mysterious.service.service.jmx.sample.assertion.IAssertionService;
 import com.lihuia.mysterious.service.service.jmx.sample.dubbo.IDubboService;
 import com.lihuia.mysterious.service.service.jmx.sample.http.IHttpHeaderService;
 import com.lihuia.mysterious.service.service.jmx.sample.http.IHttpParamService;
@@ -145,6 +147,9 @@ public class JmxService implements IJmxService {
 
     @Autowired
     private IJavaParamService javaParamService;
+
+    @Autowired
+    private IAssertionService assertionService;
 
 //    @Autowired
 //    private MongoTemplate mongoTemplate;
@@ -797,6 +802,15 @@ public class JmxService implements IJmxService {
             throw new MysteriousException("系统异常, Sample类型不合法");
         }
 
+        /** 断言 */
+        AssertionVO assertionVO = jmxVO.getAssertionVO();
+        if (!isAssertionEmpty(assertionVO)) {
+            assertionVO.setTestCaseId(testCaseId);
+            assertionVO.setJmxId(jmxId);
+            assertionService.addAssertion(assertionVO);
+            jmeterXMLService.addAssertion(jmxVO.getJmeterSampleType(), jmxVO.getAssertionVO().getResponseCode(), jmxVO.getAssertionVO().getResponseMessage(), jmxVO.getAssertionVO().getJsonPath(), jmxVO.getAssertionVO().getExpectedValue());
+        }
+
         /** 将JMX的更改写入指定路径脚本 */
         jmeterXMLService.writeJmxFile(jmxFilePath);
 
@@ -808,6 +822,26 @@ public class JmxService implements IJmxService {
 
         return true;
     }
+
+    private boolean isAssertionEmpty(AssertionVO assertionVO) {
+        // 如果 assertionVO 为空，直接返回 true
+        if (ObjectUtils.isEmpty(assertionVO)) {
+            return true;
+        }
+
+        // 获取所有相关属性
+        String responseCode = assertionVO.getResponseCode();
+        String responseMessage = assertionVO.getResponseMessage();
+        String expectedValue = assertionVO.getExpectedValue();
+        String jsonPath = assertionVO.getJsonPath();
+
+        // 检查所有属性是否为空或空白
+        return StringUtils.isBlank(responseCode)
+                || StringUtils.isBlank(responseMessage)
+                || StringUtils.isBlank(expectedValue)
+                || StringUtils.isBlank(jsonPath);
+    }
+
 
     private String getBaseJmxFilePath(JmxVO jmxVO) {
         StringBuilder baseJmxFileName = new StringBuilder();
