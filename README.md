@@ -1,6 +1,8 @@
 # Mysterious
 分布式压测平台，前端Vue3+TypeScript，后端SpringBoot-2.3.12，压测引擎JMeter-5.5，支持JMeter的分布式压测，管理，执行，报告，日志等。
 
+https://github.com/user-attachments/assets/b951548a-7d16-4f0e-9d3e-7d3f1172a85f
+
 ## 经验总结
 - [1. JMeter分布式压测](https://lihuia.com/jmeter%e5%88%86%e5%b8%83%e5%bc%8f%e5%8e%8b%e6%b5%8b/)
 - [2. JMeter有关JAR依赖异常问题](https://lihuia.com/jmeter%e6%9c%89%e5%85%b3jar%e4%be%9d%e8%b5%96%e7%9a%84%e9%97%ae%e9%a2%98/)
@@ -12,18 +14,16 @@
 - [8. Grafana和InfluxDB帮JMeter提升性能监控的美感](https://lihuia.com/grafana%e5%92%8cinfluxdb%e5%b8%aejmeter%e5%b1%95%e7%a4%ba%e7%be%8e%e8%a7%82%e7%9a%84%e6%80%a7%e8%83%bd%e7%9b%91%e6%8e%a7/)
 
 
-## 平台依赖
+## 平台模块
 - 后端服务：https://github.com/100ZZ/mysterious
 - 前端服务：https://github.com/100ZZ/mysterious-web
 - 压测引擎：https://github.com/100ZZ/mysterious-jmeter
-- 离线镜像：https://pan.baidu.com/s/128k3uiUvaKf0vgbD-BO28Q?pwd=e9qy 提取码: e9qy
 - 其它组件：MySQL，Redis，Nginx
-- 其它依赖：JDK1.8+(JMeter依赖)，Docker，Docker-Compose
 
 ## 操作视频
 - 安装部署：https://www.bilibili.com/video/BV1by421i7cn
 - 使用说明：https://www.bilibili.com/video/BV15j421Z7mY
-- 平台试用：http://101.43.119.176:1234 (demo/demo, v1.0版本)
+- 平台试用：http://101.43.119.176:1234 (demo/demo, v1.5版本)
 
 ## 测试流程
 - 如果是单节点压测，只需要在一个Master节点上安装部署平台和Jmeter工具包，通过平台来调用Jmeter来执行压测用例，并返回压测结果
@@ -32,8 +32,10 @@
 
 ## 安装部署
 ### Docker-Compose部署方式(推荐，一键部署)
-_容器化部署通过docker-compose方式，如果拉镜像不畅，可直接上面网盘下最新v1.5版本容器镜像_
+_容器化部署通过docker-compose方式，如果在线拉镜像不畅，可在下面网盘里下最新v1.5版本离线容器镜像_
+>- 离线镜像：https://pan.baidu.com/s/128k3uiUvaKf0vgbD-BO28Q?pwd=e9qy 提取码: e9qy
 <br>
+
 1. 平台部署（默认是X86_64环境，如果是ARM环境替换成docker-compose-arm.yml和arm64.env启动）
 >- git clone https://github.com/100ZZ/mysterious.git /root/mysterious
 >- cd /root/mysterious/docker
