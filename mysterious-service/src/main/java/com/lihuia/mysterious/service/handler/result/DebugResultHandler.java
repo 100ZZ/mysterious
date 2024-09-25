@@ -161,12 +161,27 @@ public class DebugResultHandler extends ResultHandler {
 
         StringBuilder sb = new StringBuilder();
         Element root = document.getRootElement();
+        /** 断言模块的错误信息 */
         for (Element element : root.elements()) {
             if ("httpSample".equals(element.getName()) || "sample".equals(element.getName())) {
-                for (Element responseData : element.elements()) {
-                    if ("responseData".equals(responseData.getName()) &&
-                            "java.lang.String".equals(responseData.attributeValue("class"))) {
-                        sb.append(responseData.getText());
+                for (Element childSample : element.elements()) {
+                    log.info("childSample: {}", childSample.getName());
+                    /** xml结果，断言在response前面 */
+                    if ("assertionResult".equals(childSample.getName())) {
+                        for (Element assertion : childSample.elements()) {
+                            /** 如果断言失败，则记录断言失败的原因 */
+                            if ("failureMessage".equals(assertion.getName())) {
+                                sb.append(assertion.getText());
+                            }
+                        }
+                    }
+                    /** 如果断言失败，直接返回 */
+                    if (sb.toString().length() > 0) {
+                        return sb.toString();
+                    }
+                    if ("responseData".equals(childSample.getName()) &&
+                            "java.lang.String".equals(childSample.attributeValue("class"))) {
+                        sb.append(childSample.getText());
                     }
                 }
             }
