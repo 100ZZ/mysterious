@@ -1,0 +1,1 @@
+import{s as e}from"./request.a2b47309.js";const r=t=>e({url:"/csv/list",method:"get",params:t}),a=t=>e({url:"/csv/delete/"+t,method:"get"}),d=(t,s)=>e({url:"/csv/upload/"+t,method:"post",headers:{"Content-Type":"multipart/form-data"},data:s}),l=t=>e({url:"/csv/download/"+t,method:"get"});export{l as a,a as d,r as g,d as u};
