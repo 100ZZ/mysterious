@@ -59,4 +59,11 @@ public interface IJarService {
      * @return
      */
     List<JarDO> getJarDOList(Long testCaseId);
+
+    /**
+     * getJarVO
+     * @param id
+     * @return
+     */
+    JarVO getJarVO(Long id);
 }

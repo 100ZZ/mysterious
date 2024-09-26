@@ -233,4 +233,15 @@ public class JarService implements IJarService {
     public List<JarDO> getJarDOList(Long testCaseId) {
         return jarMapper.getByTestCaseId(testCaseId);
     }
+
+    @Override
+    public JarVO getJarVO(Long id) {
+        JarDO jarDO = jarMapper.getById(id);
+        if (ObjectUtils.isEmpty(jarDO)) {
+            throw new MysteriousException(ResponseCodeEnum.FILE_NOT_EXIST);
+        }
+        JarVO jarVO = BeanConverter.doSingle(jarDO, JarVO.class);
+        jarVO.setId(id);
+        return jarVO;
+    }
 }

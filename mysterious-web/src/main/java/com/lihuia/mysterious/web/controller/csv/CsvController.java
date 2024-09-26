@@ -11,14 +11,18 @@ import com.lihuia.mysterious.service.service.csv.ICsvService;
 import com.lihuia.mysterious.web.utils.UserUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -59,10 +63,10 @@ public class CsvController {
         return ResponseUtil.buildSuccessResponse(csvService.getByTestCaseId(testCaseId));
     }
 
-    @ApiOperation("下载")
-    @GetMapping(value = "/download/{id}")
-    public void downloadJmx(@PathVariable Long id,
-                                         HttpServletResponse response) {
+    @ApiOperation("文件预览")
+    @GetMapping(value = "/view/{id}")
+    public void viewCsv(@PathVariable Long id,
+                            HttpServletResponse response) {
         CsvVO csvVO = csvService.getCsvVO(id);
         String fileName = csvVO.getSrcName();
         String filePath = csvVO.getCsvDir() + fileName;
@@ -87,5 +91,30 @@ public class CsvController {
             throw new MysteriousException(ResponseCodeEnum.DOWNLOAD_ERROR);
         }
 //        return ResponseUtil.buildSuccessResponse(ResponseCodeEnum.SUCCESS.getSuccess());
+    }
+
+    @ApiOperation("文件下载")
+    @GetMapping(value = "/download/{id}")
+    public void downloadJmx(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        CsvVO csvVO = csvService.getCsvVO(id);
+        String fileName = csvVO.getSrcName();
+        if (StringUtils.isBlank(fileName)) {
+            throw new MysteriousException(ResponseCodeEnum.FILE_NOT_EXIST);
+        }
+        String filePath = csvVO.getCsvDir() + fileName;
+        InputStream inputStream = new FileInputStream(filePath);// 文件的存放路径
+        response.reset();
+        response.setContentType("application/octet-stream");
+        String filename = new File(filePath).getName();
+        response.addHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(filename, "UTF-8"));
+        ServletOutputStream outputStream = response.getOutputStream();
+        byte[] b = new byte[1024];
+        int len;
+
+        //从输入流中读取一定数量的字节，并将其存储在缓冲区字节数组中，读到末尾返回-1
+        while ((len = inputStream.read(b)) > 0) {
+            outputStream.write(b, 0, len);
+        }
+        inputStream.close();
     }
 }
