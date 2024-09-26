@@ -7,8 +7,8 @@ services:
     restart: always
     command: --max-connections=1000 --slow_query_log=1 --slow_query_log_file=/var/lib/mysql/slow-log.log --long_query_time=1
     volumes:
-      - /opt/mysterious/mysql/data:/var/lib/mysql
-      - /opt/mysterious/mysql/sql:/docker-entrypoint-initdb.d
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/sql:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: Test@123456
       MYSQL_DATABASE: mysterious
@@ -24,9 +24,9 @@ services:
     environment:
       TZ: Asia/Shanghai
     volumes:
-      - /opt/mysterious/redis/data:/data
-      - /opt/mysterious/redis/logs:/logs
-      - /opt/mysterious/redis/conf/redis.conf:/etc/redis/redis.conf
+      - ./redis/data:/data
+      - ./redis/logs:/logs
+      - ./redis/conf/redis.conf:/etc/redis/redis.conf
     sysctls:
       - net.core.somaxconn=1024
     ports:
@@ -42,9 +42,9 @@ services:
     environment:
       TZ: Asia/Shanghai
     volumes:
-      - /opt/mysterious/nginx/conf.d:/etc/nginx/conf.d
-      - /opt/mysterious/nginx/html:/usr/share/nginx/html
-      - /opt/mysterious/mysterious-data:/opt/mysterious/mysterious-data
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/html:/usr/share/nginx/html
+      - ./mysterious-data:/mysterious-data
     ports:
       - "1234:1234"
       - "9998:9998"
@@ -57,10 +57,10 @@ services:
       TZ: Asia/Shanghai
       JAVA_OPTS: -Xmx1g -Xms1g
     volumes:
-      - /opt/mysterious/logs:/opt/logs
-      - /opt/mysterious/mysterious-jmeter:/opt/mysterious/mysterious-jmeter
-      - /opt/mysterious/mysterious-data:/opt/mysterious/mysterious-data
-      - /opt/mysterious/mysterious-jmx:/opt/mysterious/mysterious-jmx
+      - ./logs:/opt/logs
+      - ./mysterious-jmeter:/mysterious-jmeter
+      - ./mysterious-data:/mysterious-data
+      - ./mysterious-jmx:/mysterious-jmx
     ports:
       - "4321:4321"
     depends_on:
