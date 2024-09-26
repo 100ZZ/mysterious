@@ -44,7 +44,7 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/html:/usr/share/nginx/html
-      - ./mysterious-data:/mysterious-data
+      - ./mysterious-data:/opt/mysterious/mysterious-data
     ports:
       - "1234:1234"
       - "9998:9998"
@@ -55,12 +55,12 @@ services:
     restart: always
     environment:
       TZ: Asia/Shanghai
-      JAVA_OPTS: -Xmx1g -Xms1g
+      JAVA_OPTS: -Xmx1G -Xms1G
     volumes:
       - ./logs:/opt/logs
-      - ./mysterious-jmeter:/mysterious-jmeter
-      - ./mysterious-data:/mysterious-data
-      - ./mysterious-jmx:/mysterious-jmx
+      - ./mysterious-jmeter:/opt/mysterious/mysterious-jmeter
+      - ./mysterious-data:/opt/mysterious/mysterious-data
+      - ./mysterious-jmx:/opt/mysterious/mysterious-jmx
     ports:
       - "4321:4321"
     depends_on:
