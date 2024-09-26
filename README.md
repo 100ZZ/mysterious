@@ -36,7 +36,7 @@ https://github.com/user-attachments/assets/b951548a-7d16-4f0e-9d3e-7d3f1172a85f
 >- 离线镜像：https://pan.baidu.com/s/128k3uiUvaKf0vgbD-BO28Q?pwd=e9qy 提取码: e9qy
 <br>
 
-1. 平台部署（默认是X86_64环境，如果是ARM环境替换成docker-compose-arm.yml和arm64.env启动）
+1. 平台部署（默认是X86_64环境，如果是ARM环境.env替换成arm64.env启动）
 >- git clone https://github.com/100ZZ/mysterious.git /root/mysterious
 >- cd /root/mysterious/docker
 >- ./init.sh
