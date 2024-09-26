@@ -105,8 +105,8 @@ public class ConfigService implements IConfigService {
 
     @Override
     public String getValue(String key) {
-        if (StringUtils.isBlank(key)) {
-            throw new MysteriousException(ResponseCodeEnum.CONFIG_NOT_EXIST);
+        if (StringUtils.isBlank(configMapper.getValue(key))) {
+            throw new MysteriousException(ResponseCodeEnum.CONFIG_NOT_EXIST + ":" + key);
         }
         return configMapper.getValue(key);
     }
