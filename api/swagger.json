@@ -1,0 +1,4885 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Rest接口",
+    "version": "1.0",
+    "title": "Mysterious压测平台后端服务集成Swagger",
+    "contact": {
+      "name": "lihui",
+      "url": "https://lihuia.com",
+      "email": "maple@lihuia.com"
+    }
+  },
+  "host": "localhost:4321",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "CSV文件管理",
+      "description": "Csv Controller"
+    },
+    {
+      "name": "JAR依赖管理",
+      "description": "Jar Controller"
+    },
+    {
+      "name": "JMX脚本管理",
+      "description": "Jmx Controller"
+    },
+    {
+      "name": "unittest-controller",
+      "description": "Unittest Controller"
+    },
+    {
+      "name": "报告管理",
+      "description": "Report Controller"
+    },
+    {
+      "name": "用例管理",
+      "description": "Test Case Controller"
+    },
+    {
+      "name": "用户权限管理",
+      "description": "User Controller"
+    },
+    {
+      "name": "节点管理",
+      "description": "Node Controller"
+    },
+    {
+      "name": "配置管理",
+      "description": "Config Controller"
+    }
+  ],
+  "paths": {
+    "/config/add": {
+      "post": {
+        "tags": [
+          "配置管理"
+        ],
+        "summary": "新增",
+        "operationId": "addConfigUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "configParam",
+            "description": "configParam",
+            "required": true,
+            "schema": {
+              "originalRef": "ConfigParam",
+              "$ref": "#/definitions/ConfigParam"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«long»",
+              "$ref": "#/definitions/Response«long»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/config/delete/{id}": {
+      "get": {
+        "tags": [
+          "配置管理"
+        ],
+        "summary": "删除",
+        "operationId": "deleteConfigUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/config/list": {
+      "get": {
+        "tags": [
+          "配置管理"
+        ],
+        "summary": "分页查询",
+        "operationId": "getConfigListUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "configKey",
+            "in": "query",
+            "description": "配置字段",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码 第一页:1",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "每页数量",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«PageVO«ConfigVO»»",
+              "$ref": "#/definitions/Response«PageVO«ConfigVO»»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/config/update/{id}": {
+      "post": {
+        "tags": [
+          "配置管理"
+        ],
+        "summary": "修改",
+        "operationId": "updateConfigUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "configParam",
+            "description": "configParam",
+            "required": true,
+            "schema": {
+              "originalRef": "ConfigParam",
+              "$ref": "#/definitions/ConfigParam"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/csv/delete/{id}": {
+      "get": {
+        "tags": [
+          "CSV文件管理"
+        ],
+        "summary": "删除",
+        "operationId": "deleteTestCaseUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/csv/download/{id}": {
+      "get": {
+        "tags": [
+          "CSV文件管理"
+        ],
+        "summary": "下载",
+        "operationId": "downloadJmxUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/csv/getByTestCaseId": {
+      "get": {
+        "tags": [
+          "CSV文件管理"
+        ],
+        "summary": "查询用例关联的CSV文件",
+        "operationId": "getByTestCaseIdUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "testCaseId",
+            "in": "query",
+            "description": "testCaseId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«List«CsvVO»»",
+              "$ref": "#/definitions/Response«List«CsvVO»»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/csv/list": {
+      "get": {
+        "tags": [
+          "CSV文件管理"
+        ],
+        "summary": "分页列表",
+        "operationId": "getCsvListUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码 第一页:1",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "每页数量",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "srcName",
+            "in": "query",
+            "description": "上传前CSV文件名称",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "testCaseId",
+            "in": "query",
+            "description": "CSV文件关联的用例",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«PageVO«CsvVO»»",
+              "$ref": "#/definitions/Response«PageVO«CsvVO»»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/csv/upload/{testCaseId}": {
+      "post": {
+        "tags": [
+          "CSV文件管理"
+        ],
+        "summary": "上传",
+        "operationId": "uploadCsvUsingPOST",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "csvFile",
+            "in": "formData",
+            "description": "csvFile",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "testCaseId",
+            "in": "path",
+            "description": "testCaseId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jar/delete/{id}": {
+      "get": {
+        "tags": [
+          "JAR依赖管理"
+        ],
+        "summary": "删除",
+        "operationId": "deleteJarUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jar/getByTestCaseId": {
+      "get": {
+        "tags": [
+          "JAR依赖管理"
+        ],
+        "summary": "查询用例关联的JAR依赖",
+        "operationId": "getByTestCaseIdUsingGET_1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "testCaseId",
+            "in": "query",
+            "description": "testCaseId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«List«JarVO»»",
+              "$ref": "#/definitions/Response«List«JarVO»»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jar/list": {
+      "get": {
+        "tags": [
+          "JAR依赖管理"
+        ],
+        "summary": "分页查询",
+        "operationId": "getJarListUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码 第一页:1",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "每页数量",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "srcName",
+            "in": "query",
+            "description": "上传前JAR文件名称",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "testCaseId",
+            "in": "query",
+            "description": "JAR文件关联的用例",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«PageVO«JarVO»»",
+              "$ref": "#/definitions/Response«PageVO«JarVO»»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jar/upload/{testCaseId}": {
+      "post": {
+        "tags": [
+          "JAR依赖管理"
+        ],
+        "summary": "上传",
+        "operationId": "uploadJarUsingPOST",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "jarFile",
+            "in": "formData",
+            "description": "jarFile",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "testCaseId",
+            "in": "path",
+            "description": "testCaseId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jmx/addOnline": {
+      "post": {
+        "tags": [
+          "JMX脚本管理"
+        ],
+        "summary": "新增在线脚本",
+        "operationId": "addOnlineJmxUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "jmxVO",
+            "description": "jmxVO",
+            "required": true,
+            "schema": {
+              "originalRef": "JmxVO",
+              "$ref": "#/definitions/JmxVO"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jmx/delete/{id}": {
+      "get": {
+        "tags": [
+          "JMX脚本管理"
+        ],
+        "summary": "删除",
+        "operationId": "deleteJxmUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jmx/download/{id}": {
+      "get": {
+        "tags": [
+          "JMX脚本管理"
+        ],
+        "summary": "downloadJmx",
+        "operationId": "downloadJmxUsingGET_1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jmx/forceDelete/{id}": {
+      "get": {
+        "tags": [
+          "JMX脚本管理"
+        ],
+        "summary": "forceDeleteJmx",
+        "operationId": "forceDeleteJmxUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jmx/getOnline/{id}": {
+      "get": {
+        "tags": [
+          "JMX脚本管理"
+        ],
+        "summary": "查询在线脚本",
+        "operationId": "getOnlineJmxUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«JmxVO»",
+              "$ref": "#/definitions/Response«JmxVO»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jmx/list": {
+      "get": {
+        "tags": [
+          "JMX脚本管理"
+        ],
+        "summary": "分页查询",
+        "operationId": "getJmxListUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码 第一页:1",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "每页数量",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "srcName",
+            "in": "query",
+            "description": "上传前JMX文件名称",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "testCaseId",
+            "in": "query",
+            "description": "JMX文件关联的用例",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«PageVO«JmxVO»»",
+              "$ref": "#/definitions/Response«PageVO«JmxVO»»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jmx/updateOnline/{id}": {
+      "post": {
+        "tags": [
+          "JMX脚本管理"
+        ],
+        "summary": "编辑在线脚本",
+        "operationId": "updateOnlineJmxUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "jmxVO",
+            "description": "jmxVO",
+            "required": true,
+            "schema": {
+              "originalRef": "JmxVO",
+              "$ref": "#/definitions/JmxVO"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/jmx/upload/{testCaseId}": {
+      "post": {
+        "tags": [
+          "JMX脚本管理"
+        ],
+        "summary": "上传",
+        "operationId": "uploadJmxUsingPOST",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "jmxFile",
+            "in": "formData",
+            "description": "jmxFile",
+            "required": true,
+            "type": "file"
+          },
+          {
+            "name": "testCaseId",
+            "in": "path",
+            "description": "testCaseId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/node/add": {
+      "post": {
+        "tags": [
+          "节点管理"
+        ],
+        "summary": "新增",
+        "operationId": "addNodeUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "nodeParam",
+            "description": "nodeParam",
+            "required": true,
+            "schema": {
+              "originalRef": "NodeParam",
+              "$ref": "#/definitions/NodeParam"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«long»",
+              "$ref": "#/definitions/Response«long»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/node/delete/{id}": {
+      "get": {
+        "tags": [
+          "节点管理"
+        ],
+        "summary": "删除",
+        "operationId": "deleteNodeUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/node/disable/{id}": {
+      "get": {
+        "tags": [
+          "节点管理"
+        ],
+        "summary": "禁用",
+        "operationId": "disableNodeUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/node/enable/{id}": {
+      "get": {
+        "tags": [
+          "节点管理"
+        ],
+        "summary": "启用",
+        "operationId": "enableNodeUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/node/getById/{id}": {
+      "get": {
+        "tags": [
+          "节点管理"
+        ],
+        "summary": "详情",
+        "operationId": "getByIdUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«NodeVO»",
+              "$ref": "#/definitions/Response«NodeVO»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/node/list": {
+      "get": {
+        "tags": [
+          "节点管理"
+        ],
+        "summary": "分页查询",
+        "operationId": "getNodeListUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "host",
+            "in": "query",
+            "description": "节点地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "节点名称",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码 第一页:1",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "每页数量",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«PageVO«NodeVO»»",
+              "$ref": "#/definitions/Response«PageVO«NodeVO»»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/node/update/{id}": {
+      "post": {
+        "tags": [
+          "节点管理"
+        ],
+        "summary": "修改",
+        "operationId": "updateNodeUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "nodeParam",
+            "description": "nodeParam",
+            "required": true,
+            "schema": {
+              "originalRef": "NodeParam",
+              "$ref": "#/definitions/NodeParam"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/report/clean/{id}": {
+      "get": {
+        "tags": [
+          "报告管理"
+        ],
+        "summary": "报告清理",
+        "operationId": "cleanReportUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/report/download/{id}": {
+      "get": {
+        "tags": [
+          "报告管理"
+        ],
+        "summary": "报告下载",
+        "operationId": "downloadReportUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/report/getJMeterLog/{id}": {
+      "get": {
+        "tags": [
+          "报告管理"
+        ],
+        "summary": "查看日志",
+        "operationId": "getLogUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/report/list": {
+      "get": {
+        "tags": [
+          "报告管理"
+        ],
+        "summary": "报告列表",
+        "operationId": "getAllReportListUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "报告名称",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码 第一页:1",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "每页数量",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«PageVO«ReportVO»»",
+              "$ref": "#/definitions/Response«PageVO«ReportVO»»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/report/listByTestCase": {
+      "get": {
+        "tags": [
+          "报告管理"
+        ],
+        "summary": "用例执行的报告列表",
+        "operationId": "getReportListUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "用例名称",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码 第一页:1",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "每页数量",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "testCaseId",
+            "in": "query",
+            "description": "用例ID",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«PageVO«ReportVO»»",
+              "$ref": "#/definitions/Response«PageVO«ReportVO»»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/report/view/{id}": {
+      "get": {
+        "tags": [
+          "报告管理"
+        ],
+        "summary": "报告预览",
+        "operationId": "viewReportUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«string»",
+              "$ref": "#/definitions/Response«string»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/testcase/add": {
+      "post": {
+        "tags": [
+          "用例管理"
+        ],
+        "summary": "新增用例",
+        "operationId": "addTestCaseUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "testCaseParam",
+            "description": "testCaseParam",
+            "required": true,
+            "schema": {
+              "originalRef": "TestCaseParam",
+              "$ref": "#/definitions/TestCaseParam"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«long»",
+              "$ref": "#/definitions/Response«long»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/testcase/batchDelete": {
+      "post": {
+        "tags": [
+          "用例管理"
+        ],
+        "summary": "批量删除",
+        "operationId": "batchDeleteTestCaseUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "params",
+            "description": "params",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/testcase/debug/{id}": {
+      "get": {
+        "tags": [
+          "用例管理"
+        ],
+        "summary": "调试用例",
+        "operationId": "debugTestCaseUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/testcase/delete/{id}": {
+      "get": {
+        "tags": [
+          "用例管理"
+        ],
+        "summary": "删除用例",
+        "operationId": "deleteTestCaseUsingGET_1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/testcase/getFull/{id}": {
+      "get": {
+        "tags": [
+          "用例管理"
+        ],
+        "summary": "查询所有依赖信息",
+        "operationId": "getFullUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«TestCaseFullVO»",
+              "$ref": "#/definitions/Response«TestCaseFullVO»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/testcase/getJMeterResult/{id}": {
+      "get": {
+        "tags": [
+          "用例管理"
+        ],
+        "summary": "查看日志实时数据",
+        "operationId": "getJMeterResultUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«List«JMeterResultVO»»",
+              "$ref": "#/definitions/Response«List«JMeterResultVO»»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/testcase/list": {
+      "get": {
+        "tags": [
+          "用例管理"
+        ],
+        "summary": "分页查询",
+        "operationId": "getTestCaseListUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "biz",
+            "in": "query",
+            "description": "业务线",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "用例编号",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "用例名称",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码 第一页:1",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "service",
+            "in": "query",
+            "description": "服务",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "每页数量",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«PageVO«TestCaseVO»»",
+              "$ref": "#/definitions/Response«PageVO«TestCaseVO»»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/testcase/run/{id}": {
+      "get": {
+        "tags": [
+          "用例管理"
+        ],
+        "summary": "执行用例",
+        "operationId": "startTestCaseUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/testcase/stop/{id}": {
+      "get": {
+        "tags": [
+          "用例管理"
+        ],
+        "summary": "结束执行",
+        "operationId": "stopTestCaseUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/testcase/syncNode/{nodeId}": {
+      "get": {
+        "tags": [
+          "用例管理"
+        ],
+        "summary": "同步新增压力机测试数据",
+        "operationId": "syncNodeUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "nodeId",
+            "in": "path",
+            "description": "nodeId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/testcase/update/{id}": {
+      "post": {
+        "tags": [
+          "用例管理"
+        ],
+        "summary": "更新用例",
+        "operationId": "updateTestCaseUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "testCaseParam",
+            "description": "testCaseParam",
+            "required": true,
+            "schema": {
+              "originalRef": "TestCaseParam",
+              "$ref": "#/definitions/TestCaseParam"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/unittest/hello": {
+      "get": {
+        "tags": [
+          "unittest-controller"
+        ],
+        "summary": "sayHello",
+        "operationId": "sayHelloUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "message",
+            "in": "query",
+            "description": "message",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«string»",
+              "$ref": "#/definitions/Response«string»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/user/add": {
+      "post": {
+        "tags": [
+          "用户权限管理"
+        ],
+        "summary": "新增",
+        "operationId": "addUserUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "userParam",
+            "description": "userParam",
+            "required": true,
+            "schema": {
+              "originalRef": "UserParam",
+              "$ref": "#/definitions/UserParam"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«long»",
+              "$ref": "#/definitions/Response«long»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/user/delete/{id}": {
+      "get": {
+        "tags": [
+          "用户权限管理"
+        ],
+        "summary": "删除",
+        "operationId": "deleteUserUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/user/getById/{id}": {
+      "get": {
+        "tags": [
+          "用户权限管理"
+        ],
+        "summary": "详情",
+        "operationId": "getByIdUsingGET_1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«UserVO»",
+              "$ref": "#/definitions/Response«UserVO»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/user/list": {
+      "get": {
+        "tags": [
+          "用户权限管理"
+        ],
+        "summary": "分页查询",
+        "operationId": "getUserListUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "页码 第一页:1",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "realName",
+            "in": "query",
+            "description": "姓名",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "每页数量",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "username",
+            "in": "query",
+            "description": "用户名",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«PageVO«UserVO»»",
+              "$ref": "#/definitions/Response«PageVO«UserVO»»"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "用户权限管理"
+        ],
+        "summary": "登录",
+        "operationId": "loginUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "userParam",
+            "description": "userParam",
+            "required": true,
+            "schema": {
+              "originalRef": "UserParam",
+              "$ref": "#/definitions/UserParam"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«string»",
+              "$ref": "#/definitions/Response«string»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/user/update/{id}": {
+      "post": {
+        "tags": [
+          "用户权限管理"
+        ],
+        "summary": "修改",
+        "operationId": "updateUserUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "用户token认证",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "userParam",
+            "description": "userParam",
+            "required": true,
+            "schema": {
+              "originalRef": "UserParam",
+              "$ref": "#/definitions/UserParam"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "originalRef": "Response«boolean»",
+              "$ref": "#/definitions/Response«boolean»"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "AssertionVO": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "expectedValue": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "jmxId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联jmxDO"
+        },
+        "jsonPath": {
+          "type": "string"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "responseCode": {
+          "type": "string",
+          "description": "断言response code"
+        },
+        "responseMessage": {
+          "type": "string",
+          "description": "断言response text"
+        },
+        "testCaseId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的用例"
+        }
+      },
+      "title": "AssertionVO"
+    },
+    "ConcurrencyThreadGroupVO": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "holdTargetRateTime": {
+          "type": "string",
+          "description": "梯度结束后持续时间"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "jmxId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的脚本ID"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "rampUpStepsCount": {
+          "type": "string",
+          "description": "梯度数量"
+        },
+        "rampUpTime": {
+          "type": "string",
+          "description": "梯度时间"
+        },
+        "targetConcurrency": {
+          "type": "string",
+          "description": "目标线程数"
+        },
+        "testCaseId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的用例"
+        }
+      },
+      "title": "ConcurrencyThreadGroupVO"
+    },
+    "ConfigParam": {
+      "type": "object",
+      "required": [
+        "configKey",
+        "configValue"
+      ],
+      "properties": {
+        "configKey": {
+          "type": "string",
+          "description": "配置字段"
+        },
+        "configValue": {
+          "type": "string",
+          "description": "字段值"
+        },
+        "description": {
+          "type": "string",
+          "description": "字段描述"
+        }
+      },
+      "title": "ConfigParam"
+    },
+    "ConfigVO": {
+      "type": "object",
+      "properties": {
+        "configKey": {
+          "type": "string",
+          "description": "配置字段"
+        },
+        "configValue": {
+          "type": "string",
+          "description": "字段值"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": {
+          "type": "string",
+          "description": "字段描述"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "ConfigVO"
+    },
+    "CsvVO": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "csvDir": {
+          "type": "string",
+          "description": "CSV文件路径"
+        },
+        "description": {
+          "type": "string",
+          "description": "CSV文件描述"
+        },
+        "dstName": {
+          "type": "string",
+          "description": "上传后CSV文件名称"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "srcName": {
+          "type": "string",
+          "description": "上传前CSV文件名称"
+        },
+        "testCaseId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "CSV文件关联的用例"
+        }
+      },
+      "title": "CsvVO"
+    },
+    "DubboVO": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "DubboVO"
+    },
+    "HttpHeaderVO": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "headerKey": {
+          "type": "string",
+          "description": "字段"
+        },
+        "headerValue": {
+          "type": "string",
+          "description": "字段的值"
+        },
+        "httpId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联HttpDO"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "jmxId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联jmxDO"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "testCaseId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的用例"
+        }
+      },
+      "title": "HttpHeaderVO"
+    },
+    "HttpParamVO": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "httpId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联HttpDO"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "jmxId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联JmxDO"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "paramKey": {
+          "type": "string",
+          "description": "字段"
+        },
+        "paramValue": {
+          "type": "string",
+          "description": "字段的值"
+        },
+        "testCaseId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的用例"
+        }
+      },
+      "title": "HttpParamVO"
+    },
+    "HttpVO": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "body"
+        },
+        "contentEncoding": {
+          "type": "string",
+          "description": "content-encoding"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "domain": {
+          "type": "string",
+          "description": "domain"
+        },
+        "httpHeaderVOList": {
+          "type": "array",
+          "description": "head列表",
+          "items": {
+            "originalRef": "HttpHeaderVO",
+            "$ref": "#/definitions/HttpHeaderVO"
+          }
+        },
+        "httpParamVOList": {
+          "type": "array",
+          "description": "参数列表",
+          "items": {
+            "originalRef": "HttpParamVO",
+            "$ref": "#/definitions/HttpParamVO"
+          }
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "jmxId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的JMX脚本"
+        },
+        "method": {
+          "type": "string",
+          "description": "method HttpMethodEnum 1-GET 2-POST 3-PUT 4-DELETE"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "path": {
+          "type": "string",
+          "description": "path"
+        },
+        "port": {
+          "type": "string",
+          "description": "port"
+        },
+        "protocol": {
+          "type": "string",
+          "description": "协议 HttpProtocolEnum 1-HTTP, 2-HTTPS"
+        },
+        "testCaseId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的用例"
+        }
+      },
+      "title": "HttpVO"
+    },
+    "JMeterResultVO": {
+      "type": "object",
+      "properties": {
+        "avgResponseTime": {
+          "type": "number",
+          "format": "double",
+          "description": "响应时间"
+        },
+        "currentTime": {
+          "type": "string",
+          "description": "时间"
+        },
+        "throughput": {
+          "type": "number",
+          "format": "double",
+          "description": "吞吐量"
+        }
+      },
+      "title": "JMeterResultVO"
+    },
+    "JarVO": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": {
+          "type": "string",
+          "description": "JAR文件描述"
+        },
+        "dstName": {
+          "type": "string",
+          "description": "上传后JAR文件名称"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "jarDir": {
+          "type": "string",
+          "description": "JAR包路径"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "srcName": {
+          "type": "string",
+          "description": "上传前JAR文件名称"
+        },
+        "testCaseId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "JAR文件关联的用例"
+        }
+      },
+      "title": "JarVO"
+    },
+    "JavaParamVO": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "javaId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的JavaDO"
+        },
+        "jmxId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的脚本"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "paramKey": {
+          "type": "string",
+          "description": "名称"
+        },
+        "paramValue": {
+          "type": "string",
+          "description": "值"
+        },
+        "testCaseId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的用例"
+        }
+      },
+      "title": "JavaParamVO"
+    },
+    "JavaVO": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "javaParamVOList": {
+          "type": "array",
+          "description": "java request的参数",
+          "items": {
+            "originalRef": "JavaParamVO",
+            "$ref": "#/definitions/JavaParamVO"
+          }
+        },
+        "javaRequestClassPath": {
+          "type": "string",
+          "description": "java request依赖jar包路径"
+        },
+        "jmxId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "脚本"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "testCaseId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "用例"
+        }
+      },
+      "title": "JavaVO"
+    },
+    "JmxVO": {
+      "type": "object",
+      "properties": {
+        "assertionVO": {
+          "description": "断言",
+          "originalRef": "AssertionVO",
+          "$ref": "#/definitions/AssertionVO"
+        },
+        "concurrencyThreadGroupVO": {
+          "description": "ConcurrencyThreadGroup 结构体编辑, jmeterThreadsType = 2",
+          "originalRef": "ConcurrencyThreadGroupVO",
+          "$ref": "#/definitions/ConcurrencyThreadGroupVO"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": {
+          "type": "string",
+          "description": "JMX文件描述"
+        },
+        "dstName": {
+          "type": "string",
+          "description": "上传后JMX文件名称"
+        },
+        "dubboVO": {
+          "description": "DubboVO结构体编辑, jmeterSampleType = 1",
+          "originalRef": "DubboVO",
+          "$ref": "#/definitions/DubboVO"
+        },
+        "httpVO": {
+          "description": "HttpVO结构体编辑, jmeterSampleType = 0",
+          "originalRef": "HttpVO",
+          "$ref": "#/definitions/HttpVO"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "javaVO": {
+          "description": "JavaVO结构体编辑, jmeterSampleType = 2",
+          "originalRef": "JavaVO",
+          "$ref": "#/definitions/JavaVO"
+        },
+        "jmeterSampleType": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Sample类型, 枚举类：JMeterSampleEnum 0-HTTP Request, 1-Dubbo Sample, 2-Java Request"
+        },
+        "jmeterScriptType": {
+          "type": "integer",
+          "format": "int32",
+          "description": "脚本生成方式, 枚举类：JMeterScriptEnum 0-脚本本地上传, 1-脚本在线编辑"
+        },
+        "jmeterThreadsType": {
+          "type": "integer",
+          "format": "int32",
+          "description": "线程组类型, 枚举类：JMeterThreadsEnum 0-ThreadGroup， 1-SteppingThreadGroup, 2-ConcurrencyThreadGroup"
+        },
+        "jmxDir": {
+          "type": "string",
+          "description": "JMX脚本路径"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "srcName": {
+          "type": "string",
+          "description": "上传前JMX文件名称"
+        },
+        "steppingThreadGroupVO": {
+          "description": "SteppingThreadGroup 结构体编辑, jmeterThreadsType = 1",
+          "originalRef": "SteppingThreadGroupVO",
+          "$ref": "#/definitions/SteppingThreadGroupVO"
+        },
+        "testCaseId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "JMX脚本关联的用例"
+        },
+        "threadGroupVO": {
+          "description": "ThreadGroup 结构体编辑, jmeterThreadsType = 0",
+          "originalRef": "ThreadGroupVO",
+          "$ref": "#/definitions/ThreadGroupVO"
+        }
+      },
+      "title": "JmxVO"
+    },
+    "NodeParam": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "节点描述"
+        },
+        "host": {
+          "type": "string",
+          "description": "节点IP地址"
+        },
+        "name": {
+          "type": "string",
+          "description": "节点名称"
+        },
+        "password": {
+          "type": "string",
+          "description": "登录密码"
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ssh端口"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "节点类型"
+        },
+        "username": {
+          "type": "string",
+          "description": "ssh用户"
+        }
+      },
+      "title": "NodeParam"
+    },
+    "NodeVO": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": {
+          "type": "string",
+          "description": "节点描述"
+        },
+        "host": {
+          "type": "string",
+          "description": "节点IP地址"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string",
+          "description": "节点名称"
+        },
+        "password": {
+          "type": "string",
+          "description": "登录密码"
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ssh端口"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": "节点状态 0-禁用中，1-启用中"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "节点类型"
+        },
+        "username": {
+          "type": "string",
+          "description": "ssh用户"
+        }
+      },
+      "title": "NodeVO"
+    },
+    "PageVO«ConfigVO»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "description": "列表",
+          "items": {
+            "originalRef": "ConfigVO",
+            "$ref": "#/definitions/ConfigVO"
+          }
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "description": "页码"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "每页数量"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "description": "总数"
+        }
+      },
+      "title": "PageVO«ConfigVO»"
+    },
+    "PageVO«CsvVO»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "description": "列表",
+          "items": {
+            "originalRef": "CsvVO",
+            "$ref": "#/definitions/CsvVO"
+          }
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "description": "页码"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "每页数量"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "description": "总数"
+        }
+      },
+      "title": "PageVO«CsvVO»"
+    },
+    "PageVO«JarVO»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "description": "列表",
+          "items": {
+            "originalRef": "JarVO",
+            "$ref": "#/definitions/JarVO"
+          }
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "description": "页码"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "每页数量"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "description": "总数"
+        }
+      },
+      "title": "PageVO«JarVO»"
+    },
+    "PageVO«JmxVO»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "description": "列表",
+          "items": {
+            "originalRef": "JmxVO",
+            "$ref": "#/definitions/JmxVO"
+          }
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "description": "页码"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "每页数量"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "description": "总数"
+        }
+      },
+      "title": "PageVO«JmxVO»"
+    },
+    "PageVO«NodeVO»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "description": "列表",
+          "items": {
+            "originalRef": "NodeVO",
+            "$ref": "#/definitions/NodeVO"
+          }
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "description": "页码"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "每页数量"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "description": "总数"
+        }
+      },
+      "title": "PageVO«NodeVO»"
+    },
+    "PageVO«ReportVO»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "description": "列表",
+          "items": {
+            "originalRef": "ReportVO",
+            "$ref": "#/definitions/ReportVO"
+          }
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "description": "页码"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "每页数量"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "description": "总数"
+        }
+      },
+      "title": "PageVO«ReportVO»"
+    },
+    "PageVO«TestCaseVO»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "description": "列表",
+          "items": {
+            "originalRef": "TestCaseVO",
+            "$ref": "#/definitions/TestCaseVO"
+          }
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "description": "页码"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "每页数量"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "description": "总数"
+        }
+      },
+      "title": "PageVO«TestCaseVO»"
+    },
+    "PageVO«UserVO»": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "description": "列表",
+          "items": {
+            "originalRef": "UserVO",
+            "$ref": "#/definitions/UserVO"
+          }
+        },
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "description": "页码"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "description": "每页数量"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "description": "总数"
+        }
+      },
+      "title": "PageVO«UserVO»"
+    },
+    "ReportVO": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": {
+          "type": "string",
+          "description": "报告描述"
+        },
+        "execType": {
+          "type": "integer",
+          "format": "int32",
+          "description": "执行类型，1-调试；2-执行"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "jmeterLogFilePath": {
+          "type": "string",
+          "description": "jmeter.log目录"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string",
+          "description": "报告名称"
+        },
+        "reportDir": {
+          "type": "string",
+          "description": "报告路径"
+        },
+        "responseData": {
+          "type": "string",
+          "description": "调试的返回值"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": "执行状态; 0-未执行，1-执行中, 2-执行成功, 3-执行异常"
+        },
+        "testCaseId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "用例ID"
+        }
+      },
+      "title": "ReportVO"
+    },
+    "Response«JmxVO»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "originalRef": "JmxVO",
+          "$ref": "#/definitions/JmxVO"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«JmxVO»"
+    },
+    "Response«List«CsvVO»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "originalRef": "CsvVO",
+            "$ref": "#/definitions/CsvVO"
+          }
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«List«CsvVO»»"
+    },
+    "Response«List«JMeterResultVO»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "originalRef": "JMeterResultVO",
+            "$ref": "#/definitions/JMeterResultVO"
+          }
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«List«JMeterResultVO»»"
+    },
+    "Response«List«JarVO»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "originalRef": "JarVO",
+            "$ref": "#/definitions/JarVO"
+          }
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«List«JarVO»»"
+    },
+    "Response«NodeVO»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "originalRef": "NodeVO",
+          "$ref": "#/definitions/NodeVO"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«NodeVO»"
+    },
+    "Response«PageVO«ConfigVO»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "originalRef": "PageVO«ConfigVO»",
+          "$ref": "#/definitions/PageVO«ConfigVO»"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«PageVO«ConfigVO»»"
+    },
+    "Response«PageVO«CsvVO»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "originalRef": "PageVO«CsvVO»",
+          "$ref": "#/definitions/PageVO«CsvVO»"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«PageVO«CsvVO»»"
+    },
+    "Response«PageVO«JarVO»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "originalRef": "PageVO«JarVO»",
+          "$ref": "#/definitions/PageVO«JarVO»"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«PageVO«JarVO»»"
+    },
+    "Response«PageVO«JmxVO»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "originalRef": "PageVO«JmxVO»",
+          "$ref": "#/definitions/PageVO«JmxVO»"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«PageVO«JmxVO»»"
+    },
+    "Response«PageVO«NodeVO»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "originalRef": "PageVO«NodeVO»",
+          "$ref": "#/definitions/PageVO«NodeVO»"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«PageVO«NodeVO»»"
+    },
+    "Response«PageVO«ReportVO»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "originalRef": "PageVO«ReportVO»",
+          "$ref": "#/definitions/PageVO«ReportVO»"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«PageVO«ReportVO»»"
+    },
+    "Response«PageVO«TestCaseVO»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "originalRef": "PageVO«TestCaseVO»",
+          "$ref": "#/definitions/PageVO«TestCaseVO»"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«PageVO«TestCaseVO»»"
+    },
+    "Response«PageVO«UserVO»»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "originalRef": "PageVO«UserVO»",
+          "$ref": "#/definitions/PageVO«UserVO»"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«PageVO«UserVO»»"
+    },
+    "Response«TestCaseFullVO»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "originalRef": "TestCaseFullVO",
+          "$ref": "#/definitions/TestCaseFullVO"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«TestCaseFullVO»"
+    },
+    "Response«UserVO»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "originalRef": "UserVO",
+          "$ref": "#/definitions/UserVO"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«UserVO»"
+    },
+    "Response«boolean»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«boolean»"
+    },
+    "Response«long»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«long»"
+    },
+    "Response«string»": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "currentTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "data": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "title": "Response«string»"
+    },
+    "SteppingThreadGroupVO": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "finallyStopThreads": {
+          "type": "string",
+          "description": "Stop users count"
+        },
+        "finallyStopThreadsEverySeconds": {
+          "type": "string",
+          "description": "Stop users period"
+        },
+        "firstWaitForSeconds": {
+          "type": "string",
+          "description": "Threads initial delay"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "jmxId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的脚本ID"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "nextAddThreads": {
+          "type": "string",
+          "description": "Start users count"
+        },
+        "nextAddThreadsEverySeconds": {
+          "type": "string",
+          "description": "Start users period"
+        },
+        "numThreads": {
+          "type": "string",
+          "description": "ThreadGroup.num_threads"
+        },
+        "testCaseId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的用例"
+        },
+        "thenHoldLoadForSeconds": {
+          "type": "string",
+          "description": "flighttime"
+        },
+        "thenStartThreads": {
+          "type": "string",
+          "description": "Start users count burst"
+        },
+        "usingRampUpSeconds": {
+          "type": "string",
+          "description": "rampUp"
+        }
+      },
+      "title": "SteppingThreadGroupVO"
+    },
+    "TestCaseFullVO": {
+      "type": "object",
+      "properties": {
+        "biz": {
+          "type": "string",
+          "description": "业务线"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "csvVOList": {
+          "type": "array",
+          "description": "用例关联的CSV文件",
+          "items": {
+            "originalRef": "CsvVO",
+            "$ref": "#/definitions/CsvVO"
+          }
+        },
+        "description": {
+          "type": "string",
+          "description": "用例描述"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "jarVOList": {
+          "type": "array",
+          "description": "用例关联的JAR包",
+          "items": {
+            "originalRef": "JarVO",
+            "$ref": "#/definitions/JarVO"
+          }
+        },
+        "jmxVO": {
+          "description": "用例关联的JMX脚本",
+          "originalRef": "JmxVO",
+          "$ref": "#/definitions/JmxVO"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string",
+          "description": "用例名称"
+        },
+        "service": {
+          "type": "string",
+          "description": "服务"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": "执行状态; 0-未执行，1-执行中, 2-执行成功, 3-执行异常, 4-等待执行, 5-排队取消"
+        },
+        "testCaseDir": {
+          "type": "string",
+          "description": "用例目录"
+        },
+        "version": {
+          "type": "string",
+          "description": "版本号"
+        }
+      },
+      "title": "TestCaseFullVO"
+    },
+    "TestCaseParam": {
+      "type": "object",
+      "properties": {
+        "biz": {
+          "type": "string",
+          "description": "业务线"
+        },
+        "description": {
+          "type": "string",
+          "description": "用例描述"
+        },
+        "name": {
+          "type": "string",
+          "description": "用例名称"
+        },
+        "service": {
+          "type": "string",
+          "description": "服务"
+        },
+        "version": {
+          "type": "string",
+          "description": "版本号"
+        }
+      },
+      "title": "TestCaseParam"
+    },
+    "TestCaseVO": {
+      "type": "object",
+      "properties": {
+        "biz": {
+          "type": "string",
+          "description": "业务线"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": {
+          "type": "string",
+          "description": "用例描述"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string",
+          "description": "用例名称"
+        },
+        "service": {
+          "type": "string",
+          "description": "服务"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": "执行状态; 0-未执行，1-执行中, 2-执行成功, 3-执行异常, 4-等待执行, 5-排队取消"
+        },
+        "testCaseDir": {
+          "type": "string",
+          "description": "用例目录"
+        },
+        "version": {
+          "type": "string",
+          "description": "版本号"
+        }
+      },
+      "title": "TestCaseVO"
+    },
+    "ThreadGroupVO": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "delay": {
+          "type": "string",
+          "description": "线程启动延迟时间"
+        },
+        "delayedStart": {
+          "type": "integer",
+          "format": "int32",
+          "description": "默认值:0;是否需要的时候创建线程"
+        },
+        "duration": {
+          "type": "string",
+          "description": "线程组运行时间"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "jmxId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的脚本ID"
+        },
+        "loops": {
+          "type": "string",
+          "description": "循环次数"
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "modifierId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifyTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "numThreads": {
+          "type": "string",
+          "description": "线程数"
+        },
+        "rampTime": {
+          "type": "string",
+          "description": "持续时间"
+        },
+        "sameUserOnNextIteration": {
+          "type": "integer",
+          "format": "int32",
+          "description": "默认值:1;每次迭代是否使用相同线程"
+        },
+        "scheduler": {
+          "type": "integer",
+          "format": "int32",
+          "description": "默认值:1;是否使用调度器"
+        },
+        "testCaseId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "关联的用例"
+        }
+      },
+      "title": "ThreadGroupVO"
+    },
+    "UserParam": {
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string",
+          "description": "用户密码"
+        },
+        "realName": {
+          "type": "string",
+          "description": "姓名"
+        },
+        "username": {
+          "type": "string",
+          "description": "用户名称"
+        }
+      },
+      "title": "UserParam"
+    },
+    "UserVO": {
+      "type": "object",
+      "properties": {
+        "effectTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "生效时间"
+        },
+        "expireTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "失效时间"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "用户ID"
+        },
+        "password": {
+          "type": "string",
+          "description": "用户密码"
+        },
+        "realName": {
+          "type": "string",
+          "description": "姓名"
+        },
+        "username": {
+          "type": "string",
+          "description": "用户名称"
+        }
+      },
+      "title": "UserVO"
+    }
+  }
+}

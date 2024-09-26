@@ -265,98 +265,107 @@ public class TestCaseService implements ITestCaseService {
     @Transactional
     @Override
     public Boolean debugTestCase(Long id, UserVO userVO) {
-            /** 调试用例，直接在Master节点通过jmeter调用，而不再 */
-            TestCaseDO testCaseDO = getFullDO(id);
+        /** 先检查jmeter可执行程序目录是否存在 */
+        String masterJmeterBinHome = configService.getValue(JMeterUtil.MASTER_JMETER_BIN_HOME);
+        if (!fileUtils.isDirectory(masterJmeterBinHome)) {
+            throw new MysteriousException("debug: mysterious-jmeter可执行目录不存在");
+        }
 
-            log.info("testCaseDO: {}", testCaseDO);
-            /** 查找用例关联的脚本 */
-            JmxDO jmxDO = testCaseDO.getJmxDO();
-            if (ObjectUtils.isEmpty(jmxDO)) {
-                throw new MysteriousException(ResponseCodeEnum.JMX_NOT_EXIST);
-            }
+        /** 调试用例，直接在Master节点通过jmeter调用，而不再 */
+        TestCaseDO testCaseDO = getFullDO(id);
 
-            if (!ObjectUtils.isEmpty(userVO)) {
-                crudEntity.updateT(testCaseDO, userVO);
-                testCaseMapper.update(testCaseDO);
-            }
+        log.info("testCaseDO: {}", testCaseDO);
+        /** 查找用例关联的脚本 */
+        JmxDO jmxDO = testCaseDO.getJmxDO();
+        if (ObjectUtils.isEmpty(jmxDO)) {
+            throw new MysteriousException(ResponseCodeEnum.JMX_NOT_EXIST);
+        }
 
-            /** 调试执行的是调试脚本： debug_xxx.jmx */
-            String jmxFilePath = jmxDO.getJmxDir() + "debug_" + jmxDO.getDstName();
-            log.info("调试脚本: {}", jmxFilePath);
+        if (!ObjectUtils.isEmpty(userVO)) {
+            crudEntity.updateT(testCaseDO, userVO);
+            testCaseMapper.update(testCaseDO);
+        }
 
-            String currentTime = timeUtil.getCurrentTime();
-            /**  创建用例执行报告目录, 区分时间 */
-            String reportDir = testCaseDO.getTestCaseDir() + "report" + File.separator + currentTime + File.separator;
-            fileUtils.mkDir(reportDir);
+        /** 调试执行的是调试脚本： debug_xxx.jmx */
+        String jmxFilePath = jmxDO.getJmxDir() + "debug_" + jmxDO.getDstName();
+        log.info("调试脚本: {}", jmxFilePath);
 
-            /** jtl文件目录 */
-            String jtlDir = reportDir + "jtl" + File.separator;
-            fileUtils.mkDir(jtlDir);
-            /** jtl文件指定运行 */
-            String jtlFile = testCaseDO.getName() + ".xml";
-            String jtlFilePath = jtlDir + jtlFile;
+        String currentTime = timeUtil.getCurrentTime();
+        /**  创建用例执行报告目录, 区分时间 */
+        String reportDir = testCaseDO.getTestCaseDir() + "report" + File.separator + currentTime + File.separator;
+        fileUtils.mkDir(reportDir);
 
-            /** 数据报告存放的目录 */
-            String reportFilePath = reportDir + "data" + File.separator;
-            fileUtils.mkDir(reportFilePath);
+        /** jtl文件目录 */
+        String jtlDir = reportDir + "jtl" + File.separator;
+        fileUtils.mkDir(jtlDir);
+        /** jtl文件指定运行 */
+        String jtlFile = testCaseDO.getName() + ".xml";
+        String jtlFilePath = jtlDir + jtlFile;
 
-            /** jmeter.log文件和目录 */
-            String jmeterLogDir = reportDir + "log" + File.separator;
-            fileUtils.mkDir(jmeterLogDir);
-            /** log文件 */
-            String jmeterLogFile = "jmeter_" + currentTime + ".log";
-            String jmeterLogFilePath = jmeterLogDir + jmeterLogFile;
+        /** 数据报告存放的目录 */
+        String reportFilePath = reportDir + "data" + File.separator;
+        fileUtils.mkDir(reportFilePath);
 
-            ReportVO reportVO = new ReportVO();
-            reportVO.setTestCaseId(testCaseDO.getId());
-            reportVO.setJmeterLogFilePath(jmeterLogFilePath);
-            reportVO.setName(testCaseDO.getName());
-            reportVO.setExecType(ExecTypeEnum.DEBUG.getType());
-            reportVO.setDescription("【" + currentTime + "】" + testCaseDO.getDescription());
-            /** 调试用例，路径设置为保存返回结果responseData 的 xml文件的目录 */
-            reportVO.setReportDir(jtlDir);
+        /** jmeter.log文件和目录 */
+        String jmeterLogDir = reportDir + "log" + File.separator;
+        fileUtils.mkDir(jmeterLogDir);
+        /** log文件 */
+        String jmeterLogFile = "jmeter_" + currentTime + ".log";
+        String jmeterLogFilePath = jmeterLogDir + jmeterLogFile;
 
-            /** 本地直接执行JMX压测脚本 */
-            /** 本地单节点执行脚本 */
+        ReportVO reportVO = new ReportVO();
+        reportVO.setTestCaseId(testCaseDO.getId());
+        reportVO.setJmeterLogFilePath(jmeterLogFilePath);
+        reportVO.setName(testCaseDO.getName());
+        reportVO.setExecType(ExecTypeEnum.DEBUG.getType());
+        reportVO.setDescription("【" + currentTime + "】" + testCaseDO.getDescription());
+        /** 调试用例，路径设置为保存返回结果responseData 的 xml文件的目录 */
+        reportVO.setReportDir(jtlDir);
 
-            /** jmeter可执行程序目录 */
-            String masterJmeterBinHome = configService.getValue(JMeterUtil.MASTER_JMETER_BIN_HOME);
-            String masterJmeterApplication = masterJmeterBinHome + File.separator + "jmeter";
+        /** 本地直接执行JMX压测脚本 */
+        /** 本地单节点执行脚本 */
 
-            /** 可执行程序 */
-            CommandLine commandLine = new CommandLine(masterJmeterApplication);
-            commandLine.addArgument("-Jjmeter.save.saveservice.output_format=xml");
-            commandLine.addArgument("-Jjmeter.save.saveservice.response_data=true");
-            commandLine.addArgument("-n");
-            commandLine.addArgument("-t");
-            commandLine.addArgument(jmxFilePath);
-            commandLine.addArgument("-l");
-            commandLine.addArgument(jtlFilePath);
-            commandLine.addArgument("-j");
-            commandLine.addArgument(jmeterLogFilePath);
+        /** 可执行程序 */
+        String masterJmeterApplication = masterJmeterBinHome + File.separator + "jmeter";
+        CommandLine commandLine = new CommandLine(masterJmeterApplication);
+        commandLine.addArgument("-Jjmeter.save.saveservice.output_format=xml");
+        commandLine.addArgument("-Jjmeter.save.saveservice.response_data=true");
+        commandLine.addArgument("-n");
+        commandLine.addArgument("-t");
+        commandLine.addArgument(jmxFilePath);
+        commandLine.addArgument("-l");
+        commandLine.addArgument(jtlFilePath);
+        commandLine.addArgument("-j");
+        commandLine.addArgument(jmeterLogFilePath);
 //        commandLine.addArgument("-e");
 //        commandLine.addArgument("-o");
 //        commandLine.addArgument(reportFilePath);
 
-            /** 直接master节点调试 */
+        /** 直接master节点调试 */
 
-            /** 运行中 */
-            testCaseDO.setStatus(TestCaseStatus.RUN_ING.getCode());
-            testCaseMapper.update(testCaseDO);
+        /** 运行中 */
+        testCaseDO.setStatus(TestCaseStatus.RUN_ING.getCode());
+        testCaseMapper.update(testCaseDO);
 
-            /** 调试，报告还是要入库，因为根据具体报告才能查看返回日志 */
-            log.info("新增测试报告: {}", JSON.toJSONString(reportVO, true));
-            Long reportId = reportService.addReport(reportVO, userVO);
+        /** 调试，报告还是要入库，因为根据具体报告才能查看返回日志 */
+        log.info("新增测试报告: {}", JSON.toJSONString(reportVO, true));
+        Long reportId = reportService.addReport(reportVO, userVO);
 
-            log.info("[debugTestCase]commandLine: {}", commandLine.toString()
-                    .replace(",", "").replace("[", "").replace("]", ""));
+        log.info("[debugTestCase]commandLine: {}", commandLine.toString()
+                .replace(",", "").replace("[", "").replace("]", ""));
 
-            jmxService.debugJmx(commandLine, id, reportId, userVO);
+        jmxService.debugJmx(commandLine, id, reportId, userVO);
         return null;
     }
 
     @Override
     public Boolean runTestCase(Long id, UserVO userVO) {
+        /** jmeter可执行程序目录 */
+        String masterJmeterBinHome = configService.getValue(JMeterUtil.MASTER_JMETER_BIN_HOME);
+        if (!fileUtils.isDirectory(masterJmeterBinHome)) {
+            throw new MysteriousException("debug: mysterious-jmeter可执行目录不存在");
+        }
+
         List<ReportVO> reportVOList = reportService.getDebugReportListByTestCaseId(id, ExecTypeEnum.DEBUG.getType(), 1);
         if (CollectionUtils.isEmpty(reportVOList) || !reportVOList.get(0).getStatus().equals(TestCaseStatus.RUN_SUCCESS.getCode())) {
             //throw new MysteriousException(ResponseCodeEnum.DEBUG_BEFORE_RUN);
@@ -443,8 +452,7 @@ public class TestCaseService implements ITestCaseService {
         /** 本地直接执行JMX压测脚本 */
         /** 本地单节点执行脚本 */
 
-        /** jmeter可执行程序目录 */
-        String masterJmeterBinHome = configService.getValue(JMeterUtil.MASTER_JMETER_BIN_HOME);
+        /** jmeter可执行程序 */
         String masterJmeterApplication = masterJmeterBinHome + File.separator + "jmeter";
 
         /** 可执行程序 */
