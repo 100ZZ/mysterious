@@ -363,7 +363,7 @@ public class TestCaseService implements ITestCaseService {
         /** jmeter可执行程序目录 */
         String masterJmeterBinHome = configService.getValue(JMeterUtil.MASTER_JMETER_BIN_HOME);
         if (!fileUtils.isDirectory(masterJmeterBinHome)) {
-            throw new MysteriousException("debug: mysterious-jmeter可执行目录不存在");
+            throw new MysteriousException("run: mysterious-jmeter可执行目录不存在");
         }
 
         List<ReportVO> reportVOList = reportService.getDebugReportListByTestCaseId(id, ExecTypeEnum.DEBUG.getType(), 1);
