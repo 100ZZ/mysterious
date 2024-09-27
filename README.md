@@ -46,12 +46,12 @@ https://github.com/user-attachments/assets/b951548a-7d16-4f0e-9d3e-7d3f1172a85f
 2. 访问平台
 >- 平台访问：http://xx.xx.xx.xx:1234
 >- Swagger文档：http://xx.xx.xx.xx:4321/swagger-ui.html
-3. 运行说明
+3. 运行配置
 >- 内存配置：docker-compose.yml里后端服务预分配了1G内存，可根据自身需求调整
 >- Jmeter内存：mysterious-jmeter/bin/jmeter里"${HEAP:="-Xms1g -Xmx1g，自行调整
 >- 配置管理：MASTER_HOST_PORT修改为本地IP:PORT，作为压测报告预览的路径前缀，修改完重启容器
-4. 更新说明
->- 后端更新：更新mysterious容器(docker/amd64.env有最新版本号)，重新拉镜像起容器
+4. 更新版本
+>- 后端更新：更新mysterious容器(最新的docker/amd64.env覆盖.env)，重新拉镜像起容器
 >- 前端更新：更新dist目录(docker/dist有最新版本目录)，覆盖/opt/mysterious/nginx/html/dist
 >- 表结构变更：检查数据库脚本(docker/init.sql)，执行变更部分的sql即可
 
@@ -62,7 +62,6 @@ https://github.com/user-attachments/assets/b951548a-7d16-4f0e-9d3e-7d3f1172a85f
 >- cd mysterious-web
 >- npm install
 >- npm run build (生成dist，如果不想build，mysterious的docker里有最新的dist)
-
 2. 安装nginx，mysql，redis，jdk8+
 > nginx
 >- 1234.conf和9998.conf复制到/etc/nginx/conf.d下（根据系统实际情况），并修改下，比如mysterious-nginx改成localhost，mysterious改成最后前端页面访问的IP地址
@@ -80,7 +79,6 @@ https://github.com/user-attachments/assets/b951548a-7d16-4f0e-9d3e-7d3f1172a85f
 
 3. 后端部署
 >- git clone https://github.com/100ZZ/mysterious.git
->- 修改application.properties，mysterious-mysql和mysterious-redis都改成localhost
 >- mvn -f pom.xml clean install package -Dmaven.test.skip=true
 >- mkdir -p /opt/mysterious/mysterious-data
 >- mkdir -p /opt/mysterious/running
