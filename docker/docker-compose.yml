@@ -23,7 +23,6 @@ services:
     restart: always
     environment:
       TZ: Asia/Shanghai
-      SPRING_REDIS_HOST: mysterious-redis
     volumes:
       - ./redis/data:/data
       - ./redis/logs:/logs
@@ -64,6 +63,7 @@ services:
       SPRING_DATASOURCE_DRUID_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
       SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 100MB
       SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 100MB
+      SPRING_REDIS_HOST: mysterious-redis
     volumes:
       - ./logs:/opt/logs
       - ./mysterious-jmeter:/opt/mysterious/mysterious-jmeter
