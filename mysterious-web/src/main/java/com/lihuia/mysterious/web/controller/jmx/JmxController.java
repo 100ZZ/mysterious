@@ -94,7 +94,7 @@ public class JmxController {
         try {
             InputStream inputStream = new FileInputStream(filePath);
             response.reset();
-            response.setContentType("bin");
+            response.setContentType("application/octet-stream");
             response.addHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
             // 循环取出流中的数据
             byte[] b = new byte[100];

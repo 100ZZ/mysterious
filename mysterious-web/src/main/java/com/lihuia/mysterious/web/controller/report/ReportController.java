@@ -84,9 +84,9 @@ public class ReportController {
         ReportVO reportVO = reportService.getById(id);
         /** 如果是单节点压测，所有日志全都达到jmeter.log里，太大了 */
         //if (reportDO.getDescription().contains("用例压测")) {
-        if (reportVO.getExecType().equals(ReportTypeEnum.RUNNING.getCode())) {
-            throw new MysteriousException(ResponseCodeEnum.STRESS_LOG_TOO_LARGE);
-        }
+//        if (reportVO.getExecType().equals(ReportTypeEnum.RUNNING.getCode())) {
+//            throw new MysteriousException(ResponseCodeEnum.STRESS_LOG_TOO_LARGE);
+//        }
         String jmeterLogFilePath = reportVO.getJmeterLogFilePath();
         String[] s = jmeterLogFilePath.split("jmeter");
         String jmeterLogFile = "jmeter" + s[1];
@@ -95,11 +95,14 @@ public class ReportController {
         if (!file.exists()) {
             throw new MysteriousException(ResponseCodeEnum.FILE_NOT_EXIST);
         }
+        if (file.length() > 1024 * 1024) {
+            throw new MysteriousException(ResponseCodeEnum.STRESS_LOG_TOO_LARGE);
+        }
         try {
             InputStream inputStream = new FileInputStream(jmeterLogFilePath);
             response.reset();
             //response.setContentType(MediaType.APPLICATION_OCTET_STREAM.toString());
-            response.setContentType("bin");
+            response.setContentType("application/octet-stream");
             response.addHeader("Content-Disposition", "attachment; filename=\"" + jmeterLogFile + "\"");
             // 循环取出流中的数据
             byte[] b = new byte[100];

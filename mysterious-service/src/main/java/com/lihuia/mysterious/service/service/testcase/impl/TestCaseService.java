@@ -321,6 +321,7 @@ public class TestCaseService implements ITestCaseService {
         reportVO.setDescription("【" + currentTime + "】" + testCaseDO.getDescription());
         /** 调试用例，路径设置为保存返回结果responseData 的 xml文件的目录 */
         reportVO.setReportDir(jtlDir);
+        reportVO.setStatus(TestCaseStatus.RUN_ING.getCode());
 
         /** 本地直接执行JMX压测脚本 */
         /** 本地单节点执行脚本 */
@@ -448,6 +449,8 @@ public class TestCaseService implements ITestCaseService {
         reportVO.setExecType(ExecTypeEnum.EXEC.getType());
         reportVO.setDescription("【" + currentTime + "】" + testCaseDO.getDescription());
         reportVO.setReportDir(reportFilePath);
+        reportVO.setStatus(TestCaseStatus.RUN_ING.getCode());
+        reportVO.setResponseData("请根据[查看日志]和[报告预览]了解压测详情");
 
         /** 本地直接执行JMX压测脚本 */
         /** 本地单节点执行脚本 */

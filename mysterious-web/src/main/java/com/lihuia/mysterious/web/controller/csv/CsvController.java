@@ -77,7 +77,7 @@ public class CsvController {
         try {
             InputStream inputStream = new FileInputStream(filePath);
             response.reset();
-            response.setContentType("bin");
+            response.setContentType("application/octet-stream");
             response.addHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
             // 循环取出流中的数据
             response.getOutputStream().write(new byte[]{(byte)0xEF, (byte)0xBB, (byte)0xBF});
