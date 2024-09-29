@@ -23,6 +23,7 @@ services:
     restart: always
     environment:
       TZ: Asia/Shanghai
+      SPRING_REDIS_HOST: mysterious-redis
     volumes:
       - ./redis/data:/data
       - ./redis/logs:/logs
