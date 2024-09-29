@@ -56,6 +56,13 @@ services:
     environment:
       TZ: Asia/Shanghai
       JAVA_OPTS: -Xmx1G -Xms1G
+      SERVER_PORT: 4321
+      SPRING_DATASOURCE_DRUID_URL: jdbc:mysql://mysterious-mysql:3306/mysterious?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_DRUID_USERNAME: root
+      SPRING_DATASOURCE_DRUID_PASSWORD: Test@123456
+      SPRING_DATASOURCE_DRUID_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE: 100MB
+      SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 100MB
     volumes:
       - ./logs:/opt/logs
       - ./mysterious-jmeter:/opt/mysterious/mysterious-jmeter

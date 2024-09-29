@@ -596,11 +596,11 @@ public class TestCaseService implements ITestCaseService {
         if (StringUtils.isBlank(jmeterLogFilePath)) {
             return jmeterResultVOList;
         }
-
+        //log.info("jmeter日志文件路径: {}", jmeterLogFilePath);
         try (BufferedReader br = new BufferedReader(new FileReader(jmeterLogFilePath))) {
             String line;
 //            Pattern pattern = Pattern.compile("([\\d\\-\\s:,]+) INFO.*summary =.* (\\d+\\.\\d+)/s Avg: +(\\d+)");
-            Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2} (\\d{2}:\\d{2}:\\d{2}),\\d{3} INFO.*summary =.* (\\d+\\.\\d+)/s Avg: +(\\d+)");
+            Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2} (\\d{2}:\\d{2}:\\d{2}),\\d{3} INFO.*summary \\+.* (\\d+\\.\\d+)/s Avg: +(\\d+)");
             while ((line = br.readLine()) != null) {
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.find()) {
@@ -619,5 +619,26 @@ public class TestCaseService implements ITestCaseService {
 
 
         return jmeterResultVOList;
+    }
+
+    public static void main(String[] args) {
+        try (BufferedReader br = new BufferedReader(new FileReader("/Users/lihui/jmeter_2024-09-29-11:38:28.log"))) {
+            String line;
+//            Pattern pattern = Pattern.compile("([\\d\\-\\s:,]+) INFO.*summary =.* (\\d+\\.\\d+)/s Avg: +(\\d+)");
+            Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2} (\\d{2}:\\d{2}:\\d{2}),\\d{3} INFO.*summary \\+.* (\\d+\\.\\d+)/s Avg: +(\\d+)");
+            while ((line = br.readLine()) != null) {
+                Matcher matcher = pattern.matcher(line);
+                if (matcher.find()) {
+                    String timestamp = matcher.group(1);  // 时间戳
+                    String throughput = matcher.group(2); // 吞吐量
+                    String avgResponseTime = matcher.group(3); // 平均响应时间
+
+                    System.out.println(timestamp + " " + throughput + " " + avgResponseTime);
+                }
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage(), e.toString());
+            throw new MysteriousException("实时数据读取失败");
+        }
     }
 }
