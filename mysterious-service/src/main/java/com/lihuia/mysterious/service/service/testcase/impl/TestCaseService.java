@@ -412,7 +412,7 @@ public class TestCaseService implements ITestCaseService {
             /** 排队的用例，更新当前用例状态，等待执行 */
             testCaseDO.setStatus(TestCaseStatus.RUN_WAITING.getCode());
             testCaseMapper.update(testCaseDO);
-            redisService.pushCaseIdToList(id);
+            redisService.pushTestCaseToList(id, userVO);
             return true;
         }
 

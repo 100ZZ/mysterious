@@ -4,6 +4,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -249,11 +250,37 @@ public class RedisUtils {
         return redisTemplate.opsForList().range(key, 0, -1);
     }
 
-    public boolean listContainsValue(String key, String value) {
-        return this.getListAllItem(key).contains(value);
-    }
+//    public boolean listContainsValue(String key, String value) {
+//        return this.getListAllItem(key).contains(value);
+//    }
 
     public void convertAndSend(ChannelTopic topic, String jsonString) {
         redisTemplate.convertAndSend(topic.getTopic(), jsonString);
+    }
+
+    public boolean deleteFromList(String key, Long testCaseId) {
+        List<String> list = redisTemplate.opsForList().range(key, 0, -1);
+        if (!CollectionUtils.isEmpty(list)) {
+            for (int i = 0; i < list.size(); i++) {
+                String item = list.get(i);
+                if (item.contains("\"testCaseId\":" + testCaseId)) {
+                    redisTemplate.opsForList().remove(key, 1, item);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean listContainsValue(String key, Long testCaseId) {
+        List<String> list = redisTemplate.opsForList().range(key, 0, -1);
+        if (!CollectionUtils.isEmpty(list)) {
+            for (String item : list) {
+                if (item.contains("\"testCaseId\":" + testCaseId)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
