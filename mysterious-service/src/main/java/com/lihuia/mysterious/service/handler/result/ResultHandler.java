@@ -2,6 +2,7 @@ package com.lihuia.mysterious.service.handler.result;
 
 import com.lihuia.mysterious.core.entity.report.ReportDO;
 import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
+import com.lihuia.mysterious.core.mapper.report.ReportMapper;
 import com.lihuia.mysterious.core.mapper.testcase.TestCaseMapper;
 import com.lihuia.mysterious.service.enums.TestCaseStatus;
 import com.lihuia.mysterious.service.handler.dto.ResultDTO;
@@ -33,6 +34,8 @@ public class ResultHandler extends DefaultExecuteResultHandler {
 
     TestCaseMapper testCaseMapper;
 
+    ReportMapper reportMapper;
+
     public ResultHandler(ResultDTO resultDTO) {
         super();
         this.outputStream = resultDTO.getOutputStream();
@@ -40,6 +43,7 @@ public class ResultHandler extends DefaultExecuteResultHandler {
         this.testCaseDO = resultDTO.getTestCaseDO();
         this.reportDO = resultDTO.getReportDO();
         this.testCaseMapper = resultDTO.getTestCaseMapper();
+        this.reportMapper = resultDTO.getReportMapper();
     }
 
     /**
@@ -61,6 +65,7 @@ public class ResultHandler extends DefaultExecuteResultHandler {
             testCaseMapper.update(testCaseDO);
             if (null != reportDO) {
                 reportDO.setStatus(TestCaseStatus.RUN_FAILED.getCode());
+                reportMapper.update(reportDO);
             }
         } else if (resultErrorMatcher.find()) {
             log.info("JMeter执行脚本，终端标准输出匹配的错误结果, Err: {}", resultErrorMatcher.group(1));
@@ -69,6 +74,7 @@ public class ResultHandler extends DefaultExecuteResultHandler {
             testCaseMapper.update(testCaseDO);
             if (null != reportDO) {
                 reportDO.setStatus(TestCaseStatus.RUN_FAILED.getCode());
+                reportMapper.update(reportDO);
             }
         } else if (runErrorMatcher.find()) {
             log.info("JMeter执行脚本报错，终端标准输出结果: {}", outputString);
@@ -77,10 +83,15 @@ public class ResultHandler extends DefaultExecuteResultHandler {
             testCaseMapper.update(testCaseDO);
             if (null != reportDO) {
                 reportDO.setStatus(TestCaseStatus.RUN_FAILED.getCode());
+                reportMapper.update(reportDO);
             }
         } else {
             log.info("JMeter执行脚本, 终端标准输出执行结果正常");
         }
+//        if (summaryErrorMatcher.find() || resultErrorMatcher.find() || runErrorMatcher.find()) {
+//            testCaseMapper.updateStatus(testCaseDO.getId(), TestCaseStatus.RUN_FAILED.getCode());
+//            reportMapper.updateReportStatus(reportDO.getId(), TestCaseStatus.RUN_FAILED.getCode());
+//        }
     }
 
     /**
