@@ -79,42 +79,33 @@ public class ReportController {
 
     @ApiOperation("查看日志")
     @GetMapping(value = "/getJMeterLog/{id}")
-    public Response<Boolean> getLog(@PathVariable Long id,
-                                    HttpServletResponse response) {
+    public void getLog(@PathVariable Long id, HttpServletResponse response) {
         ReportVO reportVO = reportService.getById(id);
-        /** 如果是单节点压测，所有日志全都达到jmeter.log里，太大了 */
-        //if (reportDO.getDescription().contains("用例压测")) {
-//        if (reportVO.getExecType().equals(ReportTypeEnum.RUNNING.getCode())) {
-//            throw new MysteriousException(ResponseCodeEnum.STRESS_LOG_TOO_LARGE);
-//        }
         String jmeterLogFilePath = reportVO.getJmeterLogFilePath();
-        String[] s = jmeterLogFilePath.split("jmeter");
-        String jmeterLogFile = "jmeter" + s[1];
         File file = new File(jmeterLogFilePath);
-        log.info("jmeterLogFilePath: {}", jmeterLogFilePath);
+
         if (!file.exists()) {
             throw new MysteriousException(ResponseCodeEnum.FILE_NOT_EXIST);
         }
         if (file.length() > 1024 * 1024) {
             throw new MysteriousException(ResponseCodeEnum.STRESS_LOG_TOO_LARGE);
         }
+
         try {
             InputStream inputStream = new FileInputStream(jmeterLogFilePath);
             response.reset();
-            //response.setContentType(MediaType.APPLICATION_OCTET_STREAM.toString());
             response.setContentType("application/octet-stream");
-            response.addHeader("Content-Disposition", "attachment; filename=\"" + jmeterLogFile + "\"");
-            // 循环取出流中的数据
-            byte[] b = new byte[100];
-            int len;
-            while ((len = inputStream.read(b)) > 0) {
-                response.getOutputStream().write(b, 0, len);
+            response.addHeader("Content-Disposition", "attachment; filename=\"" + jmeterLogFilePath.substring(jmeterLogFilePath.lastIndexOf("/") + 1) + "\"");
+
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                response.getOutputStream().write(buffer, 0, bytesRead);
             }
             inputStream.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new MysteriousException(ResponseCodeEnum.DOWNLOAD_ERROR);
         }
-        return ResponseUtil.buildSuccessResponse(ResponseCodeEnum.SUCCESS.getSuccess());
     }
 
     @ApiOperation("报告清理")
