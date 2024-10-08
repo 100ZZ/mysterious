@@ -57,7 +57,7 @@ public enum ResponseCodeEnum {
     DEBUG_REPORT_NOT_DOWNLOAD(1045, "调试报告不下载", false),
     REPORT_DIR_NOT_EXIST(1046, "报告目录不存在", false),
     REPORT_DIR_IS_EMPTY(1047, "报告目录为空", false),
-    DEBUG_REPORT_NOT_VIEW(1048, "非压测报告无法预览", false),
+    DEBUG_REPORT_NOT_VIEW(1048, "调试报告直接查看结果", false),
     NODE_TYPE_ERROR(1049, "节点不存在或者类型不对", false),
     NODE_CANNOT_CONNECT(1050, "节点无法连通", false),
     SSH_AND_LOGIN_ERROR(1051, "请确认SSH连接以及登录验证是否正确", false),
@@ -75,7 +75,7 @@ public enum ResponseCodeEnum {
     SCRIPT_STOP_ERROR(1060, "停止脚本异常", false),
     SCRIPT_DEBUG_ERROR(1061, "调试脚本异常", false),
     SCRIPT_TYPE_ERROR(1062, "调试类型异常", false),
-
+    STRESS_RESULT(1063, "请根据[日志]和[预览]了解压测详情", false),
 
     SYSTEM_ERROR(9999,"系统异常",false),
     ;

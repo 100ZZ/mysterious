@@ -447,10 +447,10 @@ public class TestCaseService implements ITestCaseService {
         reportVO.setJmeterLogFilePath(jmeterLogFilePath);
         reportVO.setName(testCaseDO.getName());
         reportVO.setExecType(ExecTypeEnum.EXEC.getType());
-        reportVO.setDescription("【" + currentTime + "】" + testCaseDO.getDescription());
+        reportVO.setDescription(testCaseDO.getDescription());
         reportVO.setReportDir(reportFilePath);
         reportVO.setStatus(TestCaseStatus.RUN_ING.getCode());
-        reportVO.setResponseData("请根据[查看日志]和[报告预览]了解压测详情");
+        reportVO.setResponseData(ResponseCodeEnum.STRESS_RESULT.getMessage());
 
         /** 本地直接执行JMX压测脚本 */
         /** 本地单节点执行脚本 */
