@@ -7,8 +7,8 @@ package com.lihuia.mysterious.service.enums;
 public enum JMeterSampleEnum {
 
     HTTP_REQUEST(0, "HTTP Request"),
-    DUBBO_SAMPLE(1, "Dubbo Sample"),
-    JAVA_REQUEST(2, "Java Request");
+    JAVA_REQUEST(1, "Java Request"),
+    DUBBO_SAMPLE(2, "Dubbo Sample");
 
     private Integer code;
     private String sample;

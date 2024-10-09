@@ -34,7 +34,7 @@ public class JmxDO extends BaseDO<Long> {
     /** 线程组类型, 枚举类：JMeterThreadsEnum 0-ThreadGroup， 1-SteppingThreadGroup, 2-ConcurrentThreadGroup */
     private Integer jmeterThreadsType;
 
-    /** Sample类型, 枚举类：JMeterSampleEnum 0-HTTP Request, 1-Dubbo Sample, 2-Java Request */
+    /** Sample类型, 枚举类：JMeterSampleEnum 0-HTTP Request, 1-Java Sample, 2-Dubbo Request */
     private Integer jmeterSampleType;
 
 }

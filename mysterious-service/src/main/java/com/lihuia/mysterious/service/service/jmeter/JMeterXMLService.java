@@ -584,38 +584,47 @@ public class JMeterXMLService {
         cSVDataSet.addAttribute("testname", csvFileName);
         cSVDataSet.addAttribute("enabled", "true");
 
+        /** Filename */
         Element filename = cSVDataSet.addElement("stringProp");
         filename.addAttribute("name", "filename");
         filename.setText(csvFilePath);
 
+        /** File encoding */
         Element fileEncoding = cSVDataSet.addElement("stringProp");
         fileEncoding.addAttribute("name", "fileEncoding");
         fileEncoding.setText("UTF-8");
 
+        /** Variable names */
         Element variableNames = cSVDataSet.addElement("stringProp");
         variableNames.addAttribute("name", "variableNames");
         variableNames.setText(variableNameList);
 
+        /** Ignore first line */
         Element ignoreFirstLine = cSVDataSet.addElement("boolProp");
         ignoreFirstLine.addAttribute("name", "ignoreFirstLine");
         ignoreFirstLine.setText("true");
 
+        /** Delimiter */
         Element delimiter = cSVDataSet.addElement("stringProp");
         delimiter.addAttribute("name", "delimiter");
         delimiter.setText(",");
 
+        /** Allow quoted data */
         Element quotedData = cSVDataSet.addElement("boolProp");
         quotedData.addAttribute("name", "quotedData");
         quotedData.setText("false");
 
+        /** Recycle on EOF */
         Element recycle = cSVDataSet.addElement("boolProp");
         recycle.addAttribute("name", "recycle");
         recycle.setText("true");
 
+        /** Stop thread on EOF */
         Element stopThread = cSVDataSet.addElement("boolProp");
         stopThread.addAttribute("name", "stopThread");
         stopThread.setText("false");
 
+        /** Sharing mode */
         Element shareMode = cSVDataSet.addElement("stringProp");
         shareMode.addAttribute("name", "shareMode");
         shareMode.setText("shareMode.all");

@@ -62,7 +62,7 @@ public class JavaParamService implements IJavaParamService {
     }
 
     @Override
-    public List<JavaParamVO> getExistParamList(Long javaId, String name) {
-        return BeanConverter.doList(javaParamMapper.getExistParamList(javaId, name), JavaParamVO.class);
+    public List<JavaParamVO> getExistParamList(Long javaId, String paramKey) {
+        return BeanConverter.doList(javaParamMapper.getExistParamList(javaId, paramKey), JavaParamVO.class);
     }
 }

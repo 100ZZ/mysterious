@@ -314,7 +314,7 @@ CREATE TABLE `mysterious_jmx_java_param` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='JXM脚本Java请求参数表';
 
-CREATE TABLE `mysterious_assertion` (
+CREATE TABLE `mysterious_jmx_assertion` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
     `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
     `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
@@ -332,7 +332,32 @@ CREATE TABLE `mysterious_assertion` (
     KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
     KEY `idx_jmx_id` (`jmx_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-COMMENT='断言表';
+COMMENT='JMX脚本断言表';
+
+CREATE TABLE `mysterious_jmx_csv` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
+    `filename` varchar(255) NOT NULL DEFAULT '' COMMENT 'CSV文件名',
+    `file_encoding` varchar(32) NOT NULL DEFAULT 'UTF-8' COMMENT '文件编码',
+    `variable_names` varchar(255) NOT NULL DEFAULT '' COMMENT '变量名（逗号分隔）',
+    `ignore_first_line` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否忽略第一行；1-是，0-否',
+    `delimiter` varchar(10) NOT NULL DEFAULT ',' COMMENT '分隔符',
+    `allow_quoted_data` tinyint(1) NOT NULL DEFAULT '0' COMMENT '允许带引号的数据；1-是，0-否',
+    `recycle_on_eof` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否在EOF时循环；1-是，0-否',
+    `stop_thread_on_eof` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否在EOF时停止线程；1-是，0-否',
+    `sharing_mode` varchar(32) NOT NULL DEFAULT 'all' COMMENT '共享模式（all, group, thread）',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
+    KEY `idx_jmx_id` (`jmx_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='JMX脚本CSV模块表';
 
 -- master节点用例，报告目录
 INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("MASTER_DATA_HOME", "/opt/mysterious/mysterious-data", "master节点用例，报告目录");

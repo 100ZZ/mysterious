@@ -57,8 +57,8 @@ public class JmxVO extends BaseVO<Long> {
     @ApiModelProperty(value = "ConcurrencyThreadGroup 结构体编辑, jmeterThreadsType = 2")
     private ConcurrencyThreadGroupVO concurrencyThreadGroupVO;
 
-    /** Sample类型, 枚举类：JMeterSampleEnum 0-HTTP Request, 1-Dubbo Sample, 2-Java Request */
-    @ApiModelProperty(value = "Sample类型, 枚举类：JMeterSampleEnum 0-HTTP Request, 1-Dubbo Sample, 2-Java Request")
+    /** Sample类型, 枚举类：JMeterSampleEnum 0-HTTP Request, 1-Java Sample, 2-Dubbo Request */
+    @ApiModelProperty(value = "Sample类型, 枚举类：JMeterSampleEnum 0-HTTP Request, 1-Java Sample, 2-Dubbo Request")
     private Integer jmeterSampleType;
 
     /** HttpVO结构体编辑, jmeterSampleType = 0 */

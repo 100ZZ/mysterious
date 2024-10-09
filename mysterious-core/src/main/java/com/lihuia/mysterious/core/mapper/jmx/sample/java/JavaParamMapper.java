@@ -17,5 +17,5 @@ public interface JavaParamMapper extends BaseMapper<JavaParamDO> {
 
     List<JavaParamDO> getListByJmxId(Long jmxId);
 
-    List<JavaParamDO> getExistParamList(Long javaId, String name);
+    List<JavaParamDO> getExistParamList(Long javaId, String paramKey);
 }

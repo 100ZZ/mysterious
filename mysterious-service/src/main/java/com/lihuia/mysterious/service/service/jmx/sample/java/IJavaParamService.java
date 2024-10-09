@@ -64,8 +64,8 @@ public interface IJavaParamService {
     /**
      * 查找是否已存在
      * @param javaId
-     * @param name
+     * @param paramKey
      * @return
      */
-    List<JavaParamVO> getExistParamList(Long javaId, String name);
+    List<JavaParamVO> getExistParamList(Long javaId, String paramKey);
 }
