@@ -567,6 +567,33 @@ public class JMeterXMLService {
 
     }
 
+    public void cleanCsv(Integer jmeterSampleType) {
+        initFlag();
+        if (JMeterSampleEnum.HTTP_REQUEST.getCode().equals(jmeterSampleType)) {
+            findElement(document.getRootElement(), "HTTPSamplerProxy");
+        } else if (JMeterSampleEnum.JAVA_REQUEST.getCode().equals(jmeterSampleType)) {
+            findElement(document.getRootElement(), "JavaSampler");
+        } else {
+            throw new MysteriousException("目前不支持该Sampler");
+        }
+
+        Element hashTree = dest.getParent().element("hashTree");
+        List<Element> elementList = hashTree.elements();
+        for (int i = 0; i < elementList.size(); i++) {
+            Element element = elementList.get(i);
+            if (element.getName().equals("CSVDataSet")) {
+                log.info("cleanCsv, hashTree.remove: {}", element.getName());
+                hashTree.remove(element);
+                Element next = elementList.get(i + 1);
+                if (next.getName().equals("hashTree")) {
+                    log.info("deleteCsv, hashTree.remove: {}", next.getName());
+                    hashTree.remove(next);
+                }
+            }
+        }
+
+    }
+
     public void addCsv(CsvDataVO csvDataVO, Integer jmeterSampleType) {
         log.info("addCsv: {}", csvDataVO);
         initFlag();

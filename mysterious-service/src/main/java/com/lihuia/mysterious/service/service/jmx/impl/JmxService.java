@@ -1303,11 +1303,13 @@ public class JmxService implements IJmxService {
         //清理db
         csvDataService.deleteByJmxId(id);
         //清理xml
+        jmeterXMLService.cleanCsv(jmxVO.getJmeterSampleType());
 
         List<CsvFileVO> csvFileVOList = jmxVO.getCsvDataVO().getCsvFileVOList();
         if (!CollectionUtils.isEmpty(csvFileVOList)) {
             csvDataService.addCsvData(csvDataVO);
             /** 写xml */
+            jmeterXMLService.addCsv(csvDataVO, jmxVO.getJmeterSampleType());
         }
 
         /** 将JMX的更改写入指定路径脚本 */
