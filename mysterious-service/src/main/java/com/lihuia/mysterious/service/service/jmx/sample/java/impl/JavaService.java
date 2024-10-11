@@ -6,6 +6,7 @@ import com.lihuia.mysterious.core.mapper.jmx.sample.java.JavaMapper;
 import com.lihuia.mysterious.core.vo.jmx.sample.java.JavaParamVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.java.JavaVO;
 import com.lihuia.mysterious.service.service.jmx.sample.java.IJavaService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
  * @date 2024/9/6 10:23
  */
 
+@Slf4j
 @Service
 public class JavaService implements IJavaService {
 
@@ -66,6 +68,8 @@ public class JavaService implements IJavaService {
             javaDO.setTestCaseId(testCaseId);
             javaDO.setJmxId(jmxId);
             javaMapper.add(javaDO);
+            log.info("添加JavaRequest：{}", javaDO);
+
         }
     }
 

@@ -2,6 +2,7 @@ package com.lihuia.mysterious.core.vo.jmx;
 
 import com.lihuia.mysterious.core.vo.base.BaseVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.assertion.AssertionVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.csv.CsvDataVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.dubbo.DubboVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.java.JavaVO;
@@ -75,4 +76,7 @@ public class JmxVO extends BaseVO<Long> {
 
     @ApiModelProperty(value = "断言")
     private AssertionVO assertionVO;
+
+    @ApiModelProperty(value = "CSV文件模块")
+    private CsvDataVO csvDataVO;
 }

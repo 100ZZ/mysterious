@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 /**
  * @author lihuia.com
  * @date 2024/10/10 17:06
@@ -29,34 +31,16 @@ public class CsvDataVO extends BaseVO<Long> {
     private Long jmxId;
 
     /**
-     * CSV文件名
-     */
-    @ApiModelProperty(value = "CSV文件名")
-    private String filename;
-
-    /**
      * 文件编码
      */
     @ApiModelProperty(value = "文件编码")
     private String fileEncoding;
 
     /**
-     * 变量名（逗号分隔）
-     */
-    @ApiModelProperty(value = "变量名（逗号分隔）")
-    private String variableNames;
-
-    /**
      * 是否忽略第一行；1-是，0-否
      */
     @ApiModelProperty(value = "是否忽略第一行；1-是，0-否")
     private Integer ignoreFirstLine;
-
-    /**
-     * 分隔符
-     */
-    @ApiModelProperty(value = "分隔符")
-    private String delimiter;
 
     /**
      * 允许带引号的数据；1-是，0-否
@@ -81,4 +65,9 @@ public class CsvDataVO extends BaseVO<Long> {
      */
     @ApiModelProperty(value = "共享模式（all, group, thread）")
     private String sharingMode;
+
+    /**
+     * CSV文件信息列表
+     */
+    private List<CsvFileVO> csvFileVOList;
 }

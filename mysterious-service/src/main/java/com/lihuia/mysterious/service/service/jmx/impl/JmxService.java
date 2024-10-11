@@ -20,6 +20,7 @@ import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.assertion.AssertionVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.csv.CsvDataVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.csv.CsvFileVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.dubbo.DubboVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpHeaderVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpParamVO;
@@ -49,6 +50,7 @@ import com.lihuia.mysterious.service.service.jar.impl.JarService;
 import com.lihuia.mysterious.service.service.jmeter.JMeterXMLService;
 import com.lihuia.mysterious.service.service.jmx.IJmxService;
 import com.lihuia.mysterious.service.service.jmx.sample.assertion.IAssertionService;
+import com.lihuia.mysterious.service.service.jmx.sample.csv.ICsvDataService;
 import com.lihuia.mysterious.service.service.jmx.sample.dubbo.IDubboService;
 import com.lihuia.mysterious.service.service.jmx.sample.http.IHttpHeaderService;
 import com.lihuia.mysterious.service.service.jmx.sample.http.IHttpParamService;
@@ -148,6 +150,9 @@ public class JmxService implements IJmxService {
 
     @Autowired
     private IAssertionService assertionService;
+
+    @Autowired
+    private ICsvDataService csvDataService;
 
 //    @Autowired
 //    private MongoTemplate mongoTemplate;
@@ -824,6 +829,14 @@ public class JmxService implements IJmxService {
         }
 
         /** csv模块 */
+        CsvDataVO csvDataVO = jmxVO.getCsvDataVO();
+        if (!CollectionUtils.isEmpty(csvDataVO.getCsvFileVOList())) {
+            csvDataVO.setTestCaseId(testCaseId);
+            csvDataVO.setJmxId(jmxId);
+            csvDataService.addCsvData(csvDataVO);
+            /** 写xml */
+            jmeterXMLService.addCsv(csvDataVO, jmxVO.getJmeterSampleType());
+        }
 
 
         /** 将JMX的更改写入指定路径脚本 */
@@ -962,6 +975,8 @@ public class JmxService implements IJmxService {
 
         /** 理论上assert不和任何sample request相关，只要根据jmxId就可以查 */
         jmxVO.setAssertionVO(assertionService.getByJmxId(id));
+
+        jmxVO.setCsvDataVO(csvDataService.getByJmxId(id));
 
         log.info("jmxVO: {}", JSON.toJSONString(jmxVO, true));
         return jmxVO;
@@ -1282,6 +1297,18 @@ public class JmxService implements IJmxService {
         assertionService.updateAssertion(assertionVO);
         jmeterXMLService.addAssertion(jmxVO.getJmeterSampleType(), jmxVO.getAssertionVO().getResponseCode(), jmxVO.getAssertionVO().getResponseMessage(), jmxVO.getAssertionVO().getJsonPath(), jmxVO.getAssertionVO().getExpectedValue());
 
+        /** 如果csv模块有修改 */
+        /** csv模块 */
+        CsvDataVO csvDataVO = jmxVO.getCsvDataVO();
+        //清理db
+        csvDataService.deleteByJmxId(id);
+        //清理xml
+
+        List<CsvFileVO> csvFileVOList = jmxVO.getCsvDataVO().getCsvFileVOList();
+        if (!CollectionUtils.isEmpty(csvFileVOList)) {
+            csvDataService.addCsvData(csvDataVO);
+            /** 写xml */
+        }
 
         /** 将JMX的更改写入指定路径脚本 */
         jmeterXMLService.writeJmxFile(jmxFilePath);
@@ -1368,6 +1395,9 @@ public class JmxService implements IJmxService {
         if (null != assertionVO) {
             assertionService.deleteAssertion(assertionVO.getId());
         }
+
+        // csv
+        csvDataService.deleteByJmxId(id);
 
         return true;
     }

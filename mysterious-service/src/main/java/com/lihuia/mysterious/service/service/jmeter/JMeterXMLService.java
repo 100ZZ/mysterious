@@ -6,6 +6,8 @@ import com.lihuia.mysterious.core.entity.jmx.sample.http.HttpDO;
 import com.lihuia.mysterious.core.entity.jmx.thread.ConcurrencyThreadGroupDO;
 import com.lihuia.mysterious.core.entity.jmx.thread.SteppingThreadGroupDO;
 import com.lihuia.mysterious.core.entity.jmx.thread.ThreadGroupDO;
+import com.lihuia.mysterious.core.vo.jmx.sample.csv.CsvDataVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.csv.CsvFileVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpVO;
 import com.lihuia.mysterious.core.vo.jmx.thread.ConcurrencyThreadGroupVO;
 import com.lihuia.mysterious.core.vo.jmx.thread.SteppingThreadGroupVO;
@@ -565,8 +567,8 @@ public class JMeterXMLService {
 
     }
 
-    public void addCsv(String csvFileName, String csvFilePath, String variableNameList, Integer jmeterSampleType) {
-        log.info("addCsv: {}", csvFileName);
+    public void addCsv(CsvDataVO csvDataVO, Integer jmeterSampleType) {
+        log.info("addCsv: {}", csvDataVO);
         initFlag();
         if (JMeterSampleEnum.HTTP_REQUEST.getCode().equals(jmeterSampleType)) {
             findElement(document.getRootElement(), "HTTPSamplerProxy");
@@ -578,59 +580,86 @@ public class JMeterXMLService {
 
         Element hashTree = dest.getParent().element("hashTree");
 
-        Element cSVDataSet = hashTree.addElement("CSVDataSet");
-        cSVDataSet.addAttribute("guiclass", "TestBeanGUI");
-        cSVDataSet.addAttribute("testclass", "CSVDataSet");
-        cSVDataSet.addAttribute("testname", csvFileName);
-        cSVDataSet.addAttribute("enabled", "true");
+        /** 多个csv文件 */
+        List<CsvFileVO> csvFileVOList = csvDataVO.getCsvFileVOList();
+        for (CsvFileVO csvFileVO : csvFileVOList) {
+            String filename = csvFileVO.getFilename();
+            String variableNames = csvFileVO.getVariableNames();
+            String delimiter = csvFileVO.getDelimiter();
+            String fileEncoding = csvDataVO.getFileEncoding();
+            String ignoreFirstLine = csvDataVO.getIgnoreFirstLine() == 1 ? "true" : "false";
+            String allowQuotedData = csvDataVO.getAllowQuotedData() == 1 ? "true" : "false";
+            String recycleOnEof = csvDataVO.getRecycleOnEof() == 1 ? "true" : "false";
+            String stopThreadOnEof = csvDataVO.getStopThreadOnEof() == 1 ? "true" : "false";
+            //<stringProp name="shareMode">shareMode.group</stringProp>
+            String sharingModeWeb = csvDataVO.getSharingMode();
+            String sharingMode;
 
-        /** Filename */
-        Element filename = cSVDataSet.addElement("stringProp");
-        filename.addAttribute("name", "filename");
-        filename.setText(csvFilePath);
+            if ("All threads".equals(sharingModeWeb)) {
+                sharingMode = "shareMode.all";
+            } else if ("Current thread group".equals(sharingModeWeb)) {
+                sharingMode = "shareMode.group";
+            } else if ("Current thread".equals(sharingModeWeb)) {
+                sharingMode = "shareMode.thread";
+            } else {
+                sharingMode = "shareMode.thread"; // 默认值，可以根据需要更改
+            }
 
-        /** File encoding */
-        Element fileEncoding = cSVDataSet.addElement("stringProp");
-        fileEncoding.addAttribute("name", "fileEncoding");
-        fileEncoding.setText("UTF-8");
 
-        /** Variable names */
-        Element variableNames = cSVDataSet.addElement("stringProp");
-        variableNames.addAttribute("name", "variableNames");
-        variableNames.setText(variableNameList);
+            Element cSVDataSet = hashTree.addElement("CSVDataSet");
+            cSVDataSet.addAttribute("guiclass", "TestBeanGUI");
+            cSVDataSet.addAttribute("testclass", "CSVDataSet");
+            cSVDataSet.addAttribute("testname", filename);
+            cSVDataSet.addAttribute("enabled", "true");
 
-        /** Ignore first line */
-        Element ignoreFirstLine = cSVDataSet.addElement("boolProp");
-        ignoreFirstLine.addAttribute("name", "ignoreFirstLine");
-        ignoreFirstLine.setText("true");
+            /** Filename */
+            Element filenameElement = cSVDataSet.addElement("stringProp");
+            filenameElement.addAttribute("name", "filename");
+            filenameElement.setText(filename);
 
-        /** Delimiter */
-        Element delimiter = cSVDataSet.addElement("stringProp");
-        delimiter.addAttribute("name", "delimiter");
-        delimiter.setText(",");
+            /** File encoding */
+            Element fileEncodingElement = cSVDataSet.addElement("stringProp");
+            fileEncodingElement.addAttribute("name", "fileEncoding");
+            fileEncodingElement.setText(fileEncoding);
 
-        /** Allow quoted data */
-        Element quotedData = cSVDataSet.addElement("boolProp");
-        quotedData.addAttribute("name", "quotedData");
-        quotedData.setText("false");
+            /** Variable names */
+            Element variableNamesElement = cSVDataSet.addElement("stringProp");
+            variableNamesElement.addAttribute("name", "variableNames");
+            variableNamesElement.setText(variableNames);
 
-        /** Recycle on EOF */
-        Element recycle = cSVDataSet.addElement("boolProp");
-        recycle.addAttribute("name", "recycle");
-        recycle.setText("true");
+            /** Ignore first line */
+            Element ignoreFirstLineElement = cSVDataSet.addElement("boolProp");
+            ignoreFirstLineElement.addAttribute("name", "ignoreFirstLine");
+            ignoreFirstLineElement.setText(ignoreFirstLine);
 
-        /** Stop thread on EOF */
-        Element stopThread = cSVDataSet.addElement("boolProp");
-        stopThread.addAttribute("name", "stopThread");
-        stopThread.setText("false");
+            /** Delimiter */
+            Element delimiterElement = cSVDataSet.addElement("stringProp");
+            delimiterElement.addAttribute("name", "delimiter");
+            delimiterElement.setText(delimiter);
 
-        /** Sharing mode */
-        Element shareMode = cSVDataSet.addElement("stringProp");
-        shareMode.addAttribute("name", "shareMode");
-        shareMode.setText("shareMode.all");
+            /** Allow quoted data */
+            Element quotedDataElement = cSVDataSet.addElement("boolProp");
+            quotedDataElement.addAttribute("name", "quotedData");
+            quotedDataElement.setText(allowQuotedData);
 
-        /** 每个csv后面都要加一行<hashTree/> 最后一个好像不用加，但加了貌似也没问题 */
-        hashTree.addElement("hashTree");
+            /** Recycle on EOF */
+            Element recycleElement = cSVDataSet.addElement("boolProp");
+            recycleElement.addAttribute("name", "recycle");
+            recycleElement.setText(recycleOnEof);
+
+            /** Stop thread on EOF */
+            Element stopThreadElement = cSVDataSet.addElement("boolProp");
+            stopThreadElement.addAttribute("name", "stopThread");
+            stopThreadElement.setText(stopThreadOnEof);
+
+            /** Sharing mode */
+            Element shareModeElement = cSVDataSet.addElement("stringProp");
+            shareModeElement.addAttribute("name", "shareMode");
+            shareModeElement.setText(sharingMode);
+
+            /** 每个csv后面都要加一行<hashTree/> 最后一个好像不用加，但加了貌似也没问题 */
+            hashTree.addElement("hashTree");
+        }
     }
 
     public void writeJmxFile(String destJmxFilePath) {

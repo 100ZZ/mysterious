@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.lihuia.mysterious.core.mapper.jmx.sample.csv.CsvdataMapper">
+<mapper namespace="com.lihuia.mysterious.core.mapper.jmx.sample.csv.CsvDataMapper">
     <resultMap id="CsvDataResult" type="com.lihuia.mysterious.core.entity.jmx.sample.csv.CsvDataDO">
         <result property="testCaseId" column="test_case_id"/>
         <result property="jmxId" column="jmx_id"/>
@@ -100,5 +100,12 @@
         <include refid="table_name"/>
         WHERE 1=1
         <if test="id != null">and id=#{id}</if>
+    </delete>
+
+    <delete id="deleteByJmxId">
+        DELETE FROM
+        <include refid="table_name"/>
+        WHERE 1=1
+        <if test="jmxId != null">and jmx_id=#{jmxId}</if>
     </delete>
 </mapper>
