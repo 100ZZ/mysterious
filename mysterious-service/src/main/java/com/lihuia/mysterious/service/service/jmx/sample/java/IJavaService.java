@@ -30,6 +30,12 @@ public interface IJavaService {
     void deleteJava(Long id);
 
     /**
+     * 删除jmx脚本的java请求
+     * @param jmxId
+     */
+    void deleteByJmxId(Long jmxId);
+
+    /**
      * 更新java请求
      * @param javaVO
      */

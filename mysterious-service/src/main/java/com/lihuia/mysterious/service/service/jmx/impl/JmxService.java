@@ -8,6 +8,7 @@ import com.lihuia.mysterious.common.io.MysteriousFileUtils;
 import com.lihuia.mysterious.common.jmeter.JMeterUtil;
 import com.lihuia.mysterious.common.response.ResponseCodeEnum;
 import com.lihuia.mysterious.core.entity.jmx.JmxDO;
+import com.lihuia.mysterious.core.entity.jmx.sample.java.JavaDO;
 import com.lihuia.mysterious.core.entity.report.ReportDO;
 import com.lihuia.mysterious.core.entity.testcase.TestCaseDO;
 import com.lihuia.mysterious.core.mapper.jmx.JmxMapper;
@@ -18,6 +19,7 @@ import com.lihuia.mysterious.core.vo.jar.JarVO;
 import com.lihuia.mysterious.core.vo.jmx.JmxQuery;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.assertion.AssertionVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.csv.CsvDataVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.dubbo.DubboVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpHeaderVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpParamVO;
@@ -51,7 +53,6 @@ import com.lihuia.mysterious.service.service.jmx.sample.dubbo.IDubboService;
 import com.lihuia.mysterious.service.service.jmx.sample.http.IHttpHeaderService;
 import com.lihuia.mysterious.service.service.jmx.sample.http.IHttpParamService;
 import com.lihuia.mysterious.service.service.jmx.sample.http.IHttpService;
-import com.lihuia.mysterious.service.service.jmx.sample.java.IJavaParamService;
 import com.lihuia.mysterious.service.service.jmx.sample.java.IJavaService;
 import com.lihuia.mysterious.service.service.jmx.thread.IConcurrencyThreadGroupService;
 import com.lihuia.mysterious.service.service.jmx.thread.ISteppingThreadGroupService;
@@ -144,9 +145,6 @@ public class JmxService implements IJmxService {
 
     @Autowired
     private IJavaService javaService;
-
-    @Autowired
-    private IJavaParamService javaParamService;
 
     @Autowired
     private IAssertionService assertionService;
@@ -299,11 +297,14 @@ public class JmxService implements IJmxService {
 
             } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.JAVA_REQUEST.getCode())) {
                 JavaVO javaVO = javaService.getByJmxId(id);
-                javaService.deleteJava(javaVO.getId());
-                List<JavaParamVO> javaParamVOList = javaParamService.getListByJavaId(javaVO.getId());
-                if (!CollectionUtils.isEmpty(javaParamVOList)) {
-                    javaParamVOList.forEach(javaParamVO -> javaParamService.deleteJavaParam(javaParamVO.getId()));
-                }
+//                javaService.deleteJava(javaVO.getId());
+//                List<JavaParamVO> javaParamVOList = javaParamService.getListByJavaId(javaVO.getId());
+//                if (!CollectionUtils.isEmpty(javaParamVOList)) {
+//                    javaParamVOList.forEach(javaParamVO -> javaParamService.deleteJavaParam(javaParamVO.getId()));
+//                }
+                /** 去掉了param表，所以一个java表里一对key-value，直接按jmxId删除所有记录就行了 */
+                javaService.deleteByJmxId(javaVO.getJmxId());
+
             } else {
                 throw new MysteriousException("deleteJmx, sample类型异常, 请确认");
             }
@@ -782,27 +783,31 @@ public class JmxService implements IJmxService {
             javaService.addJava(javaVO);
             //写XML: classname
             jmeterXMLService.updateJavaRequest(javaVO.getJavaRequestClassPath());
+            //写XML: param
+            for (JavaParamVO javaParamVO : javaVO.getJavaParamVOList()) {
+                jmeterXMLService.addJavaParam(javaParamVO.getParamKey(), javaParamVO.getParamValue());
+            }
 
-            /** 入库后带ID的JavaDO */
-            JavaVO newJavaVO = javaService.getByJmxId(jmxId);
-            if (null == newJavaVO) {
-                throw new MysteriousException("java入库失败: {}" + srcName);
-            }
-            Long javaId = newJavaVO.getId();
-            List<JavaParamVO> javaParamVOList = javaVO.getJavaParamVOList();
-            if (!CollectionUtils.isEmpty(javaParamVOList)) {
-                for (JavaParamVO javaParamVO : javaParamVOList) {
-                    if (!CollectionUtils.isEmpty(javaParamService.getExistParamList(javaId, javaParamVO.getParamKey()))) {
-                        throw new MysteriousException("Java Param: " + javaParamVO.getParamValue() + " 已存在");
-                    }
-                    javaParamVO.setTestCaseId(testCaseId);
-                    javaParamVO.setJmxId(jmxId);
-                    javaParamVO.setJavaId(javaId);
-                    javaParamService.addJavaParam(javaParamVO);
-                    //写XML: param
-                    jmeterXMLService.addJavaParam(javaParamVO.getParamKey(), javaParamVO.getParamValue());
-                }
-            }
+//            /** 入库后带ID的JavaDO */
+//            JavaVO newJavaVO = javaService.getByJmxId(jmxId);
+//            if (null == newJavaVO) {
+//                throw new MysteriousException("java入库失败: {}" + srcName);
+//            }
+//            Long javaId = newJavaVO.getId();
+//            List<JavaParamVO> javaParamVOList = javaVO.getJavaParamVOList();
+//            if (!CollectionUtils.isEmpty(javaParamVOList)) {
+//                for (JavaParamVO javaParamVO : javaParamVOList) {
+//                    if (!CollectionUtils.isEmpty(javaParamService.getExistParamList(javaId, javaParamVO.getParamKey()))) {
+//                        throw new MysteriousException("Java Param: " + javaParamVO.getParamValue() + " 已存在");
+//                    }
+//                    javaParamVO.setTestCaseId(testCaseId);
+//                    javaParamVO.setJmxId(jmxId);
+//                    javaParamVO.setJavaId(javaId);
+//                    javaParamService.addJavaParam(javaParamVO);
+//                    //写XML: param
+//                    jmeterXMLService.addJavaParam(javaParamVO.getParamKey(), javaParamVO.getParamValue());
+//                }
+//            }
         } else {
             log.warn("系统异常, Sample类型: {}", jmxVO.getJmeterSampleType());
             throw new MysteriousException("系统异常, Sample类型不合法");
@@ -817,6 +822,9 @@ public class JmxService implements IJmxService {
             assertionService.addAssertion(assertionVO);
             jmeterXMLService.addAssertion(jmxVO.getJmeterSampleType(), jmxVO.getAssertionVO().getResponseCode(), jmxVO.getAssertionVO().getResponseMessage(), jmxVO.getAssertionVO().getJsonPath(), jmxVO.getAssertionVO().getExpectedValue());
         }
+
+        /** csv模块 */
+
 
         /** 将JMX的更改写入指定路径脚本 */
         jmeterXMLService.writeJmxFile(jmxFilePath);
@@ -945,9 +953,9 @@ public class JmxService implements IJmxService {
         } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.DUBBO_SAMPLE.getCode())) {
             jmxVO.setDubboVO(dubboService.getByJmxId(id));
         } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.JAVA_REQUEST.getCode())) {
-            JavaVO javaVO = javaService.getByJmxId(id);
-            javaVO.setJavaParamVOList(javaParamService.getListByJavaId(javaVO.getId()));
-            jmxVO.setJavaVO(javaVO);
+            //JavaVO javaVO = javaService.getByJmxId(id);
+            //javaVO.setJavaParamVOList(javaParamService.getListByJavaId(javaVO.getId()));
+            jmxVO.setJavaVO(javaService.getByJmxId(id));
         } else {
             throw new MysteriousException("sample类型异常, 请确认");
         }
@@ -1220,33 +1228,46 @@ public class JmxService implements IJmxService {
         } else if (jmxVO.getJmeterSampleType().equals(JMeterSampleEnum.JAVA_REQUEST.getCode())) {
             //java request
             JavaVO javaVO = jmxVO.getJavaVO();
-            javaService.updateJava(javaVO);
+
             jmeterXMLService.updateJavaRequest(javaVO.getJavaRequestClassPath());
 
-            /** 删除已有的param */
-            List<JavaParamVO> dbParamVOList = javaParamService.getListByJavaId(javaVO.getId());
-            if (!CollectionUtils.isEmpty(dbParamVOList)) {
-                log.info("Java删除dbParamVOList: {}", dbParamVOList);
-                javaParamService.batchDeleteJavaParam(
-                        dbParamVOList.stream().map(JavaParamVO::getId).collect(Collectors.toList()));
-                jmeterXMLService.cleanJavaParam();
+            /** 删除已有的数据，免得如果更新数量不一致，又是更新操作；又是add操作 */
+            javaService.deleteByJmxId(id);
+            jmeterXMLService.cleanJavaParam();
+
+            /** 新增传入的java request */
+            javaService.addJava(javaVO);
+            //写XML: classname
+            jmeterXMLService.updateJavaRequest(javaVO.getJavaRequestClassPath());
+            //写XML: param
+            for (JavaParamVO javaParamVO : javaVO.getJavaParamVOList()) {
+                jmeterXMLService.addJavaParam(javaParamVO.getParamKey(), javaParamVO.getParamValue());
             }
 
-            /** 新增传入的param */
-            List<JavaParamVO> paramVOList = javaVO.getJavaParamVOList();
-            log.info("Java新增paramVOList: {}", paramVOList);
-            if (!CollectionUtils.isEmpty(paramVOList)) {
-                for (JavaParamVO javaParamVO : paramVOList) {
-                    if (!CollectionUtils.isEmpty(javaParamService.getExistParamList(javaVO.getId(), javaParamVO.getParamKey()))) {
-                        throw new MysteriousException("Java Param: " + javaParamVO.getParamKey() + " 已存在");
-                    }
-                    javaParamVO.setTestCaseId(jmxVO.getTestCaseId());
-                    javaParamVO.setJmxId(id);
-                    javaParamVO.setJavaId(javaVO.getId());
-                    javaParamService.addJavaParam(javaParamVO);
-                    jmeterXMLService.addJavaParam(javaParamVO.getParamKey(), javaParamVO.getParamValue());
-                }
-            }
+
+//            List<JavaParamVO> dbParamVOList = javaParamService.getListByJavaId(javaVO.getId());
+//            if (!CollectionUtils.isEmpty(dbParamVOList)) {
+//                log.info("Java删除dbParamVOList: {}", dbParamVOList);
+//                javaParamService.batchDeleteJavaParam(
+//                        dbParamVOList.stream().map(JavaParamVO::getId).collect(Collectors.toList()));
+//                jmeterXMLService.cleanJavaParam();
+//            }
+//
+//            /** 新增传入的param */
+//            List<JavaParamVO> paramVOList = javaVO.getJavaParamVOList();
+//            log.info("Java新增paramVOList: {}", paramVOList);
+//            if (!CollectionUtils.isEmpty(paramVOList)) {
+//                for (JavaParamVO javaParamVO : paramVOList) {
+//                    if (!CollectionUtils.isEmpty(javaParamService.getExistParamList(javaVO.getId(), javaParamVO.getParamKey()))) {
+//                        throw new MysteriousException("Java Param: " + javaParamVO.getParamKey() + " 已存在");
+//                    }
+//                    javaParamVO.setTestCaseId(jmxVO.getTestCaseId());
+//                    javaParamVO.setJmxId(id);
+//                    javaParamVO.setJavaId(javaVO.getId());
+//                    javaParamService.addJavaParam(javaParamVO);
+//                    jmeterXMLService.addJavaParam(javaParamVO.getParamKey(), javaParamVO.getParamValue());
+//                }
+//            }
         } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.DUBBO_SAMPLE.getCode())) {
             //dubbo sample
 
@@ -1330,16 +1351,17 @@ public class JmxService implements IJmxService {
         }
 
         //javaDO
-        JavaVO javaVO = javaService.getByJmxId(id);
-        if (null != javaVO) {
-            javaService.deleteJava(javaVO.getId());
-        }
+//        JavaVO javaVO = javaService.getByJmxId(id);
+//        if (null != javaVO) {
+//            javaService.deleteJava(javaVO.getId());
+//        }
+        javaService.deleteByJmxId(id);
 
         //java param
-        List<JavaParamVO> javaParamVOList = javaParamService.getListByJmxId(id);
-        if (!CollectionUtils.isEmpty(javaParamVOList)) {
-            javaParamVOList.forEach(javaParamVO -> javaParamService.deleteJavaParam(javaParamVO.getId()));
-        }
+//        List<JavaParamVO> javaParamVOList = javaParamService.getListByJmxId(id);
+//        if (!CollectionUtils.isEmpty(javaParamVOList)) {
+//            javaParamVOList.forEach(javaParamVO -> javaParamService.deleteJavaParam(javaParamVO.getId()));
+//        }
 
         //assertion
         AssertionVO assertionVO = assertionService.getByJmxId(id);

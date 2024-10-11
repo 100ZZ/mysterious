@@ -32,10 +32,6 @@ public class AssertionVO extends BaseVO<Long> {
     @ApiModelProperty(value = "断言response text")
     private String responseMessage;
 
-    /** 断言JSON data */
-    //@ApiModelProperty(value = "断言JSON data")
-    //private List<JsonAssertionVO> jsonPathData;
-
     /** 断言的JSON路径 */
     private String jsonPath;
 

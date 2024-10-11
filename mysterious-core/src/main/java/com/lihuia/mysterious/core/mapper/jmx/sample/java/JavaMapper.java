@@ -4,6 +4,8 @@ package com.lihuia.mysterious.core.mapper.jmx.sample.java;
 import com.lihuia.mysterious.core.entity.jmx.sample.java.JavaDO;
 import com.lihuia.mysterious.core.mapper.base.BaseMapper;
 
+import java.util.List;
+
 /**
  * @author lihuia.com
  * @date 2023/4/1 下午3:33
@@ -11,5 +13,7 @@ import com.lihuia.mysterious.core.mapper.base.BaseMapper;
 
 public interface JavaMapper extends BaseMapper<JavaDO> {
 
-    JavaDO getByJmxId(Long jmxId);
+    List<JavaDO> getByJmxId(Long jmxId);
+
+    void deleteByJmxId(Long jmxId);
 }

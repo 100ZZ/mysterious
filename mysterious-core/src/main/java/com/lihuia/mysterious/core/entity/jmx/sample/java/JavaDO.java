@@ -24,6 +24,9 @@ public class JavaDO extends BaseDO<Long> {
     /** java request依赖jar包路径 */
     private String javaRequestClassPath;
 
-    /** java request的参数 */
-    private List<JavaParamDO> javaParamDOList;
+    /** 名称 */
+    private String paramKey;
+
+    /** 值 */
+    private String paramValue;
 }
