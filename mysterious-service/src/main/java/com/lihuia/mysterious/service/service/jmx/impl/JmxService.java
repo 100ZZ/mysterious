@@ -631,6 +631,9 @@ public class JmxService implements IJmxService {
         /** param和body不能同时都非空，互斥 */
         checkParamAndBody(jmxVO);
 
+        /** csv file文件名.csv后缀 */
+        checkCsvData(jmxVO);
+
         log.info("开始校验脚本关联参数...");
         checkJmxVO(jmxVO);
         String baseJmxFilePath = getBaseJmxFilePath(jmxVO);
@@ -830,6 +833,7 @@ public class JmxService implements IJmxService {
 
         /** csv模块 */
         CsvDataVO csvDataVO = jmxVO.getCsvDataVO();
+        log.info(" : {}", csvDataVO);
         if (!CollectionUtils.isEmpty(csvDataVO.getCsvFileVOList())) {
             csvDataVO.setTestCaseId(testCaseId);
             csvDataVO.setJmxId(jmxId);
@@ -982,10 +986,22 @@ public class JmxService implements IJmxService {
         return jmxVO;
     }
 
-    void checkParamAndBody(JmxVO jmxVO) {
+    private void checkParamAndBody(JmxVO jmxVO) {
         /** param和body不能同时都非空，互斥 */
         if (!CollectionUtils.isEmpty(jmxVO.getHttpVO().getHttpParamVOList()) && StringUtils.isNotEmpty(jmxVO.getHttpVO().getBody())) {
             throw new MysteriousException("param和body不能同时非空，请确认");
+        }
+    }
+
+    private void checkCsvData(JmxVO jmxVO) {
+        List<CsvFileVO> csvFileVOList = jmxVO.getCsvDataVO().getCsvFileVOList();
+        if (!CollectionUtils.isEmpty(csvFileVOList)) {
+            /** 如果有新增csvFile,那么需要检查每个csvFile的csv文件名必须是.csv后缀 */
+            for (CsvFileVO csvFileVO : csvFileVOList) {
+                if (!csvFileVO.getFilename().endsWith(".csv")) {
+                    throw new MysteriousException("csv文件名必须为.csv后缀");
+                }
+            }
         }
     }
 
@@ -997,18 +1013,20 @@ public class JmxService implements IJmxService {
 //        if (null == jmxVO.getId()) {
 //            throw new MysteriousException("JMX主键为空");
 //        }
-
+        log.info("updateOnlineJmx: {}", JSON.toJSONString(jmxVO, true));
         /** 如果jmx脚本关联了jar包和csv文件，先删除掉jar和csv，否则会导致脚本里配置的异常，因为上传依赖会修改脚本 */
         List<JarVO> jarVOList = jarService.getByTestCaseId(jmxVO.getTestCaseId());
         if (!CollectionUtils.isEmpty(jarVOList)) {
-            throw new MysteriousException("该脚本关联了JAR文件,请先删除依赖,再更新在线脚本");
+            throw new MysteriousException("该脚本关联了JAR文件, 请先删除依赖, 再更新在线脚本");
         }
         List<CsvVO> csvVOList = csvService.getByTestCaseId(jmxVO.getTestCaseId());
         if (!CollectionUtils.isEmpty(csvVOList)) {
-            throw new MysteriousException("该脚本关联了CSV文件，请先删除依赖,再更新在线脚本");
+            throw new MysteriousException("该脚本关联了CSV文件，请先删除依赖, 再更新在线脚本");
         }
         /** param和body不能同时都非空，互斥 */
         checkParamAndBody(jmxVO);
+        /** csv file文件名.csv后缀 */
+        checkCsvData(jmxVO);
         //当前的脚本信息
         /**
          * 线程组可以改，因为更换压测模式
@@ -1307,6 +1325,8 @@ public class JmxService implements IJmxService {
 
         List<CsvFileVO> csvFileVOList = jmxVO.getCsvDataVO().getCsvFileVOList();
         if (!CollectionUtils.isEmpty(csvFileVOList)) {
+            csvDataVO.setTestCaseId(jmxVO.getTestCaseId());
+            csvDataVO.setJmxId(id);
             csvDataService.addCsvData(csvDataVO);
             /** 写xml */
             jmeterXMLService.addCsv(csvDataVO, jmxVO.getJmeterSampleType());

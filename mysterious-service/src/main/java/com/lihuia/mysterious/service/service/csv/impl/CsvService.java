@@ -12,6 +12,8 @@ import com.lihuia.mysterious.core.mapper.csv.CsvMapper;
 import com.lihuia.mysterious.core.vo.csv.CsvQuery;
 import com.lihuia.mysterious.core.vo.csv.CsvVO;
 import com.lihuia.mysterious.core.vo.jmx.JmxVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.csv.CsvDataVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.csv.CsvFileVO;
 import com.lihuia.mysterious.core.vo.node.NodeVO;
 import com.lihuia.mysterious.core.vo.page.PageVO;
 import com.lihuia.mysterious.core.vo.testcase.TestCaseFullVO;
@@ -19,6 +21,7 @@ import com.lihuia.mysterious.core.vo.user.UserVO;
 import com.lihuia.mysterious.service.crud.CRUDEntity;
 import com.lihuia.mysterious.service.enums.JMeterScriptEnum;
 import com.lihuia.mysterious.service.service.csv.ICsvService;
+import com.lihuia.mysterious.service.service.jmx.sample.csv.ICsvDataService;
 import com.lihuia.mysterious.service.service.node.INodeService;
 import com.lihuia.mysterious.service.service.testcase.ITestCaseService;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +64,9 @@ public class CsvService implements ICsvService {
     @Autowired
     private INodeService nodeService;
 
+    @Autowired
+    private ICsvDataService csvDataService;
+
     private void checkCsvParam(CsvVO csvVO) {
         if (ObjectUtils.isEmpty(csvVO)) {
             throw new MysteriousException(ResponseCodeEnum.PARAMS_EMPTY);
@@ -73,6 +79,17 @@ public class CsvService implements ICsvService {
         }
     }
 
+    private void checkOnlineCsvFileExist(CsvDataVO csvDataVO, String csvFile) {
+        /** 脚本编辑里为空,缺少csvFile模块 */
+        if (ObjectUtils.isEmpty(csvDataVO)) {
+            throw new MysteriousException("在线模式: 脚本编辑里CSV文件模块为空, 缺少该文件模块, " + csvFile);
+        }
+        /** 脚本编辑里csvFile模块和上传文件不匹配 */
+        if (!csvDataVO.getCsvFileVOList().stream().map(CsvFileVO::getFilename).collect(Collectors.toList()).contains(csvFile)) {
+            throw new MysteriousException("在线模式: 脚本编辑里CSV文件模块和上传文件不匹配, " + csvFile);
+        }
+    }
+
     @Transactional
     @Override
     public Boolean uploadCsv(Long testCaseId, MultipartFile csvFile, UserVO userVO) {
@@ -81,14 +98,20 @@ public class CsvService implements ICsvService {
         if (ObjectUtils.isEmpty(testCaseFullVO.getJmxVO())) {
             throw new MysteriousException(ResponseCodeEnum.JMX_NOT_EXIST);
         }
+        String csvFileName = csvFile.getOriginalFilename();
         JmxVO jmxVO = testCaseFullVO.getJmxVO();
+        /** 2024-10-12 如果是在线编辑的脚本,上传的时候需要校验此时上传的csvFile在jmx模块里是否添加了该csv文件模块 */
+        if (JMeterScriptEnum.ONLINE_JMX.getCode().equals(jmxVO.getJmeterScriptType()) ) {
+            /** 如果在线jmx里文件模块不存在,不让上传 */
+            checkOnlineCsvFileExist(csvDataService.getByJmxId(jmxVO.getId()), csvFileName);
+        }
+
         /** 定位到Master节点的jmx脚本，这个是重命名后的脚本全路径 */
         String jmxFilePath = jmxVO.getJmxDir() + jmxVO.getDstName();
         String debugJmxFilePath = jmxVO.getJmxDir() + "debug_" + jmxVO.getDstName();
 
         /** master节点保存csv文件的目录 */
         String csvDir = testCaseFullVO.getTestCaseDir() + "csv/";
-        String csvFileName = csvFile.getOriginalFilename();
         if (ObjectUtils.isEmpty(csvFileName)
                 || !csvFileName.contains(".csv")
                 || StringUtils.isBlank(csvFileName)
@@ -140,11 +163,13 @@ public class CsvService implements ICsvService {
          * 如果是上传的jmx，脚本里会有csv节点相关内容，只需要找name就可以定位到位置
          */
         if (JMeterScriptEnum.UPLOAD_JMX.getCode().equals(jmxVO.getJmeterScriptType())) {
-            log.info("上传CSV文件后, 更新上传的JMX脚本, jmxFilePath: {}, csvFileName: {}, csvFilePath: {}", jmxFilePath, csvFileName, csvFilePath);
+            log.info("上传模式: 上传CSV文件后, 更新本地上传的JMX脚本, jmxFilePath: {}, csvFileName: {}, csvFilePath: {}", jmxFilePath, csvFileName, csvFilePath);
             jMeterUtil.updateJmxCsvFilePath(jmxFilePath, csvFileName, csvFilePath);
             jMeterUtil.updateJmxCsvFilePath(debugJmxFilePath, csvFileName, csvFilePath);
         } else if (JMeterScriptEnum.ONLINE_JMX.getCode().equals(jmxVO.getJmeterScriptType())) {
-
+            log.info("在线模式: 上传CSV文件后, 更新在线编辑的JMX脚本, jmxFilePath: {}, csvFileName: {}, csvFilePath: {}", jmxFilePath, csvFileName, csvFilePath);
+            jMeterUtil.updateJmxCsvFilePath(jmxFilePath, csvFileName, csvFilePath);
+            jMeterUtil.updateJmxCsvFilePath(debugJmxFilePath, csvFileName, csvFilePath);
         } else {
             throw new MysteriousException(ResponseCodeEnum.SCRIPT_TYPE_ERROR);
         }
@@ -161,7 +186,8 @@ public class CsvService implements ICsvService {
         /** Csv文件保存在master和slave节点上，删除记录，再删除文件；事务 */
         log.info("删除CSV文件: {}", id);
         csvMapper.delete(id);
-        /** nps部署的机器,master节点，删除 */
+
+        /** 平台的机器,master节点，删除 */
         log.info("删除master节点CSV文件: {}", JSON.toJSONString(csvDO));
         fileUtils.rmFile(csvDO.getCsvDir() + csvDO.getDstName());
 
@@ -175,7 +201,6 @@ public class CsvService implements ICsvService {
             }
         }
 
-        /** 如果是在线脚本 */
         return true;
     }
 
