@@ -36,11 +36,11 @@ https://github.com/user-attachments/assets/d31927d3-7ca5-436b-8685-c9f5c9dbb492
 >- 离线镜像：https://pan.baidu.com/s/128k3uiUvaKf0vgbD-BO28Q?pwd=e9qy 提取码: e9qy
 <br>
 
-1. 平台部署（默认是X86_64环境，如果是ARM环境.env替换成arm64.env启动）
->- git clone https://github.com/100ZZ/mysterious.git /root/mysterious
->- cd /root/mysterious/docker
->- ./init.sh（可以根据实际情况修改BASE_DIR，默认/opt/mysterious）
->- cd /opt/mysterious
+1. 平台部署
+>- git clone https://github.com/100ZZ/mysterious.git
+>- cd mysterious/docker
+>- sh init.sh amd64|arm64 (平台架构：x86传amd64，arm传arm64)
+>- cd mysterious
 >- git clone https://github.com/100ZZ/mysterious-jmeter.git
 >- docker-compose up -d
 2. 访问平台
@@ -100,5 +100,6 @@ https://github.com/user-attachments/assets/d31927d3-7ca5-436b-8685-c9f5c9dbb492
 >- mkdir /opt/mysterious
 >- cd /opt/mysterious
 >- git clone https://github.com/100ZZ/mysterious-jmeter.git
->- 如果之前有一些测试用例，可以页面节点管理，先点击一下节点同步，会将master节点用例数据都同步到slave节点，然后启用slave节点即可
->- 只要有slave节点启用，压测都会是分布式压测，如果全都禁用，压测就只是Master单节点压测
+>- 如果之前有一些测试用例，可以页面节点管理，先点击一下节点同步，会将Master节点用例数据都同步到Slave节点，然后启用Slave节点即可
+>- 只要有Slave节点启用，压测都会是分布式压测，如果全都禁用，压测就只是Master单节点压测
+>- 具体Slave节点的目录结构都是可配置的，具体可以参考配置管理页面

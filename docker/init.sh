@@ -1,6 +1,7 @@
 #!/bin/bash
 
-BASE_DIR=/opt/mysterious
+BASE_DIR=./mysterious
+PLATFORM=$1
 
 if test -d $BASE_DIR; then
   echo "$BASE_DIR is exist"
@@ -39,4 +40,9 @@ cp jmx/*.jmx ${BASE_DIR}/mysterious-jmx/
 
 # copy compose文件和env文件
 cp docker-compose.yml ${BASE_DIR}/
-cp amd64.env ${BASE_DIR}/.env
+
+if [ "$PLATFORM" = "amd64" ]; then
+  cp amd64.env ${BASE_DIR}/.env
+elif [ "$PLATFORM" = "arm64" ]; then
+  cp arm64.env ${BASE_DIR}/.env
+fi
