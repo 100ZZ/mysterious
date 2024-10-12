@@ -23,7 +23,7 @@ https://github.com/user-attachments/assets/d31927d3-7ca5-436b-8685-c9f5c9dbb492
 ## 操作视频
 - 安装部署：https://www.bilibili.com/video/BV1by421i7cn
 - 使用说明：https://www.bilibili.com/video/BV15j421Z7mY
-- 平台试用：http://101.43.119.176:1234 (demo/demo或者新注册个用户, v1.5版本)
+- 平台试用：http://101.43.119.176:1234 (demo/demo或者新注册个用户)
 
 ## 测试流程
 - 如果是单节点压测，只需要在一个Master节点上安装部署平台和Jmeter工具包，通过平台来调用Jmeter来执行压测用例，并返回压测结果
@@ -32,7 +32,7 @@ https://github.com/user-attachments/assets/d31927d3-7ca5-436b-8685-c9f5c9dbb492
 
 ## 安装部署
 ### Docker-Compose部署方式(推荐，一键部署)
-容器化部署通过docker-compose方式，如果在线拉镜像不畅，可在下面网盘里下最新v1.5版本离线容器镜像
+容器化部署通过docker-compose方式，如果在线拉镜像不畅，可在下面网盘里下最新版本离线容器镜像
 >- 离线镜像：https://pan.baidu.com/s/128k3uiUvaKf0vgbD-BO28Q?pwd=e9qy 提取码: e9qy
 <br>
 
