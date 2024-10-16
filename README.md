@@ -1,5 +1,5 @@
 # Mysterious
-分布式压测平台，前端Vue3+TypeScript，后端SpringBoot-2.3.12，压测引擎JMeter-5.5，支持JMeter的分布式压测，管理，执行，报告，日志等。因为设计，开发，测试都是自己，一些功能优化需求也是根据自己的使用来改进，目前主要优先考虑正确性和实用性，未来通过大模型生成JMX脚本也在考虑当中。
+分布式压测平台，前端Vue3+TypeScript，后端SpringBoot-2.3.12，压测引擎JMeter-5.6.3，支持JMeter的分布式压测，管理，执行，报告，日志等。因为设计，开发，测试都是自己，一些功能优化需求也是根据自己的使用来改进，目前主要优先考虑正确性和实用性，未来通过大模型生成JMX脚本也在考虑当中。
 
 https://github.com/user-attachments/assets/d31927d3-7ca5-436b-8685-c9f5c9dbb492
 
@@ -26,9 +26,15 @@ https://github.com/user-attachments/assets/d31927d3-7ca5-436b-8685-c9f5c9dbb492
 - 平台试用：http://101.43.119.176:1234 (demo/demo或者新注册个用户)
 
 ## 测试流程
-- 如果是单节点压测，只需要在一个Master节点上安装部署平台和Jmeter工具包，通过平台来调用Jmeter来执行压测用例，并返回压测结果
-- 如果是分布式压测，除了Master节点安装部署平台和Jmeter工具包外，还要在Slave节点上部署Jmeter工具包，启动jmeter-server服务
-![fenbu](https://github.com/user-attachments/assets/b0ed73af-f839-4485-a40e-b487da475eb0)
+- 用例详情
+  - 上传模式：上传本地JMX，CSV，JAR，平台处理依赖，本地只要能运行，平台命令行直接执行，日志，报告
+  - 在线模式：主要是JMX脚本，完成一些简单的脚本进行在线编写，毕竟JMeter各种插件众多，不可能都兼容
+  - 智能生成：后续考虑结合AI大模型，提供可视化prompt输入框，按要求生成JMX脚本
+- 压测模式
+  - 如果是单节点压测，只需要在一个Master节点上安装部署平台和Jmeter工具包，通过平台来调用Jmeter来执行压测用例，并返回压测结果
+  - 如果是分布式压测，除了Master节点安装部署平台和Jmeter工具包外，还要在Slave节点上部署Jmeter工具包，启动jmeter-server服务
+  ![fenbu](https://github.com/user-attachments/assets/b0ed73af-f839-4485-a40e-b487da475eb0)
+
 
 ## 安装部署
 ### Docker-Compose部署方式(推荐，一键部署)
@@ -47,13 +53,13 @@ https://github.com/user-attachments/assets/d31927d3-7ca5-436b-8685-c9f5c9dbb492
 >- 平台访问：http://xx.xx.xx.xx:1234
 >- Swagger文档：http://xx.xx.xx.xx:4321/swagger-ui.html
 3. 运行配置
->- 内存配置：docker-compose.yml里后端服务预分配了1G内存，可根据自身需求调整
->- 引擎内存：mysterious-jmeter/bin/jmeter里"${HEAP:="-Xms1g -Xmx1g，自行调整
+>- 内存配置：docker-compose.yml里后端服务预分配了1G内存，可根据需求调整
+>- 引擎内存：mysterious-jmeter/bin/jmeter里配置HEAP内存2g-4g-512m，可根据需求自行调整
 >- 配置管理：MASTER_HOST_PORT修改为本地IP:PORT，作为压测报告预览的路径前缀，修改完重启容器
-4. 更新版本
+4. 版本更新
 >- 后端更新：更新mysterious容器(最新的docker/amd64.env覆盖.env)，重新拉镜像起容器
 >- 前端更新：更新dist目录(docker/dist有最新版本目录)，覆盖/opt/mysterious/nginx/html/dist
->- 表结构变更：检查数据库脚本(docker/init.sql)，执行变更部分的sql即可
+>- 库表变更：检查数据库脚本(docker/init.sql)，执行变更部分的sql即可
 
 ### 二进制部署方式
 下面以CentOS7为例介绍下安装步骤
