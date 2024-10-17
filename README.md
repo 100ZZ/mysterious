@@ -27,9 +27,9 @@ https://github.com/user-attachments/assets/d31927d3-7ca5-436b-8685-c9f5c9dbb492
 
 ## 测试流程
 - 用例详情
-  - 上传模式：上传本地JMX，CSV，JAR，平台处理依赖，本地只要能运行，平台命令行直接执行，日志，报告
-  - 在线模式：主要是JMX脚本，完成一些简单的脚本进行在线编写，毕竟JMeter各种插件众多，不可能都兼容
-  - 智能生成：后续考虑结合AI大模型，提供可视化prompt输入框，按要求生成JMX脚本
+  - 本地上传：上传本地JMX，CSV，JAR，平台处理依赖，本地只要能运行，平台命令行直接执行，日志，报告
+  - 在线生成：主要是JMX脚本，完成一些简单的脚本进行在线编写，毕竟JMeter各种插件众多，不可能都兼容
+  - 智能生成：后续考虑结合AI大模型，提供可视化prompt提示词输入框，按要求生成JMX脚本
 - 压测模式
   - 如果是单节点压测，只需要在一个Master节点上安装部署平台和Jmeter工具包，通过平台来调用Jmeter来执行压测用例，并返回压测结果
   - 如果是分布式压测，除了Master节点安装部署平台和Jmeter工具包外，还要在Slave节点上部署Jmeter工具包，启动jmeter-server服务
@@ -47,7 +47,7 @@ https://github.com/user-attachments/assets/d31927d3-7ca5-436b-8685-c9f5c9dbb492
 >- cd mysterious/docker
 >- sh init.sh amd64|arm64 (平台架构：x86传amd64，arm传arm64)
 >- cd mysterious
->- git clone https://github.com/100ZZ/mysterious-jmeter.git
+>- git clone https://github.com/100ZZ/mysterious-jmeter.git -b v5.5
 >- docker-compose up -d
 2. 访问平台
 >- 平台访问：http://xx.xx.xx.xx:1234
@@ -56,6 +56,7 @@ https://github.com/user-attachments/assets/d31927d3-7ca5-436b-8685-c9f5c9dbb492
 >- 内存配置：docker-compose.yml里后端服务预分配了1G内存，可根据需求调整
 >- 引擎内存：mysterious-jmeter/bin/jmeter里配置HEAP内存2g-4g-512m，可根据需求自行调整
 >- 配置管理：MASTER_HOST_PORT修改为本地IP:PORT，作为压测报告预览的路径前缀，修改完重启容器
+>- 运行路径：Master和Slave节点有关引擎的执行路径都可以在配置管理里进行修改，然后重启容器
 4. 版本更新
 >- 后端更新：更新mysterious容器(最新的docker/amd64.env覆盖.env)，重新拉镜像起容器
 >- 前端更新：更新dist目录(docker/dist有最新版本目录)，覆盖/opt/mysterious/nginx/html/dist
@@ -91,7 +92,7 @@ https://github.com/user-attachments/assets/d31927d3-7ca5-436b-8685-c9f5c9dbb492
 >- cp docker/mysterious.jar /opt/mysterious/running/
 >- cp docker/service.sh /opt/mysterious/running/
 >- cd /opt/mysterious
->- git clone https://github.com/100ZZ/mysterious-jmeter.git
+>- git clone https://github.com/100ZZ/mysterious-jmeter.git -b v5.5
 >- sh /opt/mysterious/running/service.sh restart
 4. 访问平台
 >- 平台访问：http://xx.xx.xx.xx:1234
@@ -105,7 +106,7 @@ https://github.com/user-attachments/assets/d31927d3-7ca5-436b-8685-c9f5c9dbb492
 如果需要分布式压测，找到和Master节点网络互通的Slave节点进行部署，最好是局域网，否则网络开销太大；无论Master节点是二进制还是Docker-Compose部署，Slave节点部署方式都如下
 >- mkdir /opt/mysterious
 >- cd /opt/mysterious
->- git clone https://github.com/100ZZ/mysterious-jmeter.git
+>- git clone https://github.com/100ZZ/mysterious-jmeter.git -b v5.5
 >- 如果之前有一些测试用例，可以页面节点管理，先点击一下节点同步，会将Master节点用例数据都同步到Slave节点，然后启用Slave节点即可
 >- 只要有Slave节点启用，压测都会是分布式压测，如果全都禁用，压测就只是Master单节点压测
 >- 具体Slave节点的目录结构都是可配置的，具体可以参考配置管理页面
