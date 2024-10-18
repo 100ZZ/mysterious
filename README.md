@@ -1,5 +1,5 @@
 # Mysterious
-分布式压测平台，前端Vue3+TypeScript，后端SpringBoot-2.3.12，压测引擎JMeter-5.6.3，支持JMeter的分布式压测，管理，执行，报告，日志等。因为设计，开发，测试都是自己，一些功能优化需求也是根据自己的使用来改进，目前主要优先考虑正确性和实用性，未来通过大模型生成JMX脚本也在考虑当中。
+分布式压测平台，前端Vue3+TypeScript，后端SpringBoot-2.3.12，压测引擎JMeter-5.5，支持JMeter的分布式压测，管理，执行，报告，日志等。因为设计，开发，测试都是自己，一些功能优化需求也是根据自己的使用来改进，目前主要优先考虑正确性和实用性，未来通过大模型生成JMX脚本也在考虑当中。
 
 https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 
@@ -29,7 +29,7 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 - 用例详情
   - 本地上传：上传本地JMX，CSV，JAR，平台处理依赖，本地只要能运行，平台命令行直接执行，日志，报告
   - 在线生成：主要是JMX脚本，完成一些简单的脚本进行在线编写，毕竟JMeter各种插件众多，不可能都兼容
-  - 智能生成：后续考虑结合AI大模型，提供可视化prompt提示词输入框，按要求生成JMX脚本
+  - 智能生成：后续考虑结合AI大模型，提供可视化prompt提示词输入，按要求生成JMX脚本
 - 压测模式
   - 如果是单节点压测，只需要在一个Master节点上安装部署平台和Jmeter工具包，通过平台来调用Jmeter来执行压测用例，并返回压测结果
   - 如果是分布式压测，除了Master节点安装部署平台和Jmeter工具包外，还要在Slave节点上部署Jmeter工具包，启动jmeter-server服务
@@ -47,7 +47,7 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 >- cd mysterious/docker
 >- sh init.sh amd64|arm64 (平台架构：x86传amd64，arm传arm64)
 >- cd mysterious
->- git clone https://github.com/100ZZ/mysterious-jmeter.git -b v5.5
+>- git clone https://github.com/100ZZ/mysterious-jmeter.git
 >- docker-compose up -d
 2. 访问平台
 >- 平台访问：http://xx.xx.xx.xx:1234
@@ -92,7 +92,7 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 >- cp docker/mysterious.jar /opt/mysterious/running/
 >- cp docker/service.sh /opt/mysterious/running/
 >- cd /opt/mysterious
->- git clone https://github.com/100ZZ/mysterious-jmeter.git -b v5.5
+>- git clone https://github.com/100ZZ/mysterious-jmeter.git
 >- sh /opt/mysterious/running/service.sh restart
 4. 访问平台
 >- 平台访问：http://xx.xx.xx.xx:1234
@@ -106,7 +106,7 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 如果需要分布式压测，找到和Master节点网络互通的Slave节点进行部署，最好是局域网，否则网络开销太大；无论Master节点是二进制还是Docker-Compose部署，Slave节点部署方式都如下
 >- mkdir /opt/mysterious
 >- cd /opt/mysterious
->- git clone https://github.com/100ZZ/mysterious-jmeter.git -b v5.5
+>- git clone https://github.com/100ZZ/mysterious-jmeter.git
 >- 如果之前有一些测试用例，可以页面节点管理，先点击一下节点同步，会将Master节点用例数据都同步到Slave节点，然后启用Slave节点即可
 >- 只要有Slave节点启用，压测都会是分布式压测，如果全都禁用，压测就只是Master单节点压测
 >- 具体Slave节点的目录结构都是可配置的，具体可以参考配置管理页面
