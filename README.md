@@ -1,7 +1,7 @@
 # Mysterious
 分布式压测平台，前端Vue3+TypeScript，后端SpringBoot-2.3.12，压测引擎JMeter-5.6.3，支持JMeter的分布式压测，管理，执行，报告，日志等。因为设计，开发，测试都是自己，一些功能优化需求也是根据自己的使用来改进，目前主要优先考虑正确性和实用性，未来通过大模型生成JMX脚本也在考虑当中。
 
-https://github.com/user-attachments/assets/d31927d3-7ca5-436b-8685-c9f5c9dbb492
+https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 
 ## 经验总结
 - [1. JMeter分布式压测](https://lihuia.com/jmeter%e5%88%86%e5%b8%83%e5%bc%8f%e5%8e%8b%e6%b5%8b/)
