@@ -1,1 +1,0 @@
-import{s as r}from"./request.9dfd73d1.js";const o=t=>r({url:"/jar/list",method:"get",params:t}),s=t=>r({url:"/jar/delete/"+t,method:"get"}),d=(t,e)=>r({url:"/jar/upload/"+t,method:"post",headers:{"Content-Type":"multipart/form-data"},data:e});export{s as d,o as g,d as u};
