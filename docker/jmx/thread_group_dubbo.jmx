@@ -51,12 +51,8 @@
           <stringProp name="FIELD_DUBBO_CLUSTER">failfast</stringProp>
           <stringProp name="FIELD_DUBBO_INTERFACE"></stringProp>
           <stringProp name="FIELD_DUBBO_METHOD"></stringProp>
-          <intProp name="FIELD_DUBBO_METHOD_ARGS_SIZE">1</intProp>
-          <intProp name="FIELD_DUBBO_ATTACHMENT_ARGS_SIZE">1</intProp>
-          <stringProp name="FIELD_DUBBO_METHOD_ARGS_PARAM_TYPE1">com.example.UserDTO</stringProp>
-          <stringProp name="FIELD_DUBBO_METHOD_ARGS_PARAM_VALUE1">{     &quot;name&quot;: &quot;Alice&quot;,     &quot;age&quot;: 30,     &quot;email&quot;: &quot;alice@example.com&quot; }</stringProp>
-          <stringProp name="FIELD_DUBBO_ATTACHMENT_ARGS_KEY1">c</stringProp>
-          <stringProp name="FIELD_DUBBO_ATTACHMENT_ARGS_VALUE1">d</stringProp>
+          <intProp name="FIELD_DUBBO_METHOD_ARGS_SIZE">0</intProp>
+          <intProp name="FIELD_DUBBO_ATTACHMENT_ARGS_SIZE">0</intProp>
         </io.github.ningyu.jmeter.plugin.dubbo.sample.DubboSample>
         <hashTree/>
       </hashTree>
