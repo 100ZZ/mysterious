@@ -23,4 +23,16 @@ public interface IDubboService {
      * @param dubboVO
      */
     void addDubbo(DubboVO dubboVO);
+
+    /**
+     * 更新http sample
+     * @param dubboVO
+     */
+    void updateDubbo(DubboVO dubboVO);
+
+    /**
+     * 删除
+     * @param id
+     */
+    void deleteDubbo(Long id);
 }

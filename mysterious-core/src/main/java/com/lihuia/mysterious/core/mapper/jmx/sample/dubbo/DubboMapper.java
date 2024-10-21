@@ -9,4 +9,5 @@ import com.lihuia.mysterious.core.mapper.base.BaseMapper;
  * @date 2023/4/1 下午3:33
  */
 public interface DubboMapper extends BaseMapper<DubboDO> {
+    DubboDO getByJmxId(Long jmxId);
 }

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lihuia.mysterious.core.mapper.jmx.sample.dubbo.DubboMapper">
+    <resultMap id="DubboResult" type="com.lihuia.mysterious.core.entity.jmx.sample.dubbo.DubboDO">
+        <result property="id" column="id"/>
+        <result property="testCaseId" column="test_case_id"/>
+        <result property="jmxId" column="jmx_id"/>
+        <result property="name" column="name"/>
+        <result property="comments" column="comments"/>
+        <result property="configCenterProtocol" column="config_center_protocol"/>
+        <result property="configCenterGroup" column="config_center_group"/>
+        <result property="configCenterNamespace" column="config_center_namespace"/>
+        <result property="configCenterUsername" column="config_center_username"/>
+        <result property="configCenterPassword" column="config_center_password"/>
+        <result property="configCenterAddress" column="config_center_address"/>
+        <result property="configCenterTimeout" column="config_center_timeout"/>
+        <result property="registryProtocol" column="registry_protocol"/>
+        <result property="registryGroup" column="registry_group"/>
+        <result property="registryUsername" column="registry_username"/>
+        <result property="registryPassword" column="registry_password"/>
+        <result property="registryAddress" column="registry_address"/>
+        <result property="registryTimeout" column="registry_timeout"/>
+        <result property="rpcProtocol" column="rpc_protocol"/>
+        <result property="timeout" column="timeout"/>
+        <result property="version" column="version"/>
+        <result property="retries" column="retries"/>
+        <result property="cluster" column="cluster"/>
+        <result property="group" column="group"/>
+        <result property="connections" column="connections"/>
+        <result property="async" column="async"/>
+        <result property="loadBalance" column="load_balance"/>
+        <result property="interfaceName" column="interface"/>
+        <result property="method" column="method"/>
+        <result property="methodArgsSize" column="method_args_size"/>
+        <result property="attachmentArgsSize" column="attachment_args_size"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="creator" column="creator"/>
+        <result property="modifierId" column="modifier_id"/>
+        <result property="modifier" column="modifier"/>
+        <result property="createTime" column="create_time"/>
+        <result property="modifyTime" column="modify_time"/>
+    </resultMap>
+
+    <sql id="table_name">
+        mysterious_jmx_dubbo
+    </sql>
+
+    <sql id="select-column-list">
+        `id`,
+        `test_case_id`,
+        `jmx_id`,
+        `name`,
+        `comments`,
+        `config_center_protocol`,
+        `config_center_group`,
+        `config_center_namespace`,
+        `config_center_username`,
+        `config_center_password`,
+        `config_center_address`,
+        `config_center_timeout`,
+        `registry_protocol`,
+        `registry_group`,
+        `registry_username`,
+        `registry_password`,
+        `registry_address`,
+        `registry_timeout`,
+        `rpc_protocol`,
+        `timeout`,
+        `version`,
+        `retries`,
+        `cluster`,
+        `group`,
+        `connections`,
+        `async`,
+        `load_balance`,
+        `interface`,
+        `method`,
+        `method_args_size`,
+        `attachment_args_size`,
+        `creator_id`,
+        `creator`,
+        `modifier_id`,
+        `modifier`,
+        `create_time`,
+        `modify_time`
+    </sql>
+
+    <sql id="set">
+        <if test="id != null">id=#{id},</if>
+        <if test="testCaseId != null">test_case_id=#{testCaseId},</if>
+        <if test="jmxId != null">jmx_id=#{jmxId},</if>
+        <if test="name != null">name=#{name},</if>
+        <if test="comments != null">comments=#{comments},</if>
+        <if test="configCenterProtocol != null">config_center_protocol=#{configCenterProtocol},</if>
+        <if test="configCenterGroup != null">config_center_group=#{configCenterGroup},</if>
+        <if test="configCenterNamespace != null">config_center_namespace=#{configCenterNamespace},</if>
+        <if test="configCenterUsername != null">config_center_username=#{configCenterUsername},</if>
+        <if test="configCenterPassword != null">config_center_password=#{configCenterPassword},</if>
+        <if test="configCenterAddress != null">config_center_address=#{configCenterAddress},</if>
+        <if test="configCenterTimeout != null">config_center_timeout=#{configCenterTimeout},</if>
+        <if test="registryProtocol != null">registry_protocol=#{registryProtocol},</if>
+        <if test="registryGroup != null">registry_group=#{registryGroup},</if>
+        <if test="registryUsername != null">registry_username=#{registryUsername},</if>
+        <if test="registryPassword != null">registry_password=#{registryPassword},</if>
+        <if test="registryAddress != null">registry_address=#{registryAddress},</if>
+        <if test="registryTimeout != null">registry_timeout=#{registryTimeout},</if>
+        <if test="rpcProtocol != null">rpc_protocol=#{rpcProtocol},</if>
+        <if test="timeout != null">timeout=#{timeout},</if>
+        <if test="version != null">version=#{version},</if>
+        <if test="retries != null">retries=#{retries},</if>
+        <if test="cluster != null">cluster=#{cluster},</if>
+        <if test="group != null">`group`=#{group},</if>
+        <if test="connections != null">connections=#{connections},</if>
+        <if test="async != null">async=#{async},</if>
+        <if test="loadBalance != null">load_balance=#{loadBalance},</if>
+        <if test="interfaceName != null">interface=#{interfaceName},</if>
+        <if test="method != null">`method`=#{method},</if>
+        <if test="methodArgsSize != null">method_args_size=#{methodArgsSize},</if>
+        <if test="attachmentArgsSize != null">attachment_args_size=#{attachmentArgsSize},</if>
+        <if test="creatorId != null">creator_id=#{creatorId},</if>
+        <if test="creator != null">creator=#{creator},</if>
+        <if test="modifierId != null">modifier_id=#{modifierId},</if>
+        <if test="modifier != null">modifier=#{modifier},</if>
+        <if test="createTime != null">create_time=#{createTime},</if>
+        <if test="modifyTime != null">modify_time=#{modifyTime},</if>
+    </sql>
+
+    <insert id="add" parameterType="com.lihuia.mysterious.core.entity.jmx.sample.dubbo.DubboDO">
+        INSERT
+        <include refid="table_name"/>
+        <set>
+            <include refid="set"></include>
+        </set>
+    </insert>
+
+    <select id="getByJmxId" resultMap="DubboResult">
+        SELECT
+        <include refid="select-column-list"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE 1=1
+        <if test="jmxId != null">and jmx_id=#{jmxId}</if>
+    </select>
+
+    <update id="update" parameterType="com.lihuia.mysterious.core.entity.jmx.sample.dubbo.DubboDO">
+        UPDATE
+        <include refid="table_name"/>
+        <set>
+            <include refid="set"></include>
+        </set>
+        WHERE 1=1
+        <if test="id != null">and id=#{id}</if>
+    </update>
+
+    <delete id="delete">
+        DELETE FROM
+        <include refid="table_name"/>
+        WHERE 1=1
+        <if test="id != null">and id=#{id}</if>
+    </delete>
+</mapper>

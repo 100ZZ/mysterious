@@ -8,6 +8,9 @@ import com.lihuia.mysterious.core.entity.jmx.thread.SteppingThreadGroupDO;
 import com.lihuia.mysterious.core.entity.jmx.thread.ThreadGroupDO;
 import com.lihuia.mysterious.core.vo.jmx.sample.csv.CsvDataVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.csv.CsvFileVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.dubbo.DubboAttachmentArgsVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.dubbo.DubboMethodArgsVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.dubbo.DubboVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpVO;
 import com.lihuia.mysterious.core.vo.jmx.thread.ConcurrencyThreadGroupVO;
 import com.lihuia.mysterious.core.vo.jmx.thread.SteppingThreadGroupVO;
@@ -259,8 +262,6 @@ public class JMeterXMLService {
     }
 
 
-
-
     public void addHttpParam(String name, String value) {
         /** hashTree这种节点名太多了，一层一层遍历太麻烦了，直接递归找到对应的节点
          * 但是有一个问题，假如脚本里有多个HTTP Sample，就会有重复的
@@ -354,6 +355,209 @@ public class JMeterXMLService {
         arguValueStringProp.addAttribute("name", "Argument.value");
         arguValueStringProp.setText(body);
 
+    }
+
+    public void cleanDubboArgs() {
+        log.info("cleanDubboArgs");
+        initFlag();
+        findElement(document.getRootElement(), "DubboSample");
+
+        // Set method args size to 0
+        findElement(document.getRootElement(), "FIELD_DUBBO_METHOD_ARGS_SIZE");
+        dest.elements().forEach(element -> {
+            if ("FIELD_DUBBO_METHOD_ARGS_SIZE".equals(element.attributeValue("name"))) {
+                log.info("Set method args size to 0");
+                element.setText("0");
+            }
+        });
+
+        // Set attachment args size to 0
+        findElement(document.getRootElement(), "FIELD_DUBBO_ATTACHMENT_ARGS_SIZE");
+        dest.elements().forEach(element -> {
+            if ("FIELD_DUBBO_ATTACHMENT_ARGS_SIZE".equals(element.attributeValue("name"))) {
+                log.info("Set attachment args size to 0");
+                element.setText("0");
+            }
+        });
+
+        // Remove all method args TYPE and VALUE
+        dest.elements().forEach(element -> {
+            String name = element.attributeValue("name");
+            if (name != null && (name.startsWith("FIELD_DUBBO_METHOD_ARGS_PARAM_TYPE") || name.startsWith("FIELD_DUBBO_METHOD_ARGS_PARAM_VALUE"))) {
+                log.info("Remove method arg: {}", name);
+                element.getParent().remove(element);
+            }
+        });
+
+        // Remove all attachment args KEY and VALUE
+        dest.elements().forEach(element -> {
+            String name = element.attributeValue("name");
+            if (name != null && (name.startsWith("FIELD_DUBBO_ATTACHMENT_ARGS_KEY") || name.startsWith("FIELD_DUBBO_ATTACHMENT_ARGS_VALUE"))) {
+                log.info("Remove attachment arg: {}", name);
+                element.getParent().remove(element);
+            }
+        });
+    }
+
+    public void updateDubboSample(DubboVO dubboVO) {
+        log.info("updateDubboSample: {}", dubboVO);
+        initFlag();
+        findElement(document.getRootElement(), "io.github.ningyu.jmeter.plugin.dubbo.sample.DubboSample");
+
+        dest.elements().forEach(element -> {
+            String name = element.attributeValue("name");
+            switch (name) {
+                case "FIELD_DUBBO_CONFIG_CENTER_PROTOCOL":
+                    log.info("configCenterProtocol=>{}", dubboVO.getConfigCenterProtocol());
+                    element.setText(dubboVO.getConfigCenterProtocol());
+                    break;
+                case "FIELD_DUBBO_CONFIG_CENTER_GROUP":
+                    log.info("configCenterGroup=>{}", dubboVO.getConfigCenterGroup());
+                    element.setText(dubboVO.getConfigCenterGroup());
+                    break;
+                case "FIELD_DUBBO_CONFIG_CENTER_NAMESPACE":
+                    log.info("configCenterNamespace=>{}", dubboVO.getConfigCenterNamespace());
+                    element.setText(dubboVO.getConfigCenterNamespace());
+                    break;
+                case "FIELD_DUBBO_CONFIG_CENTER_USER_NAME":
+                    log.info("configCenterUsername=>{}", dubboVO.getConfigCenterUsername());
+                    element.setText(dubboVO.getConfigCenterUsername());
+                    break;
+                case "FIELD_DUBBO_CONFIG_CENTER_PASSWORD":
+                    log.info("configCenterPassword=>{}", dubboVO.getConfigCenterPassword());
+                    element.setText(dubboVO.getConfigCenterPassword());
+                    break;
+                case "FIELD_DUBBO_CONFIG_CENTER_ADDRESS":
+                    log.info("configCenterAddress=>{}", dubboVO.getConfigCenterAddress());
+                    element.setText(dubboVO.getConfigCenterAddress());
+                    break;
+                case "FIELD_DUBBO_CONFIG_CENTER_TIMEOUT":
+                    log.info("configCenterTimeout=>{}", dubboVO.getConfigCenterTimeout());
+                    element.setText(dubboVO.getConfigCenterTimeout());
+                    break;
+                case "FIELD_DUBBO_REGISTRY_PROTOCOL":
+                    log.info("registryProtocol=>{}", dubboVO.getRegistryProtocol());
+                    element.setText(dubboVO.getRegistryProtocol());
+                    break;
+                case "FIELD_DUBBO_REGISTRY_GROUP":
+                    log.info("registryGroup=>{}", dubboVO.getRegistryGroup());
+                    element.setText(dubboVO.getRegistryGroup());
+                    break;
+                case "FIELD_DUBBO_REGISTRY_USER_NAME":
+                    log.info("registryUsername=>{}", dubboVO.getRegistryUsername());
+                    element.setText(dubboVO.getRegistryUsername());
+                    break;
+                case "FIELD_DUBBO_REGISTRY_PASSWORD":
+                    log.info("registryPassword=>{}", dubboVO.getRegistryPassword());
+                    element.setText(dubboVO.getRegistryPassword());
+                    break;
+                case "FIELD_DUBBO_ADDRESS":
+                    log.info("registryAddress=>{}", dubboVO.getRegistryAddress());
+                    element.setText(dubboVO.getRegistryAddress());
+                    break;
+                case "FIELD_DUBBO_REGISTRY_TIMEOUT":
+                    log.info("registryTimeout=>{}", dubboVO.getRegistryTimeout());
+                    element.setText(dubboVO.getRegistryTimeout());
+                    break;
+                case "FIELD_DUBBO_RPC_PROTOCOL":
+                    log.info("rpcProtocol=>{}", dubboVO.getRpcProtocol());
+                    element.setText(dubboVO.getRpcProtocol());
+                    break;
+                case "FIELD_DUBBO_TIMEOUT":
+                    log.info("timeout=>{}", dubboVO.getTimeout());
+                    element.setText(dubboVO.getTimeout());
+                    break;
+                case "FIELD_DUBBO_VERSION":
+                    log.info("version=>{}", dubboVO.getVersion());
+                    element.setText(dubboVO.getVersion());
+                    break;
+                case "FIELD_DUBBO_RETRIES":
+                    log.info("retries=>{}", dubboVO.getRetries());
+                    element.setText(dubboVO.getRetries());
+                    break;
+                case "FIELD_DUBBO_GROUP":
+                    log.info("group=>{}", dubboVO.getGroup());
+                    element.setText(dubboVO.getGroup());
+                    break;
+                case "FIELD_DUBBO_CONNECTIONS":
+                    log.info("connections=>{}", dubboVO.getConnections());
+                    element.setText(dubboVO.getConnections());
+                    break;
+                case "FIELD_DUBBO_LOADBALANCE":
+                    log.info("loadBalance=>{}", dubboVO.getLoadBalance());
+                    element.setText(dubboVO.getLoadBalance());
+                    break;
+                case "FIELD_DUBBO_ASYNC":
+                    log.info("async=>{}", dubboVO.getAsync());
+                    element.setText(dubboVO.getAsync());
+                    break;
+                case "FIELD_DUBBO_CLUSTER":
+                    log.info("cluster=>{}", dubboVO.getCluster());
+                    element.setText(dubboVO.getCluster());
+                    break;
+                case "FIELD_DUBBO_INTERFACE":
+                    log.info("interfaceName=>{}", dubboVO.getInterfaceName());
+                    element.setText(dubboVO.getInterfaceName());
+                    break;
+                case "FIELD_DUBBO_METHOD":
+                    log.info("method=>{}", dubboVO.getMethod());
+                    element.setText(dubboVO.getMethod());
+                    break;
+                case "FIELD_DUBBO_METHOD_ARGS_SIZE":
+                    log.info("methodArgsSize=>{}", dubboVO.getMethodArgsSize());
+                    element.setText(String.valueOf(dubboVO.getMethodArgsSize()));
+                    break;
+                case "FIELD_DUBBO_ATTACHMENT_ARGS_SIZE":
+                    log.info("attachmentArgsSize=>{}", dubboVO.getAttachmentArgsSize());
+                    element.setText(String.valueOf(dubboVO.getAttachmentArgsSize()));
+                    break;
+                default:
+                    log.info("updateDubboSample, name: {}", name);
+                    break;
+            }
+        });
+
+        // Update method arguments
+        for (int i = 0; i < dubboVO.getMethodArgsSize(); i++) {
+            String typeName = "FIELD_DUBBO_METHOD_ARGS_PARAM_TYPE" + (i + 1);
+            String valueName = "FIELD_DUBBO_METHOD_ARGS_PARAM_VALUE" + (i + 1);
+            findElement(document.getRootElement(), typeName);
+            findElement(document.getRootElement(), valueName);
+
+            if (dubboVO.getDubboMethodArgsVOList() != null && i < dubboVO.getDubboMethodArgsVOList().size()) {
+                DubboMethodArgsVO methodArg = dubboVO.getDubboMethodArgsVOList().get(i);
+                log.info("methodArgType{}=>{}", i + 1, methodArg.getParamType());
+                log.info("methodArgValue{}=>{}", i + 1, methodArg.getParamValue());
+                dest.elements().forEach(element -> {
+                    if (typeName.equals(element.attributeValue("name"))) {
+                        element.setText(methodArg.getParamType());
+                    } else if (valueName.equals(element.attributeValue("name"))) {
+                        element.setText(methodArg.getParamValue());
+                    }
+                });
+            }
+        }
+
+        // Update attachment arguments
+        for (int i = 0; i < dubboVO.getAttachmentArgsSize(); i++) {
+            String keyName = "FIELD_DUBBO_ATTACHMENT_ARGS_KEY" + (i + 1);
+            String valueName = "FIELD_DUBBO_ATTACHMENT_ARGS_VALUE" + (i + 1);
+            findElement(document.getRootElement(), keyName);
+            findElement(document.getRootElement(), valueName);
+
+            if (dubboVO.getDubboAttachmentArgsVOList() != null && i < dubboVO.getDubboAttachmentArgsVOList().size()) {
+                DubboAttachmentArgsVO attachmentArg = dubboVO.getDubboAttachmentArgsVOList().get(i);
+                log.info("attachmentArgKey{}=>{}", i + 1, attachmentArg.getAttachmentKey());
+                log.info("attachmentArgValue{}=>{}", i + 1, attachmentArg.getAttachmentValue());
+                dest.elements().forEach(element -> {
+                    if (keyName.equals(element.attributeValue("name"))) {
+                        element.setText(attachmentArg.getAttachmentKey());
+                    } else if (valueName.equals(element.attributeValue("name"))) {
+                        element.setText(attachmentArg.getAttachmentValue());
+                    }
+                });
+            }
+        }
     }
 
     public void updateHttpSample(HttpVO httpVO) {
@@ -542,6 +746,8 @@ public class JMeterXMLService {
             findElement(document.getRootElement(), "HTTPSamplerProxy");
         } else if (JMeterSampleEnum.JAVA_REQUEST.getCode().equals(jmeterSampleType)) {
             findElement(document.getRootElement(), "JavaSampler");
+        } else if (JMeterSampleEnum.DUBBO_SAMPLE.getCode().equals(jmeterSampleType)) {
+            findElement(document.getRootElement(), "io.github.ningyu.jmeter.plugin.dubbo.sample.DubboSample");
         } else {
             throw new MysteriousException("目前不支持该Sampler");
         }
@@ -573,6 +779,8 @@ public class JMeterXMLService {
             findElement(document.getRootElement(), "HTTPSamplerProxy");
         } else if (JMeterSampleEnum.JAVA_REQUEST.getCode().equals(jmeterSampleType)) {
             findElement(document.getRootElement(), "JavaSampler");
+        } else if (JMeterSampleEnum.DUBBO_SAMPLE.getCode().equals(jmeterSampleType)) {
+            findElement(document.getRootElement(), "io.github.ningyu.jmeter.plugin.dubbo.sample.DubboSample");
         } else {
             throw new MysteriousException("目前不支持该Sampler");
         }
@@ -601,6 +809,8 @@ public class JMeterXMLService {
             findElement(document.getRootElement(), "HTTPSamplerProxy");
         } else if (JMeterSampleEnum.JAVA_REQUEST.getCode().equals(jmeterSampleType)) {
             findElement(document.getRootElement(), "JavaSampler");
+        } else if (JMeterSampleEnum.DUBBO_SAMPLE.getCode().equals(jmeterSampleType)) {
+            findElement(document.getRootElement(), "io.github.ningyu.jmeter.plugin.dubbo.sample.DubboSample");
         } else {
             throw new MysteriousException("目前不支持该Sampler");
         }

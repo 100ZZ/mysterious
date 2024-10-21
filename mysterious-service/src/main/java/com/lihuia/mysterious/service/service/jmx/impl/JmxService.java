@@ -21,6 +21,8 @@ import com.lihuia.mysterious.core.vo.jmx.JmxVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.assertion.AssertionVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.csv.CsvDataVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.csv.CsvFileVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.dubbo.DubboAttachmentArgsVO;
+import com.lihuia.mysterious.core.vo.jmx.sample.dubbo.DubboMethodArgsVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.dubbo.DubboVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpHeaderVO;
 import com.lihuia.mysterious.core.vo.jmx.sample.http.HttpParamVO;
@@ -51,6 +53,8 @@ import com.lihuia.mysterious.service.service.jmeter.JMeterXMLService;
 import com.lihuia.mysterious.service.service.jmx.IJmxService;
 import com.lihuia.mysterious.service.service.jmx.sample.assertion.IAssertionService;
 import com.lihuia.mysterious.service.service.jmx.sample.csv.ICsvDataService;
+import com.lihuia.mysterious.service.service.jmx.sample.dubbo.IDubboAttachmentArgsService;
+import com.lihuia.mysterious.service.service.jmx.sample.dubbo.IDubboMethodArgsService;
 import com.lihuia.mysterious.service.service.jmx.sample.dubbo.IDubboService;
 import com.lihuia.mysterious.service.service.jmx.sample.http.IHttpHeaderService;
 import com.lihuia.mysterious.service.service.jmx.sample.http.IHttpParamService;
@@ -143,9 +147,6 @@ public class JmxService implements IJmxService {
     private IHttpParamService httpParamService;
 
     @Autowired
-    private IDubboService dubboService;
-
-    @Autowired
     private IJavaService javaService;
 
     @Autowired
@@ -153,6 +154,15 @@ public class JmxService implements IJmxService {
 
     @Autowired
     private ICsvDataService csvDataService;
+
+    @Autowired
+    private IDubboService dubboService;
+
+    @Autowired
+    private IDubboMethodArgsService dubboMethodArgsService;
+
+    @Autowired
+    private IDubboAttachmentArgsService dubboAttachmentArgsService;
 
 //    @Autowired
 //    private MongoTemplate mongoTemplate;
@@ -783,7 +793,48 @@ public class JmxService implements IJmxService {
             }
 
         } else if (jmxVO.getJmeterSampleType().equals(JMeterSampleEnum.DUBBO_SAMPLE.getCode())) {
-            //todo
+            DubboVO dubboVO = jmxVO.getDubboVO();
+            dubboVO.setTestCaseId(testCaseId);
+            dubboVO.setJmxId(jmxId);
+
+            List<DubboMethodArgsVO> dubboMethodArgsVOList = dubboVO.getDubboMethodArgsVOList();
+            List<DubboAttachmentArgsVO> dubboAttachmentArgsVOList = dubboVO.getDubboAttachmentArgsVOList();
+            /** dubbo基础信息入库，更新了size */
+            dubboVO.setMethodArgsSize(dubboMethodArgsVOList.size());
+            dubboVO.setAttachmentArgsSize(dubboAttachmentArgsVOList.size());
+            dubboService.addDubbo(dubboVO);
+
+            /** 获取dubboId */
+            DubboVO newDubboVO = dubboService.getByJmxId(jmxId);
+            if (ObjectUtils.isEmpty(newDubboVO)) {
+                throw new MysteriousException("dubbo入库失败: " + srcName);
+            }
+            Long dubboId = newDubboVO.getId();
+            if (!CollectionUtils.isEmpty(dubboMethodArgsVOList)) {
+                for (DubboMethodArgsVO dubboMethodArgsVO : dubboMethodArgsVOList) {
+                    if (!CollectionUtils.isEmpty(dubboMethodArgsService.getExistMethodArgsList(dubboId, dubboMethodArgsVO.getParamType()))) {
+                        throw new MysteriousException("Dubbo Param: " + dubboMethodArgsVO.getParamType() + " 已存在");
+                    }
+                    dubboMethodArgsVO.setTestCaseId(testCaseId);
+                    dubboMethodArgsVO.setJmxId(jmxId);
+                    dubboMethodArgsVO.setDubboId(dubboId);
+                    dubboMethodArgsService.addDubboMethodArgs(dubboMethodArgsVO);
+                }
+            }
+            if (!CollectionUtils.isEmpty(dubboAttachmentArgsVOList)) {
+                for (DubboAttachmentArgsVO dubboAttachmentArgsVO : dubboAttachmentArgsVOList) {
+                    if (!CollectionUtils.isEmpty(dubboAttachmentArgsService.getExistAttachmentArgsList(dubboId, dubboAttachmentArgsVO.getAttachmentKey()))) {
+                        throw new MysteriousException("Dubbo Attachment: " + dubboAttachmentArgsVO.getAttachmentKey() + " 已存在");
+                    }
+                    dubboAttachmentArgsVO.setTestCaseId(testCaseId);
+                    dubboAttachmentArgsVO.setJmxId(jmxId);
+                    dubboAttachmentArgsVO.setDubboId(dubboId);
+                    dubboAttachmentArgsService.addDubboAttachmentArgs(dubboAttachmentArgsVO);
+                }
+            }
+
+            /** dubbo jmx文本操作 */
+            jmeterXMLService.updateDubboSample(dubboVO);
         } else if (jmxVO.getJmeterSampleType().equals(JMeterSampleEnum.JAVA_REQUEST.getCode())) {
             JavaVO javaVO = jmxVO.getJavaVO();
             javaVO.setTestCaseId(testCaseId);
@@ -968,7 +1019,10 @@ public class JmxService implements IJmxService {
             /** 不再mongo里捞body */
             jmxVO.setHttpVO(httpVO);
         } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.DUBBO_SAMPLE.getCode())) {
-            jmxVO.setDubboVO(dubboService.getByJmxId(id));
+            DubboVO dubboVO = dubboService.getByJmxId(id);
+            dubboVO.setDubboMethodArgsVOList(dubboMethodArgsService.getListByDubboId(dubboVO.getId()));
+            dubboVO.setDubboAttachmentArgsVOList(dubboAttachmentArgsService.getListByDubboId(dubboVO.getId()));
+            jmxVO.setDubboVO(dubboVO);
         } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.JAVA_REQUEST.getCode())) {
             //JavaVO javaVO = javaService.getByJmxId(id);
             //javaVO.setJavaParamVOList(javaParamService.getListByJavaId(javaVO.getId()));
@@ -1303,7 +1357,62 @@ public class JmxService implements IJmxService {
 //            }
         } else if (jmxDO.getJmeterSampleType().equals(JMeterSampleEnum.DUBBO_SAMPLE.getCode())) {
             //dubbo sample
+            DubboVO dubboVO = jmxVO.getDubboVO();
 
+            /** db里的DubboMethodArgs清除 */
+            List<DubboMethodArgsVO> dbMethodArgsVOList = dubboMethodArgsService.getListByDubboId(dubboVO.getId());
+            if (!CollectionUtils.isEmpty(dbMethodArgsVOList)) {
+                log.info("Dubbo删除dubboMethodArgsVOList: {}", dbMethodArgsVOList);
+                dubboMethodArgsService.batchDeleteDubboMethodArgs(
+                        dbMethodArgsVOList.stream().map(DubboMethodArgsVO::getId).collect(Collectors.toList())
+                );
+            }
+            /** 传过来的methodArgs */
+            List<DubboMethodArgsVO> methodArgsVOList = dubboVO.getDubboMethodArgsVOList();
+            log.info("Dubbo新增methodArgsVOList: {}", methodArgsVOList);
+            if (!CollectionUtils.isEmpty(methodArgsVOList)) {
+                for (DubboMethodArgsVO dubboMethodArgsVO : methodArgsVOList) {
+                    if (!CollectionUtils.isEmpty(dubboMethodArgsService.getExistMethodArgsList(dubboVO.getId(), dubboMethodArgsVO.getParamType()))) {
+                        throw new MysteriousException("Dubbo MethodArgs: " + dubboMethodArgsVO.getParamType() + " 已存在");
+                    }
+                    dubboMethodArgsVO.setTestCaseId(jmxVO.getTestCaseId());
+                    dubboMethodArgsVO.setJmxId(id);
+                    dubboMethodArgsVO.setDubboId(dubboVO.getId());
+                    dubboMethodArgsService.addDubboMethodArgs(dubboMethodArgsVO);
+                }
+            }
+
+            /** db里的DubboAttachmentArgs清除 */
+            List<DubboAttachmentArgsVO> dbAttachmentArgsVOList = dubboAttachmentArgsService.getListByDubboId(dubboVO.getId());
+            if (!CollectionUtils.isEmpty(dbAttachmentArgsVOList)) {
+                log.info("Dubbo删除dubboAttachmentArgsVOList: {}", dbAttachmentArgsVOList);
+                dubboAttachmentArgsService.batchDeleteDubboAttachmentArgs(
+                        dbAttachmentArgsVOList.stream().map(DubboAttachmentArgsVO::getId).collect(Collectors.toList())
+                );
+            }
+
+            /** 传过来的attachmentArgs */
+            List<DubboAttachmentArgsVO> attachmentArgsVOList = dubboVO.getDubboAttachmentArgsVOList();
+            log.info("Dubbo新增attachmentArgsVOList: {}", attachmentArgsVOList);
+            if (!CollectionUtils.isEmpty(attachmentArgsVOList)) {
+                for (DubboAttachmentArgsVO dubboAttachmentArgsVO : attachmentArgsVOList) {
+                    if (!CollectionUtils.isEmpty(dubboAttachmentArgsService.getExistAttachmentArgsList(dubboVO.getId(), dubboAttachmentArgsVO.getAttachmentKey()))) {
+                        throw new MysteriousException("Dubbo AttachmentArgs: " + dubboAttachmentArgsVO.getAttachmentKey() + " 已存在");
+                    }
+                    dubboAttachmentArgsVO.setTestCaseId(jmxVO.getTestCaseId());
+                    dubboAttachmentArgsVO.setJmxId(id);
+                    dubboAttachmentArgsVO.setDubboId(dubboVO.getId());
+                    dubboAttachmentArgsService.addDubboAttachmentArgs(dubboAttachmentArgsVO);
+               }
+            }
+            /** 更新db数据，包括size */
+            dubboVO.setMethodArgsSize(methodArgsVOList.size());
+            dubboVO.setAttachmentArgsSize(attachmentArgsVOList.size());
+            dubboService.updateDubbo(dubboVO);
+            /** 置空dubbo */
+            jmeterXMLService.cleanDubboArgs();
+            /** 统一新增dubbo模块 */
+            jmeterXMLService.updateDubboSample(dubboVO);
         } else {
 
         }

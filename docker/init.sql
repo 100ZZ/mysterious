@@ -341,6 +341,91 @@ CREATE TABLE `mysterious_jmx_csv` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
 COMMENT='JMX脚本CSV模块表';
 
+
+CREATE TABLE `mysterious_jmx_dubbo` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
+    `name` varchar(255) NOT NULL DEFAULT '' COMMENT '名称',
+    `comments` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
+    `config_center_protocol` varchar(255) NOT NULL DEFAULT '' COMMENT '配置中心协议',
+    `config_center_group` varchar(255) NOT NULL DEFAULT '' COMMENT '配置中心组',
+    `config_center_namespace` varchar(255) NOT NULL DEFAULT '' COMMENT '配置中心命名空间',
+    `config_center_username` varchar(255) NOT NULL DEFAULT '' COMMENT '配置中心用户名',
+    `config_center_password` varchar(255) NOT NULL DEFAULT '' COMMENT '配置中心密码',
+    `config_center_address` varchar(255) NOT NULL DEFAULT '' COMMENT '配置中心地址',
+    `config_center_timeout` varchar(255) NOT NULL DEFAULT '' COMMENT '配置中心超时时间',
+    `registry_protocol` varchar(255) NOT NULL DEFAULT '' COMMENT '注册中心协议',
+    `registry_group` varchar(255) NOT NULL DEFAULT '' COMMENT '注册中心组',
+    `registry_username` varchar(255) NOT NULL DEFAULT '' COMMENT '注册中心用户名',
+    `registry_password` varchar(255) NOT NULL DEFAULT '' COMMENT '注册中心密码',
+    `registry_address` varchar(255) NOT NULL DEFAULT '' COMMENT '注册中心地址',
+    `registry_timeout` varchar(255) NOT NULL DEFAULT '' COMMENT '注册中心超时时间',
+    `rpc_protocol` varchar(255) NOT NULL DEFAULT '' COMMENT 'RPC协议',
+    `timeout` varchar(255) NOT NULL DEFAULT '' COMMENT '超时时间',
+    `version` varchar(255) NOT NULL DEFAULT '' COMMENT '版本',
+    `retries` varchar(255) NOT NULL DEFAULT '' COMMENT '重试次数',
+    `cluster` varchar(255) NOT NULL DEFAULT '' COMMENT '集群策略',
+    `group` varchar(255) NOT NULL DEFAULT '' COMMENT '组',
+    `connections` varchar(255) NOT NULL DEFAULT '' COMMENT '连接数',
+    `async` varchar(255) NOT NULL DEFAULT '' COMMENT '异步/同步',
+    `load_balance` varchar(255) NOT NULL DEFAULT '' COMMENT '负载均衡策略',
+    `interface` varchar(255) NOT NULL DEFAULT '' COMMENT '接口',
+    `method` varchar(255) NOT NULL DEFAULT '' COMMENT '方法',
+    `method_args_size` tinyint(4) NOT NULL DEFAULT '0' COMMENT '方法参数数量',
+    `attachment_args_size` tinyint(4) NOT NULL DEFAULT '0' COMMENT '附件参数数量',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
+    KEY `idx_jmx_id` (`jmx_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='JMX脚本Dubbo请求表';
+
+CREATE TABLE `mysterious_jmx_dubbo_method_args` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
+    `dubbo_id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'Dubbo请求ID',
+    `param_type` varchar(255) NOT NULL DEFAULT '' COMMENT '参数类型',
+    `param_value` varchar(4096) NOT NULL DEFAULT '' COMMENT '参数值',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
+    KEY `idx_jmx_id` (`jmx_id`) USING BTREE,
+    KEY `idx_dubbo_id` (`dubbo_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='JMX脚本Dubbo方法参数表';
+
+CREATE TABLE `mysterious_jmx_dubbo_attachment_args` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `test_case_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '用例ID',
+    `jmx_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '脚本ID',
+    `dubbo_id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'Dubbo请求ID',
+    `attachment_key` varchar(255) NOT NULL DEFAULT '' COMMENT '附件键',
+    `attachment_value` varchar(4096) NOT NULL DEFAULT '' COMMENT '附件值',
+    `creator_id` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人ID',
+    `creator` varchar(32) NOT NULL DEFAULT '' COMMENT '创建人',
+    `modifier_id` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人ID',
+    `modifier` varchar(32) NOT NULL DEFAULT '' COMMENT '修改人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+    `modify_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_test_case_id` (`test_case_id`) USING BTREE,
+    KEY `idx_jmx_id` (`jmx_id`) USING BTREE,
+    KEY `idx_dubbo_id` (`dubbo_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+COMMENT='JMX脚本Dubbo附件参数表';
+
 -- master节点用例，报告目录
 INSERT INTO mysterious_config (config_key, config_value, description) VALUES ("MASTER_DATA_HOME", "/opt/mysterious/mysterious-data", "master节点用例，报告目录");
 -- master节点Jmeter路径

@@ -64,8 +64,8 @@ public interface IHttpParamService {
     /**
      * 查找是否已存在
      * @param httpId
-     * @param name
+     * @param paramKey
      * @return
      */
-    List<HttpParamVO> getExistParamList(Long httpId, String name);
+    List<HttpParamVO> getExistParamList(Long httpId, String paramKey);
 }

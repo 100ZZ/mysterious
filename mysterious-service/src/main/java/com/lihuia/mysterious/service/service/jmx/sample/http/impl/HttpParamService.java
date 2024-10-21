@@ -62,7 +62,7 @@ public class HttpParamService implements IHttpParamService {
     }
 
     @Override
-    public List<HttpParamVO> getExistParamList(Long httpId, String name) {
-        return BeanConverter.doList(httpParamMapper.getExistParamList(httpId, name), HttpParamVO.class);
+    public List<HttpParamVO> getExistParamList(Long httpId, String paramKey) {
+        return BeanConverter.doList(httpParamMapper.getExistParamList(httpId, paramKey), HttpParamVO.class);
     }
 }
