@@ -1272,7 +1272,8 @@ public class JmxService implements IJmxService {
                 log.info("HTTP删除dbHeaderVOList: {}", dbHeaderVOList);
                 httpHeaderService.batchDeleteHttpHeader(
                         dbHeaderVOList.stream().map(HttpHeaderVO::getId).collect(Collectors.toList()));
-                jmeterXMLService.cleanHttpHeader();
+                /** 不需要clean */
+                //jmeterXMLService.cleanHttpHeader();
             }
             /** 传过来的header */
             List<HttpHeaderVO> headerVOList = httpVO.getHttpHeaderVOList();
@@ -1295,7 +1296,8 @@ public class JmxService implements IJmxService {
                 log.info("HTTP删除dbParamVOList: {}", dbParamVOList);
                 httpParamService.batchDeleteHttpParam(
                         dbParamVOList.stream().map(HttpParamVO::getId).collect(Collectors.toList()));
-                jmeterXMLService.cleanHttpParam();
+                /** 不需要clean */
+                //jmeterXMLService.cleanHttpParam();
             }
             /** 传过来的param */
             List<HttpParamVO> paramVOList = httpVO.getHttpParamVOList();
@@ -1320,7 +1322,8 @@ public class JmxService implements IJmxService {
 
             /** 删除已有的数据，免得如果更新数量不一致，又是更新操作；又是add操作 */
             javaService.deleteByJmxId(id);
-            jmeterXMLService.cleanJavaParam();
+            /** 不需要clean */
+            //jmeterXMLService.cleanJavaParam();
 
             /** 新增传入的java request */
             javaService.addJava(javaVO);
@@ -1410,7 +1413,8 @@ public class JmxService implements IJmxService {
             dubboVO.setAttachmentArgsSize(attachmentArgsVOList.size());
             dubboService.updateDubbo(dubboVO);
             /** 置空dubbo */
-            jmeterXMLService.cleanDubboArgs();
+            /** 2024-10-22 我傻了，clean有啥用？每次都是获取basic */
+            //jmeterXMLService.cleanDubboArgs();
             /** 统一新增dubbo模块 */
             jmeterXMLService.updateDubboSample(dubboVO);
         } else {
@@ -1430,7 +1434,8 @@ public class JmxService implements IJmxService {
         //清理db
         csvDataService.deleteByJmxId(id);
         //清理xml
-        jmeterXMLService.cleanCsv(jmxVO.getJmeterSampleType());
+        /** 不需要clean */
+        //jmeterXMLService.cleanCsv(jmxVO.getJmeterSampleType());
 
         List<CsvFileVO> csvFileVOList = jmxVO.getCsvDataVO().getCsvFileVOList();
         if (!CollectionUtils.isEmpty(csvFileVOList)) {

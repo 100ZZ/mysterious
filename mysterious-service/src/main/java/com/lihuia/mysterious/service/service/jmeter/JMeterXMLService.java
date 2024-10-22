@@ -324,12 +324,12 @@ public class JMeterXMLService {
          *          testname="User Defined Variables" enabled="true">
          *  POST: <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
          */
-        deleteByElement(dest, "elementProp");
+        //deleteByElement(dest, "elementProp");
 
         /** 如果boolProp存在，也删除 */
         /** POST(仅仅)： <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
          */
-        deleteByAttribute(dest, "boolProp", "HTTPSampler.postBodyRaw");
+        //deleteByAttribute(dest, "boolProp", "HTTPSampler.postBodyRaw");
 
         /** 添加post节点 */
         Element httpPostBoolProp = dest.addElement("boolProp");
