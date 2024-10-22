@@ -1071,11 +1071,11 @@ public class JmxService implements IJmxService {
         /** 如果jmx脚本关联了jar包和csv文件，先删除掉jar和csv，否则会导致脚本里配置的异常，因为上传依赖会修改脚本 */
         List<JarVO> jarVOList = jarService.getByTestCaseId(jmxVO.getTestCaseId());
         if (!CollectionUtils.isEmpty(jarVOList)) {
-            throw new MysteriousException("该脚本关联了JAR文件, 请先删除依赖, 再更新在线脚本");
+            throw new MysteriousException("该脚本关联了JAR文件, 请先删除, 更新脚本后，请重新上传JAR文件关联");
         }
         List<CsvVO> csvVOList = csvService.getByTestCaseId(jmxVO.getTestCaseId());
         if (!CollectionUtils.isEmpty(csvVOList)) {
-            throw new MysteriousException("该脚本关联了CSV文件，请先删除依赖, 再更新在线脚本");
+            throw new MysteriousException("该脚本关联了CSV文件，请先删除, 更新脚本后，请重新上传CSV文件关联");
         }
         /** param和body不能同时都非空，互斥 */
         checkParamAndBody(jmxVO);
