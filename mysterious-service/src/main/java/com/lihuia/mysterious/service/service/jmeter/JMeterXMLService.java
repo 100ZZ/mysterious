@@ -404,6 +404,11 @@ public class JMeterXMLService {
         initFlag();
         findElement(document.getRootElement(), "io.github.ningyu.jmeter.plugin.dubbo.sample.DubboSample");
 
+        if (dest == null) {
+            log.error("DubboSample element not found!");
+            throw new MysteriousException("DubboSample element not found!");
+        }
+
         dest.elements().forEach(element -> {
             String name = element.attributeValue("name");
             switch (name) {
@@ -521,20 +526,22 @@ public class JMeterXMLService {
         for (int i = 0; i < dubboVO.getMethodArgsSize(); i++) {
             String typeName = "FIELD_DUBBO_METHOD_ARGS_PARAM_TYPE" + (i + 1);
             String valueName = "FIELD_DUBBO_METHOD_ARGS_PARAM_VALUE" + (i + 1);
-            findElement(document.getRootElement(), typeName);
-            findElement(document.getRootElement(), valueName);
+
+            // 创建新的 stringProp 元素
+            Element typeElement = dest.addElement("stringProp");
+            typeElement.addAttribute("name", typeName);
+
+            Element valueElement = dest.addElement("stringProp");
+            valueElement.addAttribute("name", valueName);
 
             if (dubboVO.getDubboMethodArgsVOList() != null && i < dubboVO.getDubboMethodArgsVOList().size()) {
                 DubboMethodArgsVO methodArg = dubboVO.getDubboMethodArgsVOList().get(i);
                 log.info("methodArgType{}=>{}", i + 1, methodArg.getParamType());
                 log.info("methodArgValue{}=>{}", i + 1, methodArg.getParamValue());
-                dest.elements().forEach(element -> {
-                    if (typeName.equals(element.attributeValue("name"))) {
-                        element.setText(methodArg.getParamType());
-                    } else if (valueName.equals(element.attributeValue("name"))) {
-                        element.setText(methodArg.getParamValue());
-                    }
-                });
+
+                // 设置新元素的值
+                typeElement.setText(methodArg.getParamType());
+                valueElement.setText(methodArg.getParamValue());
             }
         }
 
@@ -542,20 +549,22 @@ public class JMeterXMLService {
         for (int i = 0; i < dubboVO.getAttachmentArgsSize(); i++) {
             String keyName = "FIELD_DUBBO_ATTACHMENT_ARGS_KEY" + (i + 1);
             String valueName = "FIELD_DUBBO_ATTACHMENT_ARGS_VALUE" + (i + 1);
-            findElement(document.getRootElement(), keyName);
-            findElement(document.getRootElement(), valueName);
+
+            // 创建新的 stringProp 元素
+            Element keyElement = dest.addElement("stringProp");
+            keyElement.addAttribute("name", keyName);
+
+            Element valueElement = dest.addElement("stringProp");
+            valueElement.addAttribute("name", valueName);
 
             if (dubboVO.getDubboAttachmentArgsVOList() != null && i < dubboVO.getDubboAttachmentArgsVOList().size()) {
                 DubboAttachmentArgsVO attachmentArg = dubboVO.getDubboAttachmentArgsVOList().get(i);
                 log.info("attachmentArgKey{}=>{}", i + 1, attachmentArg.getAttachmentKey());
                 log.info("attachmentArgValue{}=>{}", i + 1, attachmentArg.getAttachmentValue());
-                dest.elements().forEach(element -> {
-                    if (keyName.equals(element.attributeValue("name"))) {
-                        element.setText(attachmentArg.getAttachmentKey());
-                    } else if (valueName.equals(element.attributeValue("name"))) {
-                        element.setText(attachmentArg.getAttachmentValue());
-                    }
-                });
+
+                // 设置新元素的值
+                keyElement.setText(attachmentArg.getAttachmentKey());
+                valueElement.setText(attachmentArg.getAttachmentValue());
             }
         }
     }
