@@ -88,4 +88,11 @@
         WHERE 1=1
         <if test="id != null">and id=#{id}</if>
     </delete>
+
+    <delete id="deleteByJmxId">
+        DELETE FROM
+        <include refid="table_name"/>
+        WHERE 1=1
+        <if test="jmxId != null">and jmx_id=#{jmxId}</if>
+    </delete>
 </mapper>

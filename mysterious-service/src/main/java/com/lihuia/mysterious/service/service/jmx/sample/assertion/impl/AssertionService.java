@@ -40,4 +40,9 @@ public class AssertionService implements IAssertionService {
     public AssertionVO getByJmxId(Long jmxId) {
         return BeanConverter.doSingle(assertionMapper.getByJmxId(jmxId), AssertionVO.class);
     }
+
+    @Override
+    public void deleteByJmxId(Long jmxId) {
+        assertionMapper.deleteByJmxId(jmxId);
+    }
 }

@@ -10,4 +10,6 @@ import com.lihuia.mysterious.core.mapper.base.BaseMapper;
 public interface AssertionMapper extends BaseMapper<AssertionDO> {
 
     AssertionDO getByJmxId(Long jmxId);
+
+    void deleteByJmxId(Long jmxId);
 }

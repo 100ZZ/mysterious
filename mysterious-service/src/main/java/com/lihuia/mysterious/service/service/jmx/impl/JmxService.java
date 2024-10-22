@@ -1425,7 +1425,10 @@ public class JmxService implements IJmxService {
         /** 如果断言有修改 */
         AssertionVO assertionVO = jmxVO.getAssertionVO();
         checkAssertion(assertionVO);
-        assertionService.updateAssertion(assertionVO);
+        assertionService.deleteByJmxId(id);
+        assertionVO.setTestCaseId(jmxVO.getTestCaseId());
+        assertionVO.setJmxId(id);
+        assertionService.addAssertion(assertionVO);
         jmeterXMLService.addAssertion(jmxVO.getJmeterSampleType(), jmxVO.getAssertionVO().getResponseCode(), jmxVO.getAssertionVO().getResponseMessage(), jmxVO.getAssertionVO().getJsonPath(), jmxVO.getAssertionVO().getExpectedValue());
 
         /** 如果csv模块有修改 */

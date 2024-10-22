@@ -32,4 +32,6 @@ public interface IAssertionService {
      * @return
      */
     AssertionVO getByJmxId(Long jmxId);
+
+    void deleteByJmxId(Long jmxId);
 }
