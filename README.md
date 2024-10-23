@@ -18,11 +18,6 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 - 后端服务：https://github.com/100ZZ/mysterious
 - 前端服务：https://github.com/100ZZ/mysterious-web
 - 压测引擎：https://github.com/100ZZ/mysterious-jmeter
-- 其它组件：MySQL，Redis，Nginx
-
-## 操作视频
-- 安装部署：https://www.bilibili.com/video/BV1by421i7cn
-- 使用说明：https://www.bilibili.com/video/BV15j421Z7mY
 - 平台试用：http://101.43.119.176:1234 (demo/demo或者新注册个用户)
 
 ## 测试流程

@@ -51,7 +51,7 @@ public enum ResponseCodeEnum {
     TESTCASE_NAME_ERROR(1039, "用例名称异常", false),
     TESTCASE_IS_EXIST(1040, "用例已经存在", false),
     TESTCASE_NOT_EXIST(1041, "用例不存在", false),
-    NODE_IS_ENABLE(1042, "节点启用中, 无法同步", false),
+    NODE_IS_ENABLE(1042, "节点启用中, 无法操作", false),
     STRESS_LOG_TOO_LARGE(1043, "压测日志过大", false),
     REPORT_NOT_EXIST(1044, "报告不存在", false),
     DEBUG_REPORT_NOT_DOWNLOAD(1045, "调试报告不下载", false),
