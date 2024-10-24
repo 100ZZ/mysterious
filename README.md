@@ -21,9 +21,13 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 - 平台试用：http://101.43.119.176:1234 (demo/demo或者新注册个用户)
 
 ## 测试流程
-- 用例详情
-  - 本地上传：上传本地JMX，CSV，JAR，平台处理依赖，本地只要能运行，平台命令行直接执行，日志，报告
+- 测试说明
+  - 本地上传：本地能运行的测试，上传测试的JMX，CSV，JAR等依赖，平台均可直接处理和执行，日志，报告
   - 在线生成：主要是JMX脚本，完成一些简单的脚本进行在线编写，毕竟JMeter各种插件众多，不可能都兼容
+    - Threads：ThreadGroup，SteppingThreadGroup，ConCurrencyThreadGroup
+    - Sampler：HttpSampler，JavaRequest，DubboSampler
+    - Assertion：ResponseCode，ResponseMessage，JSONPath
+    - 如果还有无法满足的测试需求，可以直接本地上传的方式来进行测试
   - 智能生成：后续考虑结合AI大模型，提供可视化prompt提示词输入，按要求生成JMX脚本
 - 压测模式
   - 如果是单节点压测，只需要在一个Master节点上安装部署平台和Jmeter工具包，通过平台来调用Jmeter来执行压测用例，并返回压测结果
@@ -41,7 +45,7 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 >- git clone https://github.com/100ZZ/mysterious.git
 >- cd mysterious/docker
 >- sh init.sh amd64|arm64 (平台架构：x86传amd64，arm传arm64)
->- cd mysterious
+>- cd ./mysterious
 >- git clone https://github.com/100ZZ/mysterious-jmeter.git
 >- docker-compose up -d
 2. 访问平台
@@ -53,9 +57,9 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 >- 配置管理：MASTER_HOST_PORT修改为本地IP:PORT，作为压测报告预览的路径前缀，修改完重启容器
 >- 运行路径：Master和Slave节点有关引擎的执行路径都可以在配置管理里进行修改，然后重启容器
 4. 版本更新
->- 后端更新：更新mysterious容器(最新的docker/amd64.env覆盖.env)，重新拉镜像起容器
->- 前端更新：更新dist目录(docker/dist有最新版本目录)，覆盖/opt/mysterious/nginx/html/dist
->- 库表变更：检查数据库脚本(docker/init.sql)，执行变更部分的sql即可
+>- 后端更新：更新mysterious容器(最新的docker/${架构}.env覆盖.env)，重新拉镜像起容器
+>- 前端更新：更新dist目录(docker/dist有最新版本目录)，覆盖docker/mysterious/nginx/html/dist
+>- 库表变更：检查数据库脚本(docker/init.sql)，执行变更部分的sql即可；因为db容器初始化sq只首次生效
 
 ### 二进制部署方式
 下面以CentOS7为例介绍下安装步骤
