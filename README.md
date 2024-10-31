@@ -31,7 +31,7 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
   - 智能生成：后续考虑结合AI大模型，提供可视化prompt提示词输入，按要求生成JMX脚本
 - 压测模式
   - 如果是单节点压测，只需要在一个Master节点上安装部署平台和Jmeter工具包，通过平台来调用Jmeter来执行压测用例，并返回压测结果
-  - 如果是分布式压测，除了Master节点安装部署平台和Jmeter工具包外，还要在Slave节点上部署Jmeter工具包，启动jmeter-server服务
+  - 如果是分布式压测，除了Master节点安装部署平台和mysterious-jmeter引擎外，还要在Slave节点上部署mysterious-jmeter压测引擎，启动jmeter-server服务
   ![fenbu](https://github.com/user-attachments/assets/b0ed73af-f839-4485-a40e-b487da475eb0)
 
 
