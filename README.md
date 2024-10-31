@@ -45,7 +45,7 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 >- git clone https://github.com/100ZZ/mysterious.git
 >- cd mysterious/docker
 >- sh init.sh amd64|arm64 (平台架构：x86传amd64，arm传arm64)
->- cd ./mysterious
+>- cd ./mysterious (init.sh里自定义的${BASE_DIR}目录)
 >- git clone https://github.com/100ZZ/mysterious-jmeter.git
 >- docker-compose up -d
 2. 访问平台
@@ -57,9 +57,9 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 >- 配置管理：MASTER_HOST_PORT修改为本地IP:PORT，作为压测报告预览的路径前缀，修改完重启容器
 >- 运行路径：Master和Slave节点有关引擎的执行路径都可以在配置管理里进行修改，然后重启容器
 4. 版本更新
->- 后端更新：更新mysterious容器(最新的docker/${架构}.env覆盖.env)，重新拉镜像起容器
->- 前端更新：更新dist目录(docker/dist有最新版本目录)，覆盖docker/mysterious/nginx/html/dist
->- 库表变更：检查数据库脚本(docker/init.sql)，执行变更部分的sql即可；因为db容器初始化sq只首次生效
+>- 后端更新：更新mysterious容器(最新的docker/${架构}.env配置覆盖${BASE_DIR}/.env)，重启容器
+>- 前端更新：更新dist目录，覆盖docker/mysterious/nginx/html/dist，重启mysterious-nginx容器
+>- 库表变更：检查数据库脚本(docker/init.sql)，执行变更部分的sql即可；因为db容器初始化sql只首次生效
 
 ### 二进制部署方式
 下面以CentOS7为例介绍下安装步骤
@@ -70,7 +70,7 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 >- npm run build (生成dist，如果不想build，mysterious的docker里有最新的dist)
 2. 安装nginx，mysql，redis，jdk8+
 > nginx
->- 1234.conf和9998.conf复制到/etc/nginx/conf.d下（根据系统实际情况），并修改下，比如mysterious-nginx改成localhost，mysterious改成最后前端页面访问的IP地址
+>- 1234.conf和9998.conf复制到/etc/nginx/conf.d下（根据系统实际情况），并修改下，比如mysterious-nginx改成localhost，mysterious改成最后前端页面访问的IP地址，一些location路径一并修改
 >- mkdir -p /usr/share/nginx/html/
 >- cp -r [上一步前端目录]/dist /usr/share/nginx/html/
 
@@ -96,6 +96,7 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 4. 访问平台
 >- 平台访问：http://xx.xx.xx.xx:1234
 >- Swagger文档：http://xx.xx.xx.xx:4321/swagger-ui.html
+>- 同样的内存配置相关的，参考docker-compose部分的说明
 
 ### Slave节点部署(分布式压测，Slave节点作为压力机，启动Jmeter-Server服务)
 >- 无特殊情况，推荐高配置单节点(平台管理+压力机)部署来进行压测，因为分布式压测交互也有开销
@@ -109,3 +110,4 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 >- 如果之前有一些测试用例，可以页面节点管理，先点击一下节点同步，会将Master节点用例数据都同步到Slave节点，然后启用Slave节点即可
 >- 只要有Slave节点启用，压测都会是分布式压测，如果全都禁用，压测就只是Master单节点压测
 >- 具体Slave节点的目录结构都是可配置的，具体可以参考配置管理页面
+>- 同样的内存配置相关的，参考docker-compose部分的说明
