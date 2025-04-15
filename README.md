@@ -71,8 +71,13 @@ https://github.com/user-attachments/assets/514c7ab6-08a6-4576-9af1-9dafe60a0589
 >- 引擎内存：mysterious-jmeter/bin/jmeter里配置HEAP内存2g-4g-512m，可根据需求自行调整
 >- 配置管理：MASTER_HOST_PORT修改为本地IP:PORT，作为压测报告预览的路径前缀，修改完重启容器
 >- 运行路径：Master和Slave节点有关引擎的执行路径都可以在配置管理里进行修改，然后重启容器
-4. 版本更新
->- 后端更新：更新mysterious容器(最新的docker/${架构}.env配置覆盖${BASE_DIR}/.env)，重启容器
+4. 镜像制作
+>- mvn -f pom.xml clean install package -Dmaven.test.skip=true
+>- cd mysterious/docker
+>- docker-compose --env-file ${架构}.env -f build.yml build
+>- 镜像列表会查询到最新打的新镜像，如果修改了tag，同步更新.env里的MYSTERIOUS_VERSION
+5. 版本更新
+>- 后端更新：更新mysterious容器(最新的docker/${架构}.env配置覆盖${BASE_DIR}/.env)，重启最新版本
 >- 前端更新：更新dist目录，覆盖docker/mysterious/nginx/html/dist，重启mysterious-nginx容器
 >- 库表变更：检查数据库脚本(docker/init.sql)，执行变更部分的sql即可；因为db容器初始化sql只首次生效
 
