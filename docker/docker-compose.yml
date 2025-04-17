@@ -1,6 +1,44 @@
 version: '3.0'
 
 services:
+  mysterious-influxdb:
+    container_name: mysterious-influxdb
+    image: 100zz/test-influxdb:${INFLUXDB_VERSION}
+    restart: always
+    environment:
+      INFLUXDB_DB: jmeter
+      INFLUXDB_CONFIG_PATH: /tmp/influx.conf
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: admin123
+      DOCKER_INFLUXDB_INIT_ORG: mysterious_org
+      DOCKER_INFLUXDB_INIT_BUCKET: mysterious_bucket
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: mysterious_admin_token
+    ports:
+      - "12003:2003" #Graphite
+      - "18086:8086" #Influx API
+    volumes:
+      - ./influxdb/data:/var/lib/influxdb  # 数据持久化
+      - ./influxdb/conf:/etc/influxdb    # 配置文件目录
+
+  mysterious-grafana:
+    container_name: mysterious-grafana
+    image: 100zz/test-grafana:${GRAFANA_VERSION}
+    restart: always
+    environment:
+      GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-worldmap-panel,grafana-piechart-panel
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin123
+      DOCKER_INFLUXDB_INIT_ORG: mysterious_org
+      DOCKER_INFLUXDB_INIT_BUCKET: mysterious_bucket
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: mysterious_admin_token
+    ports:
+      - "13000:3000"
+    volumes:
+      - ./grafana/dashboards/jmeter-cnt.json:/var/lib/grafana/dashboards/jmeter-cnt.json
+    depends_on:
+      - mysterious-influxdb
+
   mysterious-mysql:
     container_name: mysterious-mysql
     image: 100zz/test-mysql:${MYSQL_VERSION}
