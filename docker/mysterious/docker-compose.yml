@@ -4,21 +4,18 @@ services:
     image: 100zz/test-influxdb:${INFLUXDB_VERSION}
     restart: always
     environment:
-      DOCKER_INFLUXDB_INIT_MODE: setup
-      DOCKER_INFLUXDB_INIT_USERNAME: admin
-      DOCKER_INFLUXDB_INIT_PASSWORD: admin123
-      DOCKER_INFLUXDB_INIT_ORG: mysterious_org
-      DOCKER_INFLUXDB_INIT_BUCKET: jmeter
-      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: mysterious_admin_token
+      INFLUXDB_DB: jmeter
+      INFLUXDB_ADMIN_USER: admin
+      INFLUXDB_ADMIN_PASSWORD: admin123
     ports:
       - "12003:2003"
       - "18086:8086"
     volumes:
-      - influxdb-data:/var/lib/influxdb2
-      - influxdb-conf:/etc/influxdb2
+      - influxdb-data:/var/lib/influxdb
+      - influxdb-conf:/etc/influxdb
 
   mysterious-grafana:
-    # http://localhost:13000/d/mysterious/jmeter-dashboard?orgId=1&refresh=5s&from=now-1h&to=now&kiosk&fullscreen
+    # http://localhost:13000/d/mysterious/apache-jmeter-dashboard-using-core-influxdbbackendlistenerclient?orgId=1&refresh=5s
     container_name: mysterious-grafana
     image: 100zz/test-grafana:${GRAFANA_VERSION}
     restart: always
@@ -114,7 +111,6 @@ services:
       - mysterious-redis
 
 volumes:
-  # 新增：InfluxDB 2.x 核心数据卷（对应 /var/lib/influxdbv2）
   influxdb-data:
     driver: local
     driver_opts:
@@ -122,7 +118,7 @@ volumes:
       o: 'bind'
       device: ${PWD}/influxdb/data  # 主机目录，需手动创建
     labels:
-      description: "InfluxDB 2.x 核心数据目录（bolt/sqlite）"
+      description: "InfluxDB核心数据目录（bolt/sqlite）"
       service: "mysterious-influxdb"
 
   influxdb-conf:
@@ -132,7 +128,7 @@ volumes:
       o: 'bind'
       device: ${PWD}/influxdb/conf  # 主机目录，需手动创建
     labels:
-      description: "InfluxDB 2.x 配置目录（influx-configs）"
+      description: "InfluxDB配置目录（influx-configs）"
       service: "mysterious-influxdb"
 
   grafana-data:

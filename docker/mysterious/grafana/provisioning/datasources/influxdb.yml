@@ -2,14 +2,13 @@ apiVersion: 1
 datasources:
   - name: InfluxDB-JMeter
     type: influxdb
-    version: 2
     access: proxy
     url: http://mysterious-influxdb:8086
     isDefault: true
-    basicAuth: false
-    jsonData:
-      version: Flux
-      organization: mysterious_org
-      defaultBucket: jmeter
+    database: jmeter
+    user: admin
     secureJsonData:
-      token: mysterious_admin_token
+      password: admin123
+    jsonData:
+      httpMode: POST
+      timeInterval: "5s"
