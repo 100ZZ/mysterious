@@ -31,6 +31,18 @@ cp 9998.conf ${BASE_DIR}/nginx/conf.d/
 mkdir -p ${BASE_DIR}/nginx/html
 cp -r dist ${BASE_DIR}/nginx/html/
 
+# 创建influxdb目录，数据目录
+mkdir -p ${BASE_DIR}/influxdb/data
+mkdir -p ${BASE_DIR}/influxdb/conf
+
+# 创建grafana目录，配置文件，数据目录
+mkdir -p ${BASE_DIR}/grafana/data
+mkdir -p ${BASE_DIR}/grafana/provisioning/datasources
+cp grafana/influxdb.yml ${BASE_DIR}/grafana/provisioning/datasources/
+mkdir -p ${BASE_DIR}/grafana/provisioning/dashboards
+cp grafana/dashboards.yml ${BASE_DIR}/grafana/provisioning/dashboards/
+cp grafana/jmeter.json ${BASE_DIR}/grafana/provisioning/dashboards/
+
 # 创建压测数据，报告目录
 mkdir -p ${BASE_DIR}/mysterious-data
 
