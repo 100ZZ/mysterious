@@ -95,4 +95,10 @@ public class TestCaseController {
     public Response<List<JMeterResultVO>> getJMeterResult(@PathVariable Long id) {
         return ResponseUtil.buildSuccessResponse(testCaseService.getJMeterResult(id));
     }
+
+    @ApiOperation("查看Grafana实时数据")
+    @GetMapping(value = "/getGrafanaLink")
+    public Response<String> getGrafanaLink() {
+        return ResponseUtil.buildSuccessResponse(testCaseService.getGrafanaLink());
+    }
 }

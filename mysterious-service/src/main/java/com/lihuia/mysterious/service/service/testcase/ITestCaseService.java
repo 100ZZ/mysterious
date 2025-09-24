@@ -120,4 +120,10 @@ public interface ITestCaseService {
      * @return
      */
     List<JMeterResultVO> getJMeterResult(Long id);
+
+    /**
+     * 获取grafana的链接
+     * @return
+     */
+    String getGrafanaLink();
 }

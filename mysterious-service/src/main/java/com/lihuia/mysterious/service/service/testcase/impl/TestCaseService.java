@@ -624,6 +624,14 @@ public class TestCaseService implements ITestCaseService {
         return jmeterResultVOList;
     }
 
+    @Override
+    public String getGrafanaLink() {
+        String host = configService.getValue("MASTER_HOST_PORT");
+        String ipaddr = host.split(":")[0];
+        String url = "http://" + ipaddr + ":13000/d/mysterious/apache-jmeter-dashboard-using-core-influxdbbackendlistenerclient?orgId=1&refresh=5s";
+        return url;
+    }
+
     public static void main(String[] args) {
         try (BufferedReader br = new BufferedReader(new FileReader("/Users/lihui/jmeter_2024-09-29-11:38:28.log"))) {
             String line;
