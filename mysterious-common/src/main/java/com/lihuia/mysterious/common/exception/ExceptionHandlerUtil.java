@@ -135,7 +135,7 @@ public class ExceptionHandlerUtil {
     @ExceptionHandler(TypeMismatchException.class)
     public Object typeMismatchExceptionHandler(TypeMismatchException ex) {
 
-        String logInfo = String.format("Http请求参数类型不正确, 异常信息: %s", ex.getMessage());
+        String logInfo = String.format("输入格式不正确，请输入数字， 异常信息: %s", ex.getMessage());
         return formatException(ex, logInfo);
     }
 
